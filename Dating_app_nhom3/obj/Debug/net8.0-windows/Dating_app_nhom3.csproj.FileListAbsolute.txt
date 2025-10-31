@@ -139,3 +139,7 @@ C:\Users\admin\source\repos\PhuSon26\Dating-App\Dating_app_nhom3\obj\Debug\net8.
 C:\Users\admin\source\repos\PhuSon26\Dating-App\Dating_app_nhom3\obj\Debug\net8.0-windows\ref\Dating_app_nhom3.dll
 C:\Users\admin\source\repos\PhuSon26\Dating-App\Dating_app_nhom3\obj\Debug\net8.0-windows\Dating_app_nhom3.FormDanhSachTinNhan.resources
 C:\Users\admin\source\repos\PhuSon26\Dating-App\Dating_app_nhom3\obj\Debug\net8.0-windows\Dating_app_nhom3.UserChat_item.resources
+C:\Users\admin\source\repos\PhuSon26\Dating-App\Dating_app_nhom3\obj\Debug\net8.0-windows\Dating_app_nhom3.Capnhatmatkhau.resources
+C:\Users\admin\source\repos\PhuSon26\Dating-App\Dating_app_nhom3\obj\Debug\net8.0-windows\Dating_app_nhom3.Uservip.resources
+C:\Users\admin\source\repos\PhuSon26\Dating-App\Dating_app_nhom3\obj\Debug\net8.0-windows\Dating_app_nhom3.Thongtinuser.resources
+C:\Users\admin\source\repos\PhuSon26\Dating-App\Dating_app_nhom3\obj\Debug\net8.0-windows\Thongtinuser.Uservip.resources
