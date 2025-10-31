@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Dating_app_nhom3")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c76fab1a661c1590d18fa58cf20b71165ab0e031")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a48ea992ff936cb29821f0dcc4d46a7edfe55a2f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Dating_app_nhom3")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Dating_app_nhom3")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

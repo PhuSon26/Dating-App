@@ -141,6 +141,7 @@ namespace Dating_app_nhom3
             Name = "quenmatkhau";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quên mật khẩu - SynHeart";
+            Load += quenmatkhau_Load_1;
             ResumeLayout(false);
             PerformLayout();
         }

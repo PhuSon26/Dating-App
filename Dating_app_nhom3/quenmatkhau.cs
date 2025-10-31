@@ -35,5 +35,10 @@ namespace Dating_app_nhom3
         {
 
         }
+
+        private void quenmatkhau_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
