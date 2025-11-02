@@ -24,10 +24,6 @@ namespace LOGIN
             InitializeComponent();
         }
 
-        private async Task quenmatkhau_Load(object sender, EventArgs e)
-        {
-        }
-
         private async void btn_xacnhan_Click(object sender, EventArgs e)
         {
             string email = tb_email.Text.Trim();

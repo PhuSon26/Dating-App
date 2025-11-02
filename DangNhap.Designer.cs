@@ -13,7 +13,6 @@ namespace LOGIN
         private Button btn_dangnhap;
         private LinkLabel ll_quenmatkhau;
         private LinkLabel ll_dangky;
-
         private void InitializeComponent()
         {
             lblTitle = new Label();
