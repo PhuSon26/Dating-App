@@ -76,5 +76,28 @@ namespace LOGIN
             idToken = null;
             refreshToken = null;
         }
+        public Task<string> VerifyIdToken(string idToken)
+        {
+            string url = $"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={apiKey}";
+            var data = new
+            {
+                idToken = idToken
+            };
+            return PostAsync(url, data);
+        }
+        public async Task<string> UpdatePassword(string email, string newPassword)
+        {
+            var signInResult = await SignIn(email, newPassword);
+            var idToken = JsonSerializer.Deserialize<JsonElement>(signInResult).GetProperty("idToken").GetString();
+
+            string url = $"https://identitytoolkit.googleapis.com/v1/accounts:update?key={apiKey}";
+            var data = new
+            {
+                idToken = idToken,
+                password = newPassword,
+                returnSecureToken = true
+            };
+            return await PostAsync(url, data);
+        }
     }
 }
