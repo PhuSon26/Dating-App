@@ -36,7 +36,7 @@
             btn_gioithieuUngDung = new Button();
             label2 = new Label();
             label3 = new Label();
-            btn_tatthongbao = new Button();
+            cb_tatThongbao = new CheckBox();
             SuspendLayout();
             // 
             // label1
@@ -129,23 +129,25 @@
             label3.TabIndex = 7;
             label3.Text = "💖 SynHeart 💖";
             // 
-            // btn_tatthongbao
+            // cb_tatThongbao
             // 
-            btn_tatthongbao.BackColor = SystemColors.ControlDark;
-            btn_tatthongbao.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btn_tatthongbao.Location = new Point(207, 437);
-            btn_tatthongbao.Name = "btn_tatthongbao";
-            btn_tatthongbao.Size = new Size(748, 56);
-            btn_tatthongbao.TabIndex = 8;
-            btn_tatthongbao.Text = "Tắt thông báo";
-            btn_tatthongbao.UseVisualStyleBackColor = false;
+            cb_tatThongbao.Appearance = Appearance.Button;
+            cb_tatThongbao.BackColor = SystemColors.AppWorkspace;
+            cb_tatThongbao.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cb_tatThongbao.Location = new Point(207, 441);
+            cb_tatThongbao.Name = "cb_tatThongbao";
+            cb_tatThongbao.Size = new Size(748, 56);
+            cb_tatThongbao.TabIndex = 9;
+            cb_tatThongbao.Text = "Tắt Thông Báo";
+            cb_tatThongbao.TextAlign = ContentAlignment.MiddleCenter;
+            cb_tatThongbao.UseVisualStyleBackColor = false;
             // 
             // CaiDat
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            Controls.Add(btn_tatthongbao);
+            Controls.Add(cb_tatThongbao);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(btn_gioithieuUngDung);
@@ -156,6 +158,7 @@
             Controls.Add(label1);
             Name = "CaiDat";
             Size = new Size(1193, 642);
+            Load += CaiDat_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -171,5 +174,6 @@
         private Label label2;
         private Label label3;
         private Button btn_tatthongbao;
+        private CheckBox cb_tatThongbao;
     }
 }

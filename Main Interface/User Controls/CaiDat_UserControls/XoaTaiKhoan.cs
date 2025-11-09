@@ -8,22 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Main_Interface.User_Controls
+namespace Main_Interface.User_Controls.CaiDat_UserControls
 {
-    public partial class CaiDat : UserControl
+    public partial class XoaTaiKhoan : Form
     {
-        public CaiDat()
+        public XoaTaiKhoan()
         {
             InitializeComponent();
-        }
-
-        private void btn_csHoSo_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void CaiDat_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
