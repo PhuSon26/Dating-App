@@ -62,6 +62,11 @@ namespace LOGIN
         {
             string email = tb_email.Text.Trim();
             string password = tb_matkhau.Text.Trim();
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Vui lòng nhập email và mật khảu");
+                return;
+            }
             try
             {
                 string result = await auth.SignIn(email, password);

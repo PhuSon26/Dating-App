@@ -27,20 +27,17 @@ namespace LOGIN
                 return;
             }
 
-            try
-            {
-                currentEmail = email;
-                string otp = new Random().Next(100000, 999999).ToString();
+            string otp = new Random().Next(100000, 999999).ToString();
 
+            bool sent = await EmailHelper.SendOTPEmail(email, otp);
+            if (sent)
+            {
                 TempOTPStore.Add(email, otp);
-
-                await EmailHelper.SendOTPEmail(email, otp);
-
-                MessageBox.Show("Mã xác nhận đã được gửi. Vui lòng kiểm tra email!");
+                MessageBox.Show("Mã OTP đã được gửi. Vui lòng kiểm tra email!");
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Lỗi khi gửi OTP: " + ex.Message);
+                MessageBox.Show("Gửi OTP thất bại. Vui lòng kiểm tra API Key hoặc kết nối Internet!");
             }
         }
         private void btn_xacnhan_Click(object sender, EventArgs e)
