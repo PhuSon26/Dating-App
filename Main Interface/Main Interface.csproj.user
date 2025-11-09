@@ -4,11 +4,20 @@
     <Compile Update="Main.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="User Controls\CaiDat_UserControls\DanhSachChan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="User Controls\CaiDat_UserControls\DoiEmailMatKhau.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="User Controls\DanhSachNhanTin.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\GhepDoi.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="User Controls\CaiDat_UserControls\GioiThieuUngDung.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Update="User Controls\HoSoCaNhan.cs">
       <SubType>UserControl</SubType>
