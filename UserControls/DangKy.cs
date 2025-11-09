@@ -34,6 +34,21 @@ namespace LOGIN
         {
             string email = tb_email.Text.Trim();
             string password = tb_password.Text.Trim();
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Vui lòng nhập email và mật khẩu");
+                return;
+            }
+            if (string.IsNullOrEmpty(tb_rePassword.Text))
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu xác nhận");
+                return;
+            }
+            if (tb_rePassword.Text != password)
+            {
+                MessageBox.Show("Mật khẩu xác nhận chưa hợp lệ");
+                return;
+            }
             try
             {
                 string result = await auth.SignUp(email, password);
