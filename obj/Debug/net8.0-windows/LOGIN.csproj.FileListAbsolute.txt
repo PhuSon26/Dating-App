@@ -69,3 +69,20 @@ C:\Users\leson\OneDrive\Documents\uit\Dating App\Dating App\Main Interface\obj\D
 C:\Users\leson\OneDrive\Documents\uit\Dating App\Dating App\Main Interface\obj\Debug\net8.0-windows\LOGIN.genruntimeconfig.cache
 C:\Users\leson\OneDrive\Documents\uit\Dating App\Dating App\Main Interface\obj\Debug\net8.0-windows\ref\LOGIN.dll
 C:\Users\leson\OneDrive\Documents\uit\Dating App\Dating App\Main Interface\obj\Debug\net8.0-windows\LOGIN.CapNhatMatKhau.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.csproj.AssemblyReference.cache
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.FormDangNhap.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\Dating_app_nhom3.Capnhatmatkhau.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\Dating_app_nhom3.FormDanhSachTinNhan.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\Dating_app_nhom3.Thongtinuser.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\Dating_app_nhom3.UserChat_item.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\Dating_app_nhom3.Uservip.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.CapNhatMatKhau.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.FormDangKy.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.FormQuenMatKhau.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.csproj.GenerateResource.cache
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.csproj.CoreCompileInputs.cache
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.sourcelink.json
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.dll
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\refint\LOGIN.dll
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.pdb

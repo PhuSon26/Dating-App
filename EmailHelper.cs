@@ -1,32 +1,35 @@
 ﻿using System.Net.Mail;
 using System.Threading.Tasks;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace LOGIN
 {
     public static class EmailHelper
     {
-        public static async Task SendOTPEmail(string toEmail, string otp)
+        private static string sendGridApiKey = "YOUR_SENDGRID_API_KEY";
+        private static string fromEmail = "leson2185@gmail.com";
+        private static string fromName = "Hệ thống OTP";
+
+        public static async Task<bool> SendOTPEmail(string toEmail, string otp)
         {
-            var fromEmail = "leson2185@gmail.com";
-            var password = "Nak2k6ntmk";
-
-            var message = new MailMessage(fromEmail, toEmail);
-            message.Subject = "Mã xác nhận quên mật khẩu";
-            message.Body = $"Mã xác nhận của bạn là: {otp}";
-
-            using var smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new System.Net.NetworkCredential(fromEmail, password);
-            smtp.EnableSsl = true;
+            var client = new SendGridClient(sendGridApiKey);
+            var from = new EmailAddress(fromEmail, fromName);
+            var subject = "Mã xác nhận quên mật khẩu";
+            var to = new EmailAddress(toEmail);
+            var plainTextContent = $"Mã OTP của bạn là: {otp}";
+            var htmlContent = $"<strong>Mã OTP của bạn là: {otp}</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
 
             try
             {
-                await smtp.SendMailAsync(message);
-                MessageBox.Show("Mã xác nhận đã được gửi. Vui lòng kiểm tra email!");
+                var response = await client.SendEmailAsync(msg);
+                return response.StatusCode == System.Net.HttpStatusCode.Accepted;
             }
-            catch (SmtpException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Lỗi kết nối SMTP: " + ex.Message);
+                MessageBox.Show("Lỗi khi gửi OTP: " + ex.Message);
+                return false;
             }
         }
     }
