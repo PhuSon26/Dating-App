@@ -17,7 +17,7 @@ namespace LOGIN
         private void ll_quenmatkhau_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             panel.Controls.Clear();
-            FormQuenMatKhau qmk = new FormQuenMatKhau(this.auth);
+            FormQuenMatKhau qmk = new FormQuenMatKhau(this.auth, panel);
             qmk.TopLevel = false;
             qmk.Dock = DockStyle.Fill;
             qmk.FormBorderStyle = FormBorderStyle.None;

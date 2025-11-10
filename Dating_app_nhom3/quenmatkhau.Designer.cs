@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace LOGIN
 {
-    partial class FormQuenMatKhau : Form
+    partial class quenmatkhau : Form
     {
         private Label labelEmail;
         private TextBox tb_email;
@@ -20,7 +20,7 @@ namespace LOGIN
             label2 = new Label();
             tb_maxacnhan = new TextBox();
             btn_nhanma = new Button();
-            label3 = new Label();
+            lblTitle = new Label();
             SuspendLayout();
             // 
             // labelEmail
@@ -54,7 +54,7 @@ namespace LOGIN
             btn_xacnhan.TabIndex = 3;
             btn_xacnhan.Text = "Xác Nhận";
             btn_xacnhan.UseVisualStyleBackColor = false;
-            btn_xacnhan.Click += btn_xacnhan_Click;
+          //  btn_xacnhan.Click += btn_xacnhan_Click;
             // 
             // ll_back
             // 
@@ -66,7 +66,7 @@ namespace LOGIN
             ll_back.TabIndex = 4;
             ll_back.TabStop = true;
             ll_back.Text = "← Quay lại đăng nhập";
-            ll_back.LinkClicked += ll_back_LinkClicked;
+          //  ll_back.LinkClicked += ll_back_LinkClicked;
             // 
             // label1
             // 
@@ -107,18 +107,19 @@ namespace LOGIN
             btn_nhanma.TabIndex = 8;
             btn_nhanma.Text = "Nhận Mã Xác Nhận";
             btn_nhanma.UseVisualStyleBackColor = false;
-            btn_nhanma.Click += btn_nhanma_Click;
+          //  btn_nhanma.Click += btn_nhanma_Click;
             // 
-            // label3
+            // lblTitle
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.DeepPink;
-            label3.Location = new Point(214, 75);
-            label3.Name = "label3";
-            label3.Size = new Size(384, 54);
-            label3.TabIndex = 10;
-            label3.Text = "🔒 Quên Mật Khẩu";
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(255, 80, 100);
+            lblTitle.Location = new Point(0, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(800, 133);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "🔒 Quên Mật Khẩu";
+            lblTitle.TextAlign = ContentAlignment.BottomCenter;
             // 
             // FormQuenMatKhau
             // 
@@ -126,11 +127,11 @@ namespace LOGIN
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 230, 230);
             ClientSize = new Size(800, 450);
-            Controls.Add(label3);
             Controls.Add(btn_nhanma);
             Controls.Add(tb_maxacnhan);
             Controls.Add(label2);
             Controls.Add(label1);
+            Controls.Add(lblTitle);
             Controls.Add(labelEmail);
             Controls.Add(tb_email);
             Controls.Add(btn_xacnhan);
@@ -139,7 +140,7 @@ namespace LOGIN
             Name = "FormQuenMatKhau";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quên mật khẩu - SynHeart";
-            Load += FormQuenMatKhau_Load;
+           // Load += quenmatkhau_Load_1;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -147,6 +148,6 @@ namespace LOGIN
         private Label label2;
         private TextBox tb_maxacnhan;
         private Button btn_nhanma;
-        private Label label3;
+        private Label lblTitle;
     }
 }
