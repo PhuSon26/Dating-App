@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace LOGIN
 {
-    partial class FormQuenMatKhau : Form
+    partial class quenmatkhau : Form
     {
         private Label labelEmail;
         private TextBox tb_email;
@@ -54,7 +54,7 @@ namespace LOGIN
             btn_xacnhan.TabIndex = 3;
             btn_xacnhan.Text = "Xác Nhận";
             btn_xacnhan.UseVisualStyleBackColor = false;
-            btn_xacnhan.Click += btn_xacnhan_Click;
+          //  btn_xacnhan.Click += btn_xacnhan_Click;
             // 
             // ll_back
             // 
@@ -66,7 +66,7 @@ namespace LOGIN
             ll_back.TabIndex = 4;
             ll_back.TabStop = true;
             ll_back.Text = "← Quay lại đăng nhập";
-            ll_back.LinkClicked += ll_back_LinkClicked;
+          //  ll_back.LinkClicked += ll_back_LinkClicked;
             // 
             // label1
             // 
@@ -107,7 +107,7 @@ namespace LOGIN
             btn_nhanma.TabIndex = 8;
             btn_nhanma.Text = "Nhận Mã Xác Nhận";
             btn_nhanma.UseVisualStyleBackColor = false;
-            btn_nhanma.Click += btn_nhanma_Click;
+          //  btn_nhanma.Click += btn_nhanma_Click;
             // 
             // lblTitle
             // 
@@ -140,7 +140,7 @@ namespace LOGIN
             Name = "FormQuenMatKhau";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quên mật khẩu - SynHeart";
-            Load += FormQuenMatKhau_Load;
+           // Load += quenmatkhau_Load_1;
             ResumeLayout(false);
             PerformLayout();
         }

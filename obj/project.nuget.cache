@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HxPKdpp/ZIU=",
+  "dgSpecHash": "aJiqS2cxWEM=",
   "success": true,
-  "projectFilePath": "D:\\HOCTAP\\HKIII\\NT106\\TH\\Đồ án\\Dating-App\\LOGIN.csproj",
+  "projectFilePath": "C:\\Users\\admin\\Desktop\\đồ án\\Dating-App\\LOGIN.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
