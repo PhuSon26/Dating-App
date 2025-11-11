@@ -76,6 +76,7 @@
             Controls.Add(label1);
             Name = "XoaTaiKhoan";
             Text = "XoaTaiKhoan";
+            Load += XoaTaiKhoan_Load;
             ResumeLayout(false);
             PerformLayout();
         }

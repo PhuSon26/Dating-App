@@ -16,5 +16,10 @@ namespace Main_Interface.User_Controls.CaiDat_UserControls
         {
             InitializeComponent();
         }
+
+        private void XoaTaiKhoan_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

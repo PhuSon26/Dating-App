@@ -251,6 +251,7 @@
             ForeColor = SystemColors.InfoText;
             Name = "NapVIP";
             Size = new Size(1186, 688);
+            Load += NapVIP_Load;
             ResumeLayout(false);
             PerformLayout();
         }

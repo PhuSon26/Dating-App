@@ -22,5 +22,10 @@ namespace Main_Interface.User_Controls
             ThanhToan tt = new ThanhToan();
             tt.ShowDialog();
         }
+
+        private void NapVIP_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
