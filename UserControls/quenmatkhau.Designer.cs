@@ -71,11 +71,11 @@ namespace LOGIN
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
             label1.ForeColor = Color.FromArgb(255, 80, 100);
-            label1.Location = new Point(263, 9);
+            label1.Location = new Point(0, 9);
             label1.Name = "label1";
-            label1.Size = new Size(306, 50);
+            label1.Size = new Size(168, 28);
             label1.TabIndex = 5;
             label1.Text = "💖 SynHeart 💖";
             // 
