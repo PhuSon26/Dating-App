@@ -2,278 +2,291 @@
 {
     partial class NapVIP
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Panel headerPanel;
+        private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.Panel contentPanel;
+        private System.Windows.Forms.Label featuresTitle;
+        private System.Windows.Forms.Panel featurePanel1;
+        private System.Windows.Forms.Panel featurePanel2;
+        private System.Windows.Forms.Panel featurePanel3;
+        private System.Windows.Forms.Panel featurePanel4;
+        private System.Windows.Forms.Label featureLabel1;
+        private System.Windows.Forms.Label featureLabel2;
+        private System.Windows.Forms.Label featureLabel3;
+        private System.Windows.Forms.Label featureLabel4;
+        private System.Windows.Forms.Label packageTitle;
+        private GlossyButton btnVIP1Month;
+        private GlossyButton btnVIP3Months;
+        private GlossyButton btnVIP6Months;
+        private GlossyButton btnVIP1Year;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NapVIP));
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            label6 = new Label();
-            label7 = new Label();
-            label8 = new Label();
-            label9 = new Label();
-            label10 = new Label();
-            label11 = new Label();
-            label12 = new Label();
-            btn_nap = new Button();
-            label13 = new Label();
-            label14 = new Label();
-            label15 = new Label();
-            label16 = new Label();
+            headerPanel = new Panel();
+            titleLabel = new Label();
+            contentPanel = new Panel();
+            featuresTitle = new Label();
+            featurePanel1 = new Panel();
+            featureLabel1 = new Label();
+            featurePanel2 = new Panel();
+            featureLabel2 = new Label();
+            featurePanel3 = new Panel();
+            featureLabel3 = new Label();
+            featurePanel4 = new Panel();
+            featureLabel4 = new Label();
+            packageTitle = new Label();
+            btnVIP1Month = new GlossyButton();
+            btnVIP3Months = new GlossyButton();
+            btnVIP6Months = new GlossyButton();
+            btnVIP1Year = new GlossyButton();
+            headerPanel.SuspendLayout();
+            contentPanel.SuspendLayout();
+            featurePanel1.SuspendLayout();
+            featurePanel2.SuspendLayout();
+            featurePanel3.SuspendLayout();
+            featurePanel4.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
+            // headerPanel
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(50, 203);
-            label1.Name = "label1";
-            label1.Size = new Size(339, 41);
-            label1.TabIndex = 0;
-            label1.Text = "Bao gồm các tính năng";
+            headerPanel.Controls.Add(titleLabel);
+            headerPanel.Dock = DockStyle.Top;
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Margin = new Padding(3, 4, 3, 4);
+            headerPanel.Name = "headerPanel";
+            headerPanel.Size = new Size(1193, 100);
+            headerPanel.TabIndex = 0;
+            headerPanel.Paint += HeaderPanel_Paint;
             // 
-            // label2
+            // titleLabel
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(50, 299);
-            label2.Name = "label2";
-            label2.Size = new Size(239, 41);
-            label2.TabIndex = 1;
-            label2.Text = "Xem ai thích bạn";
+            titleLabel.AutoSize = true;
+            titleLabel.BackColor = Color.Transparent;
+            titleLabel.Font = new Font("Segoe UI", 28F, FontStyle.Bold);
+            titleLabel.ForeColor = Color.White;
+            titleLabel.Location = new Point(380, 15);
+            titleLabel.Name = "titleLabel";
+            titleLabel.Size = new Size(455, 62);
+            titleLabel.TabIndex = 0;
+            titleLabel.Text = "♥ Upgrade to VIP ♥";
             // 
-            // label3
+            // contentPanel
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(50, 400);
-            label3.Name = "label3";
-            label3.Size = new Size(488, 41);
-            label3.TabIndex = 2;
-            label3.Text = "Nhắn tin trực tiếp không cần Match";
+            contentPanel.BackColor = Color.Transparent;
+            contentPanel.Controls.Add(featuresTitle);
+            contentPanel.Controls.Add(featurePanel1);
+            contentPanel.Controls.Add(featurePanel2);
+            contentPanel.Controls.Add(featurePanel3);
+            contentPanel.Controls.Add(featurePanel4);
+            contentPanel.Controls.Add(packageTitle);
+            contentPanel.Controls.Add(btnVIP1Month);
+            contentPanel.Controls.Add(btnVIP3Months);
+            contentPanel.Controls.Add(btnVIP6Months);
+            contentPanel.Controls.Add(btnVIP1Year);
+            contentPanel.Location = new Point(191, 108);
+            contentPanel.Margin = new Padding(3, 4, 3, 4);
+            contentPanel.Name = "contentPanel";
+            contentPanel.Size = new Size(800, 525);
+            contentPanel.TabIndex = 1;
             // 
-            // label4
+            // featuresTitle
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(50, 501);
-            label4.Name = "label4";
-            label4.Size = new Size(409, 41);
-            label4.TabIndex = 3;
-            label4.Text = "Lượt thả thích không giới hạn";
+            featuresTitle.AutoSize = true;
+            featuresTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            featuresTitle.ForeColor = Color.FromArgb(139, 69, 19);
+            featuresTitle.Location = new Point(20, 12);
+            featuresTitle.Name = "featuresTitle";
+            featuresTitle.Size = new Size(249, 37);
+            featuresTitle.TabIndex = 0;
+            featuresTitle.Text = "Các tính năng VIP:";
             // 
-            // label5
+            // featurePanel1
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(799, 203);
-            label5.Name = "label5";
-            label5.Size = new Size(144, 41);
-            label5.TabIndex = 4;
-            label5.Text = "Miễn phí";
+            featurePanel1.BackColor = Color.White;
+            featurePanel1.Controls.Add(featureLabel1);
+            featurePanel1.Location = new Point(20, 75);
+            featurePanel1.Margin = new Padding(3, 4, 3, 4);
+            featurePanel1.Name = "featurePanel1";
+            featurePanel1.Size = new Size(350, 62);
+            featurePanel1.TabIndex = 1;
+            featurePanel1.Paint += FeaturePanel_Paint;
             // 
-            // label6
+            // featureLabel1
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(1024, 203);
-            label6.Name = "label6";
-            label6.Size = new Size(66, 41);
-            label6.TabIndex = 5;
-            label6.Text = "VIP";
+            featureLabel1.AutoSize = true;
+            featureLabel1.BackColor = Color.Transparent;
+            featureLabel1.Font = new Font("Segoe UI", 12F);
+            featureLabel1.ForeColor = Color.FromArgb(70, 70, 70);
+            featureLabel1.Location = new Point(15, 16);
+            featureLabel1.Name = "featureLabel1";
+            featureLabel1.Size = new Size(221, 28);
+            featureLabel1.TabIndex = 0;
+            featureLabel1.Text = "✓ Biết được ai thích bạn";
             // 
-            // label7
+            // featurePanel2
             // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label7.Location = new Point(850, 299);
-            label7.Name = "label7";
-            label7.Size = new Size(59, 41);
-            label7.TabIndex = 6;
-            label7.Text = "🔒";
+            featurePanel2.BackColor = Color.White;
+            featurePanel2.Controls.Add(featureLabel2);
+            featurePanel2.Location = new Point(20, 162);
+            featurePanel2.Margin = new Padding(3, 4, 3, 4);
+            featurePanel2.Name = "featurePanel2";
+            featurePanel2.Size = new Size(350, 62);
+            featurePanel2.TabIndex = 2;
+            featurePanel2.Paint += FeaturePanel_Paint;
             // 
-            // label8
+            // featureLabel2
             // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(850, 400);
-            label8.Name = "label8";
-            label8.Size = new Size(59, 41);
-            label8.TabIndex = 7;
-            label8.Text = "🔒";
+            featureLabel2.AutoSize = true;
+            featureLabel2.BackColor = Color.Transparent;
+            featureLabel2.Font = new Font("Segoe UI", 12F);
+            featureLabel2.ForeColor = Color.FromArgb(70, 70, 70);
+            featureLabel2.Location = new Point(15, 16);
+            featureLabel2.Name = "featureLabel2";
+            featureLabel2.Size = new Size(314, 28);
+            featureLabel2.TabIndex = 0;
+            featureLabel2.Text = "✓ Nhắn trực tiếp không cần Match";
             // 
-            // label9
+            // featurePanel3
             // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.Location = new Point(850, 501);
-            label9.Name = "label9";
-            label9.Size = new Size(59, 41);
-            label9.TabIndex = 8;
-            label9.Text = "🔒";
+            featurePanel3.BackColor = Color.White;
+            featurePanel3.Controls.Add(featureLabel3);
+            featurePanel3.Location = new Point(20, 250);
+            featurePanel3.Margin = new Padding(3, 4, 3, 4);
+            featurePanel3.Name = "featurePanel3";
+            featurePanel3.Size = new Size(350, 62);
+            featurePanel3.TabIndex = 3;
+            featurePanel3.Paint += FeaturePanel_Paint;
             // 
-            // label10
+            // featureLabel3
             // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label10.Location = new Point(1038, 299);
-            label10.Name = "label10";
-            label10.Size = new Size(40, 41);
-            label10.TabIndex = 9;
-            label10.Text = "✓";
+            featureLabel3.AutoSize = true;
+            featureLabel3.BackColor = Color.Transparent;
+            featureLabel3.Font = new Font("Segoe UI", 12F);
+            featureLabel3.ForeColor = Color.FromArgb(70, 70, 70);
+            featureLabel3.Location = new Point(15, 16);
+            featureLabel3.Name = "featureLabel3";
+            featureLabel3.Size = new Size(294, 28);
+            featureLabel3.TabIndex = 0;
+            featureLabel3.Text = "✓ Thả tim vô hạn trong quẹt đôi";
             // 
-            // label11
+            // featurePanel4
             // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.Location = new Point(1038, 400);
-            label11.Name = "label11";
-            label11.Size = new Size(40, 41);
-            label11.TabIndex = 10;
-            label11.Text = "✓";
+            featurePanel4.BackColor = Color.White;
+            featurePanel4.Controls.Add(featureLabel4);
+            featurePanel4.Location = new Point(20, 338);
+            featurePanel4.Margin = new Padding(3, 4, 3, 4);
+            featurePanel4.Name = "featurePanel4";
+            featurePanel4.Size = new Size(350, 62);
+            featurePanel4.TabIndex = 4;
+            featurePanel4.Paint += FeaturePanel_Paint;
             // 
-            // label12
+            // featureLabel4
             // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.Location = new Point(1038, 501);
-            label12.Name = "label12";
-            label12.Size = new Size(40, 41);
-            label12.TabIndex = 11;
-            label12.Text = "✓";
+            featureLabel4.AutoSize = true;
+            featureLabel4.BackColor = Color.Transparent;
+            featureLabel4.Font = new Font("Segoe UI", 12F);
+            featureLabel4.ForeColor = Color.FromArgb(70, 70, 70);
+            featureLabel4.Location = new Point(15, 19);
+            featureLabel4.Name = "featureLabel4";
+            featureLabel4.Size = new Size(262, 28);
+            featureLabel4.TabIndex = 0;
+            featureLabel4.Text = "✓ Mở khóa button siêu thích";
             // 
-            // btn_nap
+            // packageTitle
             // 
-            btn_nap.BackgroundImage = (Image)resources.GetObject("btn_nap.BackgroundImage");
-            btn_nap.Font = new Font("Segoe UI", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_nap.ForeColor = Color.Yellow;
-            btn_nap.Location = new Point(799, 32);
-            btn_nap.Name = "btn_nap";
-            btn_nap.Size = new Size(291, 94);
-            btn_nap.TabIndex = 12;
-            btn_nap.Text = "Nâng Cấp";
-            btn_nap.UseVisualStyleBackColor = true;
-            btn_nap.Click += btn_nap_Click;
+            packageTitle.AutoSize = true;
+            packageTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            packageTitle.ForeColor = Color.FromArgb(139, 69, 19);
+            packageTitle.Location = new Point(420, 12);
+            packageTitle.Name = "packageTitle";
+            packageTitle.Size = new Size(245, 37);
+            packageTitle.TabIndex = 5;
+            packageTitle.Text = "Chọn loại gói VIP:";
             // 
-            // label13
+            // btnVIP1Month
             // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label13.Location = new Point(50, 593);
-            label13.Name = "label13";
-            label13.Size = new Size(377, 41);
-            label13.TabIndex = 13;
-            label13.Text = "Mở khóa button Siêu Thích";
+            btnVIP1Month.Cursor = Cursors.Hand;
+            btnVIP1Month.IsBlinking = false;
+            btnVIP1Month.Location = new Point(420, 64);
+            btnVIP1Month.Margin = new Padding(3, 4, 3, 4);
+            btnVIP1Month.Name = "btnVIP1Month";
+            btnVIP1Month.Price = "50k";
+            btnVIP1Month.Size = new Size(300, 100);
+            btnVIP1Month.TabIndex = 6;
+            btnVIP1Month.Title = "1 Month VIP";
+            btnVIP1Month.Click += VIPButton_Click;
+            btnVIP1Month.MouseEnter += VIPButton_MouseEnter;
+            btnVIP1Month.MouseLeave += VIPButton_MouseLeave;
             // 
-            // label14
+            // btnVIP3Months
             // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label14.Location = new Point(850, 593);
-            label14.Name = "label14";
-            label14.Size = new Size(59, 41);
-            label14.TabIndex = 14;
-            label14.Text = "🔒";
+            btnVIP3Months.Cursor = Cursors.Hand;
+            btnVIP3Months.IsBlinking = false;
+            btnVIP3Months.Location = new Point(420, 178);
+            btnVIP3Months.Margin = new Padding(3, 4, 3, 4);
+            btnVIP3Months.Name = "btnVIP3Months";
+            btnVIP3Months.Price = "125k";
+            btnVIP3Months.Size = new Size(300, 100);
+            btnVIP3Months.TabIndex = 7;
+            btnVIP3Months.Title = "3 Months VIP";
+            btnVIP3Months.Click += VIPButton_Click;
+            btnVIP3Months.MouseEnter += VIPButton_MouseEnter;
+            btnVIP3Months.MouseLeave += VIPButton_MouseLeave;
             // 
-            // label15
+            // btnVIP6Months
             // 
-            label15.AutoSize = true;
-            label15.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label15.Location = new Point(1038, 593);
-            label15.Name = "label15";
-            label15.Size = new Size(40, 41);
-            label15.TabIndex = 15;
-            label15.Text = "✓";
+            btnVIP6Months.Cursor = Cursors.Hand;
+            btnVIP6Months.IsBlinking = false;
+            btnVIP6Months.Location = new Point(420, 300);
+            btnVIP6Months.Margin = new Padding(3, 4, 3, 4);
+            btnVIP6Months.Name = "btnVIP6Months";
+            btnVIP6Months.Price = "225k";
+            btnVIP6Months.Size = new Size(300, 100);
+            btnVIP6Months.TabIndex = 8;
+            btnVIP6Months.Title = "6 Months VIP";
+            btnVIP6Months.Click += VIPButton_Click;
+            btnVIP6Months.MouseEnter += VIPButton_MouseEnter;
+            btnVIP6Months.MouseLeave += VIPButton_MouseLeave;
             // 
-            // label16
+            // btnVIP1Year
             // 
-            label16.AutoSize = true;
-            label16.BackColor = Color.IndianRed;
-            label16.Font = new Font("Segoe UI", 28.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label16.ForeColor = Color.HotPink;
-            label16.Location = new Point(52, 32);
-            label16.Name = "label16";
-            label16.Size = new Size(375, 62);
-            label16.TabIndex = 16;
-            label16.Text = "💖 SynHeart 💖";
+            btnVIP1Year.Cursor = Cursors.Hand;
+            btnVIP1Year.IsBlinking = false;
+            btnVIP1Year.Location = new Point(420, 419);
+            btnVIP1Year.Margin = new Padding(3, 4, 3, 4);
+            btnVIP1Year.Name = "btnVIP1Year";
+            btnVIP1Year.Price = "450k";
+            btnVIP1Year.Size = new Size(300, 100);
+            btnVIP1Year.TabIndex = 9;
+            btnVIP1Year.Title = "1 Year VIP";
+            btnVIP1Year.Click += VIPButton_Click;
+            btnVIP1Year.MouseEnter += VIPButton_MouseEnter;
+            btnVIP1Year.MouseLeave += VIPButton_MouseLeave;
             // 
             // NapVIP
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Yellow;
-            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            BackgroundImageLayout = ImageLayout.Stretch;
-            Controls.Add(label16);
-            Controls.Add(label15);
-            Controls.Add(label14);
-            Controls.Add(label13);
-            Controls.Add(btn_nap);
-            Controls.Add(label12);
-            Controls.Add(label11);
-            Controls.Add(label10);
-            Controls.Add(label9);
-            Controls.Add(label8);
-            Controls.Add(label7);
-            Controls.Add(label6);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            DoubleBuffered = true;
-            ForeColor = SystemColors.InfoText;
+            BackColor = Color.FromArgb(255, 240, 245);
+            Controls.Add(headerPanel);
+            Controls.Add(contentPanel);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "NapVIP";
-            Size = new Size(1186, 688);
-            Load += NapVIP_Load;
+            Size = new Size(1193, 641);
+            headerPanel.ResumeLayout(false);
+            headerPanel.PerformLayout();
+            contentPanel.ResumeLayout(false);
+            contentPanel.PerformLayout();
+            featurePanel1.ResumeLayout(false);
+            featurePanel1.PerformLayout();
+            featurePanel2.ResumeLayout(false);
+            featurePanel2.PerformLayout();
+            featurePanel3.ResumeLayout(false);
+            featurePanel3.PerformLayout();
+            featurePanel4.ResumeLayout(false);
+            featurePanel4.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
-
-        #endregion
-
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private Label label5;
-        private Label label6;
-        private Label label7;
-        private Label label8;
-        private Label label9;
-        private Label label10;
-        private Label label11;
-        private Label label12;
-        private Button btn_nap;
-        private Label label13;
-        private Label label14;
-        private Label label15;
-        private Label label16;
     }
 }

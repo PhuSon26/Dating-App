@@ -50,9 +50,9 @@
             label2 = new Label();
             label1 = new Label();
             panelQuet = new Panel();
-            button3 = new Button();
-            button2 = new Button();
-            button1 = new Button();
+            btn_kothich = new RoundedButton();
+            btn_timVIP = new RoundedButton();
+            btn_tim = new RoundedButton();
             panelPictures.SuspendLayout();
             panelThongTin.SuspendLayout();
             panelQuet.SuspendLayout();
@@ -270,46 +270,55 @@
             // panelQuet
             // 
             panelQuet.BackColor = Color.FromArgb(192, 192, 255);
-            panelQuet.Controls.Add(button3);
-            panelQuet.Controls.Add(button2);
-            panelQuet.Controls.Add(button1);
+            panelQuet.Controls.Add(btn_kothich);
+            panelQuet.Controls.Add(btn_timVIP);
+            panelQuet.Controls.Add(btn_tim);
             panelQuet.Location = new Point(0, 605);
             panelQuet.Name = "panelQuet";
             panelQuet.Size = new Size(1201, 170);
             panelQuet.TabIndex = 2;
             // 
-            // button3
+            // btn_kothich
             // 
-            button3.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.Red;
-            button3.Location = new Point(309, 0);
-            button3.Name = "button3";
-            button3.Size = new Size(127, 131);
-            button3.TabIndex = 2;
-            button3.Text = "❌";
-            button3.UseVisualStyleBackColor = true;
+            btn_kothich.BackColor = Color.Transparent;
+            btn_kothich.CornerRadius = 20;
+            btn_kothich.FlatStyle = FlatStyle.Flat;
+            btn_kothich.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_kothich.ForeColor = Color.Red;
+            btn_kothich.Location = new Point(304, 0);
+            btn_kothich.Name = "btn_kothich";
+            btn_kothich.Size = new Size(132, 131);
+            btn_kothich.TabIndex = 2;
+            btn_kothich.Text = "❌";
+            btn_kothich.UseVisualStyleBackColor = false;
             // 
-            // button2
+            // btn_timVIP
             // 
-            button2.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.Fuchsia;
-            button2.Location = new Point(560, 0);
-            button2.Name = "button2";
-            button2.Size = new Size(127, 131);
-            button2.TabIndex = 1;
-            button2.Text = "💕";
-            button2.UseVisualStyleBackColor = true;
+            btn_timVIP.BackColor = Color.Transparent;
+            btn_timVIP.CornerRadius = 20;
+            btn_timVIP.FlatStyle = FlatStyle.Flat;
+            btn_timVIP.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_timVIP.ForeColor = Color.Fuchsia;
+            btn_timVIP.Location = new Point(560, 0);
+            btn_timVIP.Name = "btn_timVIP";
+            btn_timVIP.Size = new Size(127, 131);
+            btn_timVIP.TabIndex = 1;
+            btn_timVIP.Text = "💕";
+            btn_timVIP.UseVisualStyleBackColor = false;
             // 
-            // button1
+            // btn_tim
             // 
-            button1.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Fuchsia;
-            button1.Location = new Point(799, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(127, 131);
-            button1.TabIndex = 0;
-            button1.Text = "❤️";
-            button1.UseVisualStyleBackColor = true;
+            btn_tim.BackColor = Color.Transparent;
+            btn_tim.CornerRadius = 20;
+            btn_tim.FlatStyle = FlatStyle.Flat;
+            btn_tim.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_tim.ForeColor = Color.Fuchsia;
+            btn_tim.Location = new Point(799, 3);
+            btn_tim.Name = "btn_tim";
+            btn_tim.Size = new Size(127, 131);
+            btn_tim.TabIndex = 0;
+            btn_tim.Text = "❤️";
+            btn_tim.UseVisualStyleBackColor = false;
             // 
             // GhepDoi
             // 
@@ -333,9 +342,9 @@
         private Panel panelThongTin;
         private Panel panelQuet;
         private ListView listView1;
-        private Button button1;
-        private Button button3;
-        private Button button2;
+        private RoundedButton btn_tim;
+        private RoundedButton btn_kothich;
+        private RoundedButton btn_timVIP;
         private Label label2;
         private Label label1;
         private Label label6;

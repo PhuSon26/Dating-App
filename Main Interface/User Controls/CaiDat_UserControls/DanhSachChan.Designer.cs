@@ -30,7 +30,7 @@
         {
             label1 = new Label();
             flp_list = new FlowLayoutPanel();
-            btn_back = new Button();
+            roundedButton1 = new RoundedButton();
             SuspendLayout();
             // 
             // label1
@@ -51,17 +51,19 @@
             flp_list.Size = new Size(1173, 529);
             flp_list.TabIndex = 1;
             // 
-            // btn_back
+            // roundedButton1
             // 
-            btn_back.BackColor = SystemColors.ActiveCaption;
-            btn_back.Font = new Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_back.ForeColor = SystemColors.ActiveCaptionText;
-            btn_back.Location = new Point(0, -56);
-            btn_back.Name = "btn_back";
-            btn_back.Size = new Size(177, 127);
-            btn_back.TabIndex = 2;
-            btn_back.Text = "🠔";
-            btn_back.UseVisualStyleBackColor = false;
+            roundedButton1.BackColor = Color.FromArgb(72, 209, 204);
+            roundedButton1.CornerRadius = 30;
+            roundedButton1.FlatStyle = FlatStyle.Flat;
+            roundedButton1.Font = new Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            roundedButton1.ForeColor = Color.White;
+            roundedButton1.Location = new Point(0, -55);
+            roundedButton1.Name = "roundedButton1";
+            roundedButton1.Size = new Size(148, 125);
+            roundedButton1.TabIndex = 12;
+            roundedButton1.Text = "🠔";
+            roundedButton1.UseVisualStyleBackColor = false;
             // 
             // DanhSachChan
             // 
@@ -69,7 +71,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.IndianRed;
             ClientSize = new Size(1175, 595);
-            Controls.Add(btn_back);
+            Controls.Add(roundedButton1);
             Controls.Add(flp_list);
             Controls.Add(label1);
             Name = "DanhSachChan";
@@ -82,6 +84,6 @@
 
         private Label label1;
         private FlowLayoutPanel flp_list;
-        private Button btn_back;
+        private RoundedButton roundedButton1;
     }
 }

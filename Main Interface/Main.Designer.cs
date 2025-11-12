@@ -29,6 +29,7 @@
             // 
             // panelMain
             // 
+            panelMain.AutoSize = true;
             panelMain.BackColor = Color.FromArgb(255, 245, 250);
             panelMain.Controls.Add(panelContent);
             panelMain.Controls.Add(lblLogo);
@@ -46,7 +47,7 @@
             panelContent.Location = new Point(0, 101);
             panelContent.Margin = new Padding(20);
             panelContent.Name = "panelContent";
-            panelContent.Size = new Size(1200, 599);
+            panelContent.Size = new Size(1200, 622);
             panelContent.TabIndex = 0;
             // 
             // lblLogo
@@ -72,15 +73,15 @@
             panelButtons.Controls.Add(btn_hscn);
             panelButtons.Controls.Add(btn_caidat);
             panelButtons.Dock = DockStyle.Bottom;
-            panelButtons.Location = new Point(0, 700);
+            panelButtons.Location = new Point(0, 723);
             panelButtons.Name = "panelButtons";
             panelButtons.Padding = new Padding(0, 5, 0, 5);
-            panelButtons.Size = new Size(1200, 100);
+            panelButtons.Size = new Size(1200, 77);
             panelButtons.TabIndex = 2;
             // 
             // btn_vip
             // 
-            btn_vip.Location = new Point(0, 0);
+            btn_vip.Location = new Point(234, 0);
             btn_vip.Name = "btn_vip";
             btn_vip.Size = new Size(75, 23);
             btn_vip.TabIndex = 0;
@@ -88,7 +89,7 @@
             // 
             // btn_ghepdoi
             // 
-            btn_ghepdoi.Location = new Point(0, 0);
+            btn_ghepdoi.Location = new Point(120, 0);
             btn_ghepdoi.Name = "btn_ghepdoi";
             btn_ghepdoi.Size = new Size(75, 23);
             btn_ghepdoi.TabIndex = 1;
@@ -96,7 +97,7 @@
             // 
             // btn_dsnt
             // 
-            btn_dsnt.Location = new Point(0, 0);
+            btn_dsnt.Location = new Point(429, 0);
             btn_dsnt.Name = "btn_dsnt";
             btn_dsnt.Size = new Size(75, 23);
             btn_dsnt.TabIndex = 2;
@@ -104,7 +105,7 @@
             // 
             // btn_hscn
             // 
-            btn_hscn.Location = new Point(0, 0);
+            btn_hscn.Location = new Point(333, 0);
             btn_hscn.Name = "btn_hscn";
             btn_hscn.Size = new Size(75, 23);
             btn_hscn.TabIndex = 3;
@@ -134,6 +135,7 @@
             panelMain.PerformLayout();
             panelButtons.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
 

@@ -35,6 +35,7 @@
             label1 = new Label();
             panel1 = new Panel();
             lblGioiThieu = new Label();
+            btn_back = new RoundedButton();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -52,26 +53,42 @@
             // 
             panel1.AutoScroll = true;
             panel1.Controls.Add(lblGioiThieu);
-            panel1.Location = new Point(20, 100);
+            panel1.Location = new Point(50, 77);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1135, 450);
+            panel1.Size = new Size(1129, 450);
             panel1.TabIndex = 1;
             // 
             // lblGioiThieu
             // 
             lblGioiThieu.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblGioiThieu.Location = new Point(0, 0);
+            lblGioiThieu.Location = new Point(3, 0);
             lblGioiThieu.Name = "lblGioiThieu";
-            lblGioiThieu.Size = new Size(1100, 695);
+            lblGioiThieu.Size = new Size(1097, 695);
             lblGioiThieu.TabIndex = 0;
             lblGioiThieu.Text = resources.GetString("lblGioiThieu.Text");
+            // 
+            // btn_back
+            // 
+            btn_back.BackColor = Color.FromArgb(72, 209, 204);
+            btn_back.CornerRadius = 30;
+            btn_back.FlatStyle = FlatStyle.Flat;
+            btn_back.Font = new Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_back.ForeColor = Color.White;
+            btn_back.Location = new Point(-5, -54);
+            btn_back.Name = "btn_back";
+            btn_back.Size = new Size(148, 125);
+            btn_back.TabIndex = 0;
+            btn_back.Text = "🠔";
+            btn_back.UseVisualStyleBackColor = false;
+            btn_back.Click += btn_back_Click;
             // 
             // GioiThieuUngDung
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveBorder;
+            BackColor = Color.FromArgb(226, 146, 228);
             ClientSize = new Size(1175, 595);
+            Controls.Add(btn_back);
             Controls.Add(label1);
             Controls.Add(panel1);
             Name = "GioiThieuUngDung";
@@ -82,5 +99,7 @@
         }
 
         #endregion
+
+        private RoundedButton btn_back;
     }
 }
