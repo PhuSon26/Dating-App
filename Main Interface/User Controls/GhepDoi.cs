@@ -14,11 +14,17 @@ namespace Main_Interface.User_Controls
     {
         // Chỉ định rõ System.Drawing.Image
         private List<System.Drawing.Image> images = new List<System.Drawing.Image>();
-
+        private Main MainForm;
         public GhepDoi()
         {
             InitializeComponent();
             this.Load += GhepDoi_Load;
+        }
+        public GhepDoi(Main m)
+        {
+            InitializeComponent();
+            this.Load += GhepDoi_Load;
+            MainForm = m;
         }
 
         private void GhepDoi_Load(object sender, EventArgs e)
@@ -43,7 +49,7 @@ namespace Main_Interface.User_Controls
                 pb.SizeMode = PictureBoxSizeMode.StretchImage;
                 pb.Size = new Size(300, 300);
                 pb.Margin = new Padding(10);
-                flpanel_pictures.Controls.Add(pb); // flpanel_pictures là FlowLayoutPanel của bạn
+                flpanel_pictures.Controls.Add(pb);
             }
         }
     }

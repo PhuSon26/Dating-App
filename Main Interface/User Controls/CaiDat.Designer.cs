@@ -35,6 +35,7 @@
             btn_dsChan = new Button();
             btn_gioithieuUngDung = new Button();
             cb_tatThongbao = new CheckBox();
+            panel = new Panel();
             SuspendLayout();
             // 
             // label1
@@ -150,12 +151,22 @@
             cb_tatThongbao.Name = "cb_tatThongbao";
             cb_tatThongbao.Size = new Size(748, 60);
             cb_tatThongbao.TabIndex = 9;
-            cb_tatThongbao.Text = "🔔 Tắt Thông Báo";
+            cb_tatThongbao.Text = "🔕 Tắt Thông Báo";
             cb_tatThongbao.TextAlign = ContentAlignment.MiddleCenter;
             cb_tatThongbao.UseVisualStyleBackColor = false;
+            cb_tatThongbao.CheckedChanged += cb_tatThongbao_CheckedChanged;
             cb_tatThongbao.Paint += Button_Paint;
             cb_tatThongbao.MouseEnter += Button_MouseEnter;
             cb_tatThongbao.MouseLeave += Button_MouseLeave;
+            // 
+            // panel
+            // 
+            panel.Cursor = Cursors.No;
+            panel.Dock = DockStyle.Fill;
+            panel.Location = new Point(0, 0);
+            panel.Name = "panel";
+            panel.Size = new Size(1193, 642);
+            panel.TabIndex = 10;
             // 
             // CaiDat
             // 
@@ -169,6 +180,7 @@
             Controls.Add(btn_doiEmailMk);
             Controls.Add(btn_csHoSo);
             Controls.Add(label1);
+            Controls.Add(panel);
             Name = "CaiDat";
             Size = new Size(1193, 642);
             Load += CaiDat_Load;
@@ -186,5 +198,6 @@
         private Button btn_gioithieuUngDung;
         private Button btn_tatthongbao;
         private CheckBox cb_tatThongbao;
+        private Panel panel;
     }
 }

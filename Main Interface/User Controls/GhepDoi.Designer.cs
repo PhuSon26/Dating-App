@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panelPictures = new Panel();
+            flpanel_pictures = new FlowLayoutPanel();
             panelThongTin = new Panel();
             tb_gioithieu = new TextBox();
             tb_vitri = new TextBox();
@@ -52,7 +53,7 @@
             btn_kothich = new RoundedButton();
             btn_timVIP = new RoundedButton();
             btn_tim = new RoundedButton();
-            flpanel_pictures = new FlowLayoutPanel();
+            btn_loc = new RoundedButton();
             panelPictures.SuspendLayout();
             panelThongTin.SuspendLayout();
             panelQuet.SuspendLayout();
@@ -66,8 +67,18 @@
             panelPictures.Size = new Size(1201, 376);
             panelPictures.TabIndex = 0;
             // 
+            // flpanel_pictures
+            // 
+            flpanel_pictures.AutoScroll = true;
+            flpanel_pictures.Location = new Point(0, 0);
+            flpanel_pictures.Name = "flpanel_pictures";
+            flpanel_pictures.Size = new Size(1201, 376);
+            flpanel_pictures.TabIndex = 0;
+            flpanel_pictures.WrapContents = false;
+            // 
             // panelThongTin
             // 
+            panelThongTin.BackColor = Color.FromArgb(109, 216, 208);
             panelThongTin.Controls.Add(tb_gioithieu);
             panelThongTin.Controls.Add(tb_vitri);
             panelThongTin.Controls.Add(tb_thoiquen);
@@ -86,9 +97,9 @@
             panelThongTin.Controls.Add(label3);
             panelThongTin.Controls.Add(label2);
             panelThongTin.Controls.Add(label1);
-            panelThongTin.Location = new Point(0, 382);
+            panelThongTin.Location = new Point(0, 376);
             panelThongTin.Name = "panelThongTin";
-            panelThongTin.Size = new Size(1201, 220);
+            panelThongTin.Size = new Size(1201, 226);
             panelThongTin.TabIndex = 1;
             // 
             // tb_gioithieu
@@ -102,7 +113,7 @@
             // 
             // tb_vitri
             // 
-            tb_vitri.Location = new Point(817, 73);
+            tb_vitri.Location = new Point(817, 77);
             tb_vitri.Multiline = true;
             tb_vitri.Name = "tb_vitri";
             tb_vitri.ReadOnly = true;
@@ -259,12 +270,13 @@
             // panelQuet
             // 
             panelQuet.BackColor = Color.FromArgb(192, 192, 255);
+            panelQuet.Controls.Add(btn_loc);
             panelQuet.Controls.Add(btn_kothich);
             panelQuet.Controls.Add(btn_timVIP);
             panelQuet.Controls.Add(btn_tim);
             panelQuet.Location = new Point(0, 605);
             panelQuet.Name = "panelQuet";
-            panelQuet.Size = new Size(1201, 170);
+            panelQuet.Size = new Size(1201, 155);
             panelQuet.TabIndex = 2;
             // 
             // btn_kothich
@@ -274,7 +286,7 @@
             btn_kothich.FlatStyle = FlatStyle.Flat;
             btn_kothich.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_kothich.ForeColor = Color.Red;
-            btn_kothich.Location = new Point(304, 0);
+            btn_kothich.Location = new Point(388, -4);
             btn_kothich.Name = "btn_kothich";
             btn_kothich.Size = new Size(132, 131);
             btn_kothich.TabIndex = 2;
@@ -287,12 +299,12 @@
             btn_timVIP.CornerRadius = 20;
             btn_timVIP.FlatStyle = FlatStyle.Flat;
             btn_timVIP.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_timVIP.ForeColor = Color.Fuchsia;
-            btn_timVIP.Location = new Point(560, 0);
+            btn_timVIP.ForeColor = Color.Yellow;
+            btn_timVIP.Location = new Point(674, 0);
             btn_timVIP.Name = "btn_timVIP";
             btn_timVIP.Size = new Size(127, 131);
             btn_timVIP.TabIndex = 1;
-            btn_timVIP.Text = "💕";
+            btn_timVIP.Text = "🌟";
             btn_timVIP.UseVisualStyleBackColor = false;
             // 
             // btn_tim
@@ -302,21 +314,26 @@
             btn_tim.FlatStyle = FlatStyle.Flat;
             btn_tim.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_tim.ForeColor = Color.Fuchsia;
-            btn_tim.Location = new Point(799, 3);
+            btn_tim.Location = new Point(933, 0);
             btn_tim.Name = "btn_tim";
             btn_tim.Size = new Size(127, 131);
             btn_tim.TabIndex = 0;
             btn_tim.Text = "❤️";
             btn_tim.UseVisualStyleBackColor = false;
             // 
-            // flpanel_pictures
+            // btn_loc
             // 
-            flpanel_pictures.AutoScroll = true;
-            flpanel_pictures.Location = new Point(0, 0);
-            flpanel_pictures.Name = "flpanel_pictures";
-            flpanel_pictures.Size = new Size(1201, 376);
-            flpanel_pictures.TabIndex = 0;
-            flpanel_pictures.WrapContents = false;
+            btn_loc.BackColor = Color.Transparent;
+            btn_loc.CornerRadius = 20;
+            btn_loc.FlatStyle = FlatStyle.Flat;
+            btn_loc.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_loc.ForeColor = Color.Gray;
+            btn_loc.Location = new Point(123, -4);
+            btn_loc.Name = "btn_loc";
+            btn_loc.Size = new Size(127, 131);
+            btn_loc.TabIndex = 3;
+            btn_loc.Text = "🔍";
+            btn_loc.UseVisualStyleBackColor = false;
             // 
             // GhepDoi
             // 
@@ -361,5 +378,6 @@
         private TextBox tb_tuoi;
         private TextBox tb_name;
         private FlowLayoutPanel flpanel_pictures;
+        private RoundedButton btn_loc;
     }
 }

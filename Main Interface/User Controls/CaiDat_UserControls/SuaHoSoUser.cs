@@ -10,11 +10,17 @@ using System.Windows.Forms;
 
 namespace Main_Interface.User_Controls
 {
-    public partial class SuaHoSoUser : Form
+    public partial class SuaHoSoUser : UserControl
     {
+        private Main MainForm;
         public SuaHoSoUser()
         {
             InitializeComponent();
+        }
+        public SuaHoSoUser(Main m)
+        {
+            InitializeComponent();
+            MainForm = m;
         }
     }
 }

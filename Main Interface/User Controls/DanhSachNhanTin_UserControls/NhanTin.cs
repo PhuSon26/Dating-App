@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Main_Interface.User_Controls
 {
-    public partial class NhanTin : Form
+    public partial class NhanTin : UserControl
     {
         public NhanTin()
         {

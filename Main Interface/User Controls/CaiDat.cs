@@ -8,10 +8,30 @@ namespace Main_Interface.User_Controls
 {
     public partial class CaiDat : UserControl
     {
+        private Main MainForm;
+        private SuaHoSoUser suahoso;
+        private DoiEmailMatKhau dmk;
+        private GioiThieuUngDung gthieu;
+        private DanhSachChan dsc;
         public CaiDat()
         {
             InitializeComponent();
             SetButtonRoundedCorners();
+        }
+        public CaiDat(Main m)
+        {
+            InitializeComponent();
+            MainForm = m;
+            suahoso = new SuaHoSoUser(MainForm);
+            dmk = new DoiEmailMatKhau(MainForm);
+            gthieu = new GioiThieuUngDung(MainForm);
+            dsc = new DanhSachChan(MainForm);
+        }
+        public void LoadUserControl(UserControl uc)
+        {
+            MainForm.panelContent.Controls.Clear();
+            uc.Dock = DockStyle.Fill;
+            MainForm.panelContent.Controls.Add(uc);
         }
 
         private void CaiDat_Load(object sender, EventArgs e)
@@ -21,8 +41,21 @@ namespace Main_Interface.User_Controls
 
         private void btn_csHoSo_Click(object sender, EventArgs e)
         {
-            SuaHoSoUser f = new SuaHoSoUser();
-            f.Show();
+            LoadUserControl(suahoso);
+        }
+        private void btn_doiEmailMk_Click(object sender, EventArgs e)
+        {
+            LoadUserControl(dmk);
+        }
+
+        private void btn_gioithieuUngDung_Click(object sender, EventArgs e)
+        {
+            LoadUserControl(gthieu);
+        }
+
+        private void btn_dsChan_Click(object sender, EventArgs e)
+        {
+            LoadUserControl(dsc);
         }
 
         // Set rounded corners for all buttons
@@ -128,22 +161,9 @@ namespace Main_Interface.User_Controls
             btn.Cursor = Cursors.Default;
         }
 
-        private void btn_doiEmailMk_Click(object sender, EventArgs e)
+        private void cb_tatThongbao_CheckedChanged(object sender, EventArgs e)
         {
-            DoiEmailMatKhau f = new DoiEmailMatKhau();
-            f.Show();
-        }
-
-        private void btn_gioithieuUngDung_Click(object sender, EventArgs e)
-        {
-            GioiThieuUngDung f = new GioiThieuUngDung();
-            f.Show();
-        }
-
-        private void btn_dsChan_Click(object sender, EventArgs e)
-        {
-            DanhSachChan f = new DanhSachChan();
-            f.Show();
+            cb_tatThongbao.Text = cb_tatThongbao.Checked ? "🔕 Tắt Thông Báo" : "🔔 Bật Thông Báo";
         }
     }
 }

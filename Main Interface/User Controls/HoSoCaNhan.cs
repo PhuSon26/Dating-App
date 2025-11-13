@@ -12,11 +12,16 @@ namespace Main_Interface.User_Controls
 {
     public partial class HoSoCaNhan : UserControl
     {
+        private Main MainForm;
         public HoSoCaNhan()
         {
             InitializeComponent();
         }
-
+        public HoSoCaNhan(Main m)
+        {
+            InitializeComponent();
+            MainForm = m;
+        }
         private void HoSoCaNhan_Load(object sender, EventArgs e)
         {
 

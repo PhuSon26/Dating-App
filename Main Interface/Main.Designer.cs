@@ -149,7 +149,7 @@
         private Button btn_dsnt;
         private Button btn_hscn;
         private Button btn_caidat;
-        private Panel panelContent;
+        public Panel panelContent;
     }
 }
 

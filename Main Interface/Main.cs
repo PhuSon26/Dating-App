@@ -4,33 +4,37 @@ namespace Main_Interface
 {
     public partial class Main : Form
     {
+        private NapVIP nv = new NapVIP();
+        private DanhSachNhanTin dsnt = new DanhSachNhanTin();
+        private GhepDoi gd = new GhepDoi();
+        private CaiDat cd = new CaiDat();
+        private HoSoCaNhan hscn = new HoSoCaNhan();
         public Main()
         {
             InitializeComponent();
         }
-
         private void btn_vip_Click(object sender, EventArgs e)
         {
-            LoadContent(new NapVIP());
+            LoadContent(nv);
         }
         private void btn_dsnt_Click(object sender, EventArgs e)
         {
-            LoadContent(new DanhSachNhanTin());
+            LoadContent(dsnt);
         }
 
         private void btn_ghepdoi_Click(object sender, EventArgs e)
         {
-            LoadContent(new GhepDoi());
+            LoadContent(gd);
         }
 
         private void btn_caidat_Click(object sender, EventArgs e)
         {
-            LoadContent(new CaiDat());
+            LoadContent(new CaiDat(this));
         }
 
         private void btn_hscn_Click(object sender, EventArgs e)
         {
-            LoadContent(new HoSoCaNhan());
+            LoadContent(hscn);
         }
         private Button activeButton = null;
 
@@ -73,7 +77,7 @@ namespace Main_Interface
             activeButton = btn;
             activeButton.ForeColor = Color.FromArgb(255, 90, 130); // Hồng đậm hơn
         }
-        private void LoadContent(UserControl uc)
+        public void LoadContent(UserControl uc)
         {
             panelContent.Controls.Clear();
             uc.Dock = DockStyle.Fill;

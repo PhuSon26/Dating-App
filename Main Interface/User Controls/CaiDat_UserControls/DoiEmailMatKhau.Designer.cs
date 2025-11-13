@@ -37,7 +37,7 @@
             label5 = new Label();
             textBox1 = new TextBox();
             btn_xacthuc = new RoundedButton();
-            roundedButton1 = new RoundedButton();
+            btn_back = new RoundedButton();
             SuspendLayout();
             // 
             // label1
@@ -140,27 +140,27 @@
             btn_xacthuc.Text = "Xác thực";
             btn_xacthuc.UseVisualStyleBackColor = false;
             // 
-            // roundedButton1
+            // btn_back
             // 
-            roundedButton1.BackColor = Color.FromArgb(72, 209, 204);
-            roundedButton1.CornerRadius = 30;
-            roundedButton1.FlatStyle = FlatStyle.Flat;
-            roundedButton1.Font = new Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            roundedButton1.ForeColor = Color.White;
-            roundedButton1.Location = new Point(-6, -50);
-            roundedButton1.Name = "roundedButton1";
-            roundedButton1.Size = new Size(148, 125);
-            roundedButton1.TabIndex = 11;
-            roundedButton1.Text = "🠔";
-            roundedButton1.UseVisualStyleBackColor = false;
+            btn_back.BackColor = Color.FromArgb(72, 209, 204);
+            btn_back.CornerRadius = 30;
+            btn_back.FlatStyle = FlatStyle.Flat;
+            btn_back.Font = new Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_back.ForeColor = Color.White;
+            btn_back.Location = new Point(-6, -50);
+            btn_back.Name = "btn_back";
+            btn_back.Size = new Size(148, 125);
+            btn_back.TabIndex = 11;
+            btn_back.Text = "🠔";
+            btn_back.UseVisualStyleBackColor = false;
+            btn_back.Click += btn_back_Click;
             // 
             // DoiEmailMatKhau
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(226, 146, 228);
-            ClientSize = new Size(1175, 595);
-            Controls.Add(roundedButton1);
+            Controls.Add(btn_back);
             Controls.Add(btn_xacthuc);
             Controls.Add(textBox1);
             Controls.Add(label5);
@@ -171,7 +171,7 @@
             Controls.Add(label3);
             Controls.Add(label1);
             Name = "DoiEmailMatKhau";
-            Text = "DoiEmailMatKhau";
+            Size = new Size(1175, 595);
             Load += DoiEmailMatKhau_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -188,6 +188,6 @@
         private Label label5;
         private TextBox textBox1;
         private RoundedButton btn_xacthuc;
-        private RoundedButton roundedButton1;
+        private RoundedButton btn_back;
     }
 }

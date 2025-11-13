@@ -10,11 +10,17 @@ namespace Main_Interface.User_Controls
         private System.Windows.Forms.Timer blinkTimer;
         private GlossyButton hoveredButton;
         private bool isBlinkVisible = true;
-
+        private Main MainForm;
         public NapVIP()
         {
             InitializeComponent();
             SetupBlinkTimer();
+        }
+        public NapVIP(Main m)
+        {
+            InitializeComponent();
+            SetupBlinkTimer();
+            MainForm = m;
         }
 
         private void SetupBlinkTimer()

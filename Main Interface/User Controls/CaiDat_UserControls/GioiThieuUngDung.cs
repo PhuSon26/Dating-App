@@ -11,16 +11,22 @@ using System.Windows.Forms;
 
 namespace Main_Interface.User_Controls
 {
-    public partial class GioiThieuUngDung : Form
+    public partial class GioiThieuUngDung : UserControl
     {
+        private Main MainForm;
         public GioiThieuUngDung()
         {
             InitializeComponent();
         }
+        public GioiThieuUngDung(Main m)
+        {
+            InitializeComponent();
+            MainForm = m;
+        }
 
         public void btn_back_Click(object sender, EventArgs e)
         {
-
+            MainForm.LoadContent(new CaiDat(MainForm));
         }
     }
 }
