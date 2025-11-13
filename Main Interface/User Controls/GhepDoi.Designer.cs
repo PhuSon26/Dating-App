@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             panelPictures = new Panel();
-            listView1 = new ListView();
             panelThongTin = new Panel();
             tb_gioithieu = new TextBox();
             tb_vitri = new TextBox();
@@ -53,6 +52,7 @@
             btn_kothich = new RoundedButton();
             btn_timVIP = new RoundedButton();
             btn_tim = new RoundedButton();
+            flpanel_pictures = new FlowLayoutPanel();
             panelPictures.SuspendLayout();
             panelThongTin.SuspendLayout();
             panelQuet.SuspendLayout();
@@ -60,19 +60,11 @@
             // 
             // panelPictures
             // 
-            panelPictures.Controls.Add(listView1);
+            panelPictures.Controls.Add(flpanel_pictures);
             panelPictures.Location = new Point(0, 0);
             panelPictures.Name = "panelPictures";
             panelPictures.Size = new Size(1201, 376);
             panelPictures.TabIndex = 0;
-            // 
-            // listView1
-            // 
-            listView1.Location = new Point(0, 0);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(1201, 376);
-            listView1.TabIndex = 0;
-            listView1.UseCompatibleStateImageBehavior = false;
             // 
             // panelThongTin
             // 
@@ -98,7 +90,6 @@
             panelThongTin.Name = "panelThongTin";
             panelThongTin.Size = new Size(1201, 220);
             panelThongTin.TabIndex = 1;
-            panelThongTin.Paint += panelThongTin_Paint;
             // 
             // tb_gioithieu
             // 
@@ -194,7 +185,6 @@
             label8.Size = new Size(96, 25);
             label8.TabIndex = 7;
             label8.Text = "Chiều Cao:";
-            label8.Click += label8_Click;
             // 
             // label7
             // 
@@ -255,7 +245,6 @@
             label2.Size = new Size(50, 25);
             label2.TabIndex = 1;
             label2.Text = "Tuổi:";
-            label2.Click += label2_Click;
             // 
             // label1
             // 
@@ -320,6 +309,15 @@
             btn_tim.Text = "❤️";
             btn_tim.UseVisualStyleBackColor = false;
             // 
+            // flpanel_pictures
+            // 
+            flpanel_pictures.AutoScroll = true;
+            flpanel_pictures.Location = new Point(0, 0);
+            flpanel_pictures.Name = "flpanel_pictures";
+            flpanel_pictures.Size = new Size(1201, 376);
+            flpanel_pictures.TabIndex = 0;
+            flpanel_pictures.WrapContents = false;
+            // 
             // GhepDoi
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -341,7 +339,6 @@
         private Panel panelPictures;
         private Panel panelThongTin;
         private Panel panelQuet;
-        private ListView listView1;
         private RoundedButton btn_tim;
         private RoundedButton btn_kothich;
         private RoundedButton btn_timVIP;
@@ -363,5 +360,6 @@
         private TextBox tb_snhat;
         private TextBox tb_tuoi;
         private TextBox tb_name;
+        private FlowLayoutPanel flpanel_pictures;
     }
 }

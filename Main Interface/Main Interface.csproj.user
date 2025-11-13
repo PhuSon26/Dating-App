@@ -7,6 +7,9 @@
     <Compile Update="Main.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="User Controls\CaiDat_UserControls\BlockedUserItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="User Controls\CaiDat_UserControls\DanhSachChan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -16,11 +19,11 @@
     <Compile Update="User Controls\DanhSachNhanTin.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="User Controls\GhepDoi.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="User Controls\CaiDat_UserControls\GioiThieuUngDung.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="User Controls\GhepDoi.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\GhepDoi_UserControls\LocDoiTuong.cs">
       <SubType>Form</SubType>
