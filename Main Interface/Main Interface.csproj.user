@@ -11,16 +11,16 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\CaiDat_UserControls\DanhSachChan.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\CaiDat_UserControls\DoiEmailMatKhau.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\DanhSachNhanTin.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\CaiDat_UserControls\GioiThieuUngDung.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\GhepDoi.cs">
       <SubType>UserControl</SubType>
@@ -41,10 +41,10 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\DanhSachNhanTin_UserControls\NhanTin.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\CaiDat_UserControls\SuaHoSoUser.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="User Controls\NapVIP_UserControls\ThanhToan.cs">
       <SubType>Form</SubType>
