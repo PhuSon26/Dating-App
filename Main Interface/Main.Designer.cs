@@ -4,13 +4,14 @@
     {
         private System.ComponentModel.IContainer components = null;
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null)) components.Dispose();
-            base.Dispose(disposing);
-        }
-
-        #region Windows Form Designer generated code
+        private Panel panelMain;
+        private Label lblLogo;
+        private Panel panelButtons;
+        private Button btn_vip;
+        private Button btn_ghepdoi;
+        private Button btn_dsnt;
+        private Button btn_hscn;
+        private Button btn_caidat;
 
         private void InitializeComponent()
         {
@@ -24,12 +25,10 @@
             btn_hscn = new Button();
             btn_caidat = new Button();
             panelMain.SuspendLayout();
-            panelButtons.SuspendLayout();
             SuspendLayout();
             // 
             // panelMain
             // 
-            panelMain.AutoSize = true;
             panelMain.BackColor = Color.FromArgb(255, 245, 250);
             panelMain.Controls.Add(panelContent);
             panelMain.Controls.Add(lblLogo);
@@ -47,8 +46,9 @@
             panelContent.Location = new Point(0, 101);
             panelContent.Margin = new Padding(20);
             panelContent.Name = "panelContent";
-            panelContent.Size = new Size(1200, 622);
+            panelContent.Size = new Size(1200, 599);
             panelContent.TabIndex = 0;
+            panelContent.Paint += panelContent_Paint_3;
             // 
             // lblLogo
             // 
@@ -67,57 +67,48 @@
             // panelButtons
             // 
             panelButtons.BackColor = Color.White;
-            panelButtons.Controls.Add(btn_vip);
-            panelButtons.Controls.Add(btn_ghepdoi);
-            panelButtons.Controls.Add(btn_dsnt);
-            panelButtons.Controls.Add(btn_hscn);
-            panelButtons.Controls.Add(btn_caidat);
             panelButtons.Dock = DockStyle.Bottom;
-            panelButtons.Location = new Point(0, 723);
+            panelButtons.Location = new Point(0, 700);
             panelButtons.Name = "panelButtons";
             panelButtons.Padding = new Padding(0, 5, 0, 5);
-            panelButtons.Size = new Size(1200, 77);
+            panelButtons.Size = new Size(1200, 100);
             panelButtons.TabIndex = 2;
+            panelButtons.Paint += panelButtons_Paint_1;
             // 
             // btn_vip
             // 
-            btn_vip.Location = new Point(234, 0);
+            btn_vip.Location = new Point(0, 0);
             btn_vip.Name = "btn_vip";
             btn_vip.Size = new Size(75, 23);
             btn_vip.TabIndex = 0;
-            btn_vip.Click += btn_vip_Click;
             // 
             // btn_ghepdoi
             // 
-            btn_ghepdoi.Location = new Point(120, 0);
+            btn_ghepdoi.Location = new Point(0, 0);
             btn_ghepdoi.Name = "btn_ghepdoi";
             btn_ghepdoi.Size = new Size(75, 23);
-            btn_ghepdoi.TabIndex = 1;
-            btn_ghepdoi.Click += btn_ghepdoi_Click;
+            btn_ghepdoi.TabIndex = 0;
             // 
             // btn_dsnt
             // 
-            btn_dsnt.Location = new Point(429, 0);
+            btn_dsnt.Location = new Point(0, 0);
             btn_dsnt.Name = "btn_dsnt";
             btn_dsnt.Size = new Size(75, 23);
-            btn_dsnt.TabIndex = 2;
-            btn_dsnt.Click += btn_dsnt_Click;
+            btn_dsnt.TabIndex = 0;
             // 
             // btn_hscn
             // 
-            btn_hscn.Location = new Point(333, 0);
+            btn_hscn.Location = new Point(0, 0);
             btn_hscn.Name = "btn_hscn";
             btn_hscn.Size = new Size(75, 23);
-            btn_hscn.TabIndex = 3;
-            btn_hscn.Click += btn_hscn_Click;
+            btn_hscn.TabIndex = 0;
             // 
             // btn_caidat
             // 
             btn_caidat.Location = new Point(0, 0);
             btn_caidat.Name = "btn_caidat";
             btn_caidat.Size = new Size(75, 23);
-            btn_caidat.TabIndex = 4;
-            btn_caidat.Click += btn_caidat_Click;
+            btn_caidat.TabIndex = 0;
             // 
             // Main
             // 
@@ -131,25 +122,11 @@
             Name = "Main";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "💖 SynHeart - Hẹn hò cùng cảm xúc";
+            Load += Main_Load;
             panelMain.ResumeLayout(false);
             panelMain.PerformLayout();
-            panelButtons.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
-
-
-        #endregion
-
-        private Panel panelMain;
-        private Label lblLogo;
-        private Panel panelButtons;
-        private Button btn_vip;
-        private Button btn_ghepdoi;
-        private Button btn_dsnt;
-        private Button btn_hscn;
-        private Button btn_caidat;
         public Panel panelContent;
     }
 }
-
