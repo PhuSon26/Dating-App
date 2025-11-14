@@ -16,8 +16,9 @@
         private void InitializeComponent()
         {
             panelMain = new Panel();
-            panelContent = new Panel();
             lblLogo = new Label();
+            btn_thongbao = new RoundedButton();
+            panelContent = new Panel();
             panelButtons = new Panel();
             btn_vip = new Button();
             btn_ghepdoi = new Button();
@@ -31,25 +32,15 @@
             // 
             panelMain.AutoSize = true;
             panelMain.BackColor = Color.FromArgb(255, 245, 250);
-            panelMain.Controls.Add(panelContent);
             panelMain.Controls.Add(lblLogo);
+            panelMain.Controls.Add(btn_thongbao);
+            panelMain.Controls.Add(panelContent);
             panelMain.Controls.Add(panelButtons);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(0, 0);
             panelMain.Name = "panelMain";
             panelMain.Size = new Size(1200, 926);
             panelMain.TabIndex = 0;
-            // 
-            // panelContent
-            // 
-            panelContent.BackColor = Color.FromArgb(255, 250, 253);
-            panelContent.Dock = DockStyle.Fill;
-            panelContent.Location = new Point(0, 101);
-            panelContent.Margin = new Padding(20);
-            panelContent.Name = "panelContent";
-            panelContent.Size = new Size(1200, 733);
-            panelContent.TabIndex = 0;
-            panelContent.Paint += panelContent_Paint_3;
             // 
             // lblLogo
             // 
@@ -64,6 +55,31 @@
             lblLogo.TabIndex = 1;
             lblLogo.Text = "💖 SynHeart 💖";
             lblLogo.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btn_thongbao
+            // 
+            btn_thongbao.BackColor = Color.FromArgb(235, 140, 46);
+            btn_thongbao.CornerRadius = 20;
+            btn_thongbao.FlatStyle = FlatStyle.Flat;
+            btn_thongbao.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_thongbao.ForeColor = Color.Yellow;
+            btn_thongbao.Location = new Point(1037, 0);
+            btn_thongbao.Name = "btn_thongbao";
+            btn_thongbao.Size = new Size(163, 101);
+            btn_thongbao.TabIndex = 3;
+            btn_thongbao.Text = "🔔";
+            btn_thongbao.UseVisualStyleBackColor = false;
+            // 
+            // panelContent
+            // 
+            panelContent.BackColor = Color.FromArgb(255, 250, 253);
+            panelContent.Dock = DockStyle.Fill;
+            panelContent.Location = new Point(0, 0);
+            panelContent.Margin = new Padding(20);
+            panelContent.Name = "panelContent";
+            panelContent.Size = new Size(1200, 834);
+            panelContent.TabIndex = 0;
+            panelContent.Paint += panelContent_Paint_3;
             // 
             // panelButtons
             // 
@@ -130,5 +146,6 @@
             PerformLayout();
         }
         public Panel panelContent;
+        private RoundedButton btn_thongbao;
     }
 }

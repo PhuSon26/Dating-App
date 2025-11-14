@@ -1,6 +1,4 @@
-﻿using Main_Interface.Properties;
-
-namespace Main_Interface.User_Controls
+﻿namespace Main_Interface.User_Controls
 {
     partial class Match
     {

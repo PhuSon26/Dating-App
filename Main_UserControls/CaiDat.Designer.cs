@@ -36,17 +36,18 @@
             btn_gioithieuUngDung = new Button();
             cb_tatThongbao = new CheckBox();
             panel = new Panel();
+            btn_dangxuat = new Button();
             panel.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(60, 60, 60);
-            label1.Location = new Point(507, 0);
+            label1.Location = new Point(472, 0);
             label1.Name = "label1";
-            label1.Size = new Size(174, 60);
+            label1.Size = new Size(237, 81);
             label1.TabIndex = 0;
             label1.Text = "Cài Đặt";
             // 
@@ -75,7 +76,7 @@
             btn_doiEmailMk.FlatStyle = FlatStyle.Flat;
             btn_doiEmailMk.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_doiEmailMk.ForeColor = Color.White;
-            btn_doiEmailMk.Location = new Point(207, 192);
+            btn_doiEmailMk.Location = new Point(207, 194);
             btn_doiEmailMk.Name = "btn_doiEmailMk";
             btn_doiEmailMk.Size = new Size(748, 60);
             btn_doiEmailMk.TabIndex = 2;
@@ -162,6 +163,7 @@
             // 
             // panel
             // 
+            panel.Controls.Add(btn_dangxuat);
             panel.Controls.Add(label1);
             panel.Controls.Add(btn_csHoSo);
             panel.Controls.Add(btn_doiEmailMk);
@@ -170,10 +172,24 @@
             panel.Controls.Add(cb_tatThongbao);
             panel.Controls.Add(btn_gioithieuUngDung);
             panel.Cursor = Cursors.No;
-            panel.Location = new Point(0, 44);
+            panel.Location = new Point(0, 0);
             panel.Name = "panel";
-            panel.Size = new Size(1193, 642);
+            panel.Size = new Size(1193, 724);
             panel.TabIndex = 10;
+            // 
+            // btn_dangxuat
+            // 
+            btn_dangxuat.BackColor = Color.FromArgb(220, 53, 69);
+            btn_dangxuat.FlatAppearance.BorderSize = 0;
+            btn_dangxuat.FlatStyle = FlatStyle.Flat;
+            btn_dangxuat.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_dangxuat.ForeColor = Color.White;
+            btn_dangxuat.Location = new Point(207, 623);
+            btn_dangxuat.Name = "btn_dangxuat";
+            btn_dangxuat.Size = new Size(748, 60);
+            btn_dangxuat.TabIndex = 10;
+            btn_dangxuat.Text = "🚪Đăng Xuất";
+            btn_dangxuat.UseVisualStyleBackColor = false;
             // 
             // CaiDat
             // 
@@ -200,5 +216,7 @@
         private Button btn_tatthongbao;
         private CheckBox cb_tatThongbao;
         private Panel panel;
+        private Button button1;
+        private Button btn_dangxuat;
     }
 }
