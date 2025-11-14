@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace LOGIN
 {
-    partial class quenmatkhau : Form
+    partial class FormQuenMatKhau : Form
     {
         private Label labelEmail;
         private TextBox tb_email;
@@ -54,7 +54,7 @@ namespace LOGIN
             btn_xacnhan.TabIndex = 3;
             btn_xacnhan.Text = "Xác Nhận";
             btn_xacnhan.UseVisualStyleBackColor = false;
-          //  btn_xacnhan.Click += btn_xacnhan_Click;
+            btn_xacnhan.Click += btn_xacnhan_Click;
             // 
             // ll_back
             // 
@@ -66,16 +66,16 @@ namespace LOGIN
             ll_back.TabIndex = 4;
             ll_back.TabStop = true;
             ll_back.Text = "← Quay lại đăng nhập";
-          //  ll_back.LinkClicked += ll_back_LinkClicked;
+            ll_back.LinkClicked += ll_back_LinkClicked;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 163);
             label1.ForeColor = Color.FromArgb(255, 80, 100);
-            label1.Location = new Point(263, 9);
+            label1.Location = new Point(0, 9);
             label1.Name = "label1";
-            label1.Size = new Size(306, 50);
+            label1.Size = new Size(168, 28);
             label1.TabIndex = 5;
             label1.Text = "💖 SynHeart 💖";
             // 
@@ -107,7 +107,7 @@ namespace LOGIN
             btn_nhanma.TabIndex = 8;
             btn_nhanma.Text = "Nhận Mã Xác Nhận";
             btn_nhanma.UseVisualStyleBackColor = false;
-          //  btn_nhanma.Click += btn_nhanma_Click;
+            btn_nhanma.Click += btn_nhanma_Click;
             // 
             // lblTitle
             // 
@@ -140,7 +140,7 @@ namespace LOGIN
             Name = "FormQuenMatKhau";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quên mật khẩu - SynHeart";
-           // Load += quenmatkhau_Load_1;
+            Load += FormQuenMatKhau_Load;
             ResumeLayout(false);
             PerformLayout();
         }

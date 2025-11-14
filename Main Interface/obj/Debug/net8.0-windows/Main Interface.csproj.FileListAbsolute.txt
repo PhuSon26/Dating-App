@@ -1,0 +1,26 @@
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\bin\Debug\net8.0-windows\Main Interface.exe
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\bin\Debug\net8.0-windows\Main Interface.deps.json
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\bin\Debug\net8.0-windows\Main Interface.runtimeconfig.json
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\bin\Debug\net8.0-windows\Main Interface.dll
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\bin\Debug\net8.0-windows\Main Interface.pdb
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.Main.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.Properties.Resources.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.DanhSachNhanTin.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.GhepDoi.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.HoSoCaNhan.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.NapVIP.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main Interface.csproj.GenerateResource.cache
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main Interface.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main Interface.AssemblyInfoInputs.cache
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main Interface.AssemblyInfo.cs
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main Interface.csproj.CoreCompileInputs.cache
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main Interface.dll
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\refint\Main Interface.dll
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main Interface.pdb
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main Interface.genruntimeconfig.cache
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\ref\Main Interface.dll
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.CaiDat.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.NhanTin.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.ThanhToan.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.Match.resources
+C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.SuaHoSoUser.resources
