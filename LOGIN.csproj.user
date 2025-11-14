@@ -1,10 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
   <ItemGroup>
+    <Compile Update="DangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Dating_app_nhom3\Capnhatmatkhau.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Dating_app_nhom3\FormDanhSachTinNhan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dating_app_nhom3\locdoituong.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Dating_app_nhom3\quenmatkhau.cs">
@@ -19,16 +26,55 @@
     <Compile Update="Dating_app_nhom3\Uservip.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UserControls\CapNhatMatKhau.cs">
+    <Compile Update="Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UserControls\DangKy.cs">
+    <Compile Update="Main_UserControls\CaiDat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\CaiDat_UserControls\DanhSachChan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\CaiDat_UserControls\DoiEmailMatKhau.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\CaiDat_UserControls\GioiThieuUngDung.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\CaiDat_UserControls\SuaHoSoUser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\DanhSachNhanTin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\NhanTin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\GhepDoi.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\GhepDoi_UserControls\LocDoiTuong.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\GhepDoi_UserControls\Match.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="DangNhap.cs">
+    <Compile Update="Main_UserControls\HoSoCaNhan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\NapVIP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="RoundedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="DangKy, QuenMatKhau, CapNhatMatKhau\CapNhatMatKhau.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UserControls\QuenMatKhau.cs">
+    <Compile Update="DangKy, QuenMatKhau, CapNhatMatKhau\DangKy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="DangKy, QuenMatKhau, CapNhatMatKhau\QuenMatKhau.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

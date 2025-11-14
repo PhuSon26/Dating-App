@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Firebase.Auth;
 using System.Text.Json;
+using Main_Interface;
 
 namespace LOGIN
 {
@@ -75,7 +76,9 @@ namespace LOGIN
                 Session.LocalId = json.RootElement.GetProperty("localId").ToString();
 
                 MessageBox.Show("Đăng nhập thành công");
+                Main m = new Main();
                 this.Hide();
+                m.Show();
             }
             catch (Exception ex)
             {

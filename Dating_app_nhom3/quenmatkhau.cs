@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Dating_app_nhom3
+namespace LOGIN
 {
     public partial class quenmatkhau : Form
     {
