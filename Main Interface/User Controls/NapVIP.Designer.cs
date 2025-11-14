@@ -84,10 +84,10 @@
             contentPanel.Controls.Add(btnVIP3Months);
             contentPanel.Controls.Add(btnVIP6Months);
             contentPanel.Controls.Add(btnVIP1Year);
-            contentPanel.Location = new Point(191, 108);
+            contentPanel.Location = new Point(52, 189);
             contentPanel.Margin = new Padding(3, 4, 3, 4);
             contentPanel.Name = "contentPanel";
-            contentPanel.Size = new Size(800, 525);
+            contentPanel.Size = new Size(1086, 525);
             contentPanel.TabIndex = 1;
             // 
             // featuresTitle
@@ -198,7 +198,7 @@
             packageTitle.AutoSize = true;
             packageTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             packageTitle.ForeColor = Color.FromArgb(139, 69, 19);
-            packageTitle.Location = new Point(420, 12);
+            packageTitle.Location = new Point(595, 12);
             packageTitle.Name = "packageTitle";
             packageTitle.Size = new Size(245, 37);
             packageTitle.TabIndex = 5;
@@ -208,7 +208,7 @@
             // 
             btnVIP1Month.Cursor = Cursors.Hand;
             btnVIP1Month.IsBlinking = false;
-            btnVIP1Month.Location = new Point(420, 64);
+            btnVIP1Month.Location = new Point(411, 91);
             btnVIP1Month.Margin = new Padding(3, 4, 3, 4);
             btnVIP1Month.Name = "btnVIP1Month";
             btnVIP1Month.Price = "50k";
@@ -223,7 +223,7 @@
             // 
             btnVIP3Months.Cursor = Cursors.Hand;
             btnVIP3Months.IsBlinking = false;
-            btnVIP3Months.Location = new Point(420, 178);
+            btnVIP3Months.Location = new Point(742, 91);
             btnVIP3Months.Margin = new Padding(3, 4, 3, 4);
             btnVIP3Months.Name = "btnVIP3Months";
             btnVIP3Months.Price = "125k";
@@ -238,7 +238,7 @@
             // 
             btnVIP6Months.Cursor = Cursors.Hand;
             btnVIP6Months.IsBlinking = false;
-            btnVIP6Months.Location = new Point(420, 300);
+            btnVIP6Months.Location = new Point(411, 266);
             btnVIP6Months.Margin = new Padding(3, 4, 3, 4);
             btnVIP6Months.Name = "btnVIP6Months";
             btnVIP6Months.Price = "225k";
@@ -253,7 +253,7 @@
             // 
             btnVIP1Year.Cursor = Cursors.Hand;
             btnVIP1Year.IsBlinking = false;
-            btnVIP1Year.Location = new Point(420, 419);
+            btnVIP1Year.Location = new Point(742, 266);
             btnVIP1Year.Margin = new Padding(3, 4, 3, 4);
             btnVIP1Year.Name = "btnVIP1Year";
             btnVIP1Year.Price = "450k";
@@ -273,7 +273,7 @@
             Controls.Add(contentPanel);
             Margin = new Padding(3, 4, 3, 4);
             Name = "NapVIP";
-            Size = new Size(1193, 641);
+            Size = new Size(1193, 735);
             headerPanel.ResumeLayout(false);
             headerPanel.PerformLayout();
             contentPanel.ResumeLayout(false);

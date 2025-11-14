@@ -43,10 +43,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(425, 46);
+            label1.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(417, 69);
             label1.Name = "label1";
-            label1.Size = new Size(296, 46);
+            label1.Size = new Size(349, 54);
             label1.TabIndex = 0;
             label1.Text = "Đổi Mật Khẩu 🔒";
             // 
@@ -54,7 +54,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(216, 254);
+            label3.Location = new Point(216, 295);
             label3.Name = "label3";
             label3.Size = new Size(250, 38);
             label3.TabIndex = 2;
@@ -64,7 +64,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(216, 343);
+            label4.Location = new Point(216, 388);
             label4.Name = "label4";
             label4.Size = new Size(377, 38);
             label4.TabIndex = 3;
@@ -74,7 +74,7 @@
             // 
             tb_mk.Enabled = false;
             tb_mk.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tb_mk.Location = new Point(599, 249);
+            tb_mk.Location = new Point(599, 290);
             tb_mk.Multiline = true;
             tb_mk.Name = "tb_mk";
             tb_mk.Size = new Size(280, 43);
@@ -85,7 +85,7 @@
             // 
             tb_remk.Enabled = false;
             tb_remk.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tb_remk.Location = new Point(599, 338);
+            tb_remk.Location = new Point(599, 383);
             tb_remk.Multiline = true;
             tb_remk.Name = "tb_remk";
             tb_remk.Size = new Size(280, 43);
@@ -99,7 +99,7 @@
             btn_xacnhan.FlatStyle = FlatStyle.Flat;
             btn_xacnhan.Font = new Font("Segoe UI", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_xacnhan.ForeColor = Color.White;
-            btn_xacnhan.Location = new Point(231, 420);
+            btn_xacnhan.Location = new Point(231, 465);
             btn_xacnhan.Name = "btn_xacnhan";
             btn_xacnhan.Size = new Size(648, 59);
             btn_xacnhan.TabIndex = 7;
@@ -110,7 +110,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(216, 162);
+            label5.Location = new Point(216, 201);
             label5.Name = "label5";
             label5.Size = new Size(297, 38);
             label5.TabIndex = 8;
@@ -119,7 +119,7 @@
             // textBox1
             // 
             textBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(599, 157);
+            textBox1.Location = new Point(599, 196);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(280, 43);
@@ -133,7 +133,7 @@
             btn_xacthuc.FlatStyle = FlatStyle.Flat;
             btn_xacthuc.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_xacthuc.ForeColor = Color.White;
-            btn_xacthuc.Location = new Point(907, 157);
+            btn_xacthuc.Location = new Point(914, 193);
             btn_xacthuc.Name = "btn_xacthuc";
             btn_xacthuc.Size = new Size(146, 43);
             btn_xacthuc.TabIndex = 10;

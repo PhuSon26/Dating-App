@@ -29,6 +29,7 @@
             // 
             // panelMain
             // 
+            panelMain.AutoSize = true;
             panelMain.BackColor = Color.FromArgb(255, 245, 250);
             panelMain.Controls.Add(panelContent);
             panelMain.Controls.Add(lblLogo);
@@ -36,7 +37,7 @@
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(0, 0);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(1200, 800);
+            panelMain.Size = new Size(1200, 926);
             panelMain.TabIndex = 0;
             // 
             // panelContent
@@ -46,7 +47,7 @@
             panelContent.Location = new Point(0, 101);
             panelContent.Margin = new Padding(20);
             panelContent.Name = "panelContent";
-            panelContent.Size = new Size(1200, 599);
+            panelContent.Size = new Size(1200, 733);
             panelContent.TabIndex = 0;
             panelContent.Paint += panelContent_Paint_3;
             // 
@@ -68,10 +69,10 @@
             // 
             panelButtons.BackColor = Color.White;
             panelButtons.Dock = DockStyle.Bottom;
-            panelButtons.Location = new Point(0, 700);
+            panelButtons.Location = new Point(0, 834);
             panelButtons.Name = "panelButtons";
             panelButtons.Padding = new Padding(0, 5, 0, 5);
-            panelButtons.Size = new Size(1200, 100);
+            panelButtons.Size = new Size(1200, 92);
             panelButtons.TabIndex = 2;
             panelButtons.Paint += panelButtons_Paint_1;
             // 
@@ -115,7 +116,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1200, 800);
+            ClientSize = new Size(1200, 926);
             Controls.Add(panelMain);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -126,6 +127,7 @@
             panelMain.ResumeLayout(false);
             panelMain.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
         public Panel panelContent;
     }

@@ -36,6 +36,7 @@
             btn_gioithieuUngDung = new Button();
             cb_tatThongbao = new CheckBox();
             panel = new Panel();
+            panel.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -43,7 +44,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(60, 60, 60);
-            label1.Location = new Point(507, 10);
+            label1.Location = new Point(507, 0);
             label1.Name = "label1";
             label1.Size = new Size(174, 60);
             label1.TabIndex = 0;
@@ -56,7 +57,7 @@
             btn_csHoSo.FlatStyle = FlatStyle.Flat;
             btn_csHoSo.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_csHoSo.ForeColor = Color.White;
-            btn_csHoSo.Location = new Point(207, 100);
+            btn_csHoSo.Location = new Point(207, 107);
             btn_csHoSo.Name = "btn_csHoSo";
             btn_csHoSo.Size = new Size(748, 60);
             btn_csHoSo.TabIndex = 1;
@@ -74,7 +75,7 @@
             btn_doiEmailMk.FlatStyle = FlatStyle.Flat;
             btn_doiEmailMk.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_doiEmailMk.ForeColor = Color.White;
-            btn_doiEmailMk.Location = new Point(207, 180);
+            btn_doiEmailMk.Location = new Point(207, 192);
             btn_doiEmailMk.Name = "btn_doiEmailMk";
             btn_doiEmailMk.Size = new Size(748, 60);
             btn_doiEmailMk.TabIndex = 2;
@@ -92,7 +93,7 @@
             btn_xoaTk.FlatStyle = FlatStyle.Flat;
             btn_xoaTk.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_xoaTk.ForeColor = Color.White;
-            btn_xoaTk.Location = new Point(207, 260);
+            btn_xoaTk.Location = new Point(207, 283);
             btn_xoaTk.Name = "btn_xoaTk";
             btn_xoaTk.Size = new Size(748, 60);
             btn_xoaTk.TabIndex = 3;
@@ -109,7 +110,7 @@
             btn_dsChan.FlatStyle = FlatStyle.Flat;
             btn_dsChan.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_dsChan.ForeColor = Color.White;
-            btn_dsChan.Location = new Point(207, 340);
+            btn_dsChan.Location = new Point(207, 368);
             btn_dsChan.Name = "btn_dsChan";
             btn_dsChan.Size = new Size(748, 60);
             btn_dsChan.TabIndex = 4;
@@ -127,7 +128,7 @@
             btn_gioithieuUngDung.FlatStyle = FlatStyle.Flat;
             btn_gioithieuUngDung.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_gioithieuUngDung.ForeColor = Color.White;
-            btn_gioithieuUngDung.Location = new Point(207, 500);
+            btn_gioithieuUngDung.Location = new Point(207, 539);
             btn_gioithieuUngDung.Name = "btn_gioithieuUngDung";
             btn_gioithieuUngDung.Size = new Size(748, 60);
             btn_gioithieuUngDung.TabIndex = 5;
@@ -147,7 +148,7 @@
             cb_tatThongbao.FlatStyle = FlatStyle.Flat;
             cb_tatThongbao.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cb_tatThongbao.ForeColor = Color.White;
-            cb_tatThongbao.Location = new Point(207, 420);
+            cb_tatThongbao.Location = new Point(207, 454);
             cb_tatThongbao.Name = "cb_tatThongbao";
             cb_tatThongbao.Size = new Size(748, 60);
             cb_tatThongbao.TabIndex = 9;
@@ -161,9 +162,15 @@
             // 
             // panel
             // 
+            panel.Controls.Add(label1);
+            panel.Controls.Add(btn_csHoSo);
+            panel.Controls.Add(btn_doiEmailMk);
+            panel.Controls.Add(btn_xoaTk);
+            panel.Controls.Add(btn_dsChan);
+            panel.Controls.Add(cb_tatThongbao);
+            panel.Controls.Add(btn_gioithieuUngDung);
             panel.Cursor = Cursors.No;
-            panel.Dock = DockStyle.Fill;
-            panel.Location = new Point(0, 0);
+            panel.Location = new Point(0, 44);
             panel.Name = "panel";
             panel.Size = new Size(1193, 642);
             panel.TabIndex = 10;
@@ -173,19 +180,13 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(240, 248, 255);
-            Controls.Add(cb_tatThongbao);
-            Controls.Add(btn_gioithieuUngDung);
-            Controls.Add(btn_dsChan);
-            Controls.Add(btn_xoaTk);
-            Controls.Add(btn_doiEmailMk);
-            Controls.Add(btn_csHoSo);
-            Controls.Add(label1);
             Controls.Add(panel);
             Name = "CaiDat";
-            Size = new Size(1193, 642);
+            Size = new Size(1193, 727);
             Load += CaiDat_Load;
+            panel.ResumeLayout(false);
+            panel.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

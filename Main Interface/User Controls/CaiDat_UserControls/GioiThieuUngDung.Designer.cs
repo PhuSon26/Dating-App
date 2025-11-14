@@ -10,8 +10,6 @@
         #region Windows Form Designer generated code
 
         private Label label1;
-        private Panel panel1;
-        private Label lblGioiThieu;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -33,9 +31,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GioiThieuUngDung));
             label1 = new Label();
+            btn_back = new RoundedButton();
             panel1 = new Panel();
             lblGioiThieu = new Label();
-            btn_back = new RoundedButton();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -48,24 +46,6 @@
             label1.Size = new Size(418, 54);
             label1.TabIndex = 0;
             label1.Text = "Giới Thiệu Ứng Dụng";
-            // 
-            // panel1
-            // 
-            panel1.AutoScroll = true;
-            panel1.Controls.Add(lblGioiThieu);
-            panel1.Location = new Point(50, 77);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1129, 450);
-            panel1.TabIndex = 1;
-            // 
-            // lblGioiThieu
-            // 
-            lblGioiThieu.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblGioiThieu.Location = new Point(3, 0);
-            lblGioiThieu.Name = "lblGioiThieu";
-            lblGioiThieu.Size = new Size(1097, 695);
-            lblGioiThieu.TabIndex = 0;
-            lblGioiThieu.Text = resources.GetString("lblGioiThieu.Text");
             // 
             // btn_back
             // 
@@ -82,17 +62,34 @@
             btn_back.UseVisualStyleBackColor = false;
             btn_back.Click += btn_back_Click;
             // 
+            // panel1
+            // 
+            panel1.AutoScroll = true;
+            panel1.Controls.Add(lblGioiThieu);
+            panel1.Location = new Point(22, 107);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1129, 708);
+            panel1.TabIndex = 1;
+            // 
+            // lblGioiThieu
+            // 
+            lblGioiThieu.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblGioiThieu.Location = new Point(3, 0);
+            lblGioiThieu.Name = "lblGioiThieu";
+            lblGioiThieu.Size = new Size(1126, 695);
+            lblGioiThieu.TabIndex = 0;
+            lblGioiThieu.Text = resources.GetString("lblGioiThieu.Text");
+            // 
             // GioiThieuUngDung
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(226, 146, 228);
-            ClientSize = new Size(1175, 595);
             Controls.Add(btn_back);
             Controls.Add(label1);
             Controls.Add(panel1);
             Name = "GioiThieuUngDung";
-            Text = "Giới Thiệu Ứng Dụng";
+            Size = new Size(1175, 595);
             panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -101,5 +98,7 @@
         #endregion
 
         private RoundedButton btn_back;
+        private Panel panel1;
+        private Label lblGioiThieu;
     }
 }
