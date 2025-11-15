@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LOGIN.Dating_app_nhom3;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,7 @@ namespace Main_Interface.User_Controls
         // Chỉ định rõ System.Drawing.Image
         private List<System.Drawing.Image> images = new List<System.Drawing.Image>();
         private Main MainForm;
+        private LocUser loc;
         public GhepDoi()
         {
             InitializeComponent();
@@ -25,6 +27,7 @@ namespace Main_Interface.User_Controls
             InitializeComponent();
             this.Load += GhepDoi_Load;
             MainForm = m;
+            loc = new LocUser(MainForm);
         }
 
         private void GhepDoi_Load(object sender, EventArgs e)
@@ -51,6 +54,17 @@ namespace Main_Interface.User_Controls
                 pb.Margin = new Padding(10);
                 flpanel_pictures.Controls.Add(pb);
             }
+        }
+        public void LoadUserControl(UserControl uc)
+        {
+            MainForm.panelContent.Controls.Clear();
+            uc.Dock = DockStyle.Fill;
+            MainForm.panelContent.Controls.Add(uc);
+        }
+
+        private void btn_loc_Click(object sender, EventArgs e)
+        {
+            LoadUserControl(loc);
         }
     }
 }

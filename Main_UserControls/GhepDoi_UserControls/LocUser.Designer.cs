@@ -1,6 +1,6 @@
-﻿namespace LOGIN.Dating_app_nhom3
+﻿namespace Main_Interface.User_Controls
 {
-    partial class locdoituong : Form 
+    partial class LocUser : UserControl
     {
         private System.ComponentModel.IContainer components = null;
 
@@ -180,7 +180,6 @@
             // locdoituong
             // 
             BackColor = Color.MistyRose;
-            ClientSize = new Size(709, 400);
             Controls.Add(comboBox1);
             Controls.Add(label2);
             Controls.Add(labelTitle);
@@ -196,10 +195,8 @@
             Controls.Add(labelCongViec);
             Controls.Add(textCongViec);
             Controls.Add(btnTimKiem);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Name = "locdoituong";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Lọc Đối Tượng Phù Hợp";
+            Size = new Size(709, 400);
             ResumeLayout(false);
             PerformLayout();
         }

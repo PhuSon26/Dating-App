@@ -1,3 +1,5 @@
+using Main_Interface;
+
 namespace LOGIN
 {
     internal static class Program
@@ -12,7 +14,7 @@ namespace LOGIN
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             var authHelper = new FirebaseAuthHelper("AIzaSyDg9nNBc3h74QjNl2obv6pH1Y29RQQ8TjU");
-            Application.Run(new FormDangNhap(authHelper));
+            Application.Run(new Main());
         }
     }
 }

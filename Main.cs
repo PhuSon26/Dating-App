@@ -7,8 +7,6 @@ namespace Main_Interface
     {
         private NapVIP nv = new NapVIP();
         private FormDanhSachTinNhan dstn = new FormDanhSachTinNhan();
-        private GhepDoi gd = new GhepDoi();
-        private CaiDat cd = new CaiDat();
         private Thongtinuser ttuser = new Thongtinuser();
         public Main()
         {
@@ -25,7 +23,7 @@ namespace Main_Interface
 
         private void btn_ghepdoi_Click(object sender, EventArgs e)
         {
-            LoadContent(gd);
+            LoadContent(new GhepDoi(this));
         }
 
         private void btn_caidat_Click(object sender, EventArgs e)

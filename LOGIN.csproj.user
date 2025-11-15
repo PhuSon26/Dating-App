@@ -11,8 +11,8 @@
     <Compile Update="Main_UserControls\FormDanhSachTinNhan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Main_UserControls\GhepDoi_UserControls\locdoituong.cs">
-      <SubType>Form</SubType>
+    <Compile Update="Main_UserControls\GhepDoi_UserControls\LocUser.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Main_UserControls\Thongtinuser.cs">
       <SubType>UserControl</SubType>
@@ -38,7 +38,7 @@
     <Compile Update="Main_UserControls\CaiDat_UserControls\GioiThieuUngDung.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Main_UserControls\CaiDat_UserControls\SuaHoSoUser.cs">
+    <Compile Update="Main_UserControls\Thongtinuser_UserControls\SuaHoSoUser.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Main_UserControls\DanhSachNhanTin.cs">

@@ -50,10 +50,10 @@
             label2 = new Label();
             label1 = new Label();
             panelQuet = new Panel();
+            btn_loc = new RoundedButton();
             btn_kothich = new RoundedButton();
             btn_timVIP = new RoundedButton();
             btn_tim = new RoundedButton();
-            btn_loc = new RoundedButton();
             panelPictures.SuspendLayout();
             panelThongTin.SuspendLayout();
             panelQuet.SuspendLayout();
@@ -279,6 +279,21 @@
             panelQuet.Size = new Size(1201, 155);
             panelQuet.TabIndex = 2;
             // 
+            // btn_loc
+            // 
+            btn_loc.BackColor = Color.Transparent;
+            btn_loc.CornerRadius = 20;
+            btn_loc.FlatStyle = FlatStyle.Flat;
+            btn_loc.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_loc.ForeColor = Color.Gray;
+            btn_loc.Location = new Point(123, -4);
+            btn_loc.Name = "btn_loc";
+            btn_loc.Size = new Size(127, 131);
+            btn_loc.TabIndex = 3;
+            btn_loc.Text = "🔍";
+            btn_loc.UseVisualStyleBackColor = false;
+            btn_loc.Click += btn_loc_Click;
+            // 
             // btn_kothich
             // 
             btn_kothich.BackColor = Color.Transparent;
@@ -320,20 +335,6 @@
             btn_tim.TabIndex = 0;
             btn_tim.Text = "❤️";
             btn_tim.UseVisualStyleBackColor = false;
-            // 
-            // btn_loc
-            // 
-            btn_loc.BackColor = Color.Transparent;
-            btn_loc.CornerRadius = 20;
-            btn_loc.FlatStyle = FlatStyle.Flat;
-            btn_loc.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_loc.ForeColor = Color.Gray;
-            btn_loc.Location = new Point(123, -4);
-            btn_loc.Name = "btn_loc";
-            btn_loc.Size = new Size(127, 131);
-            btn_loc.TabIndex = 3;
-            btn_loc.Text = "🔍";
-            btn_loc.UseVisualStyleBackColor = false;
             // 
             // GhepDoi
             // 

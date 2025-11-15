@@ -26,6 +26,8 @@ namespace LOGIN
 
         [FirestoreProperty]
         public string AvatarUrl { get; set; }
+        [FirestoreProperty]
+        public bool isVip { get; set; }
 
     }
 }
