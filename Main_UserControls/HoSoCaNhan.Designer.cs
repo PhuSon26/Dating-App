@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            pb_avatar = new PictureBox();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -38,8 +37,10 @@
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
+            pb_avatar = new PictureBox();
             tb_name = new TextBox();
             tb_gioitinh = new TextBox();
+            tb_tuoi = new TextBox();
             tb_snhat = new TextBox();
             tb_hocvan = new TextBox();
             tb_nghe = new TextBox();
@@ -50,7 +51,6 @@
             lv_pictures = new ListView();
             label10 = new Label();
             label11 = new Label();
-            tb_tuoi = new TextBox();
             label12 = new Label();
             ((System.ComponentModel.ISupportInitialize)pb_avatar).BeginInit();
             SuspendLayout();

@@ -102,7 +102,7 @@
             // 
             button1.BackColor = SystemColors.Info;
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.Image = Properties.Resources.icons8_match_482;
+            //button1.Image = Properties.Resources.icons8_match_482;
             button1.Location = new Point(317, 420);
             button1.Name = "button1";
             button1.Size = new Size(119, 51);
@@ -113,7 +113,7 @@
             // btnBack
             // 
             btnBack.BackColor = Color.Transparent;
-            btnBack.Image = Properties.Resources.icons8_back_64;
+            //btnBack.Image = Properties.Resources.icons8_back_64;
             btnBack.Location = new Point(1093, 293);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(86, 71);
@@ -136,7 +136,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.a_red_heart_on_the_wooden_with_pink_background_love_concept_ai_generative_photo;
+            //BackgroundImage = Properties.Resources.a_red_heart_on_the_wooden_with_pink_background_love_concept_ai_generative_photo;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1181, 612);
             Controls.Add(label2);

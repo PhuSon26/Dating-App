@@ -1,6 +1,6 @@
 ﻿namespace LOGIN.Dating_app_nhom3
 {
-    partial class LocDoiTuong : UserControl
+    partial class locdoituong : Form 
     {
         private System.ComponentModel.IContainer components = null;
 

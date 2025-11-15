@@ -1,6 +1,6 @@
 ﻿namespace Dating_app_nhom3
 {
-    partial class Uservip : Form 
+    partial class Uservip : UserControl
     {
         /// <summary>
         /// Required designer variable.

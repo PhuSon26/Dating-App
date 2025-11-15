@@ -8,26 +8,20 @@
     <Compile Update="DangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Dating_app_nhom3\Capnhatmatkhau.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Dating_app_nhom3\FormDanhSachTinNhan.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Dating_app_nhom3\locdoituong.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Dating_app_nhom3\quenmatkhau.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Dating_app_nhom3\Thongtinuser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Dating_app_nhom3\User.cs">
+    <Compile Update="Main_UserControls\FormDanhSachTinNhan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Dating_app_nhom3\Uservip.cs">
+    <Compile Update="Main_UserControls\GhepDoi_UserControls\locdoituong.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\Thongtinuser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\User.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\Uservip.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Main.cs">
       <SubType>Form</SubType>
@@ -54,9 +48,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Main_UserControls\GhepDoi.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Main_UserControls\GhepDoi_UserControls\LocDoiTuong.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Main_UserControls\GhepDoi_UserControls\Match.cs">

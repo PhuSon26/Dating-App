@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Dating_app_nhom3
 {
-    public partial class FormDanhSachTinNhan : Form
+    public partial class FormDanhSachTinNhan : UserControl
     {
         private UserChat_item myControl;
         public FormDanhSachTinNhan()

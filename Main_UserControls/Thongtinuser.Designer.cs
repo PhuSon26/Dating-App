@@ -1,6 +1,6 @@
 ﻿namespace Dating_app_nhom3
 {
-    partial class Thongtinuser : Form 
+    partial class Thongtinuser : UserControl
     {
         private System.ComponentModel.IContainer components = null;
         protected override void Dispose(bool disposing)
@@ -50,14 +50,12 @@
             // 
             ptb_avt.BorderStyle = BorderStyle.FixedSingle;
             ptb_avt.Cursor = Cursors.Hand;
-           // ptb_avt.Image = Properties.Resources.user_png;
             ptb_avt.Location = new Point(50, 80);
             ptb_avt.Name = "ptb_avt";
             ptb_avt.Size = new Size(170, 170);
             ptb_avt.SizeMode = PictureBoxSizeMode.Zoom;
             ptb_avt.TabIndex = 1;
             ptb_avt.TabStop = false;
-           // ptb_avt.Click += ptb_avt_Click;
             // 
             // tb_tennguoidung
             // 
@@ -229,12 +227,11 @@
             label3.TabIndex = 20;
             label3.Text = "Thông Tin Người Dùng";
             // 
-            // Form1
+            // Thongtinuser
             // 
             AutoScaleDimensions = new SizeF(9F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 230, 230);
-            ClientSize = new Size(800, 600);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(ptb_avt);
@@ -258,9 +255,9 @@
             Controls.Add(label1);
             Font = new Font("Segoe UI", 10.2F);
             ForeColor = Color.Black;
-            Name = "Form1";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "Hồ sơ ";
+            Name = "Thongtinuser";
+            Size = new Size(1198, 620);
+            Load += Thongtinuser_Load;
             ((System.ComponentModel.ISupportInitialize)ptb_avt).EndInit();
             ResumeLayout(false);
             PerformLayout();

@@ -1,6 +1,6 @@
 namespace Dating_app_nhom3
 {
-    public partial class Thongtinuser : Form
+    public partial class Thongtinuser : UserControl
     {
         public Thongtinuser()
         {
@@ -22,9 +22,14 @@ namespace Dating_app_nhom3
 
         }
 
-        
+
 
         private void giaodiennguoidung_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Thongtinuser_Load(object sender, EventArgs e)
         {
 
         }

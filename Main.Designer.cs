@@ -73,11 +73,10 @@
             // panelContent
             // 
             panelContent.BackColor = Color.FromArgb(255, 250, 253);
-            panelContent.Dock = DockStyle.Fill;
-            panelContent.Location = new Point(0, 0);
+            panelContent.Location = new Point(0, 103);
             panelContent.Margin = new Padding(20);
             panelContent.Name = "panelContent";
-            panelContent.Size = new Size(1200, 834);
+            panelContent.Size = new Size(1200, 731);
             panelContent.TabIndex = 0;
             panelContent.Paint += panelContent_Paint_3;
             // 
@@ -96,35 +95,30 @@
             // 
             btn_vip.Location = new Point(0, 0);
             btn_vip.Name = "btn_vip";
-            btn_vip.Size = new Size(75, 23);
             btn_vip.TabIndex = 0;
             // 
             // btn_ghepdoi
             // 
             btn_ghepdoi.Location = new Point(0, 0);
             btn_ghepdoi.Name = "btn_ghepdoi";
-            btn_ghepdoi.Size = new Size(75, 23);
             btn_ghepdoi.TabIndex = 0;
             // 
             // btn_dsnt
             // 
             btn_dsnt.Location = new Point(0, 0);
             btn_dsnt.Name = "btn_dsnt";
-            btn_dsnt.Size = new Size(75, 23);
             btn_dsnt.TabIndex = 0;
             // 
             // btn_hscn
             // 
             btn_hscn.Location = new Point(0, 0);
             btn_hscn.Name = "btn_hscn";
-            btn_hscn.Size = new Size(75, 23);
             btn_hscn.TabIndex = 0;
             // 
             // btn_caidat
             // 
             btn_caidat.Location = new Point(0, 0);
             btn_caidat.Name = "btn_caidat";
-            btn_caidat.Size = new Size(75, 23);
             btn_caidat.TabIndex = 0;
             // 
             // Main

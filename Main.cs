@@ -1,14 +1,15 @@
-﻿using Main_Interface.User_Controls;
+﻿using Dating_app_nhom3;
+using Main_Interface.User_Controls;
 
 namespace Main_Interface
 {
     public partial class Main : Form
     {
         private NapVIP nv = new NapVIP();
-        private DanhSachNhanTin dsnt = new DanhSachNhanTin();
+        private FormDanhSachTinNhan dstn = new FormDanhSachTinNhan();
         private GhepDoi gd = new GhepDoi();
         private CaiDat cd = new CaiDat();
-        private HoSoCaNhan hscn = new HoSoCaNhan();
+        private Thongtinuser ttuser = new Thongtinuser();
         public Main()
         {
             InitializeComponent();
@@ -19,7 +20,7 @@ namespace Main_Interface
         }
         private void btn_dsnt_Click(object sender, EventArgs e)
         {
-            LoadContent(dsnt);
+            LoadContent(dstn);
         }
 
         private void btn_ghepdoi_Click(object sender, EventArgs e)
@@ -34,7 +35,7 @@ namespace Main_Interface
 
         private void btn_hscn_Click(object sender, EventArgs e)
         {
-            LoadContent(hscn);
+            LoadContent(ttuser);
         }
         private Button activeButton = null;
 

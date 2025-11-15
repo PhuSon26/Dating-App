@@ -2,7 +2,7 @@
 
 namespace Dating_app_nhom3
 {
-    public partial class Uservip : Form
+    public partial class Uservip : UserControl
     {
         public Uservip()
         {

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace LOGIN.Dating_app_nhom3
 {
-    public partial class LocDoiTuong : UserControl
+    public partial class locdoituong : Form
     {
-        public LocDoiTuong()
+        public locdoituong()
         {
             InitializeComponent();
         }
