@@ -27,5 +27,10 @@ namespace Main_Interface.User_Controls.CaiDat_UserControls
         {
             MainForm.LoadContent(new CaiDat(MainForm));
         }
+
+        private void flp_list_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
