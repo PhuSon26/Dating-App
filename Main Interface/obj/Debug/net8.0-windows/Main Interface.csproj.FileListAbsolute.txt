@@ -24,3 +24,28 @@ C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\ne
 C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.ThanhToan.resources
 C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.Match.resources
 C:\Users\leson\OneDrive\Documents\uit\Main Interface\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.SuaHoSoUser.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.Main.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.Properties.Resources.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.CaiDat.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.CaiDat_UserControls.BlockedUserItem.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.CaiDat_UserControls.DanhSachChan.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.CaiDat_UserControls.DoiEmailMatKhau.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.GioiThieuUngDung.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.SuaHoSoUser.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.DanhSachNhanTin.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.NhanTin.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.GhepDoi.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.GhepDoi_UserControls.LocDoiTuong.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.Match.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.HoSoCaNhan.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.NapVIP.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.ThanhToan.resources
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main Interface.csproj.GenerateResource.cache
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main Interface.GeneratedMSBuildEditorConfig.editorconfig
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main Interface.AssemblyInfoInputs.cache
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main Interface.AssemblyInfo.cs
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main Interface.csproj.CoreCompileInputs.cache
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main Interface.sourcelink.json
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main Interface.dll
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\refint\Main Interface.dll
+D:\baihoctrenlopcacmondaicuong\LapTrinhMang\Dating_App\PhuSon26\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main Interface.pdb

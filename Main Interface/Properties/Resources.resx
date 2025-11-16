@@ -118,43 +118,46 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="10-1615066636372759626945" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\10-1615066636372759626945.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Screenshot 2025-10-31 224543" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Screenshot 2025-10-31 224543.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="7d68117d703d691f400e8401fcb78b0a" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\7d68117d703d691f400e8401fcb78b0a.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="pngtree-vip-metal-gold-background-image_358536" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pngtree-vip-metal-gold-background-image_358536.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="free-user-icon-3296-thumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\free-user-icon-3296-thumb.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="hinh-nen-tinh-yeu-14" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hinh-nen-tinh-yeu-14.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="images" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\images.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="10-1615066636372759626945" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\10-1615066636372759626945.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="hinh-nen-tinh-yeu-141" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\hinh-nen-tinh-yeu-141.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="100-hinh-nen-trai-tim-dep-de-thuong-va-lang-man-2672-42" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\100-hinh-nen-trai-tim-dep-de-thuong-va-lang-man-2672-42.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Screenshot 2025-10-31 225126" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Screenshot 2025-10-31 225126.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="9131510" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\9131510.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="7d68117d703d691f400e8401fcb78b0a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\7d68117d703d691f400e8401fcb78b0a.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hinh-nen-tinh-yeu-14" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hinh-nen-tinh-yeu-14.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Screenshot 2025-10-31 224543" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Screenshot 2025-10-31 224543.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="download" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\download.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pngtree-vip-metal-gold-background-image_358536" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pngtree-vip-metal-gold-background-image_358536.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="filter_3661449" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\filter_3661449.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="100-hinh-nen-trai-tim-dep-de-thuong-va-lang-man-2672-42" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\100-hinh-nen-trai-tim-dep-de-thuong-va-lang-man-2672-42.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="9131510" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\9131510.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="images" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\images.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="8239.jpg_wh860" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\8239.jpg_wh860.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

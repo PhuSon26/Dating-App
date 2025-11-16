@@ -43,6 +43,8 @@
             btnBoChann = new Button();
             btnBack = new Button();
             label3 = new Label();
+            label4 = new Label();
+            label5 = new Label();
             flp_list.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -158,6 +160,8 @@
             // panel2
             // 
             panel2.BackColor = Color.Transparent;
+            panel2.Controls.Add(label5);
+            panel2.Controls.Add(label4);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(btnBack);
             panel2.Controls.Add(btnBoChann);
@@ -191,11 +195,33 @@
             label3.AutoSize = true;
             label3.Font = new Font("Tiger", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Lime;
-            label3.Location = new Point(17, 125);
+            label3.Location = new Point(19, 74);
             label3.Name = "label3";
             label3.Size = new Size(547, 20);
             label3.TabIndex = 2;
             label3.Text = "Sometimes a second chance can change everything.";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Tiger", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.Lime;
+            label4.Location = new Point(122, 130);
+            label4.Name = "label4";
+            label4.Size = new Size(305, 40);
+            label4.TabIndex = 3;
+            label4.Text = "Reconnect and start fresh.\r\n\r\n";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Tiger", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.Lime;
+            label5.Location = new Point(122, 345);
+            label5.Name = "label5";
+            label5.Size = new Size(338, 20);
+            label5.TabIndex = 4;
+            label5.Text = "A new connection begins here.";
             // 
             // DanhSachChan
             // 
@@ -234,5 +260,7 @@
         private Button btnBack;
         private Button btnBoChann;
         private Label label3;
+        private Label label4;
+        private Label label5;
     }
 }

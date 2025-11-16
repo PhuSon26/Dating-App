@@ -93,6 +93,16 @@ namespace Main_Interface.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _8239_jpg_wh860 {
+            get {
+                object obj = ResourceManager.GetObject("8239.jpg_wh860", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _9131510 {
             get {
                 object obj = ResourceManager.GetObject("9131510", resourceCulture);
