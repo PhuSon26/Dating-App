@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Google.Cloud.Firestore;
 using Firebase.Storage;
 
 namespace LOGIN
@@ -16,6 +17,7 @@ namespace LOGIN
         public FirebaseAuthHelper(string apiKey)
         {
             this.apiKey = apiKey;
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "serviceAccountKey.json");
             db = FirestoreDb.Create("login-bb104");
         }
 
@@ -117,10 +119,15 @@ namespace LOGIN
 
         public async Task<string> uploadFile(string localFilepath, string firebasefolder)
         {
-            var stream = File.Open(localFilepath, FileMode.Open);
-            var task = new FirebaseStorage("login-bb104").Child(firebasefolder).Child(Path.GetFileName(localFilepath)).PutAsync(stream);
-            string downloadUrl = await task;
-            return downloadUrl;
+            using (var stream = new FileStream(localFilepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                var task = new FirebaseStorage("login-bb104.appspot.com")
+                    .Child(firebasefolder)
+                    .Child(Path.GetFileName(localFilepath))
+                    .PutAsync(stream);
+
+                return await task;
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Main_Interface;
 
 namespace LOGIN
 {
@@ -53,10 +54,13 @@ namespace LOGIN
                 var url = await auth.uploadFile(path, "photos");
                 user.photos.Add(url);
             }
-            var docRef = auth.db.Collection("Users").Document();
+            var docRef = auth.db.Collection("Users").Document(Session.LocalId);
             await docRef.SetAsync(user);
 
             MessageBox.Show("Lưu thông tin người dùng thành công!");
+            this.Hide();
+            Main MainForm = new Main();
+            MainForm.Show();
         }
 
         private void btnUploadAvatar_Click(object sender, EventArgs e)
@@ -66,7 +70,11 @@ namespace LOGIN
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 avatarFilePath = ofd.FileName;
-                picAvatar.Image = Image.FromFile(avatarFilePath);
+                using (var fs = new FileStream(avatarFilePath, FileMode.Open, FileAccess.Read))
+                {
+                    Image img = Image.FromStream(fs);
+                    picAvatar.Image = (Image)img.Clone();
+                }
             }
         }
 
@@ -81,7 +89,11 @@ namespace LOGIN
                 foreach (var path in ofd.FileNames)
                 {
                     PictureBox pb = new PictureBox();
-                    pb.Image = Image.FromFile(path);
+                    using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                    {
+                        Image img = Image.FromStream(fs);
+                        pb.Image = (Image)img.Clone();
+                    }
                     pb.SizeMode = PictureBoxSizeMode.Zoom;
                     pb.Size = new Size(100, 100);
                     flowImages.Controls.Add(pb);
