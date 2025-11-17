@@ -156,6 +156,7 @@
             btnTimKiem.TabIndex = 14;
             btnTimKiem.Text = "🔍 Tìm kiếm";
             btnTimKiem.UseVisualStyleBackColor = false;
+            btnTimKiem.Click += BtnTimKiem_Click;
             // 
             // label2
             // 
@@ -177,7 +178,7 @@
             comboBox1.Size = new Size(200, 31);
             comboBox1.TabIndex = 16;
             // 
-            // locdoituong
+            // LocUser
             // 
             BackColor = Color.MistyRose;
             Controls.Add(comboBox1);
@@ -195,8 +196,9 @@
             Controls.Add(labelCongViec);
             Controls.Add(textCongViec);
             Controls.Add(btnTimKiem);
-            Name = "locdoituong";
+            Name = "LocUser";
             Size = new Size(709, 400);
+            Load += LocUser_Load;
             ResumeLayout(false);
             PerformLayout();
         }

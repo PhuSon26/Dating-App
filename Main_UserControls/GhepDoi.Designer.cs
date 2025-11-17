@@ -307,6 +307,7 @@
             btn_kothich.TabIndex = 2;
             btn_kothich.Text = "❌";
             btn_kothich.UseVisualStyleBackColor = false;
+            btn_kothich.Click += btn_kothich_Click;
             // 
             // btn_timVIP
             // 
@@ -335,6 +336,7 @@
             btn_tim.TabIndex = 0;
             btn_tim.Text = "❤️";
             btn_tim.UseVisualStyleBackColor = false;
+            btn_tim.Click += btn_tim_Click;
             // 
             // GhepDoi
             // 
@@ -345,6 +347,7 @@
             Controls.Add(panelPictures);
             Name = "GhepDoi";
             Size = new Size(1201, 760);
+            Load += GhepDoi_Load_1;
             panelPictures.ResumeLayout(false);
             panelThongTin.ResumeLayout(false);
             panelThongTin.PerformLayout();

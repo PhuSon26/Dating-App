@@ -1,18 +1,22 @@
-﻿using System;
+﻿using Google.Cloud.Firestore;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Firebase.Storage;
 
 namespace LOGIN
 {
     public class FirebaseAuthHelper
     {
         private readonly string apiKey;
+        public FirestoreDb db;
 
         public FirebaseAuthHelper(string apiKey)
         {
             this.apiKey = apiKey;
+            db = FirestoreDb.Create("login-bb104");
         }
 
         // Hàm chung gửi POST request
@@ -98,6 +102,25 @@ namespace LOGIN
                 returnSecureToken = true
             };
             return await PostAsync(url, data);
+        }
+        public async Task<bool> CheckUserExist(string userId)
+        {
+            DocumentReference doc = db.Collection("Users").Document(userId);
+            DocumentSnapshot snap = await doc.GetSnapshotAsync();
+            return snap.Exists;
+        }
+        public async Task saveUserInfo(string userId, USER u)
+        {
+            DocumentReference doc = db.Collection("Users").Document(userId);
+            await doc.SetAsync(u);
+        }
+
+        public async Task<string> uploadFile(string localFilepath, string firebasefolder)
+        {
+            var stream = File.Open(localFilepath, FileMode.Open);
+            var task = new FirebaseStorage("login-bb104").Child(firebasefolder).Child(Path.GetFileName(localFilepath)).PutAsync(stream);
+            string downloadUrl = await task;
+            return downloadUrl;
         }
     }
 }

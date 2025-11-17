@@ -1,4 +1,5 @@
-﻿using Main_Interface.User_Controls.CaiDat_UserControls;
+﻿using LOGIN;
+using Main_Interface.User_Controls.CaiDat_UserControls;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -62,7 +63,6 @@ namespace Main_Interface.User_Controls
         private void SetButtonRoundedCorners()
         {
             int radius = 20;
-            SetRoundedButton(btn_csHoSo, radius);
             SetRoundedButton(btn_doiEmailMk, radius);
             SetRoundedButton(btn_xoaTk, radius);
             SetRoundedButton(btn_dsChan, radius);
@@ -144,9 +144,7 @@ namespace Main_Interface.User_Controls
             if (btn == null) return;
 
             // Restore original colors
-            if (btn == btn_csHoSo)
-                btn.BackColor = Color.FromArgb(100, 149, 237);
-            else if (btn == btn_doiEmailMk)
+            if (btn == btn_doiEmailMk)
                 btn.BackColor = Color.FromArgb(72, 209, 204);
             else if (btn == btn_xoaTk)
                 btn.BackColor = Color.FromArgb(220, 53, 69);
@@ -164,6 +162,14 @@ namespace Main_Interface.User_Controls
         private void cb_tatThongbao_CheckedChanged(object sender, EventArgs e)
         {
             cb_tatThongbao.Text = cb_tatThongbao.Checked ? "🔕 Tắt Thông Báo" : "🔔 Bật Thông Báo";
+        }
+
+        private void btn_dangxuat_Click(object sender, EventArgs e)
+        {
+            FirebaseAuthHelper auth = MainForm.auth;
+            MainForm.Hide();
+            FormDangNhap dn = new FormDangNhap(auth);
+            dn.Show();
         }
     }
 }

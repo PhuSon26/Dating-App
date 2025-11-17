@@ -1,16 +1,24 @@
 ﻿using Dating_app_nhom3;
+using LOGIN;
 using Main_Interface.User_Controls;
 
 namespace Main_Interface
 {
     public partial class Main : Form
     {
-        private NapVIP nv = new NapVIP();
-        private FormDanhSachTinNhan dstn = new FormDanhSachTinNhan();
-        private Thongtinuser ttuser = new Thongtinuser();
+        public NapVIP nv = new NapVIP();
+        public FormDanhSachTinNhan dstn = new FormDanhSachTinNhan();
+        public Thongtinuser ttuser = new Thongtinuser();
+        public GhepDoi gd = new GhepDoi();
+        public FirebaseAuthHelper auth;
         public Main()
         {
             InitializeComponent();
+        }
+        public Main(FirebaseAuthHelper auth)
+        {
+            InitializeComponent();
+            this.auth = auth;
         }
         private void btn_vip_Click(object sender, EventArgs e)
         {

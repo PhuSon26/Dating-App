@@ -36,7 +36,7 @@ namespace LOGIN
             lblTitle = new Label();
             labelEmail = new Label();
             tb_email = new TextBox();
-            btn_xacnhan = new Button();
+            btn_xacnhan = new RoundedButton();
             linkLabel_back = new LinkLabel();
             SuspendLayout();
             // 
@@ -151,7 +151,7 @@ namespace LOGIN
         private Label lblTitle;
         private Label labelEmail;
         private TextBox tb_email;
-        private Button btn_xacnhan;
+        private RoundedButton btn_xacnhan;
         private LinkLabel linkLabel_back;
     }
 }
