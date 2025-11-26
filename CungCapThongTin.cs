@@ -59,7 +59,7 @@ namespace LOGIN
 
             MessageBox.Show("Lưu thông tin người dùng thành công!");
             this.Hide();
-            Main MainForm = new Main();
+            Main MainForm = new Main(auth);
             MainForm.Show();
         }
 

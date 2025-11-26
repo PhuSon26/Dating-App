@@ -54,7 +54,7 @@
             // panelMain
             // 
             panelMain.AutoScroll = true;
-            panelMain.BackColor = Color.White;
+            panelMain.BackColor = Color.FromArgb(255, 230, 230);
             panelMain.Controls.Add(lblTitle);
             panelMain.Controls.Add(picAvatar);
             panelMain.Controls.Add(btnUploadAvatar);
@@ -319,6 +319,7 @@
             Text = "Thông tin cá nhân";
             panelMain.ResumeLayout(false);
             panelMain.PerformLayout();
+            this.BackColor = Color.FromArgb(255, 230, 230);
             ((System.ComponentModel.ISupportInitialize)picAvatar).EndInit();
             ((System.ComponentModel.ISupportInitialize)numAge).EndInit();
             ((System.ComponentModel.ISupportInitialize)numHeight).EndInit();

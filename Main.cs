@@ -168,6 +168,7 @@ namespace Main_Interface
         private void Main_Load(object sender, EventArgs e)
         {
             SetupButtons();
+            LoadContent(new GhepDoi(this));
         }
 
         private void panelButtons_Paint_1(object sender, PaintEventArgs e)

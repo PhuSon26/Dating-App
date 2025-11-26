@@ -60,10 +60,11 @@
             // tb_tennguoidung
             // 
             tb_tennguoidung.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            tb_tennguoidung.Location = new Point(270, 80);
+            tb_tennguoidung.Location = new Point(515, 66);
+            tb_tennguoidung.Multiline = true;
             tb_tennguoidung.Name = "tb_tennguoidung";
             tb_tennguoidung.PlaceholderText = "Tên người dùng";
-            tb_tennguoidung.Size = new Size(350, 32);
+            tb_tennguoidung.Size = new Size(320, 37);
             tb_tennguoidung.TabIndex = 3;
             // 
             // btn_chinhsua
@@ -72,9 +73,9 @@
             btn_chinhsua.FlatAppearance.BorderSize = 0;
             btn_chinhsua.FlatStyle = FlatStyle.Flat;
             btn_chinhsua.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
-            btn_chinhsua.Location = new Point(321, 417);
+            btn_chinhsua.Location = new Point(372, 514);
             btn_chinhsua.Name = "btn_chinhsua";
-            btn_chinhsua.Size = new Size(200, 40);
+            btn_chinhsua.Size = new Size(463, 50);
             btn_chinhsua.TabIndex = 18;
             btn_chinhsua.Text = "✏️ Chỉnh sửa hồ sơ";
             btn_chinhsua.UseVisualStyleBackColor = false;
@@ -82,7 +83,7 @@
             // label_id
             // 
             label_id.AutoSize = true;
-            label_id.Location = new Point(270, 130);
+            label_id.Location = new Point(372, 127);
             label_id.Name = "label_id";
             label_id.Size = new Size(125, 23);
             label_id.TabIndex = 4;
@@ -90,15 +91,15 @@
             // 
             // tb_id
             // 
-            tb_id.Location = new Point(400, 126);
+            tb_id.Location = new Point(515, 127);
             tb_id.Name = "tb_id";
-            tb_id.Size = new Size(250, 30);
+            tb_id.Size = new Size(320, 30);
             tb_id.TabIndex = 5;
             // 
             // label_gioitinh
             // 
             label_gioitinh.AutoSize = true;
-            label_gioitinh.Location = new Point(270, 170);
+            label_gioitinh.Location = new Point(372, 178);
             label_gioitinh.Name = "label_gioitinh";
             label_gioitinh.Size = new Size(79, 23);
             label_gioitinh.TabIndex = 6;
@@ -107,15 +108,15 @@
             // cb_gioitinh
             // 
             cb_gioitinh.Items.AddRange(new object[] { "Nam", "Nữ", "Khác" });
-            cb_gioitinh.Location = new Point(400, 166);
+            cb_gioitinh.Location = new Point(515, 170);
             cb_gioitinh.Name = "cb_gioitinh";
-            cb_gioitinh.Size = new Size(150, 31);
+            cb_gioitinh.Size = new Size(320, 31);
             cb_gioitinh.TabIndex = 7;
             // 
             // label_sinhnhat
             // 
             label_sinhnhat.AutoSize = true;
-            label_sinhnhat.Location = new Point(270, 210);
+            label_sinhnhat.Location = new Point(372, 226);
             label_sinhnhat.Name = "label_sinhnhat";
             label_sinhnhat.Size = new Size(87, 23);
             label_sinhnhat.TabIndex = 8;
@@ -124,15 +125,15 @@
             // dtp_sinhnhat
             // 
             dtp_sinhnhat.Format = DateTimePickerFormat.Short;
-            dtp_sinhnhat.Location = new Point(400, 206);
+            dtp_sinhnhat.Location = new Point(515, 220);
             dtp_sinhnhat.Name = "dtp_sinhnhat";
-            dtp_sinhnhat.Size = new Size(150, 30);
+            dtp_sinhnhat.Size = new Size(320, 30);
             dtp_sinhnhat.TabIndex = 9;
             // 
             // label_diachi
             // 
             label_diachi.AutoSize = true;
-            label_diachi.Location = new Point(270, 250);
+            label_diachi.Location = new Point(372, 283);
             label_diachi.Name = "label_diachi";
             label_diachi.Size = new Size(66, 23);
             label_diachi.TabIndex = 10;
@@ -140,7 +141,7 @@
             // 
             // tb_diachi
             // 
-            tb_diachi.Location = new Point(400, 246);
+            tb_diachi.Location = new Point(515, 280);
             tb_diachi.Name = "tb_diachi";
             tb_diachi.Size = new Size(320, 30);
             tb_diachi.TabIndex = 11;
@@ -148,7 +149,7 @@
             // label_sothich
             // 
             label_sothich.AutoSize = true;
-            label_sothich.Location = new Point(270, 290);
+            label_sothich.Location = new Point(372, 341);
             label_sothich.Name = "label_sothich";
             label_sothich.Size = new Size(76, 23);
             label_sothich.TabIndex = 12;
@@ -156,7 +157,7 @@
             // 
             // tb_sothich
             // 
-            tb_sothich.Location = new Point(400, 286);
+            tb_sothich.Location = new Point(515, 334);
             tb_sothich.Name = "tb_sothich";
             tb_sothich.Size = new Size(320, 30);
             tb_sothich.TabIndex = 13;
@@ -164,7 +165,7 @@
             // label_congviec
             // 
             label_congviec.AutoSize = true;
-            label_congviec.Location = new Point(270, 330);
+            label_congviec.Location = new Point(372, 403);
             label_congviec.Name = "label_congviec";
             label_congviec.Size = new Size(89, 23);
             label_congviec.TabIndex = 14;
@@ -172,7 +173,7 @@
             // 
             // tb_congviec
             // 
-            tb_congviec.Location = new Point(400, 326);
+            tb_congviec.Location = new Point(515, 396);
             tb_congviec.Name = "tb_congviec";
             tb_congviec.Size = new Size(320, 30);
             tb_congviec.TabIndex = 15;
@@ -180,7 +181,7 @@
             // label_hocvan
             // 
             label_hocvan.AutoSize = true;
-            label_hocvan.Location = new Point(270, 370);
+            label_hocvan.Location = new Point(372, 464);
             label_hocvan.Name = "label_hocvan";
             label_hocvan.Size = new Size(76, 23);
             label_hocvan.TabIndex = 16;
@@ -188,7 +189,7 @@
             // 
             // tb_hocvan
             // 
-            tb_hocvan.Location = new Point(400, 366);
+            tb_hocvan.Location = new Point(515, 457);
             tb_hocvan.Name = "tb_hocvan";
             tb_hocvan.Size = new Size(320, 30);
             tb_hocvan.TabIndex = 17;
@@ -211,7 +212,7 @@
             button1.Font = new Font("Segoe UI", 8F);
             button1.Location = new Point(75, 260);
             button1.Name = "button1";
-            button1.Size = new Size(120, 28);
+            button1.Size = new Size(120, 46);
             button1.TabIndex = 2;
             button1.Text = "Thay đổi Avatar";
             button1.UseVisualStyleBackColor = false;
@@ -221,7 +222,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
             label3.ForeColor = Color.FromArgb(255, 100, 120);
-            label3.Location = new Point(340, 33);
+            label3.Location = new Point(458, 18);
             label3.Name = "label3";
             label3.Size = new Size(262, 31);
             label3.TabIndex = 20;

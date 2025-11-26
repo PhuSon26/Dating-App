@@ -57,7 +57,9 @@ namespace LOGIN
                 Session.LocalId = json.RootElement.GetProperty("localId").GetString();
 
                 MessageBox.Show("Đăng ký thành công");
+                FormDangNhap dn = new FormDangNhap(auth);
                 this.Close();
+                dn.Show();
             }
             catch (Exception ex)
             {
