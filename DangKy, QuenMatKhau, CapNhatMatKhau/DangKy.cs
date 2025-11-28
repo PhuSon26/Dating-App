@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace LOGIN
 {
@@ -58,6 +60,8 @@ namespace LOGIN
 
                 MessageBox.Show("Đăng ký thành công");
                 this.Close();
+                var fThongTin = new CungCapThongTin(Session.LocalId, email, auth);
+                fThongTin.Show();
             }
             catch (Exception ex)
             {
