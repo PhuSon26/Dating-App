@@ -20,6 +20,8 @@ public class RoundedButton : Button
 
     protected override void OnPaint(PaintEventArgs pevent)
     {
+        if (DesignMode) return;
+
         base.OnPaint(pevent);
         pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 

@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Google.Cloud.Firestore;
 using Firebase.Storage;
+using Firebase.Auth;
 
 namespace LOGIN
 {
@@ -13,7 +14,7 @@ namespace LOGIN
     {
         private readonly string apiKey;
         public FirestoreDb db;
-
+        public string userID;
         public FirebaseAuthHelper(string apiKey)
         {
             this.apiKey = apiKey;
@@ -117,6 +118,14 @@ namespace LOGIN
             await doc.SetAsync(u);
         }
 
+        public async Task<string> signInAndSetUser(string email,string password)
+        {
+            var result = await SignIn(email, password);
+            var json = JsonSerializer.Deserialize<JsonElement>(result);
+            userID = json.GetProperty("localId").GetString();
+            return userID;
+        }
+
         public async Task<string> uploadFile(string localFilepath, string firebasefolder)
         {
             using (var stream = new FileStream(localFilepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -128,6 +137,15 @@ namespace LOGIN
 
                 return await task;
             }
+        }
+
+        public async Task<USER> getUser()
+        {
+            if (string.IsNullOrEmpty(userID)) return null;
+            DocumentReference docRef = db.Collection("Users").Document(userID);
+            DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+            if (!snapshot.Exists) return null;
+            return snapshot.ConvertTo<USER>();
         }
     }
 }

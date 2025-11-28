@@ -43,17 +43,19 @@
             // 
             // pb_avatarUser1
             // 
-            pb_avatarUser1.Location = new Point(23, 195);
+            pb_avatarUser1.Location = new Point(20, 146);
+            pb_avatarUser1.Margin = new Padding(3, 2, 3, 2);
             pb_avatarUser1.Name = "pb_avatarUser1";
-            pb_avatarUser1.Size = new Size(175, 139);
+            pb_avatarUser1.Size = new Size(153, 104);
             pb_avatarUser1.TabIndex = 0;
             pb_avatarUser1.TabStop = false;
             // 
             // pb_avatarUser2
             // 
-            pb_avatarUser2.Location = new Point(584, 195);
+            pb_avatarUser2.Location = new Point(511, 146);
+            pb_avatarUser2.Margin = new Padding(3, 2, 3, 2);
             pb_avatarUser2.Name = "pb_avatarUser2";
-            pb_avatarUser2.Size = new Size(171, 150);
+            pb_avatarUser2.Size = new Size(150, 112);
             pb_avatarUser2.TabIndex = 1;
             pb_avatarUser2.TabStop = false;
             // 
@@ -63,24 +65,26 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Snap ITC", 48F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.DeepPink;
-            label1.Location = new Point(204, 229);
+            label1.Location = new Point(178, 172);
             label1.Name = "label1";
-            label1.Size = new Size(374, 103);
+            label1.Size = new Size(299, 82);
             label1.TabIndex = 2;
             label1.Text = "Match!";
             // 
             // txtNameUser1
             // 
-            txtNameUser1.Location = new Point(50, 378);
+            txtNameUser1.Location = new Point(44, 284);
+            txtNameUser1.Margin = new Padding(3, 2, 3, 2);
             txtNameUser1.Name = "txtNameUser1";
-            txtNameUser1.Size = new Size(125, 27);
+            txtNameUser1.Size = new Size(110, 23);
             txtNameUser1.TabIndex = 3;
             // 
             // txtNameUser2
             // 
-            txtNameUser2.Location = new Point(604, 378);
+            txtNameUser2.Location = new Point(528, 284);
+            txtNameUser2.Margin = new Padding(3, 2, 3, 2);
             txtNameUser2.Name = "txtNameUser2";
-            txtNameUser2.Size = new Size(125, 27);
+            txtNameUser2.Size = new Size(110, 23);
             txtNameUser2.TabIndex = 4;
             // 
             // lblLogo
@@ -92,8 +96,8 @@
             lblLogo.ForeColor = Color.FromArgb(255, 105, 150);
             lblLogo.Location = new Point(0, 0);
             lblLogo.Name = "lblLogo";
-            lblLogo.Padding = new Padding(0, 20, 0, 0);
-            lblLogo.Size = new Size(493, 101);
+            lblLogo.Padding = new Padding(0, 15, 0, 0);
+            lblLogo.Size = new Size(397, 80);
             lblLogo.TabIndex = 5;
             lblLogo.Text = "💖 SynHeart 💖";
             lblLogo.TextAlign = ContentAlignment.MiddleCenter;
@@ -102,9 +106,10 @@
             // 
             button1.BackColor = SystemColors.Info;
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.Location = new Point(317, 420);
+            button1.Location = new Point(277, 315);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(119, 51);
+            button1.Size = new Size(104, 38);
             button1.TabIndex = 6;
             button1.Text = "MATCH";
             button1.UseVisualStyleBackColor = false;
@@ -112,9 +117,10 @@
             // btnBack
             // 
             btnBack.BackColor = Color.Transparent;
-            btnBack.Location = new Point(1093, 293);
+            btnBack.Location = new Point(956, 220);
+            btnBack.Margin = new Padding(3, 2, 3, 2);
             btnBack.Name = "btnBack";
-            btnBack.Size = new Size(86, 71);
+            btnBack.Size = new Size(75, 53);
             btnBack.TabIndex = 7;
             btnBack.UseVisualStyleBackColor = false;
             // 
@@ -124,18 +130,18 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Viner Hand ITC", 28.2F, FontStyle.Underline, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.IndianRed;
-            label2.Location = new Point(143, 508);
+            label2.Location = new Point(125, 381);
             label2.Name = "label2";
-            label2.Size = new Size(696, 76);
+            label2.Size = new Size(560, 61);
             label2.TabIndex = 8;
             label2.Text = "Pairing up? Say less — it’s us.";
             // 
             // Match
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1181, 612);
+            ClientSize = new Size(1033, 459);
             Controls.Add(label2);
             Controls.Add(btnBack);
             Controls.Add(button1);
@@ -145,6 +151,7 @@
             Controls.Add(label1);
             Controls.Add(pb_avatarUser2);
             Controls.Add(pb_avatarUser1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Match";
             Text = "Match";
             Load += Match_Load;

@@ -74,6 +74,7 @@ namespace LOGIN
                 var json = JsonDocument.Parse(result);
                 Session.IdToken = json.RootElement.GetProperty("idToken").ToString();
                 Session.LocalId = json.RootElement.GetProperty("localId").ToString();
+                auth.userID = Session.LocalId;
 
                 bool hasUserInfo = await auth.CheckUserExist(Session.LocalId);
                 if (!hasUserInfo)

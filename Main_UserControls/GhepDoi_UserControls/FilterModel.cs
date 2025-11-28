@@ -12,8 +12,5 @@ namespace LOGIN.Main_UserControls.GhepDoi_UserControls
         public int? DoTuoi { get; set; }
         public float? ChieuCaoMin { get; set; }
         public string NoiSong { get; set; }
-        public string SoThich { get; set; }
-        public string HocVan { get; set; }
-        public string CongViec { get; set; }
     }
 }

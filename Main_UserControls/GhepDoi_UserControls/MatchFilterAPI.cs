@@ -28,31 +28,19 @@ namespace LOGIN.Main_UserControls.GhepDoi_UserControls
             {
                 query = query.WhereLessThanOrEqualTo("tuoi", filter.DoTuoi.Value);
             }
-            if (filter.ChieuCaoMin.HasValue)
-            {
-                query = query.WhereGreaterThanOrEqualTo("chieucao", filter.ChieuCaoMin.Value);
-            }
             if (!string.IsNullOrWhiteSpace(filter.NoiSong))
             {
-                query = query.WhereEqualTo("noisong", filter.NoiSong);
-            }
-            if (!string.IsNullOrWhiteSpace(filter.SoThich))
-            {
-                query = query.WhereArrayContains("sothich", filter.SoThich);
-            }
-            if (!string.IsNullOrWhiteSpace(filter.HocVan))
-            {
-                query = query.WhereEqualTo("hocvan", filter.HocVan);
-            }
-            if (!string.IsNullOrWhiteSpace(filter.CongViec))
-            {
-                query = query.WhereEqualTo("congviec", filter.CongViec);
+                query = query.WhereEqualTo("vitri", filter.NoiSong);
             }
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
             List<USER> ans = new List<USER>();
             foreach(var doc in snapshot.Documents)
             {
                 ans.Add(doc.ConvertTo<USER>());
+            }
+            if (filter.ChieuCaoMin.HasValue)
+            {
+                ans = ans.Where(u => u.chieucao >= filter.ChieuCaoMin.Value).ToList();
             }
             return ans;
         }
