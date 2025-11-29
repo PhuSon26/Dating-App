@@ -19,204 +19,165 @@
             labelGioiTinh = new Label();
             labelTuoi = new Label();
             labelNoiSong = new Label();
-            labelSoThich = new Label();
-            labelHocVan = new Label();
-            labelCongViec = new Label();
             comboGioiTinh = new ComboBox();
             textNoiSong = new TextBox();
-            textSoThich = new TextBox();
-            comboHocVan = new ComboBox();
-            textCongViec = new TextBox();
             btnTimKiem = new Button();
-            label2 = new Label();
-            comboBox1 = new ComboBox();
+            num_dotuoi = new NumericUpDown();
+            num_chieucao = new NumericUpDown();
+            label1 = new Label();
+            btn_back = new RoundedButton();
+            ((System.ComponentModel.ISupportInitialize)num_dotuoi).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)num_chieucao).BeginInit();
             SuspendLayout();
             // 
             // labelTitle
             // 
             labelTitle.AutoSize = true;
-            labelTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            labelTitle.Font = new Font("Segoe UI", 26F, FontStyle.Bold);
             labelTitle.ForeColor = Color.HotPink;
-            labelTitle.Location = new Point(180, 20);
+            labelTitle.Location = new Point(350, 30);
             labelTitle.Name = "labelTitle";
-            labelTitle.Size = new Size(288, 32);
+            labelTitle.Size = new Size(417, 47);
             labelTitle.TabIndex = 0;
             labelTitle.Text = "Lọc Đối Tượng Phù Hợp";
             // 
             // labelGioiTinh
             // 
-            labelGioiTinh.AutoSize = true;
-            labelGioiTinh.Font = new Font("Segoe UI", 10F);
-            labelGioiTinh.Location = new Point(60, 80);
+            labelGioiTinh.Font = new Font("Segoe UI", 14F);
+            labelGioiTinh.Location = new Point(260, 120);
             labelGioiTinh.Name = "labelGioiTinh";
-            labelGioiTinh.Size = new Size(79, 23);
+            labelGioiTinh.Size = new Size(180, 40);
             labelGioiTinh.TabIndex = 1;
             labelGioiTinh.Text = "Giới tính:";
             // 
             // labelTuoi
             // 
-            labelTuoi.AutoSize = true;
-            labelTuoi.Font = new Font("Segoe UI", 10F);
-            labelTuoi.Location = new Point(60, 120);
+            labelTuoi.Font = new Font("Segoe UI", 14F);
+            labelTuoi.Location = new Point(260, 210);
             labelTuoi.Name = "labelTuoi";
-            labelTuoi.Size = new Size(71, 23);
+            labelTuoi.Size = new Size(180, 40);
             labelTuoi.TabIndex = 3;
             labelTuoi.Text = "Độ tuổi:";
             // 
             // labelNoiSong
             // 
-            labelNoiSong.AutoSize = true;
-            labelNoiSong.Font = new Font("Segoe UI", 10F);
-            labelNoiSong.Location = new Point(60, 160);
+            labelNoiSong.Font = new Font("Segoe UI", 14F);
+            labelNoiSong.Location = new Point(260, 390);
             labelNoiSong.Name = "labelNoiSong";
-            labelNoiSong.Size = new Size(83, 23);
-            labelNoiSong.TabIndex = 6;
+            labelNoiSong.Size = new Size(180, 40);
+            labelNoiSong.TabIndex = 7;
             labelNoiSong.Text = "Nơi sống:";
-            // 
-            // labelSoThich
-            // 
-            labelSoThich.AutoSize = true;
-            labelSoThich.Font = new Font("Segoe UI", 10F);
-            labelSoThich.Location = new Point(60, 200);
-            labelSoThich.Name = "labelSoThich";
-            labelSoThich.Size = new Size(76, 23);
-            labelSoThich.TabIndex = 8;
-            labelSoThich.Text = "Sở thích:";
-            // 
-            // labelHocVan
-            // 
-            labelHocVan.AutoSize = true;
-            labelHocVan.Font = new Font("Segoe UI", 10F);
-            labelHocVan.Location = new Point(60, 240);
-            labelHocVan.Name = "labelHocVan";
-            labelHocVan.Size = new Size(76, 23);
-            labelHocVan.TabIndex = 10;
-            labelHocVan.Text = "Học vấn:";
-            // 
-            // labelCongViec
-            // 
-            labelCongViec.AutoSize = true;
-            labelCongViec.Font = new Font("Segoe UI", 10F);
-            labelCongViec.Location = new Point(60, 280);
-            labelCongViec.Name = "labelCongViec";
-            labelCongViec.Size = new Size(89, 23);
-            labelCongViec.TabIndex = 12;
-            labelCongViec.Text = "Công việc:";
             // 
             // comboGioiTinh
             // 
-            comboGioiTinh.Font = new Font("Segoe UI", 10F);
-            comboGioiTinh.Items.AddRange(new object[] { "Nam", "Nữ", "Khác" });
-            comboGioiTinh.Location = new Point(180, 76);
+            comboGioiTinh.Font = new Font("Segoe UI", 14F);
+            comboGioiTinh.Items.AddRange(new object[] { "Nam", "Nữ" });
+            comboGioiTinh.Location = new Point(460, 120);
             comboGioiTinh.Name = "comboGioiTinh";
-            comboGioiTinh.Size = new Size(200, 31);
+            comboGioiTinh.Size = new Size(350, 33);
             comboGioiTinh.TabIndex = 2;
             // 
             // textNoiSong
             // 
-            textNoiSong.Font = new Font("Segoe UI", 10F);
-            textNoiSong.Location = new Point(180, 156);
+            textNoiSong.Font = new Font("Segoe UI", 14F);
+            textNoiSong.Location = new Point(460, 390);
             textNoiSong.Name = "textNoiSong";
-            textNoiSong.Size = new Size(250, 30);
-            textNoiSong.TabIndex = 7;
-            // 
-            // textSoThich
-            // 
-            textSoThich.Font = new Font("Segoe UI", 10F);
-            textSoThich.Location = new Point(180, 196);
-            textSoThich.Name = "textSoThich";
-            textSoThich.Size = new Size(250, 30);
-            textSoThich.TabIndex = 9;
-            // 
-            // comboHocVan
-            // 
-            comboHocVan.Font = new Font("Segoe UI", 10F);
-            comboHocVan.Items.AddRange(new object[] { "Trung học", "Cao đẳng", "Đại học", "Sau đại học" });
-            comboHocVan.Location = new Point(180, 236);
-            comboHocVan.Name = "comboHocVan";
-            comboHocVan.Size = new Size(200, 31);
-            comboHocVan.TabIndex = 11;
-            // 
-            // textCongViec
-            // 
-            textCongViec.Font = new Font("Segoe UI", 10F);
-            textCongViec.Location = new Point(180, 276);
-            textCongViec.Name = "textCongViec";
-            textCongViec.Size = new Size(250, 30);
-            textCongViec.TabIndex = 13;
+            textNoiSong.Size = new Size(350, 32);
+            textNoiSong.TabIndex = 8;
             // 
             // btnTimKiem
             // 
             btnTimKiem.BackColor = Color.LightPink;
-            btnTimKiem.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnTimKiem.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
             btnTimKiem.ForeColor = Color.Maroon;
-            btnTimKiem.Location = new Point(220, 330);
+            btnTimKiem.Location = new Point(260, 480);
             btnTimKiem.Name = "btnTimKiem";
-            btnTimKiem.Size = new Size(160, 40);
-            btnTimKiem.TabIndex = 14;
+            btnTimKiem.Size = new Size(560, 55);
+            btnTimKiem.TabIndex = 9;
             btnTimKiem.Text = "🔍 Tìm kiếm";
             btnTimKiem.UseVisualStyleBackColor = false;
+            btnTimKiem.Click += BtnTimKiem_Click;
             // 
-            // label2
+            // num_dotuoi
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
-            label2.ForeColor = Color.FromArgb(255, 100, 120);
-            label2.Location = new Point(12, 9);
-            label2.Name = "label2";
-            label2.Size = new Size(142, 23);
-            label2.TabIndex = 15;
-            label2.Text = "💖 SynHeart 💖";
+            num_dotuoi.Font = new Font("Segoe UI", 14F);
+            num_dotuoi.Location = new Point(460, 210);
+            num_dotuoi.Maximum = new decimal(new int[] { 60, 0, 0, 0 });
+            num_dotuoi.Minimum = new decimal(new int[] { 18, 0, 0, 0 });
+            num_dotuoi.Name = "num_dotuoi";
+            num_dotuoi.Size = new Size(350, 32);
+            num_dotuoi.TabIndex = 4;
+            num_dotuoi.Value = new decimal(new int[] { 18, 0, 0, 0 });
             // 
-            // comboBox1
+            // num_chieucao
             // 
-            comboBox1.Font = new Font("Segoe UI", 10F);
-            comboBox1.Items.AddRange(new object[] { "18 - 20 ", "20 - 30", "30  trở lên" });
-            comboBox1.Location = new Point(180, 120);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(200, 31);
-            comboBox1.TabIndex = 16;
+            num_chieucao.Font = new Font("Segoe UI", 14F);
+            num_chieucao.Location = new Point(460, 300);
+            num_chieucao.Maximum = new decimal(new int[] { 220, 0, 0, 0 });
+            num_chieucao.Minimum = new decimal(new int[] { 140, 0, 0, 0 });
+            num_chieucao.Name = "num_chieucao";
+            num_chieucao.Size = new Size(350, 32);
+            num_chieucao.TabIndex = 6;
+            num_chieucao.Value = new decimal(new int[] { 160, 0, 0, 0 });
             // 
-            // locdoituong
+            // label1
+            // 
+            label1.Font = new Font("Segoe UI", 14F);
+            label1.Location = new Point(260, 300);
+            label1.Name = "label1";
+            label1.Size = new Size(180, 40);
+            label1.TabIndex = 5;
+            label1.Text = "Chiều cao:";
+            // 
+            // btn_back
+            // 
+            btn_back.BackColor = Color.FromArgb(72, 209, 204);
+            btn_back.CornerRadius = 30;
+            btn_back.FlatStyle = FlatStyle.Flat;
+            btn_back.Font = new Font("Segoe UI", 70F, FontStyle.Bold);
+            btn_back.ForeColor = Color.White;
+            btn_back.Location = new Point(0, -50);
+            btn_back.Name = "btn_back";
+            btn_back.Size = new Size(150, 120);
+            btn_back.TabIndex = 10;
+            btn_back.Text = "🠔";
+            btn_back.UseVisualStyleBackColor = false;
+            btn_back.Click += btn_back_Click;
+            // 
+            // LocUser
             // 
             BackColor = Color.MistyRose;
-            Controls.Add(comboBox1);
-            Controls.Add(label2);
             Controls.Add(labelTitle);
             Controls.Add(labelGioiTinh);
             Controls.Add(comboGioiTinh);
             Controls.Add(labelTuoi);
+            Controls.Add(num_dotuoi);
+            Controls.Add(label1);
+            Controls.Add(num_chieucao);
             Controls.Add(labelNoiSong);
             Controls.Add(textNoiSong);
-            Controls.Add(labelSoThich);
-            Controls.Add(textSoThich);
-            Controls.Add(labelHocVan);
-            Controls.Add(comboHocVan);
-            Controls.Add(labelCongViec);
-            Controls.Add(textCongViec);
             Controls.Add(btnTimKiem);
-            Name = "locdoituong";
-            Size = new Size(709, 400);
+            Controls.Add(btn_back);
+            Name = "LocUser";
+            Size = new Size(1198, 620);
+            ((System.ComponentModel.ISupportInitialize)num_dotuoi).EndInit();
+            ((System.ComponentModel.ISupportInitialize)num_chieucao).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private System.Windows.Forms.Label labelTitle;
-        private System.Windows.Forms.Label labelGioiTinh;
-        private System.Windows.Forms.Label labelTuoi;
-        private System.Windows.Forms.Label labelNoiSong;
-        private System.Windows.Forms.Label labelSoThich;
-        private System.Windows.Forms.Label labelHocVan;
-        private System.Windows.Forms.Label labelCongViec;
-        private System.Windows.Forms.ComboBox comboGioiTinh;
-        private System.Windows.Forms.TextBox textNoiSong;
-        private System.Windows.Forms.TextBox textSoThich;
-        private System.Windows.Forms.ComboBox comboHocVan;
-        private System.Windows.Forms.TextBox textCongViec;
-        private System.Windows.Forms.Button btnTimKiem;
-        private Label label2;
-        private ComboBox comboBox1;
+        private Label labelTitle;
+        private Label labelGioiTinh;
+        private Label labelTuoi;
+        private Label labelNoiSong;
+        private ComboBox comboGioiTinh;
+        private TextBox textNoiSong;
+        private Button btnTimKiem;
+        private NumericUpDown num_dotuoi;
+        private NumericUpDown num_chieucao;
+        private Label label1;
+        private RoundedButton btn_back;
     }
 }

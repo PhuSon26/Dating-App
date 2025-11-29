@@ -1,20 +1,20 @@
-﻿using System;
-using System.IO;
+﻿using Google.Cloud.Firestore;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Google.Cloud.Firestore;
+using Firebase.Storage;
+using Firebase.Auth;
 
 namespace LOGIN
 {
     public class FirebaseAuthHelper
     {
         private readonly string apiKey;
-
-        // FirestoreDb để lưu hồ sơ user
-        private readonly FirestoreDb db;
-
+        public FirestoreDb db;
+        public string userID;
         public FirebaseAuthHelper(string apiKey)
         {
             this.apiKey = apiKey;
@@ -31,12 +31,10 @@ namespace LOGIN
                 credPath);
 
             // ProjectId xem ở Project settings / General
-            db = FirestoreDb.Create("login-bb104");  
+            db = FirestoreDb.Create("login-bb104");
         }
 
-        // ==============================
-        // HÀM CHUNG GỬI POST REQUEST
-        // ==============================
+        // Hàm chung gửi POST request
         private async Task<string> PostAsync(string url, object data)
         {
             using var client = new HttpClient();
@@ -53,9 +51,7 @@ namespace LOGIN
             return await response.Content.ReadAsStringAsync();
         }
 
-        // ==============================
-        // ĐĂNG KÝ TÀI KHOẢN MỚI (AUTH)
-        // ==============================
+        // Đăng ký tài khoản mới
         public Task<string> SignUp(string email, string password)
         {
             string url = $"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={apiKey}";
@@ -68,9 +64,7 @@ namespace LOGIN
             return PostAsync(url, data);
         }
 
-        // ==============================
-        // ĐĂNG NHẬP (AUTH)
-        // ==============================
+        // Đăng nhập
         public Task<string> SignIn(string email, string password)
         {
             string url = $"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={apiKey}";
@@ -83,9 +77,7 @@ namespace LOGIN
             return PostAsync(url, data);
         }
 
-        // ==============================
-        // GỬI EMAIL RESET PASSWORD
-        // ==============================
+        // Gửi email reset password
         public Task<string> SendPasswordReset(string email)
         {
             string url = $"https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key={apiKey}";
@@ -97,18 +89,12 @@ namespace LOGIN
             return PostAsync(url, data);
         }
 
-        // ==============================
-        // ĐĂNG XUẤT (XÓA TOKEN TRONG APP)
-        // ==============================
+        // Đăng xuất (trên desktop chỉ cần xóa token)
         public void SignOut(ref string idToken, ref string refreshToken)
         {
             idToken = null;
             refreshToken = null;
         }
-
-        // ==============================
-        // KIỂM TRA TOKEN CÒN HỢP LỆ KHÔNG
-        // ==============================
         public Task<string> VerifyIdToken(string idToken)
         {
             string url = $"https://identitytoolkit.googleapis.com/v1/accounts:lookup?key={apiKey}";
@@ -118,15 +104,10 @@ namespace LOGIN
             };
             return PostAsync(url, data);
         }
-
-        // ==============================
-        // ĐỔI MẬT KHẨU (bạn chỉnh sau cũng được)
-        // ==============================
         public async Task<string> UpdatePassword(string email, string newPassword)
         {
             var signInResult = await SignIn(email, newPassword);
-            var idToken = JsonSerializer.Deserialize<JsonElement>(signInResult)
-                                      .GetProperty("idToken").GetString();
+            var idToken = JsonSerializer.Deserialize<JsonElement>(signInResult).GetProperty("idToken").GetString();
 
             string url = $"https://identitytoolkit.googleapis.com/v1/accounts:update?key={apiKey}";
             var data = new
@@ -137,7 +118,6 @@ namespace LOGIN
             };
             return await PostAsync(url, data);
         }
-
         // =======================================================
         // API CUNG CẤP THÔNG TIN – LƯU VÀO FIRESTORE (KHÔNG RTDB)
         // Collection: "Users", Document id = user.Id
@@ -157,14 +137,45 @@ namespace LOGIN
             // SetAsync(user) là đủ, không cần Dictionary
             await docRef.SetAsync(user, SetOptions.Overwrite);
         }
-
-        // (tùy, có thể dùng khi load hồ sơ)
-        public async Task<USER?> GetUserInfoAsync(string uid)
+        public async Task<bool> CheckUserExist(string userId)
         {
-            DocumentReference docRef = db.Collection("Users").Document(uid);
+            DocumentReference doc = db.Collection("Users").Document(userId);
+            DocumentSnapshot snap = await doc.GetSnapshotAsync();
+            return snap.Exists;
+        }
+        public async Task saveUserInfo(string userId, USER u)
+        {
+            DocumentReference doc = db.Collection("Users").Document(userId);
+            await doc.SetAsync(u);
+        }
+
+        public async Task<string> signInAndSetUser(string email, string password)
+        {
+            var result = await SignIn(email, password);
+            var json = JsonSerializer.Deserialize<JsonElement>(result);
+            userID = json.GetProperty("localId").GetString();
+            return userID;
+        }
+
+        public async Task<string> uploadFile(string localFilepath, string firebasefolder)
+        {
+            using (var stream = new FileStream(localFilepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                var task = new FirebaseStorage("login-bb104.appspot.com")
+                    .Child(firebasefolder)
+                    .Child(Path.GetFileName(localFilepath))
+                    .PutAsync(stream);
+
+                return await task;
+            }
+        }
+
+        public async Task<USER> getUser()
+        {
+            if (string.IsNullOrEmpty(userID)) return null;
+            DocumentReference docRef = db.Collection("Users").Document(userID);
             DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
             if (!snapshot.Exists) return null;
-
             return snapshot.ConvertTo<USER>();
         }
     }

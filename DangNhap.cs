@@ -9,7 +9,7 @@ namespace LOGIN
 {
     public partial class FormDangNhap : Form
     {
-        private FirebaseAuthHelper auth;
+        public FirebaseAuthHelper auth;
         public FormDangNhap(FirebaseAuthHelper auth)
         {
             this.auth = auth;
@@ -74,9 +74,19 @@ namespace LOGIN
                 var json = JsonDocument.Parse(result);
                 Session.IdToken = json.RootElement.GetProperty("idToken").ToString();
                 Session.LocalId = json.RootElement.GetProperty("localId").ToString();
+                auth.userID = Session.LocalId;
+
+                bool hasUserInfo = await auth.CheckUserExist(Session.LocalId);
+                if (!hasUserInfo)
+                {
+                    CungCapThongTin cctt = new CungCapThongTin(Session.LocalId, email, auth);
+                    this.Hide();
+                    cctt.Show();
+                    return;
+                }
 
                 MessageBox.Show("Đăng nhập thành công");
-                Main m = new Main();
+                Main m = new Main(auth);
                 this.Hide();
                 m.Show();
             }

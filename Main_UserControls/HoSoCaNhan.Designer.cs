@@ -342,10 +342,10 @@
         private TextBox tb_gioithieu;
         private TextBox tb_chieucao;
         private TextBox tb_vitri;
+        private TextBox tb_tuoi;
         private ListView lv_pictures;
         private Label label10;
         private Label label11;
-        private TextBox tb_tuoi;
         private Label label12;
     }
 }

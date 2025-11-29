@@ -8,6 +8,9 @@
     <Compile Update="DangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Main_UserControls\FormDanhSachTinNhan.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -22,9 +25,6 @@
     </Compile>
     <Compile Update="Main_UserControls\Uservip.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Main.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Update="Main_UserControls\CaiDat.cs">
       <SubType>UserControl</SubType>
@@ -71,5 +71,10 @@
     <Compile Update="DangKy, QuenMatKhau, CapNhatMatKhau\QuenMatKhau.cs">
       <SubType>Form</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Main.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

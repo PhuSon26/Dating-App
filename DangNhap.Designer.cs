@@ -9,7 +9,7 @@ namespace LOGIN
         private Label label2;
         private TextBox tb_email;
         private TextBox tb_matkhau;
-        private Button btn_dangnhap;
+        private RoundedButton btn_dangnhap;
         private LinkLabel ll_quenmatkhau;
         private LinkLabel ll_dangky;
         private void InitializeComponent()
@@ -18,7 +18,7 @@ namespace LOGIN
             tb_email = new TextBox();
             label2 = new Label();
             tb_matkhau = new TextBox();
-            btn_dangnhap = new Button();
+            btn_dangnhap = new RoundedButton();
             ll_quenmatkhau = new LinkLabel();
             ll_dangky = new LinkLabel();
             panel = new Panel();

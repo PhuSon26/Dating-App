@@ -39,7 +39,7 @@
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(0, 0);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(1200, 926);
+            panelMain.Size = new Size(1200, 917);
             panelMain.TabIndex = 0;
             // 
             // lblLogo
@@ -74,56 +74,49 @@
             // 
             panelContent.BackColor = Color.FromArgb(255, 250, 253);
             panelContent.Location = new Point(0, 103);
-            panelContent.Margin = new Padding(20);
+            panelContent.Margin = new Padding(21, 20, 21, 20);
             panelContent.Name = "panelContent";
             panelContent.Size = new Size(1200, 731);
             panelContent.TabIndex = 0;
-            panelContent.Paint += panelContent_Paint_3;
             // 
             // panelButtons
             // 
             panelButtons.BackColor = Color.White;
             panelButtons.Dock = DockStyle.Bottom;
-            panelButtons.Location = new Point(0, 834);
+            panelButtons.Location = new Point(0, 825);
             panelButtons.Name = "panelButtons";
             panelButtons.Padding = new Padding(0, 5, 0, 5);
             panelButtons.Size = new Size(1200, 92);
             panelButtons.TabIndex = 2;
-            panelButtons.Paint += panelButtons_Paint_1;
             // 
             // btn_vip
             // 
             btn_vip.Location = new Point(0, 0);
             btn_vip.Name = "btn_vip";
-            btn_vip.Size = new Size(75, 23);
             btn_vip.TabIndex = 0;
             // 
             // btn_ghepdoi
             // 
             btn_ghepdoi.Location = new Point(0, 0);
             btn_ghepdoi.Name = "btn_ghepdoi";
-            btn_ghepdoi.Size = new Size(75, 23);
             btn_ghepdoi.TabIndex = 0;
             // 
             // btn_dsnt
             // 
             btn_dsnt.Location = new Point(0, 0);
             btn_dsnt.Name = "btn_dsnt";
-            btn_dsnt.Size = new Size(75, 23);
             btn_dsnt.TabIndex = 0;
             // 
             // btn_hscn
             // 
             btn_hscn.Location = new Point(0, 0);
             btn_hscn.Name = "btn_hscn";
-            btn_hscn.Size = new Size(75, 23);
             btn_hscn.TabIndex = 0;
             // 
             // btn_caidat
             // 
             btn_caidat.Location = new Point(0, 0);
             btn_caidat.Name = "btn_caidat";
-            btn_caidat.Size = new Size(75, 23);
             btn_caidat.TabIndex = 0;
             // 
             // Main
@@ -131,7 +124,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1200, 926);
+            ClientSize = new Size(1200, 917);
             Controls.Add(panelMain);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;

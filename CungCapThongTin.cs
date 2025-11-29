@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Main_Interface;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,7 +17,7 @@ namespace LOGIN
         private readonly string _uid;
         private readonly string _email;
         private readonly FirebaseAuthHelper _auth;
-
+        private Main MainForm;
 
         public CungCapThongTin(string uid, string email, FirebaseAuthHelper auth)
         {
@@ -37,7 +38,7 @@ namespace LOGIN
                 ten = txtTen.Text.Trim(),
                 gioitinh = cbGioiTinh.SelectedItem?.ToString() ?? "",
                 tuoi = (int)nudTuoi.Value,
-                snhat = txtSNhat.Text.Trim(),
+                snhat = dtp_snhat.Text.Trim(),
                 hocvan = txtHocVan.Text.Trim(),
                 nghenghiep = txtNgheNghiep.Text.Trim(),
                 thoiquen = txtThoiQuen.Text.Trim(),
@@ -65,6 +66,8 @@ namespace LOGIN
 
                 // TODO: chuyển form
                 this.Close();
+                MainForm = new Main(_auth);
+                MainForm.Show();
             }
             catch (Exception ex)
             {
@@ -73,8 +76,13 @@ namespace LOGIN
         }
         private void btnBoQua_Click(object sender, EventArgs e)
         {
-          
+
             this.Close();
+        }
+
+        private void CungCapThongTin_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

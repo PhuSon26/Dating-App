@@ -36,7 +36,7 @@ namespace LOGIN
             lblTitle = new Label();
             labelEmail = new Label();
             tb_email = new TextBox();
-            btn_xacnhan = new Button();
+            btn_xacnhan = new RoundedButton();
             linkLabel_back = new LinkLabel();
             SuspendLayout();
             // 
@@ -87,7 +87,6 @@ namespace LOGIN
             labelEmail.ForeColor = Color.FromArgb(70, 70, 70);
             labelEmail.Location = new Point(122, 202);
             labelEmail.Name = "labelEmail";
-            labelEmail.Size = new Size(100, 23);
             labelEmail.TabIndex = 10;
             labelEmail.Text = "Mật Khẩu";
             // 
@@ -102,6 +101,7 @@ namespace LOGIN
             // btn_xacnhan
             // 
             btn_xacnhan.BackColor = Color.FromArgb(255, 111, 145);
+            btn_xacnhan.CornerRadius = 20;
             btn_xacnhan.FlatAppearance.BorderSize = 0;
             btn_xacnhan.FlatStyle = FlatStyle.Flat;
             btn_xacnhan.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
@@ -124,7 +124,7 @@ namespace LOGIN
             linkLabel_back.TabStop = true;
             linkLabel_back.Text = "← Quay lại đăng nhập";
             // 
-            // Capnhatmatkhau
+            // CapNhatMatKhau
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -138,7 +138,7 @@ namespace LOGIN
             Controls.Add(tb_email);
             Controls.Add(btn_xacnhan);
             Controls.Add(linkLabel_back);
-            Name = "Capnhatmatkhau";
+            Name = "CapNhatMatKhau";
             Text = "Capnhatmatkhau";
             ResumeLayout(false);
             PerformLayout();
@@ -151,7 +151,7 @@ namespace LOGIN
         private Label lblTitle;
         private Label labelEmail;
         private TextBox tb_email;
-        private Button btn_xacnhan;
+        private RoundedButton btn_xacnhan;
         private LinkLabel linkLabel_back;
     }
 }
