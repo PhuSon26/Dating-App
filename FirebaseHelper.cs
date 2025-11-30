@@ -139,6 +139,7 @@ namespace LOGIN
             // collection Users / document {uid}
             var docRef = db.Collection("Users").Document(uid);
             await docRef.DeleteAsync();
+        }
         // =======================================================
         // API CUNG CẤP THÔNG TIN – LƯU VÀO FIRESTORE (KHÔNG RTDB)
         // Collection: "Users", Document id = user.Id

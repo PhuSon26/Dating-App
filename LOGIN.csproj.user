@@ -76,5 +76,8 @@
     <EmbeddedResource Update="Main.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Update="Main_UserControls\CaiDat.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
