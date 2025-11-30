@@ -1,4 +1,4 @@
-﻿using LOGIN;
+using LOGIN;
 using LOGIN.Main_UserControls.GhepDoi_UserControls;
 using System;
 using System.Collections.Generic;

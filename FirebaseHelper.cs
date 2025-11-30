@@ -1,10 +1,11 @@
-﻿using Google.Cloud.Firestore;
+using Google.Cloud.Firestore;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Google.Cloud.Firestore;
+using System.IO;
 using Firebase.Storage;
 using Firebase.Auth;
 
@@ -118,6 +119,26 @@ namespace LOGIN
             };
             return await PostAsync(url, data);
         }
+        // ==============================
+        // XÓA TÀI KHOẢN TRONG FIREBASE AUTH
+        // ==============================
+        public Task<string> DeleteAccountAsync(string idToken)
+        {
+            string url = $"https://identitytoolkit.googleapis.com/v1/accounts:delete?key={apiKey}";
+            var data = new
+            {
+                idToken = idToken
+            };
+            return PostAsync(url, data);  
+        }
+        // ==============================
+        // XÓA HỒ SƠ USER TRONG FIRESTORE
+        // ==============================
+        public async Task DeleteUserInfoAsync(string uid)
+        {
+            // collection Users / document {uid}
+            var docRef = db.Collection("Users").Document(uid);
+            await docRef.DeleteAsync();
         // =======================================================
         // API CUNG CẤP THÔNG TIN – LƯU VÀO FIRESTORE (KHÔNG RTDB)
         // Collection: "Users", Document id = user.Id

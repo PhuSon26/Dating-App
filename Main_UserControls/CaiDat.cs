@@ -9,6 +9,8 @@ namespace Main_Interface.User_Controls
 {
     public partial class CaiDat : UserControl
     {
+        private readonly FirebaseAuthHelper _auth =
+     new FirebaseAuthHelper("AIzaSyDg9nNBc3h74QjNl2obv6pH1Y29RQQ8TjU");
         private Main MainForm;
         private SuaHoSoUser suahoso;
         private DoiEmailMatKhau dmk;
@@ -164,6 +166,37 @@ namespace Main_Interface.User_Controls
             cb_tatThongbao.Text = cb_tatThongbao.Checked ? "🔕 Tắt Thông Báo" : "🔔 Bật Thông Báo";
         }
 
+        
+
+        private async void btn_xoaTk_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Bạn chắc chắn muốn xóa tài khoản? Thao tác này không thể hoàn tác.",
+                "Xác nhận",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.No) return;
+
+            try
+            {
+                string idToken = Session.IdToken;   // đã lưu sau khi đăng nhập / đăng ký
+                string uid = Session.LocalId;
+
+                // 1. Xóa trên Firebase Auth
+                await _auth.DeleteAccountAsync(idToken);
+
+                // 2. Xóa hồ sơ trên Firestore
+                await _auth.DeleteUserInfoAsync(uid);
+
+                MessageBox.Show("Tài khoản đã được xóa.");
+
+                Application.Restart(); // hoặc đóng hết form về màn hình login
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi xóa tài khoản: " + ex.Message);
+            }
         private void btn_dangxuat_Click(object sender, EventArgs e)
         {
             FirebaseAuthHelper auth = MainForm.auth;
