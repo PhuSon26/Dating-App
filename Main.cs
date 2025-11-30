@@ -1,21 +1,38 @@
 ﻿using Dating_app_nhom3;
+using LOGIN;
 using Main_Interface.User_Controls;
+using System.Threading.Tasks;
 
 namespace Main_Interface
 {
     public partial class Main : Form
     {
-        private NapVIP nv = new NapVIP();
-        private FormDanhSachTinNhan dstn = new FormDanhSachTinNhan();
-        private Thongtinuser ttuser = new Thongtinuser();
-        public Main()
+        public NapVIP nv = new NapVIP();
+        public FormDanhSachTinNhan dstn = new FormDanhSachTinNhan();
+        public GhepDoi gd;
+        public Thongtinuser ttuser;
+        public FirebaseAuthHelper auth;
+
+        private bool loadedHscn = false;
+
+        public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();
+            this.auth = auth;
+            SetupButtons();
         }
+
+        public void Main_Load(object sender, EventArgs e)
+        {
+            gd = new GhepDoi(this);
+            LoadContent(gd);
+        }
+
         private void btn_vip_Click(object sender, EventArgs e)
         {
             LoadContent(nv);
         }
+
         private void btn_dsnt_Click(object sender, EventArgs e)
         {
             LoadContent(dstn);
@@ -23,7 +40,7 @@ namespace Main_Interface
 
         private void btn_ghepdoi_Click(object sender, EventArgs e)
         {
-            LoadContent(new GhepDoi(this));
+            LoadContent(gd);
         }
 
         private void btn_caidat_Click(object sender, EventArgs e)
@@ -31,10 +48,25 @@ namespace Main_Interface
             LoadContent(new CaiDat(this));
         }
 
-        private void btn_hscn_Click(object sender, EventArgs e)
+        private async void btn_hscn_Click(object sender, EventArgs e)
         {
+            if (!loadedHscn)
+            {
+                USER u = await auth.getUser();
+                if (u == null)
+                {
+                    MessageBox.Show("Không tải được thông tin người dùng!");
+                    return;
+                }
+
+                ttuser = new Thongtinuser(auth, u);
+                ttuser.setUserInfo(u);
+                loadedHscn = true;
+            }
+
             LoadContent(ttuser);
         }
+
         private Button activeButton = null;
 
         private Button CreateNavButton(string icon, string label, Point location)
@@ -49,22 +81,24 @@ namespace Main_Interface
             btn.TextAlign = ContentAlignment.MiddleCenter;
             btn.Font = new Font("Segoe UI Emoji", 14, FontStyle.Regular);
             btn.ForeColor = Color.Gray;
-            btn.Text = $"{icon}\n{label}";
 
+            btn.Text = $"{icon}\n{label}";
 
             btn.MouseEnter += (s, e) =>
             {
                 if (btn != activeButton)
                     btn.ForeColor = Color.FromArgb(255, 130, 160);
             };
+
             btn.MouseLeave += (s, e) =>
             {
                 if (btn != activeButton)
                     btn.ForeColor = Color.Gray;
             };
 
-            // Khi click
+            // Click
             btn.Click += (s, e) => SetActiveButton(btn);
+
             return btn;
         }
 
@@ -74,8 +108,9 @@ namespace Main_Interface
                 activeButton.ForeColor = Color.Gray;
 
             activeButton = btn;
-            activeButton.ForeColor = Color.FromArgb(255, 90, 130); // Hồng đậm hơn
+            activeButton.ForeColor = Color.FromArgb(255, 90, 130); // hồng đậm
         }
+
         public void LoadContent(UserControl uc)
         {
             panelContent.Controls.Clear();
@@ -83,28 +118,8 @@ namespace Main_Interface
             panelContent.Controls.Add(uc);
         }
 
-        private void panelButtons_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panelContent_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panelContent_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panelContent_Paint_2(object sender, PaintEventArgs e)
-        {
-
-        }
         private void SetupButtons()
         {
-
             panelButtons.Controls.Clear();
 
             btn_vip = CreateNavButton("💎", "VIP", new Point(60, 10));
@@ -113,7 +128,6 @@ namespace Main_Interface
             btn_hscn = CreateNavButton("👤", "Hồ sơ", new Point(720, 10));
             btn_caidat = CreateNavButton("⚙️", "Cài đặt", new Point(940, 10));
 
-
             // Gắn sự kiện click
             btn_vip.Click += btn_vip_Click;
             btn_ghepdoi.Click += btn_ghepdoi_Click;
@@ -121,16 +135,14 @@ namespace Main_Interface
             btn_hscn.Click += btn_hscn_Click;
             btn_caidat.Click += btn_caidat_Click;
 
-            // Thêm nút vào panel
+            // Thêm vào panel
             panelButtons.Controls.AddRange(new Control[]
             {
                 btn_vip, btn_ghepdoi, btn_dsnt, btn_hscn, btn_caidat
             });
-
-
         }
 
-        // === Hàm tạo nút chung ===
+        // ==== Hàm tạo nút chung (ver 2) ====
         private Button CreateNavButton(string icon, string text)
         {
             var btn = new Button();
@@ -143,28 +155,13 @@ namespace Main_Interface
             btn.Text = $"{icon} {text}";
             btn.Cursor = Cursors.Hand;
 
-            // Hiệu ứng hover
             btn.MouseEnter += (s, e) =>
                 btn.BackColor = Color.FromArgb(255, 150, 180);
+
             btn.MouseLeave += (s, e) =>
                 btn.BackColor = Color.FromArgb(255, 130, 160);
 
             return btn;
-        }
-
-        private void panelContent_Paint_3(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Main_Load(object sender, EventArgs e)
-        {
-            SetupButtons();
-        }
-
-        private void panelButtons_Paint_1(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

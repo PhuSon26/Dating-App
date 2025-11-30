@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            btn_csHoSo = new Button();
             btn_doiEmailMk = new Button();
             btn_xoaTk = new Button();
             btn_dsChan = new Button();
@@ -50,24 +49,6 @@
             label1.Size = new Size(237, 81);
             label1.TabIndex = 0;
             label1.Text = "Cài Đặt";
-            // 
-            // btn_csHoSo
-            // 
-            btn_csHoSo.BackColor = Color.FromArgb(100, 149, 237);
-            btn_csHoSo.FlatAppearance.BorderSize = 0;
-            btn_csHoSo.FlatStyle = FlatStyle.Flat;
-            btn_csHoSo.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_csHoSo.ForeColor = Color.White;
-            btn_csHoSo.Location = new Point(207, 107);
-            btn_csHoSo.Name = "btn_csHoSo";
-            btn_csHoSo.Size = new Size(748, 60);
-            btn_csHoSo.TabIndex = 1;
-            btn_csHoSo.Text = "✏️ Chỉnh sửa hồ sơ";
-            btn_csHoSo.UseVisualStyleBackColor = false;
-            btn_csHoSo.Click += btn_csHoSo_Click;
-            btn_csHoSo.Paint += Button_Paint;
-            btn_csHoSo.MouseEnter += Button_MouseEnter;
-            btn_csHoSo.MouseLeave += Button_MouseLeave;
             // 
             // btn_doiEmailMk
             // 
@@ -166,7 +147,6 @@
             // 
             panel.Controls.Add(btn_dangxuat);
             panel.Controls.Add(label1);
-            panel.Controls.Add(btn_csHoSo);
             panel.Controls.Add(btn_doiEmailMk);
             panel.Controls.Add(btn_xoaTk);
             panel.Controls.Add(btn_dsChan);
@@ -191,6 +171,7 @@
             btn_dangxuat.TabIndex = 10;
             btn_dangxuat.Text = "🚪Đăng Xuất";
             btn_dangxuat.UseVisualStyleBackColor = false;
+            btn_dangxuat.Click += btn_dangxuat_Click;
             // 
             // CaiDat
             // 
@@ -209,7 +190,6 @@
         #endregion
 
         private Label label1;
-        private Button btn_csHoSo;
         private Button btn_doiEmailMk;
         private Button btn_xoaTk;
         private Button btn_dsChan;

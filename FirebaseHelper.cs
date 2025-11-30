@@ -1,31 +1,38 @@
-﻿using System;
+using Google.Cloud.Firestore;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Google.Cloud.Firestore;
 using System.IO;
+using Firebase.Storage;
+using Firebase.Auth;
 
 namespace LOGIN
 {
     public class FirebaseAuthHelper
     {
         private readonly string apiKey;
-        private readonly FirestoreDb db;
+        public FirestoreDb db;
+        public string userID;
         public FirebaseAuthHelper(string apiKey)
         {
             this.apiKey = apiKey;
-            string credPath = Path.Combine(
-        AppDomain.CurrentDomain.BaseDirectory,
-        "serviceAccountKey.json");
 
-            // 2. Báo cho SDK biết file credentials nằm ở đâu
+            // ===== KẾT NỐI VỚI FIRESTORE =====
+            // File serviceAccountKey.json phải nằm cạnh LOGIN.exe
+            string credPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "serviceAccountKey.json");
+
+            // Cho SDK biết dùng file key nào
             Environment.SetEnvironmentVariable(
                 "GOOGLE_APPLICATION_CREDENTIALS",
                 credPath);
 
-            // 3. Khởi tạo FirestoreDb với PROJECT ID
-            db = FirestoreDb.Create("login-bb104");  // projectId của bạn
+            // ProjectId xem ở Project settings / General
+            db = FirestoreDb.Create("login-bb104");
         }
 
         // Hàm chung gửi POST request
@@ -132,6 +139,65 @@ namespace LOGIN
             // collection Users / document {uid}
             var docRef = db.Collection("Users").Document(uid);
             await docRef.DeleteAsync();
+        // =======================================================
+        // API CUNG CẤP THÔNG TIN – LƯU VÀO FIRESTORE (KHÔNG RTDB)
+        // Collection: "Users", Document id = user.Id
+        // =======================================================
+        public async Task CreateOrUpdateUserInfoAsync(USER user)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+
+            if (string.IsNullOrWhiteSpace(user.Id))
+                throw new ArgumentException("user.Id đang trống – phải truyền uid Firebase vào USER.Id.");
+
+            // Lấy reference tới document /Users/{Id}
+            DocumentReference docRef = db.Collection("Users").Document(user.Id);
+
+            // Vì USER có [FirestoreData] + [FirestoreProperty] nên
+            // SetAsync(user) là đủ, không cần Dictionary
+            await docRef.SetAsync(user, SetOptions.Overwrite);
+        }
+        public async Task<bool> CheckUserExist(string userId)
+        {
+            DocumentReference doc = db.Collection("Users").Document(userId);
+            DocumentSnapshot snap = await doc.GetSnapshotAsync();
+            return snap.Exists;
+        }
+        public async Task saveUserInfo(string userId, USER u)
+        {
+            DocumentReference doc = db.Collection("Users").Document(userId);
+            await doc.SetAsync(u);
+        }
+
+        public async Task<string> signInAndSetUser(string email, string password)
+        {
+            var result = await SignIn(email, password);
+            var json = JsonSerializer.Deserialize<JsonElement>(result);
+            userID = json.GetProperty("localId").GetString();
+            return userID;
+        }
+
+        public async Task<string> uploadFile(string localFilepath, string firebasefolder)
+        {
+            using (var stream = new FileStream(localFilepath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                var task = new FirebaseStorage("login-bb104.appspot.com")
+                    .Child(firebasefolder)
+                    .Child(Path.GetFileName(localFilepath))
+                    .PutAsync(stream);
+
+                return await task;
+            }
+        }
+
+        public async Task<USER> getUser()
+        {
+            if (string.IsNullOrEmpty(userID)) return null;
+            DocumentReference docRef = db.Collection("Users").Document(userID);
+            DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+            if (!snapshot.Exists) return null;
+            return snapshot.ConvertTo<USER>();
         }
     }
 }

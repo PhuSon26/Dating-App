@@ -7,19 +7,19 @@ namespace LOGIN
     {
         private Label labelEmail;
         private TextBox tb_email;
-        private Button btn_xacnhan;
+        private RoundedButton btn_xacnhan;
         private LinkLabel ll_back;
 
         private void InitializeComponent()
         {
             labelEmail = new Label();
             tb_email = new TextBox();
-            btn_xacnhan = new Button();
+            btn_xacnhan = new RoundedButton();
             ll_back = new LinkLabel();
             label1 = new Label();
             label2 = new Label();
             tb_maxacnhan = new TextBox();
-            btn_nhanma = new Button();
+            btn_nhanma = new RoundedButton();
             lblTitle = new Label();
             SuspendLayout();
             // 
@@ -147,7 +147,7 @@ namespace LOGIN
         private Label label1;
         private Label label2;
         private TextBox tb_maxacnhan;
-        private Button btn_nhanma;
+        private RoundedButton btn_nhanma;
         private Label lblTitle;
     }
 }

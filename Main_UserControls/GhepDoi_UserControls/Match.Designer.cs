@@ -53,7 +53,7 @@
             // 
             pb_avatarUser2.Location = new Point(584, 195);
             pb_avatarUser2.Name = "pb_avatarUser2";
-            pb_avatarUser2.Size = new Size(171, 150);
+            pb_avatarUser2.Size = new Size(171, 149);
             pb_avatarUser2.TabIndex = 1;
             pb_avatarUser2.TabStop = false;
             // 
@@ -63,7 +63,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Snap ITC", 48F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.DeepPink;
-            label1.Location = new Point(204, 229);
+            label1.Location = new Point(203, 229);
             label1.Name = "label1";
             label1.Size = new Size(374, 103);
             label1.TabIndex = 2;
@@ -71,14 +71,14 @@
             // 
             // txtNameUser1
             // 
-            txtNameUser1.Location = new Point(50, 378);
+            txtNameUser1.Location = new Point(50, 379);
             txtNameUser1.Name = "txtNameUser1";
             txtNameUser1.Size = new Size(125, 27);
             txtNameUser1.TabIndex = 3;
             // 
             // txtNameUser2
             // 
-            txtNameUser2.Location = new Point(604, 378);
+            txtNameUser2.Location = new Point(603, 379);
             txtNameUser2.Name = "txtNameUser2";
             txtNameUser2.Size = new Size(125, 27);
             txtNameUser2.TabIndex = 4;

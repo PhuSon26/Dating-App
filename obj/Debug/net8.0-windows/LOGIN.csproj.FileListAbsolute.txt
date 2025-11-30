@@ -277,3 +277,5 @@ C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\L
 C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LocUser.resources
 C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.Main_UserControls.LocUser.resources
 C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.LocUser.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.AssemblyInfoInputs.cache
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.AssemblyInfo.cs

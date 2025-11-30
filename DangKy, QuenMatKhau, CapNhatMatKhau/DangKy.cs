@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace LOGIN
 {
@@ -57,7 +59,9 @@ namespace LOGIN
                 Session.LocalId = json.RootElement.GetProperty("localId").GetString();
 
                 MessageBox.Show("Đăng ký thành công");
+                FormDangNhap dn = new FormDangNhap(auth);
                 this.Close();
+                dn.Show();
             }
             catch (Exception ex)
             {

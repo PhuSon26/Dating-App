@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btn_dangky = new Button();
+            btn_dangky = new RoundedButton();
             tb_password = new TextBox();
             label2 = new Label();
             label1 = new Label();
@@ -180,7 +180,7 @@
 
         #endregion
 
-        private Button btn_dangky;
+        private RoundedButton btn_dangky;
         private TextBox tb_password;
         private Label label2;
         private Label label1;
