@@ -166,7 +166,7 @@ namespace Main_Interface.User_Controls
             cb_tatThongbao.Text = cb_tatThongbao.Checked ? "🔕 Tắt Thông Báo" : "🔔 Bật Thông Báo";
         }
 
-        
+
 
         private async void btn_xoaTk_Click(object sender, EventArgs e)
         {
@@ -197,6 +197,7 @@ namespace Main_Interface.User_Controls
             {
                 MessageBox.Show("Lỗi xóa tài khoản: " + ex.Message);
             }
+        }
         private void btn_dangxuat_Click(object sender, EventArgs e)
         {
             FirebaseAuthHelper auth = MainForm.auth;
