@@ -7573,23 +7573,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\leson\\.nuget\\packages\\": {},
+    "C:\\Users\\admin\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\leson\\source\\repos\\Dating-App\\Main Interface\\LOGIN.csproj",
+      "projectUniqueName": "D:\\HOCTAP\\HKIII\\NT106\\TH\\Đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj",
       "projectName": "LOGIN",
-      "projectPath": "C:\\Users\\leson\\source\\repos\\Dating-App\\Main Interface\\LOGIN.csproj",
-      "packagesPath": "C:\\Users\\leson\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\leson\\source\\repos\\Dating-App\\Main Interface\\obj\\",
+      "projectPath": "D:\\HOCTAP\\HKIII\\NT106\\TH\\Đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "D:\\HOCTAP\\HKIII\\NT106\\TH\\Đồ án\\PhuSon26\\Dating-App\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\leson\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

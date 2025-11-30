@@ -22,7 +22,7 @@ namespace LOGIN
             db = FirestoreDb.Create("login-bb104");
         }
 
-        // Hàm chung gửi POST request
+       
         private async Task<string> PostAsync(string url, object data)
         {
             using var client = new HttpClient();

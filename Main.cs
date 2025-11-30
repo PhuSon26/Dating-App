@@ -135,7 +135,7 @@ namespace Main_Interface
             btn_hscn.Click += btn_hscn_Click;
             btn_caidat.Click += btn_caidat_Click;
 
-            // Thêm vào panel
+      
             panelButtons.Controls.AddRange(new Control[]
             {
                 btn_vip, btn_ghepdoi, btn_dsnt, btn_hscn, btn_caidat
@@ -162,6 +162,11 @@ namespace Main_Interface
                 btn.BackColor = Color.FromArgb(255, 130, 160);
 
             return btn;
+        }
+
+        private void btn_ghepdoi_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

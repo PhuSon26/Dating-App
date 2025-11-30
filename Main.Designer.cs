@@ -103,6 +103,7 @@
             btn_ghepdoi.Location = new Point(0, 0);
             btn_ghepdoi.Name = "btn_ghepdoi";
             btn_ghepdoi.TabIndex = 0;
+            btn_ghepdoi.Click += btn_ghepdoi_Click_1;
             // 
             // btn_dsnt
             // 
