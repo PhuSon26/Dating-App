@@ -100,6 +100,7 @@
             btn_xoaTk.TabIndex = 3;
             btn_xoaTk.Text = "🗑️ Xóa tài khoản";
             btn_xoaTk.UseVisualStyleBackColor = false;
+            btn_xoaTk.Click += btn_xoaTk_Click;
             btn_xoaTk.Paint += Button_Paint;
             btn_xoaTk.MouseEnter += Button_MouseEnter;
             btn_xoaTk.MouseLeave += Button_MouseLeave;
