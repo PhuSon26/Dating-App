@@ -221,5 +221,57 @@ namespace LOGIN
             if (!snapshot.Exists) return null;
             return snapshot.ConvertTo<USER>();
         }
+        /*
+        public async Task<string> UploadAvatarAsync(string filePath, string userId)
+        {
+            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                var task = new FirebaseStorage("login-bb104.appspot.com")
+                    .Child("avatars")
+                    .Child(userId + ".jpg")
+                    .PutAsync(stream);
+
+                string downloadUrl = await task;
+                return downloadUrl;
+            }
+        }
+        public async Task<List<string>> UploadPhotosAsync(List<string> filePaths, string userId)
+        {
+            List<string> urls = new List<string>();
+            foreach (var filePath in filePaths)
+            {
+                using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    string fileName = Path.GetFileName(filePath);
+                    var task = new FirebaseStorage("login-bb104.appspot.com")
+                        .Child("users_photos")
+                        .Child(userId)
+                        .Child(fileName)
+                        .PutAsync(stream);
+
+                    string url = await task;
+                    urls.Add(url);
+                }
+            }
+            return urls;
+        }
+        public string ImageToBase64(Image img)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return Convert.ToBase64String(ms.ToArray());
+            }
+        }
+
+        public Image Base64ToImage(string base64)
+        {
+            byte[] bytes = Convert.FromBase64String(base64);
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                return Image.FromStream(ms);
+            }
+        }
+        */
     }
 }

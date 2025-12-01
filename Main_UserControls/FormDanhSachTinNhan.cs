@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Main_Interface;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,9 +14,11 @@ namespace Dating_app_nhom3
     public partial class FormDanhSachTinNhan : UserControl
     {
         private UserChat_item myControl;
-        public FormDanhSachTinNhan()
+        private Main MainForm;
+        public FormDanhSachTinNhan(Main m)
         {
             InitializeComponent();
+            MainForm = m;
             for (int i = 0; i < 10; i++)
             {
                 UserChat_item control = new UserChat_item();

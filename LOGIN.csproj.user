@@ -38,9 +38,6 @@
     <Compile Update="Main_UserControls\CaiDat_UserControls\GioiThieuUngDung.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Main_UserControls\Thongtinuser_UserControls\SuaHoSoUser.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\NhanTin.cs">
       <SubType>UserControl</SubType>
     </Compile>

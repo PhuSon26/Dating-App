@@ -109,6 +109,7 @@
             tb_gioithieu.Name = "tb_gioithieu";
             tb_gioithieu.ReadOnly = true;
             tb_gioithieu.Size = new Size(336, 69);
+            tb_gioithieu.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_gioithieu.TabIndex = 17;
             // 
             // tb_vitri
@@ -116,6 +117,7 @@
             tb_vitri.Location = new Point(817, 77);
             tb_vitri.Multiline = true;
             tb_vitri.Name = "tb_vitri";
+            tb_vitri.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_vitri.ReadOnly = true;
             tb_vitri.Size = new Size(336, 69);
             tb_vitri.TabIndex = 16;
@@ -124,6 +126,7 @@
             // 
             tb_thoiquen.Location = new Point(817, 2);
             tb_thoiquen.Multiline = true;
+            tb_thoiquen.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_thoiquen.Name = "tb_thoiquen";
             tb_thoiquen.ReadOnly = true;
             tb_thoiquen.Size = new Size(336, 69);
@@ -132,6 +135,7 @@
             // tb_chieucao
             // 
             tb_chieucao.Location = new Point(152, 190);
+            tb_chieucao.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_chieucao.Name = "tb_chieucao";
             tb_chieucao.ReadOnly = true;
             tb_chieucao.Size = new Size(275, 27);
@@ -140,6 +144,7 @@
             // tb_nghe
             // 
             tb_nghe.Location = new Point(152, 150);
+            tb_nghe.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_nghe.Name = "tb_nghe";
             tb_nghe.ReadOnly = true;
             tb_nghe.Size = new Size(275, 27);
@@ -151,6 +156,7 @@
             tb_hocvan.Name = "tb_hocvan";
             tb_hocvan.ReadOnly = true;
             tb_hocvan.Size = new Size(275, 27);
+            tb_hocvan.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_hocvan.TabIndex = 12;
             // 
             // tb_snhat
@@ -159,6 +165,7 @@
             tb_snhat.Name = "tb_snhat";
             tb_snhat.ReadOnly = true;
             tb_snhat.Size = new Size(275, 27);
+            tb_snhat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_snhat.TabIndex = 11;
             // 
             // tb_tuoi
@@ -167,11 +174,13 @@
             tb_tuoi.Name = "tb_tuoi";
             tb_tuoi.ReadOnly = true;
             tb_tuoi.Size = new Size(275, 27);
+            tb_tuoi.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_tuoi.TabIndex = 10;
             // 
             // tb_name
             // 
             tb_name.Location = new Point(152, 8);
+            tb_name.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_name.Name = "tb_name";
             tb_name.ReadOnly = true;
             tb_name.Size = new Size(275, 27);
@@ -180,29 +189,29 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label9.Location = new Point(664, 73);
             label9.Name = "label9";
             label9.Size = new Size(53, 25);
+            label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label9.TabIndex = 8;
             label9.Text = "Vị Trí:";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label8.Location = new Point(21, 186);
             label8.Name = "label8";
             label8.Size = new Size(96, 25);
+            label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.TabIndex = 7;
             label8.Text = "Chiều Cao:";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.Location = new Point(664, 149);
             label7.Name = "label7";
+            label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.Size = new Size(94, 25);
             label7.TabIndex = 6;
             label7.Text = "Giới Thiệu:";
@@ -210,8 +219,8 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.Location = new Point(664, 1);
+            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.Name = "label6";
             label6.Size = new Size(98, 25);
             label6.TabIndex = 5;
@@ -220,8 +229,8 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.Location = new Point(21, 152);
+            label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.Name = "label5";
             label5.Size = new Size(122, 25);
             label5.TabIndex = 4;
@@ -230,40 +239,40 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(21, 116);
             label4.Name = "label4";
             label4.Size = new Size(83, 25);
             label4.TabIndex = 3;
             label4.Text = "Học Vấn:";
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.Location = new Point(21, 81);
             label3.Name = "label3";
             label3.Size = new Size(93, 25);
             label3.TabIndex = 2;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.Text = "Sinh Nhật:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.Location = new Point(21, 46);
             label2.Name = "label2";
             label2.Size = new Size(50, 25);
             label2.TabIndex = 1;
+            label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Text = "Tuổi:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.Location = new Point(21, 10);
             label1.Name = "label1";
             label1.Size = new Size(71, 25);
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.TabIndex = 0;
             label1.Text = "Họ Tên:";
             // 

@@ -7,14 +7,18 @@ namespace Main_Interface
 {
     public partial class Main : Form
     {
-        public NapVIP nv = new NapVIP();
-        public FormDanhSachTinNhan dstn = new FormDanhSachTinNhan();
+        public NapVIP nv;
+        public FormDanhSachTinNhan dstn;
         public GhepDoi gd;
         public Thongtinuser ttuser;
         public FirebaseAuthHelper auth;
+        public CaiDat cd;
 
         private bool loadedHscn = false;
-
+        private bool loadedVip = false;
+        private bool loadedDs = false;
+        private bool loadedGhepDoi = false;
+        private bool loadedCaiDat = false;
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();
@@ -30,22 +34,42 @@ namespace Main_Interface
 
         private void btn_vip_Click(object sender, EventArgs e)
         {
+            if (!loadedVip)
+            {
+                nv = new NapVIP();
+                loadedVip = true;
+            }
             LoadContent(nv);
         }
 
         private void btn_dsnt_Click(object sender, EventArgs e)
         {
+            if (!loadedDs)
+            {
+                dstn = new FormDanhSachTinNhan(this);
+                loadedDs = true;
+            }
             LoadContent(dstn);
         }
 
         private void btn_ghepdoi_Click(object sender, EventArgs e)
         {
+            if (!loadedGhepDoi)
+            {
+                gd = new GhepDoi(this);
+                loadedGhepDoi = true;
+            }
             LoadContent(gd);
         }
 
         private void btn_caidat_Click(object sender, EventArgs e)
         {
-            LoadContent(new CaiDat(this));
+            if (!loadedCaiDat)
+            {
+                cd = new CaiDat(this);
+                loadedCaiDat = true;
+            }
+            LoadContent(cd);
         }
 
         private async void btn_hscn_Click(object sender, EventArgs e)
