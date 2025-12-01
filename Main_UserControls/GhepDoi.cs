@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using System.Text.Json;
 
 namespace Main_Interface.User_Controls
-{  
+{
 
     public partial class GhepDoi : UserControl
     {
@@ -24,6 +24,8 @@ namespace Main_Interface.User_Controls
         private MatchFilterAPI filterAPI;
         private List<USER> suggestedUsers = new List<USER>();
         private int suggestIndex = 0;
+        private LOGIN.Match match;
+        string myUserId = Session.LocalId;
         public GhepDoi()
         {
             InitializeComponent();
@@ -33,6 +35,7 @@ namespace Main_Interface.User_Controls
         {
             InitializeComponent();
             this.Load += GhepDoi_Load;
+            match = new LOGIN.Match("login-bb104", myUserId);
             MainForm = m;
             loc = new LocUser(MainForm);
             //filterAPI = new MatchFilterAPI("login - bb104");
@@ -73,7 +76,7 @@ namespace Main_Interface.User_Controls
             tb_hocvan.Text = u.hocvan ?? "---";
             tb_nghe.Text = u.nghenghiep ?? "---";
 
-           
+
             tb_chieucao.Text = u.chieucao > 0 ? $"{u.chieucao}m" : "---";
 
             tb_thoiquen.Text = u.thoiquen ?? "Chưa cập nhật";
@@ -103,7 +106,7 @@ namespace Main_Interface.User_Controls
         {
             suggestedUsers = await filterAPI.FilterUsers(filter);
 
-            suggestIndex= 0;
+            suggestIndex = 0;
 
             if (suggestedUsers.Count > 0)
                 ShowUser(suggestedUsers[0]);
@@ -113,12 +116,12 @@ namespace Main_Interface.User_Controls
 
         private async void GhepDoi_Load(object sender, EventArgs e)
         {
-            string myUserId = Session.LocalId;
-            await LoadSuggestUsers(myUserId);
-           
 
-           
-            
+            await LoadSuggestUsers(myUserId);
+
+
+
+
         }
 
         private async Task LoadSuggestUsers(string userId)
@@ -229,10 +232,67 @@ namespace Main_Interface.User_Controls
             NextSuggestUser();
         }
 
-        private void btn_tim_Click(object sender, EventArgs e)
+        // Trong file GhepDoi.cs
+
+        private async void btn_tim_Click(object sender, EventArgs e)
         {
-            NextSuggestUser();
+          
+            if (suggestedUsers == null || suggestedUsers.Count == 0) return;
+
+            USER currentUserOnCard = suggestedUsers[suggestIndex];
+            string targetUserId = currentUserOnCard.Id; 
+
+          
+            btn_tim.Enabled = false;
+
+            try
+            {
+              
+                bool isMatch = await match.LikeUser(targetUserId);
+
+              
+                if (isMatch)
+                {
+                    MessageBox.Show($"Chúc mừng! Bạn và {currentUserOnCard.ten} đã tương hợp!", "It's a Match!");
+                   
+                }
+                else
+                {
+                    
+                    MessageBox.Show("Đã thả tim thành công!");
+                }
+
+                
+                NextSuggestUser();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi kết nối: " + ex.Message);
+            }
+            finally
+            {
+                // Mở lại nút bấm
+                btn_tim.Enabled = true;
+            }
+        }
+        private void panelPictures_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
+        private void btn_timVIP_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelQuet_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panelThongTin_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

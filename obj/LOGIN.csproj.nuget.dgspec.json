@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\HOCTAP\\HKIII\\NT106\\TH\\Đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj": {}
+    "C:\\Users\\admin\\Desktop\\đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj": {}
   },
   "projects": {
-    "D:\\HOCTAP\\HKIII\\NT106\\TH\\Đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj": {
+    "C:\\Users\\admin\\Desktop\\đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HOCTAP\\HKIII\\NT106\\TH\\Đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Desktop\\đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj",
         "projectName": "LOGIN",
-        "projectPath": "D:\\HOCTAP\\HKIII\\NT106\\TH\\Đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj",
+        "projectPath": "C:\\Users\\admin\\Desktop\\đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "D:\\HOCTAP\\HKIII\\NT106\\TH\\Đồ án\\PhuSon26\\Dating-App\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Desktop\\đồ án\\PhuSon26\\Dating-App\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

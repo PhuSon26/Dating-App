@@ -67,6 +67,7 @@
             panelPictures.Name = "panelPictures";
             panelPictures.Size = new Size(1051, 282);
             panelPictures.TabIndex = 0;
+            panelPictures.Paint += panelPictures_Paint;
             // 
             // flpanel_pictures
             // 
@@ -104,6 +105,7 @@
             panelThongTin.Name = "panelThongTin";
             panelThongTin.Size = new Size(1051, 170);
             panelThongTin.TabIndex = 1;
+            panelThongTin.Paint += panelThongTin_Paint;
             // 
             // tb_gioithieu
             // 
@@ -291,6 +293,7 @@
             panelQuet.Name = "panelQuet";
             panelQuet.Size = new Size(1051, 116);
             panelQuet.TabIndex = 2;
+            panelQuet.Paint += panelQuet_Paint;
             // 
             // btn_loc
             // 
@@ -338,6 +341,7 @@
             btn_timVIP.TabIndex = 1;
             btn_timVIP.Text = "🌟";
             btn_timVIP.UseVisualStyleBackColor = false;
+            btn_timVIP.Click += btn_timVIP_Click;
             // 
             // btn_tim
             // 
@@ -346,7 +350,7 @@
             btn_tim.FlatStyle = FlatStyle.Flat;
             btn_tim.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_tim.ForeColor = Color.Fuchsia;
-            btn_tim.Location = new Point(816, 0);
+            btn_tim.Location = new Point(825, -3);
             btn_tim.Margin = new Padding(3, 2, 3, 2);
             btn_tim.Name = "btn_tim";
             btn_tim.Size = new Size(111, 98);

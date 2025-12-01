@@ -39,7 +39,7 @@ namespace LOGIN
             return await response.Content.ReadAsStringAsync();
         }
 
-        // Đăng ký tài khoản mới
+      
         public Task<string> SignUp(string email, string password)
         {
             string url = $"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={apiKey}";

@@ -12,6 +12,7 @@ namespace Main_Interface
         public GhepDoi gd;
         public Thongtinuser ttuser;
         public FirebaseAuthHelper auth;
+       
 
         private bool loadedHscn = false;
 
@@ -19,6 +20,7 @@ namespace Main_Interface
         {
             InitializeComponent();
             this.auth = auth;
+           
             SetupButtons();
         }
 
@@ -167,6 +169,10 @@ namespace Main_Interface
         private void btn_ghepdoi_Click_1(object sender, EventArgs e)
         {
 
+        }
+        private async void btnLike_Click(object sender, EventArgs e)
+        {
+          
         }
     }
 }
