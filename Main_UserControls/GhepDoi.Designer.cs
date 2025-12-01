@@ -78,7 +78,7 @@
             // 
             // panelThongTin
             // 
-            panelThongTin.BackColor = Color.FromArgb(109, 216, 208);
+            panelThongTin.BackColor = Color.FromArgb(255, 240, 245);
             panelThongTin.Controls.Add(tb_gioithieu);
             panelThongTin.Controls.Add(tb_vitri);
             panelThongTin.Controls.Add(tb_thoiquen);

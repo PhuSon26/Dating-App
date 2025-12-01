@@ -206,6 +206,7 @@
             FormBorderStyle = FormBorderStyle.FixedDialog;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cung cấp thông tin";
+            BackColor = Color.FromArgb(255, 240, 245);
 
             ((System.ComponentModel.ISupportInitialize)nudTuoi).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudChieuCao).EndInit();

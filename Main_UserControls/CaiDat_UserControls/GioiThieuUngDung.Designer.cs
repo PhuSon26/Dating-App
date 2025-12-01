@@ -70,21 +70,37 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1129, 708);
             panel1.TabIndex = 1;
-            // 
             // lblGioiThieu
-            // 
-            lblGioiThieu.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblGioiThieu.Location = new Point(3, 0);
-            lblGioiThieu.Name = "lblGioiThieu";
-            lblGioiThieu.Size = new Size(1126, 695);
-            lblGioiThieu.TabIndex = 0;
-            lblGioiThieu.Text = resources.GetString("lblGioiThieu.Text");
-            // 
+            lblGioiThieu.Font = new Font("Segoe UI", 16F, FontStyle.Regular);
+            lblGioiThieu.ForeColor = Color.Black;
+            lblGioiThieu.BackColor = Color.Transparent; // trong suốt
+            lblGioiThieu.TextAlign = ContentAlignment.TopCenter; // canh giữa ngang
+            lblGioiThieu.MaximumSize = new Size(panel1.Width - 20, 0);
+            lblGioiThieu.AutoSize = true;
+            lblGioiThieu.Padding = new Padding(10); // cách viền panel
+            lblGioiThieu.Text =
+            "🌸 Chào mừng bạn đến với SynHeart! 🌸\n" +
+            "SynHeart là ứng dụng hẹn hò hiện đại, nơi bạn có thể kết nối với những người có cùng sở thích, chia sẻ niềm vui, và tìm thấy một nửa đích thực của mình. " +
+            "Chúng tôi tin rằng mỗi người đều xứng đáng tìm thấy hạnh phúc, và SynHeart ra đời với sứ mệnh tạo ra một môi trường an toàn, thân thiện và đầy cảm hứng cho việc kết nối.\n" +
+
+            "❤️ Với SynHeart, bạn có thể:\n" +
+            "- Tìm kiếm và kết nối với những người phù hợp dựa trên sở thích và giá trị chung.\n" +
+            "- Gửi và nhận lời nhắn chân thành, thể hiện cá tính và sự quan tâm.\n" +
+
+            "💌 Chúng tôi xin gửi lời cảm ơn sâu sắc đến bạn – những người đã tin tưởng và lựa chọn SynHeart. " +
+            "Mỗi lượt kết nối, mỗi câu chuyện tình yêu bắt đầu từ app đều là niềm tự hào và động lực để chúng tôi không ngừng cải tiến và mang đến trải nghiệm tốt nhất.\n" +
+
+            "✨ Chúng tôi hy vọng SynHeart sẽ giúp bạn mở ra những mối quan hệ ý nghĩa, gặp gỡ những người bạn đáng yêu, và tạo nên những kỷ niệm đáng nhớ.\n" +
+
+            "🌟 Xin chúc bạn một hành trình hẹn hò vui vẻ, tràn đầy tiếng cười, và tìm thấy tình yêu đích thực. Hãy mở lòng, trải nghiệm và tận hưởng từng khoảnh khắc trên SynHeart!\n" +
+            "🎉 Chào mừng bạn đến với SynHeart – nơi trái tim tìm thấy nhau! 💖";
+
+            panel1.Controls.Add(lblGioiThieu);            // 
             // GioiThieuUngDung
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(226, 146, 228);
+            BackColor = Color.FromArgb(255, 240, 245);
             Controls.Add(btn_back);
             Controls.Add(label1);
             Controls.Add(panel1);

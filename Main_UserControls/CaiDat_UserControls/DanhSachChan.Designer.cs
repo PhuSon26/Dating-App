@@ -70,7 +70,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.IndianRed;
+            BackColor = Color.FromArgb(255, 240, 245);
             Controls.Add(btn_back);
             Controls.Add(flp_list);
             Controls.Add(label1);

@@ -297,7 +297,7 @@ namespace Dating_app_nhom3
             // 
             AutoScaleDimensions = new SizeF(8F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(255, 230, 230);
+            BackColor = Color.FromArgb(255, 240, 245);
             Controls.Add(label_chieucao);
             Controls.Add(lv_anh);
             Controls.Add(btn_themAnh);

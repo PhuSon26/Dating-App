@@ -16,6 +16,8 @@ namespace LOGIN
         private readonly string apiKey;
         public FirestoreDb db;
         public string userID;
+        public string email;
+        public string password;
         public FirebaseAuthHelper(string apiKey)
         {
             this.apiKey = apiKey;
@@ -75,6 +77,8 @@ namespace LOGIN
                 password = password,
                 returnSecureToken = true
             };
+            this.email = email;
+            this.password = password;
             return PostAsync(url, data);
         }
 
@@ -117,6 +121,23 @@ namespace LOGIN
                 password = newPassword,
                 returnSecureToken = true
             };
+            return await PostAsync(url, data);
+        }
+        // Trong class FirebaseAuthHelper
+
+        public async Task<string> UpdatePasswordInApp(string idToken, string newPassword)
+        {
+            // URL API update profile (bao gồm password)
+            string url = $"https://identitytoolkit.googleapis.com/v1/accounts:update?key={apiKey}";
+
+            var data = new
+            {
+                idToken = idToken,
+                password = newPassword,
+                returnSecureToken = true // Quan trọng: Yêu cầu trả về Token mới
+            };
+
+            // Gọi hàm PostAsync có sẵn của bạn
             return await PostAsync(url, data);
         }
         // ==============================

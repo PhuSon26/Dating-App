@@ -9,13 +9,13 @@ namespace Main_Interface.User_Controls
 {
     public partial class CaiDat : UserControl
     {
-        private readonly FirebaseAuthHelper _auth =
+        public readonly FirebaseAuthHelper _auth =
      new FirebaseAuthHelper("AIzaSyDg9nNBc3h74QjNl2obv6pH1Y29RQQ8TjU");
-        private Main MainForm;
-        private SuaHoSoUser suahoso;
-        private DoiEmailMatKhau dmk;
-        private GioiThieuUngDung gthieu;
-        private DanhSachChan dsc;
+        public Main MainForm;
+        public SuaHoSoUser suahoso;
+        public DoiEmailMatKhau dmk;
+        public GioiThieuUngDung gthieu;
+        public DanhSachChan dsc;
         public CaiDat()
         {
             InitializeComponent();

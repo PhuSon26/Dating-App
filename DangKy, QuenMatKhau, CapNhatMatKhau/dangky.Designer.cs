@@ -59,7 +59,7 @@
             tb_password.Font = new Font("Segoe UI", 12F);
             tb_password.Location = new Point(378, 219);
             tb_password.Name = "tb_password";
-            tb_password.PasswordChar = '*';
+            tb_password.PasswordChar = '●';
             tb_password.Size = new Size(237, 34);
             tb_password.TabIndex = 14;
             // 
