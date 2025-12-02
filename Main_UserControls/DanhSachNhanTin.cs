@@ -27,5 +27,10 @@ namespace Main_Interface.User_Controls
         {
 
         }
+
+        private void DanhSachNhanTin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

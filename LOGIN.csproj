@@ -9,33 +9,14 @@
 	<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 	<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="MatchAPI\.vs\MatchAPI\v17\DocumentLayout.backup.json" />
-    <Content Include="MatchAPI\.vs\MatchAPI\v17\DocumentLayout.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="MatchAPI\.vs\MatchAPI\config\applicationhost.config" />
-    <None Include="MatchAPI\.vs\MatchAPI\CopilotIndices\17.14.1231.31060\SemanticSymbols.db" />
-    <None Include="MatchAPI\.vs\MatchAPI\CopilotIndices\17.14.1231.31060\SemanticSymbols.db-shm" />
-    <None Include="MatchAPI\.vs\MatchAPI\CopilotIndices\17.14.1231.31060\SemanticSymbols.db-wal" />
-    <None Include="MatchAPI\.vs\MatchAPI\DesignTimeBuild\.dtbcache.v2" />
-    <None Include="MatchAPI\.vs\MatchAPI\FileContentIndex\013c9873-e8ba-4eb7-aa18-ec70f4b983a0.vsidx" />
-    <None Include="MatchAPI\.vs\MatchAPI\v17\.futdcache.v2" />
-    <None Include="MatchAPI\.vs\ProjectEvaluation\matchapi.metadata.v9.bin" />
-    <None Include="MatchAPI\.vs\ProjectEvaluation\matchapi.projects.v9.bin" />
-    <None Include="MatchAPI\.vs\ProjectEvaluation\matchapi.strings.v9.bin" />
-    <None Include="MatchAPI\MatchAPI.csproj" />
-    <None Include="MatchAPI\MatchAPI.csproj.user" />
-    <None Include="MatchAPI\MatchAPI.sln" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Firebase.Auth" Version="1.0.0" />
     <PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
     <PackageReference Include="FirebaseDatabase.net" Version="5.0.0" />
     <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
     <PackageReference Include="Google.Cloud.Firestore" Version="3.12.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.2.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
     <PackageReference Include="SendGrid" Version="9.29.3" />
     <PackageReference Include="Twilio" Version="7.13.5" />
@@ -54,14 +35,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="MatchAPI\.vs\sd\" />
-    <Folder Include="MatchAPI\bin\Release\net9.0\" />
-    <Folder Include="MatchAPI\obj\Debug\net9.0\staticwebassets\" />
-    <Folder Include="MatchAPI\obj\Release\net9.0\refint\" />
-    <Folder Include="MatchAPI\obj\Release\net9.0\ref\" />
   </ItemGroup>
 
 </Project>

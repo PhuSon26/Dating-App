@@ -18,7 +18,7 @@ namespace LOGIN
         public FirebaseAuthHelper(string apiKey)
         {
             this.apiKey = apiKey;
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "serviceAccountKey.json");
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\api\key.json");
             db = FirestoreDb.Create("login-bb104");
         }
 
@@ -77,7 +77,7 @@ namespace LOGIN
             return PostAsync(url, data);
         }
 
-        // Đăng xuất (trên desktop chỉ cần xóa token)
+        
         public void SignOut(ref string idToken, ref string refreshToken)
         {
             idToken = null;
@@ -147,5 +147,45 @@ namespace LOGIN
             if (!snapshot.Exists) return null;
             return snapshot.ConvertTo<USER>();
         }
+        public async Task<List<USER>> GetRandomSuggest(string userId, int limit = 5)
+        {
+            try
+            {
+                var usersCollection = db.Collection("Users");
+                var snapshot = await usersCollection.GetSnapshotAsync();
+
+                // Chuyển Firestore thành List<USER>
+                var allUsers = snapshot.Documents
+                                       .Select(d =>
+                                       {
+                                           var user = d.ConvertTo<USER>();
+                                           user.Id = d.Id; // đảm bảo ID không null
+                                           return user;
+                                       })
+                                       .ToList();
+
+                // Tìm user hiện tại
+                var currentUser = allUsers.FirstOrDefault(u => u.Id == userId);
+                if (currentUser == null)
+                    return new List<USER>();
+
+                // Lọc user hợp lệ
+                var randomUsers = allUsers
+                    .Where(u => u.Id != userId &&
+                                !string.IsNullOrEmpty(u.gioitinh) &&
+                                u.gioitinh != currentUser.gioitinh)
+                    .OrderBy(u => Guid.NewGuid())
+                    .Take(limit)
+                    .ToList();
+
+                return randomUsers;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi GetRandomSuggest: " + ex.Message);
+                return new List<USER>();
+            }
+        }
+
     }
 }

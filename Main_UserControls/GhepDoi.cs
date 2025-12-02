@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.Json;
 
+
 namespace Main_Interface.User_Controls
 {
 
@@ -22,13 +23,16 @@ namespace Main_Interface.User_Controls
         private Main MainForm;
         private LocUser loc;
         private MatchFilterAPI filterAPI;
+        private FirebaseAuthHelper authHelper;
         private List<USER> suggestedUsers = new List<USER>();
+
         private int suggestIndex = 0;
         private LOGIN.Match match;
         string myUserId = Session.LocalId;
         public GhepDoi()
         {
             InitializeComponent();
+            authHelper = new FirebaseAuthHelper("login-bb104");
             this.Load += GhepDoi_Load;
         }
         public GhepDoi(Main m)
@@ -37,8 +41,9 @@ namespace Main_Interface.User_Controls
             this.Load += GhepDoi_Load;
             match = new LOGIN.Match("login-bb104", myUserId);
             MainForm = m;
+            authHelper = new FirebaseAuthHelper("login-bb104");
             loc = new LocUser(MainForm);
-            //filterAPI = new MatchFilterAPI("login - bb104");
+            
         }
 
         private void ShowUser(USER u)
@@ -128,39 +133,23 @@ namespace Main_Interface.User_Controls
         {
             try
             {
-                string apiUrl = $"http://localhost:5279/api/match/random-suggest?userId={userId}&limit=3";
-
-                HttpResponseMessage response = await _client.GetAsync(apiUrl);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    MessageBox.Show("Lỗi API: " + response.StatusCode);
-                    return;
-                }
-
-                string json = await response.Content.ReadAsStringAsync();
-
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-
-                suggestedUsers = JsonSerializer.Deserialize<List<USER>>(json, options);
+                suggestedUsers = await authHelper.GetRandomSuggest(userId, 5);
 
                 if (suggestedUsers == null || suggestedUsers.Count == 0)
                 {
-                    MessageBox.Show("Không có gợi ý ghép đôi!");
+                    MessageBox.Show("Không có user nào phù hợp để gợi ý.");
                     return;
                 }
 
-                suggestIndex = 0;
-                ShowUser(suggestedUsers[suggestIndex]);
+                suggestIndex = 0; // reset index
+                ShowUser(suggestedUsers[suggestIndex]); // hiển thị user đầu tiên
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi kết nối API: " + ex.Message);
+                MessageBox.Show("Lỗi khi tải gợi ý: " + ex.Message);
             }
         }
+
         public void LoadUserControl(UserControl uc)
         {
             MainForm.panelContent.Controls.Clear();
