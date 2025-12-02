@@ -30,6 +30,7 @@
         {
             panelPictures = new Panel();
             flpanel_pictures = new FlowLayoutPanel();
+            avatar = new PictureBox();
             panelThongTin = new Panel();
             tb_gioithieu = new TextBox();
             tb_vitri = new TextBox();
@@ -58,23 +59,23 @@
             panelThongTin.SuspendLayout();
             panelQuet.SuspendLayout();
             SuspendLayout();
-            // 
             // panelPictures
-            // 
+            panelPictures.Controls.Add(avatar);
             panelPictures.Controls.Add(flpanel_pictures);
             panelPictures.Location = new Point(0, 0);
-            panelPictures.Name = "panelPictures";
             panelPictures.Size = new Size(1201, 376);
-            panelPictures.TabIndex = 0;
-            // 
+
+            // avatar
+            avatar.Location = new Point(0, 0);
+            avatar.Size = new Size(400, 376);
+            avatar.SizeMode = PictureBoxSizeMode.Zoom;
+            avatar.BorderStyle = BorderStyle.FixedSingle;
             // flpanel_pictures
-            // 
             flpanel_pictures.AutoScroll = true;
-            flpanel_pictures.Location = new Point(0, 0);
-            flpanel_pictures.Name = "flpanel_pictures";
-            flpanel_pictures.Size = new Size(1201, 376);
-            flpanel_pictures.TabIndex = 0;
+            flpanel_pictures.Location = new Point(400, 0);
+            flpanel_pictures.Size = new Size(851, 376);
             flpanel_pictures.WrapContents = false;
+            flpanel_pictures.FlowDirection = FlowDirection.LeftToRight;
             // 
             // panelThongTin
             // 
@@ -369,9 +370,6 @@
         private Panel panelPictures;
         private Panel panelThongTin;
         private Panel panelQuet;
-        private RoundedButton btn_tim;
-        private RoundedButton btn_kothich;
-        private RoundedButton btn_timVIP;
         private Label label2;
         private Label label1;
         private Label label6;
@@ -391,6 +389,10 @@
         private TextBox tb_tuoi;
         private TextBox tb_name;
         private FlowLayoutPanel flpanel_pictures;
+        private PictureBox avatar;
+        private RoundedButton btn_tim;
+        private RoundedButton btn_kothich;
+        private RoundedButton btn_timVIP;
         private RoundedButton btn_loc;
     }
 }

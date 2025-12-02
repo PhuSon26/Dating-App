@@ -221,39 +221,23 @@ namespace LOGIN
             if (!snapshot.Exists) return null;
             return snapshot.ConvertTo<USER>();
         }
-        /*
-        public async Task<string> UploadAvatarAsync(string filePath, string userId)
+        // Upload avatar
+        public async Task UploadAvatarAsync(Image avatarImage, string userId)
         {
-            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                var task = new FirebaseStorage("login-bb104.appspot.com")
-                    .Child("avatars")
-                    .Child(userId + ".jpg")
-                    .PutAsync(stream);
-
-                string downloadUrl = await task;
-                return downloadUrl;
-            }
+            string base64 = ImageToBase64(avatarImage);
+            var docRef = db.Collection("Users").Document(userId);
+            await docRef.SetAsync(new { AvatarBase64 = base64 }, SetOptions.MergeAll);
         }
-        public async Task<List<string>> UploadPhotosAsync(List<string> filePaths, string userId)
-        {
-            List<string> urls = new List<string>();
-            foreach (var filePath in filePaths)
-            {
-                using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                {
-                    string fileName = Path.GetFileName(filePath);
-                    var task = new FirebaseStorage("login-bb104.appspot.com")
-                        .Child("users_photos")
-                        .Child(userId)
-                        .Child(fileName)
-                        .PutAsync(stream);
 
-                    string url = await task;
-                    urls.Add(url);
-                }
-            }
-            return urls;
+        // Upload nhiều ảnh
+        public async Task UploadPhotosAsync(List<Image> images, string userId)
+        {
+            var docRef = db.Collection("Users").Document(userId);
+            List<string> base64List = new List<string>();
+            foreach (var img in images)
+                base64List.Add(ImageToBase64(img));
+
+            await docRef.SetAsync(new { PhotosBase64 = base64List }, SetOptions.MergeAll);
         }
         public string ImageToBase64(Image img)
         {
@@ -272,6 +256,5 @@ namespace LOGIN
                 return Image.FromStream(ms);
             }
         }
-        */
     }
 }
