@@ -8,6 +8,9 @@
     <Compile Update="DangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="dsthongbao.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +72,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="DangKy, QuenMatKhau, CapNhatMatKhau\QuenMatKhau.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="thongbaonoi.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

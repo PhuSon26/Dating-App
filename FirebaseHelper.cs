@@ -18,7 +18,7 @@ namespace LOGIN
         public FirebaseAuthHelper(string apiKey)
         {
             this.apiKey = apiKey;
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "serviceAccountKey.json");
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\api\key.json");
             db = FirestoreDb.Create("login-bb104");
         }
 
