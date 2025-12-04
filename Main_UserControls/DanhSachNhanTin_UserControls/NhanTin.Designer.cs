@@ -55,6 +55,7 @@
             panelHeader.Name = "panelHeader";
             panelHeader.Size = new Size(1040, 56);
             panelHeader.TabIndex = 0;
+           // panelHeader.Paint += this.panelHeader_Paint;
             // 
             // pb_avatar
             // 
@@ -119,7 +120,7 @@
             flPanel_tinNhan.Name = "flPanel_tinNhan";
             flPanel_tinNhan.Size = new Size(1040, 344);
             flPanel_tinNhan.TabIndex = 1;
-          //  flPanel_tinNhan.Paint += flPanel_tinNhan_Paint;
+           // flPanel_tinNhan.Paint += flPanel_tinNhan_Paint;
             // 
             // tb_message
             // 
@@ -179,7 +180,6 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "NhanTin";
             Size = new Size(1040, 445);
-        //    Load += NhanTin_Load;
             panelHeader.ResumeLayout(false);
             panelHeader.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pb_avatar).EndInit();

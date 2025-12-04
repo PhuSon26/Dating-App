@@ -1,12 +1,11 @@
-﻿using System;
-using System.Drawing;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Windows.Forms;
-using System.Collections.Generic;
+﻿using Google.Cloud.Firestore;
 using LOGIN;
+using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 
 namespace Main_Interface.User_Controls
 {
@@ -17,33 +16,30 @@ namespace Main_Interface.User_Controls
         private TextBox txtMessage;
         private Button btnSend;
 
-        private string currentUserId;
-        private string conversationId;
-        private Main MainForm;
+        private readonly FirebaseAuthHelper firebase = new FirebaseAuthHelper("login-bb104");
 
-        private readonly HttpClient http = new HttpClient();
-        private System.Windows.Forms.Timer messageTimer;
+        private FirestoreChangeListener listener;
 
-       
-        public NhanTin(Main m) 
+        private USER targetUser;       // Người đang chat với mình
+        private string myUserId;       // Id của mình
+        private string conversationId; // A_B
+
+        public NhanTin(USER user)
         {
-            MainForm = m;
+            targetUser = user;
+            myUserId = Session.LocalId;
+            conversationId = firebase.GetConversationId(myUserId, targetUser.Id);
+
+            InitializeComponent();
+            SetupCustomUI();
         }
 
-      
-        public void LoadConversation(string userId, string convId)
-        {
-            currentUserId = userId;
-            conversationId = convId;
-
-            pnlChatContainer.Controls.Clear();
-
-            if (!string.IsNullOrEmpty(conversationId))
-                messageTimer.Start();
-        }
-
+        // ======================================================
+        // ====================== UI CHAT ========================
+        // ======================================================
         private void SetupCustomUI()
         {
+            // Panel chứa bubble chat
             pnlChatContainer = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -52,8 +48,8 @@ namespace Main_Interface.User_Controls
                 WrapContents = false,
                 BackColor = Color.White
             };
-          
 
+            // Panel nhập tin
             pnlBottom = new Panel
             {
                 Dock = DockStyle.Bottom,
@@ -62,6 +58,7 @@ namespace Main_Interface.User_Controls
                 BackColor = Color.WhiteSmoke
             };
 
+            // Button gửi
             btnSend = new Button
             {
                 Text = "Gửi",
@@ -72,6 +69,7 @@ namespace Main_Interface.User_Controls
             };
             btnSend.Click += BtnSend_Click;
 
+            // Ô nhập
             txtMessage = new TextBox
             {
                 Multiline = true,
@@ -86,41 +84,88 @@ namespace Main_Interface.User_Controls
             Controls.Add(pnlBottom);
         }
 
-        // =========================== Load Messages ===========================
-        private List<string> loadedMessageIds = new List<string>();
-
-      
-
-        // =========================== Bubble UI ===========================
-       
-
-        // =========================== Send Message ===========================
-        private async void BtnSend_Click(object sender, EventArgs e)
+        // ======================================================
+        // ====================== LOAD LISTENER =================
+        // ======================================================
+        private void NhanTin_Load(object sender, EventArgs e)
         {
-            string content = txtMessage.Text.Trim();
-            if (string.IsNullOrEmpty(content)) return;
+            // Bắt đầu lắng nghe realtime
+            listener = firebase.ListenToMessages(
+                myUserId,
+                targetUser.Id,
+                UpdateUIWithMessages
+            );
 
-            txtMessage.Clear();
-
-            var data = new
-            {
-                ConversationId = conversationId,
-                SenderId = currentUserId,
-                Content = content
-            };
-
-            try
-            {
-                await http.PostAsJsonAsync("/api/chat/send", data);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi gửi API: " + ex.Message);
-            }
+            // Reset số tin chưa đọc
+            firebase.ResetUnread(myUserId, targetUser.Id);
         }
 
-       
+        // ======================================================
+        // ======================= GỬI TIN =======================
+        // ======================================================
+        private async void BtnSend_Click(object sender, EventArgs e)
+        {
+            string text = txtMessage.Text.Trim();
+            if (string.IsNullOrEmpty(text)) return;
 
-      
+            await firebase.SendMessage(myUserId, targetUser.Id, text);
+            await firebase.UpdateChatMeta(myUserId, targetUser.Id, text);
+
+            txtMessage.Clear();
+        }
+
+        // ======================================================
+        // ====================== HIỂN THỊ TIN ===================
+        // ======================================================
+        private void UpdateUIWithMessages(List<Messagemodels> messages)
+        {
+            pnlChatContainer.Invoke(new Action(() =>
+            {
+                pnlChatContainer.Controls.Clear();
+
+                foreach (var msg in messages)
+                    pnlChatContainer.Controls.Add(CreateBubble(msg));
+
+                pnlChatContainer.ScrollControlIntoView(
+                    pnlChatContainer.Controls[pnlChatContainer.Controls.Count - 1]
+                );
+            }));
+        }
+
+        // ======================================================
+        // =================== TẠO BUBBLE UI ====================
+        // ======================================================
+        private Control CreateBubble(Messagemodels msg)
+        {
+            bool isMine = msg.fromUserId == myUserId;
+
+            Panel bubble = new Panel
+            {
+                AutoSize = true,
+                MaximumSize = new Size(300, 0),
+                BackColor = isMine ? Color.LightBlue : Color.LightGray,
+                Padding = new Padding(10),
+                Margin = new Padding(10),
+            };
+
+            Label lbl = new Label
+            {
+                Text = msg.text,
+                AutoSize = true,
+                Font = new Font("Segoe UI", 11F)
+            };
+
+            bubble.Controls.Add(lbl);
+
+            FlowLayoutPanel wrapper = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                Dock = DockStyle.Top,
+                FlowDirection = isMine ? FlowDirection.RightToLeft : FlowDirection.LeftToRight
+            };
+
+            wrapper.Controls.Add(bubble);
+            return wrapper;
+        }
     }
 }
