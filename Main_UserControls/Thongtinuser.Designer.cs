@@ -74,6 +74,7 @@ namespace Dating_app_nhom3
             lb_tennguoidung.Size = new Size(320, 37);
             lb_tennguoidung.TabIndex = 3;
             lb_tennguoidung.Text = "Anonymous";
+            lb_tennguoidung.AutoSize = true;
             // 
             // cb_chinhsua
             // 

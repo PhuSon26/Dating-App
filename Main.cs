@@ -77,12 +77,6 @@ namespace Main_Interface
             if (!loadedHscn)
             {
                 USER u = await auth.getUser();
-                if (u == null)
-                {
-                    MessageBox.Show("Không tải được thông tin người dùng!");
-                    return;
-                }
-
                 ttuser = new Thongtinuser(auth, u);
                 ttuser.setUserInfo(u);
                 loadedHscn = true;

@@ -14,7 +14,8 @@ namespace Dating_app_nhom3
     {
         public USER u;
         public FirebaseAuthHelper auth;
-
+        public Image selectedAvatar;
+        public List<Image> selectedPhotos = new List<Image>();
         public Thongtinuser(FirebaseAuthHelper auth, USER u)
         {
             InitializeComponent();
@@ -101,45 +102,76 @@ namespace Dating_app_nhom3
                 tb_hocvan.Enabled = true;
                 num_chieucao.Enabled = true;
                 tb_gioithieu.Enabled = true;
+                return;
             }
-            else
-            {
-                // Cập nhật thông tin
-                u.ten = lb_tennguoidung.Text;
-                u.gioitinh = cb_gioitinh.Text;
-                u.snhat = dtp_sinhnhat.Value.ToString("yyyy-MM-dd");
-                u.vitri = tb_diachi.Text;
-                u.thoiquen = tb_sothich.Text;
-                u.nghenghiep = tb_congviec.Text;
-                u.hocvan = tb_hocvan.Text;
-                u.chieucao = float.Parse(num_chieucao.Text);
-                u.gthieu = tb_gioithieu.Text;
 
+            // =============================
+            // LƯU THÔNG TIN USER
+            // =============================
+            u.ten = lb_tennguoidung.Text;
+            u.gioitinh = cb_gioitinh.Text;
+            u.snhat = dtp_sinhnhat.Value.ToString("yyyy-MM-dd");
+            u.vitri = tb_diachi.Text;
+            u.thoiquen = tb_sothich.Text;
+            u.nghenghiep = tb_congviec.Text;
+            u.hocvan = tb_hocvan.Text;
+            u.chieucao = float.Parse(num_chieucao.Text);
+            u.gthieu = tb_gioithieu.Text;
+
+            // =============================
+            // LƯU AVATAR
+            // =============================
+            if (selectedAvatar != null)
+            {
                 try
                 {
-                    var docRef = auth.db.Collection("Users").Document(Session.LocalId);
-                    await docRef.SetAsync(u, SetOptions.MergeAll);
-
-                    MessageBox.Show("Cập nhật thông tin thành công!");
+                    u.AvatarUrl = auth.ImageToBase64(selectedAvatar);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Lỗi lưu firestore: " + ex.Message);
+                    MessageBox.Show("Lỗi upload avatar: " + ex.Message);
                 }
-
-                // Đóng chế độ chỉnh sửa
-                cb_chinhsua.Text = "✏️ Chỉnh sửa hồ sơ";
-                btn_avatar.Enabled = false;
-                btn_themAnh.Enabled = false;
-                cb_gioitinh.Enabled = false;
-                dtp_sinhnhat.Enabled = false;
-                tb_diachi.Enabled = false;
-                tb_sothich.Enabled = false;
-                tb_congviec.Enabled = false;
-                tb_hocvan.Enabled = false;
-                num_chieucao.Enabled = false;
-                tb_gioithieu.Enabled = false;
             }
+
+            // =============================
+            // LƯU NHIỀU ẢNH
+            // =============================
+            if (selectedPhotos.Count > 0)
+            {
+                if (u.photos == null) u.photos = new List<string>();
+
+                foreach (var img in selectedPhotos)
+                    u.photos.Add(auth.ImageToBase64(img));
+            }
+
+            // =============================
+            // CẬP NHẬT FIREBASE
+            // =============================
+            try
+            {
+                var docRef = auth.db.Collection("Users").Document(Session.LocalId);
+                await docRef.SetAsync(u, SetOptions.MergeAll);
+
+                MessageBox.Show("Cập nhật thông tin thành công!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi lưu firestore: " + ex.Message);
+            }
+
+            // RESET UI
+            cb_chinhsua.Text = "✏️ Chỉnh sửa hồ sơ";
+
+            btn_avatar.Enabled = false;
+            btn_themAnh.Enabled = false;
+            cb_gioitinh.Enabled = false;
+            dtp_sinhnhat.Enabled = false;
+            tb_diachi.Enabled = false;
+            tb_sothich.Enabled = false;
+            tb_congviec.Enabled = false;
+            tb_hocvan.Enabled = false;
+            num_chieucao.Enabled = false;
+            tb_gioithieu.Enabled = false;
         }
 
         // ===========================================
@@ -154,26 +186,11 @@ namespace Dating_app_nhom3
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    Image img = Image.FromFile(ofd.FileName);
-
-                    ptb_avt.Image = img;
+                    selectedAvatar = Image.FromFile(ofd.FileName);
+                    ptb_avt.Image = selectedAvatar;
                     ptb_avt.SizeMode = PictureBoxSizeMode.Zoom;
-
-                    try
-                    {
-                        string base64 = auth.ImageToBase64(img);
-
-                        u.AvatarUrl = base64;
-
-                        var docRef = auth.db.Collection("Users").Document(Session.LocalId);
-                        await docRef.SetAsync(new { AvatarUrl = base64 }, SetOptions.MergeAll);
-
-                        MessageBox.Show("Cập nhật avatar thành công!");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi upload avatar: " + ex.Message);
-                    }
+                    ptb_avt.Margin = new Padding(5);
+                    ptb_avt.BorderStyle = BorderStyle.FixedSingle;
                 }
             }
         }
@@ -190,32 +207,30 @@ namespace Dating_app_nhom3
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    var images = ofd.FileNames.Select(f => Image.FromFile(f)).ToList();
-
-                    if (u.photos == null) u.photos = new List<string>();
-
-                    u.photos.AddRange(images.Select(img => auth.ImageToBase64(img)));
-
-                    try
+                    foreach (string file in ofd.FileNames)
                     {
-                        var docRef = auth.db.Collection("Users").Document(Session.LocalId);
-                        await docRef.SetAsync(new { photos = u.photos }, SetOptions.MergeAll);
+                        Image img = Image.FromFile(file);
+                        selectedPhotos.Add(img);
+                        PictureBox pic = new PictureBox();
+                        pic.Image = Image.FromFile(ofd.FileName);
+                        pic.SizeMode = PictureBoxSizeMode.Zoom;
+                        pic.Width = 350;
+                        pic.Height = 200;
+                        pic.Margin = new Padding(5);
+                        pic.BorderStyle = BorderStyle.FixedSingle;
+                        pic.Cursor = Cursors.Hand;
 
-                        foreach (var img in images)
+                        // Nếu muốn click vào ảnh để phóng to hoặc xóa
+                        pic.Click += (s, ev) =>
                         {
-                            PictureBox pb = new PictureBox();
-                            pb.Image = img;
-                            pb.SizeMode = PictureBoxSizeMode.Zoom;
-                            pb.Size = new Size(flp.Width - 20, 180);
-                            pb.Margin = new Padding(5);
-                            flp.Controls.Add(pb);
-                        }
+                            if (MessageBox.Show("Xóa ảnh này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            {
+                                flp.Controls.Remove(pic);
+                                pic.Dispose();
+                            }
+                        };
 
-                        MessageBox.Show("Upload ảnh thành công!");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi upload ảnh: " + ex.Message);
+                        flp.Controls.Add(pic);
                     }
                 }
             }

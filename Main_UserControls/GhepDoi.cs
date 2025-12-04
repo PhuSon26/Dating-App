@@ -60,10 +60,7 @@ namespace Main_Interface.User_Controls
                     avatar.Image = auth.Base64ToImage(u.AvatarUrl);
                     avatar.SizeMode = PictureBoxSizeMode.Zoom;
                 }
-                catch
-                {
-                    MessageBox.Show("Không tải được ảnh đại diện!");
-                }
+                catch { }
             }
 
             // Many photos
@@ -82,7 +79,7 @@ namespace Main_Interface.User_Controls
                         pb.Margin = new Padding(5);
                         flpanel_pictures.Controls.Add(pb);
                     }
-                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    catch { }
                 }
             }
 
@@ -101,6 +98,7 @@ namespace Main_Interface.User_Controls
 
         private void GhepDoi_Load(object sender, EventArgs e)
         {
+            /*
             // Thư mục chứa ảnh demo
             string folder = @"C:\Users\leson\OneDrive\Documents\uit\html lab3"; // đổi theo nơi bạn lưu ảnh
             if (!System.IO.Directory.Exists(folder))
@@ -123,6 +121,7 @@ namespace Main_Interface.User_Controls
                 pb.Margin = new Padding(10);
                 flpanel_pictures.Controls.Add(pb);
             }
+            */
         }
         public void LoadUserControl(UserControl uc)
         {

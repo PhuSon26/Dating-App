@@ -113,7 +113,7 @@
             tb_rePassword.Font = new Font("Segoe UI", 12F);
             tb_rePassword.Location = new Point(377, 278);
             tb_rePassword.Name = "tb_rePassword";
-            tb_rePassword.PasswordChar = '*';
+            tb_rePassword.PasswordChar = '●';
             tb_rePassword.Size = new Size(237, 34);
             tb_rePassword.TabIndex = 18;
             // 
