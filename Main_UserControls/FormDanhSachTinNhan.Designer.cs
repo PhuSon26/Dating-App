@@ -1,4 +1,6 @@
-﻿namespace Dating_app_nhom3
+﻿using Main_Interface.User_Controls;
+
+namespace Dating_app_nhom3
 {
     partial class FormDanhSachTinNhan
     {
@@ -29,127 +31,122 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            panel1 = new Panel();
-            btnTimKiem = new RoundedButton();
+            header = new Panel();
             label3 = new Label();
-            flowLayoutPanel1 = new FlowLayoutPanel();
-            picAvatarNguoiDung = new PictureBox();
-            txtTimKiem = new TextBox();
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            button1 = new Button();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picAvatarNguoiDung).BeginInit();
+            picAvatarOtherUser = new PictureBox();
+            lb_otherUserName = new Label();
+            flp = new FlowLayoutPanel();
+            cmstrip = new ContextMenuStrip(components);
+            ntin = new Panel();
+            nt = new NhanTin();
+            header.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picAvatarOtherUser).BeginInit();
             SuspendLayout();
             // 
-            // panel1
+            // header
             // 
-            panel1.BackColor = Color.MistyRose;
-            panel1.Controls.Add(btnTimKiem);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(flowLayoutPanel1);
-            panel1.Controls.Add(picAvatarNguoiDung);
-            panel1.Controls.Add(txtTimKiem);
-            panel1.ForeColor = Color.Black;
-            panel1.Location = new Point(-2, -5);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1196, 107);
-            panel1.TabIndex = 0;
-            // 
-            // btnTimKiem
-            // 
-            btnTimKiem.BackColor = SystemColors.ActiveCaption;
-            btnTimKiem.CornerRadius = 20;
-            btnTimKiem.FlatStyle = FlatStyle.Flat;
-            btnTimKiem.ForeColor = Color.Black;
-            btnTimKiem.Location = new Point(945, 33);
-            btnTimKiem.Name = "btnTimKiem";
-            btnTimKiem.Size = new Size(125, 48);
-            btnTimKiem.TabIndex = 4;
-            btnTimKiem.Text = "Tìm Kiếm";
-            btnTimKiem.UseVisualStyleBackColor = false;
+            header.BackColor = Color.MistyRose;
+            header.Controls.Add(label3);
+            //header.Controls.Add(cmstrip);
+            header.Controls.Add(picAvatarOtherUser);
+            header.Controls.Add(lb_otherUserName);
+            header.Dock = DockStyle.Top;
+            header.ForeColor = Color.Black;
+            header.Location = new Point(0, 0);
+            header.Margin = new Padding(3, 2, 3, 2);
+            header.Name = "header";
+            header.Size = new Size(1045, 80);
+            header.TabIndex = 0;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Baskerville Old Face", 18F, FontStyle.Italic, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.IndianRed;
-            label3.Location = new Point(2, 33);
+            label3.Location = new Point(2, 25);
             label3.Name = "label3";
-            label3.Size = new Size(343, 34);
+            label3.Size = new Size(270, 27);
             label3.TabIndex = 1;
             label3.Text = "Love begins with a message";
             // 
-            // flowLayoutPanel1
+            // picAvatarOtherUser
             // 
-            flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.BackgroundImageLayout = ImageLayout.Center;
-            flowLayoutPanel1.Location = new Point(73, 104);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(1123, 624);
-            flowLayoutPanel1.TabIndex = 1;
+            picAvatarOtherUser.BackColor = Color.LightGray;
+            picAvatarOtherUser.Location = new Point(930, 0);
+            picAvatarOtherUser.Margin = new Padding(3, 2, 3, 2);
+            picAvatarOtherUser.Name = "picAvatarOtherUser";
+            picAvatarOtherUser.Size = new Size(120, 80);
+            picAvatarOtherUser.TabIndex = 3;
+            picAvatarOtherUser.TabStop = false;
             // 
-            // picAvatarNguoiDung
+            // lb_otherUserName
             // 
-            picAvatarNguoiDung.BackColor = Color.LightGray;
-            picAvatarNguoiDung.Location = new Point(1076, 16);
-            picAvatarNguoiDung.Name = "picAvatarNguoiDung";
-            picAvatarNguoiDung.Size = new Size(100, 81);
-            picAvatarNguoiDung.TabIndex = 3;
-            picAvatarNguoiDung.TabStop = false;
-            picAvatarNguoiDung.Click += picAvatarNguoiDung_Click;
+            lb_otherUserName.Font = new Font("Segoe UI", 30F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lb_otherUserName.Location = new Point(450, 15);
+            lb_otherUserName.Margin = new Padding(3, 2, 3, 2);
+            lb_otherUserName.Name = "lb_otherUserName";
+            lb_otherUserName.Text = "Anonymous";
+            lb_otherUserName.AutoSize = true;
+            lb_otherUserName.Size = new Size(1000, 100);
+            lb_otherUserName.TabIndex = 1;
             // 
-            // txtTimKiem
+            // flp
             // 
-            txtTimKiem.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtTimKiem.Location = new Point(350, 33);
-            txtTimKiem.Multiline = true;
-            txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(589, 48);
-            txtTimKiem.TabIndex = 1;
+            flp.AutoScroll = true;
+            flp.BackgroundImageLayout = ImageLayout.Center;
+            flp.FlowDirection = FlowDirection.TopDown;
+            flp.Location = new Point(0, 80);
+            flp.Margin = new Padding(3, 2, 3, 2);
+            flp.Name = "flp";
+            flp.Size = new Size(249, 493);
+            flp.Dock = DockStyle.Left;
+            flp.Width = 250;   // panel trái cố định
+            flp.TabIndex = 1;
+            flp.WrapContents = false;
             // 
-            // contextMenuStrip1
+            // cmstrip
             // 
-            contextMenuStrip1.ImageScalingSize = new Size(20, 20);
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(61, 4);
+            cmstrip.ImageScalingSize = new Size(20, 20);
+            cmstrip.Name = "contextMenuStrip1";
+            cmstrip.Size = new Size(61, 4);
             // 
-            // button1
+            // ntin
             // 
-            button1.BackColor = SystemColors.ActiveCaption;
-            button1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = SystemColors.InfoText;
-            button1.Location = new Point(12, 167);
-            button1.Name = "button1";
-            button1.Size = new Size(42, 179);
-            button1.TabIndex = 3;
-            button1.Text = "BACK";
-            button1.UseVisualStyleBackColor = false;
+            ntin.Location = new Point(249, 80);
+            ntin.Name = "ntin";
+            ntin.Size = new Size();
+            ntin.Dock = DockStyle.Fill;
+            ntin.TabIndex = 0;
+            ntin.Controls.Add(nt);
+            nt.Dock = DockStyle.Fill;
             // 
             // FormDanhSachTinNhan
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.Center;
-            Controls.Add(button1);
-            Controls.Add(panel1);
+            Controls.Add(ntin);  
+            Controls.Add(flp);    
+            Controls.Add(header);
             DoubleBuffered = true;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FormDanhSachTinNhan";
-            Size = new Size(1194, 723);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)picAvatarNguoiDung).EndInit();
+            Size = new Size(1045, 573);
+            header.ResumeLayout(false);
+            header.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picAvatarOtherUser).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Panel panel1;
-        private PictureBox picAvatarNguoiDung;
-        private TextBox txtTimKiem;
-        private RoundedButton btnTimKiem;
+        private Panel header;
+        private PictureBox picAvatarOtherUser;
+        private Label lb_otherUserName;
         private Label label3;
-        private FlowLayoutPanel flowLayoutPanel1;
-        private ContextMenuStrip contextMenuStrip1;
-        private Button button1;
+        private FlowLayoutPanel flp;
+        private ContextMenuStrip cmstrip;
+        private Panel ntin;
+        private NhanTin nt;
     }
 }

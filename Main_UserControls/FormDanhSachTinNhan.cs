@@ -21,10 +21,9 @@ namespace Dating_app_nhom3
             MainForm = m;
             for (int i = 0; i < 10; i++)
             {
-                UserChat_item control = new UserChat_item();
-                control.Location = new Point(10, 10 + i * 110); // x = 10, y cách nhau 110
-                control.Size = new Size(300, 100); // kích thước UserControl
-                this.Controls.Add(control); // thêm vào Form
+                UserChat_item user = new UserChat_item();
+                user.Size = new Size(300, 100); // kích thước UserControl
+                flp.Controls.Add(user);
             }
         }
 

@@ -9,7 +9,7 @@ namespace LOGIN
         private Label label2;
         private TextBox tb_email;
         private TextBox tb_matkhau;
-        private RoundedButton btn_dangnhap;
+        private RoundedGlossyButton btn_dangnhap;
         private LinkLabel ll_quenmatkhau;
         private LinkLabel ll_dangky;
         private void InitializeComponent()
@@ -18,7 +18,7 @@ namespace LOGIN
             tb_email = new TextBox();
             label2 = new Label();
             tb_matkhau = new TextBox();
-            btn_dangnhap = new RoundedButton();
+            btn_dangnhap = new RoundedGlossyButton();
             ll_quenmatkhau = new LinkLabel();
             ll_dangky = new LinkLabel();
             panel = new Panel();
@@ -69,9 +69,10 @@ namespace LOGIN
             btn_dangnhap.BackColor = Color.FromArgb(255, 111, 145);
             btn_dangnhap.FlatAppearance.BorderSize = 0;
             btn_dangnhap.FlatStyle = FlatStyle.Flat;
-            btn_dangnhap.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btn_dangnhap.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             btn_dangnhap.ForeColor = Color.White;
             btn_dangnhap.Location = new Point(201, 252);
+            btn_dangnhap.Margin = new Padding(3, 4, 3, 4);
             btn_dangnhap.Name = "btn_dangnhap";
             btn_dangnhap.Size = new Size(364, 50);
             btn_dangnhap.TabIndex = 5;
@@ -81,8 +82,8 @@ namespace LOGIN
             // 
             // ll_quenmatkhau
             // 
-            ll_quenmatkhau.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ll_quenmatkhau.LinkColor = Color.FromArgb(0, 102, 204);
+            ll_quenmatkhau.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            ll_quenmatkhau.LinkColor = Color.FromArgb(255, 111, 145);
             ll_quenmatkhau.Location = new Point(201, 331);
             ll_quenmatkhau.Name = "ll_quenmatkhau";
             ll_quenmatkhau.Size = new Size(189, 48);
@@ -93,8 +94,8 @@ namespace LOGIN
             // 
             // ll_dangky
             // 
-            ll_dangky.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ll_dangky.LinkColor = Color.FromArgb(0, 102, 204);
+            ll_dangky.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            ll_dangky.LinkColor = Color.FromArgb(255, 111, 145);
             ll_dangky.Location = new Point(449, 331);
             ll_dangky.Name = "ll_dangky";
             ll_dangky.Size = new Size(116, 40);

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btn_dangky = new RoundedButton();
+            btn_dangky = new RoundedGlossyButton();
             tb_password = new TextBox();
             label2 = new Label();
             label1 = new Label();
@@ -42,10 +42,12 @@
             // 
             // btn_dangky
             // 
-            btn_dangky.AutoSize = true;
             btn_dangky.BackColor = Color.FromArgb(255, 111, 145);
-            btn_dangky.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            btn_dangky.FlatAppearance.BorderSize = 0;
+            btn_dangky.FlatStyle = FlatStyle.Flat;
+            btn_dangky.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             btn_dangky.ForeColor = Color.White;
+            btn_dangky.Margin = new Padding(3, 4, 3, 4);
             btn_dangky.Location = new Point(164, 337);
             btn_dangky.Name = "btn_dangky";
             btn_dangky.Size = new Size(451, 57);
@@ -146,7 +148,8 @@
             // ll_back
             // 
             ll_back.AutoSize = true;
-            ll_back.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            ll_back.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            ll_back.LinkColor = Color.FromArgb(255, 111, 145);
             ll_back.Location = new Point(637, 343);
             ll_back.Name = "ll_back";
             ll_back.Size = new Size(130, 38);
@@ -180,7 +183,7 @@
 
         #endregion
 
-        private RoundedButton btn_dangky;
+        private RoundedGlossyButton btn_dangky;
         private TextBox tb_password;
         private Label label2;
         private Label label1;

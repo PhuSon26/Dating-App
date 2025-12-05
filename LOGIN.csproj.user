@@ -62,6 +62,9 @@
     <Compile Update="DangKy, QuenMatKhau, CapNhatMatKhau\QuenMatKhau.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="RoundedGlossyButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Main.resx">

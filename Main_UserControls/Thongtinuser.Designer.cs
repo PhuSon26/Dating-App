@@ -33,14 +33,14 @@ namespace Dating_app_nhom3
             tb_congviec = new TextBox();
             label_hocvan = new Label();
             tb_hocvan = new TextBox();
-            btn_avatar = new RoundedButton();
+            btn_avatar = new RoundedGlossyButton();
             label3 = new Label();
             label_chieucao = new Label();
             num_chieucao = new NumericUpDown();
             label_gioithieu = new Label();
             tb_gioithieu = new TextBox();
             imageListAnh = new ImageList(components);
-            btn_themAnh = new RoundedButton();
+            btn_themAnh = new RoundedGlossyButton();
             flp = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)ptb_avt).BeginInit();
             ((System.ComponentModel.ISupportInitialize)num_chieucao).BeginInit();
@@ -210,10 +210,10 @@ namespace Dating_app_nhom3
             // 
             // btn_avatar
             // 
-            btn_avatar.BackColor = Color.WhiteSmoke;
+            btn_avatar.BackColor = Color.FromArgb(255, 111, 145);
             btn_avatar.CornerRadius = 20;
             btn_avatar.Enabled = false;
-            btn_avatar.FlatStyle = FlatStyle.Popup;
+            btn_avatar.FlatStyle = FlatStyle.Flat;
             btn_avatar.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             btn_avatar.ForeColor = Color.White;
             btn_avatar.Location = new Point(50, 260);
@@ -284,7 +284,7 @@ namespace Dating_app_nhom3
             // 
             // btn_themAnh
             // 
-            btn_themAnh.BackColor = Color.WhiteSmoke;
+            btn_themAnh.BackColor = Color.FromArgb(255, 111, 145);
             btn_themAnh.CornerRadius = 20;
             btn_themAnh.Enabled = false;
             btn_themAnh.FlatStyle = FlatStyle.Flat;
@@ -361,9 +361,9 @@ namespace Dating_app_nhom3
         private NumericUpDown num_chieucao;
         private ComboBox cb_gioitinh;
         private DateTimePicker dtp_sinhnhat;
-        private RoundedButton btn_avatar;
+        private RoundedGlossyButton btn_avatar;
         private Label label3;
-        private RoundedButton btn_themAnh;
+        private RoundedGlossyButton btn_themAnh;
         private ImageList imageListAnh;
         private FlowLayoutPanel flp;
     }
