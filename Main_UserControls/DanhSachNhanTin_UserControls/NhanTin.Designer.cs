@@ -45,9 +45,9 @@
             // panelBottom
             // 
             panelBottom.BackColor = Color.WhiteSmoke;
-            panelBottom.Controls.Add(btn_anh);
-            panelBottom.Controls.Add(tb_message);
             panelBottom.Controls.Add(btn_send);
+            panelBottom.Controls.Add(tb_message);
+            panelBottom.Controls.Add(btn_anh);
             panelBottom.Dock = DockStyle.Bottom;
             panelBottom.Location = new Point(0, 403);
             panelBottom.Name = "panelBottom";
@@ -72,18 +72,21 @@
             tb_message.Name = "tb_message";
             tb_message.Size = new Size(550, 40);
             tb_message.TabIndex = 1;
-            // 
+            //
             // btn_send
-            // 
+            //
             btn_send.BackColor = Color.DeepSkyBlue;
-            btn_send.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btn_send.ForeColor = Color.White;
+            btn_send.FlatStyle = FlatStyle.Flat;
+            btn_send.FlatAppearance.BorderSize = 0;
+            btn_send.Size = new Size(85, 40);        
             btn_send.Location = new Point(615, 10);
-            btn_send.Name = "btn";
-            btn_send.Size = new Size(85, 40);
+            btn_send.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            btn_send.Text = "Gửi";                    
+            btn_send.Name = "btn_send";
             btn_send.TabIndex = 2;
-            btn_send.Text = "Gửi";
             btn_send.UseVisualStyleBackColor = false;
+            btn_send.Anchor = AnchorStyles.Right | AnchorStyles.Bottom;
+            btn_send.Click += btn_send_Click;
             // 
             // NhanTin
             // 

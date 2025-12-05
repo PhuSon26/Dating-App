@@ -291,7 +291,6 @@
             // 
             // btn_loc
             // 
-            btn_loc.BackColor = Color.Transparent;
             btn_loc.CornerRadius = 20;
             btn_loc.FlatStyle = FlatStyle.Flat;
             btn_loc.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -306,7 +305,6 @@
             // 
             // btn_kothich
             // 
-            btn_kothich.BackColor = Color.Transparent;
             btn_kothich.CornerRadius = 20;
             btn_kothich.FlatStyle = FlatStyle.Flat;
             btn_kothich.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -321,7 +319,6 @@
             // 
             // btn_timVIP
             // 
-            btn_timVIP.BackColor = Color.Transparent;
             btn_timVIP.CornerRadius = 20;
             btn_timVIP.FlatStyle = FlatStyle.Flat;
             btn_timVIP.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -335,7 +332,6 @@
             // 
             // btn_tim
             // 
-            btn_tim.BackColor = Color.Transparent;
             btn_tim.CornerRadius = 20;
             btn_tim.FlatStyle = FlatStyle.Flat;
             btn_tim.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);

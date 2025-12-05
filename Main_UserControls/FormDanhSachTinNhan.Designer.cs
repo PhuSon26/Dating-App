@@ -100,7 +100,7 @@ namespace Dating_app_nhom3
             flp.Name = "flp";
             flp.Size = new Size(249, 493);
             flp.Dock = DockStyle.Left;
-            flp.Width = 250;   // panel trái cố định
+            flp.Width = 250;
             flp.TabIndex = 1;
             flp.WrapContents = false;
             // 

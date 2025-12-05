@@ -62,7 +62,7 @@ namespace Main_Interface.User_Controls
             flPanel_tinNhan.Controls.Add(row);
             flPanel_tinNhan.ScrollControlIntoView(row);
         }
-        private void btn_Click(object sender, EventArgs e)
+        private void btn_send_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(tb_message.Text)) return;
 

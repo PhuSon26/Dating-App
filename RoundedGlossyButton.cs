@@ -7,6 +7,7 @@ namespace LOGIN
     public class RoundedGlossyButton : Button
     {
         public int CornerRadius { get; set; } = 20;
+        private bool isPressed = false;
 
         public RoundedGlossyButton()
         {
@@ -25,11 +26,15 @@ namespace LOGIN
             Rectangle rect = this.ClientRectangle;
             GraphicsPath path = GetRoundedRect(rect, CornerRadius);
 
-            // Fill button
-            using (SolidBrush brush = new SolidBrush(this.BackColor))
+            // MÀU KHI NHẤN
+            Color fillColor = isPressed
+                ? ControlPaint.Dark(this.BackColor, 0.2f)  // đậm hơn
+                : this.BackColor;
+
+            using (SolidBrush brush = new SolidBrush(fillColor))
                 e.Graphics.FillPath(brush, path);
 
-            // Glossy effect top
+            // Hiệu ứng GLOSS
             Rectangle glossRect = new Rectangle(0, 0, Width, Height / 2);
             using (LinearGradientBrush glossBrush = new LinearGradientBrush(
                 glossRect,
@@ -41,7 +46,14 @@ namespace LOGIN
                 e.Graphics.FillPath(glossBrush, glossPath);
             }
 
-            // Draw text centered
+            // VIỀN SÁNG KHI NHẤN
+            if (isPressed)
+            {
+                using (Pen pen = new Pen(Color.White, 2))
+                    e.Graphics.DrawPath(pen, path);
+            }
+
+            // TEXT
             StringFormat sf = new StringFormat()
             {
                 Alignment = StringAlignment.Center,
@@ -49,9 +61,7 @@ namespace LOGIN
             };
 
             using (SolidBrush textBrush = new SolidBrush(this.ForeColor))
-            {
                 e.Graphics.DrawString(Text, Font, textBrush, rect, sf);
-            }
 
             this.Region = new Region(path);
         }
@@ -82,6 +92,20 @@ namespace LOGIN
             base.OnMouseLeave(e);
             this.BackColor = ControlPaint.Dark(this.BackColor, -0.1f);
             this.Cursor = Cursors.Default;
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            isPressed = true;
+            Invalidate();
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            isPressed = false;
+            Invalidate();
         }
     }
 }
