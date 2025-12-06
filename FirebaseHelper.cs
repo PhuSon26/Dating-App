@@ -194,9 +194,11 @@ namespace LOGIN
             }
         }
 
-        // ============================================
-        // SEND MESSAGE (ĐÃ SỬA NGOẶC, TÁCH HÀM)
-        // ============================================
+        /// <summary>
+        /// Gửi tin nhắn (text + optional ảnh) vào cuộc trò chuyện của một match.
+        /// Lưu tin nhắn vào subcollection Matches/{matchId}/messages
+        /// Đồng thời cập nhật trường lastMessage trong document Matches/{matchId}.
+        /// </summary>
         public async Task<ChatMessage> SendMessageAsync(
             string matchId,
             string senderId,
@@ -213,34 +215,39 @@ namespace LOGIN
                 string.IsNullOrWhiteSpace(localImagePath))
                 throw new ArgumentException("Phải có text hoặc ảnh.");
 
+            // 1. Nếu có ảnh → upload lên Firebase Storage, lấy URL
             string imageUrl = null;
             if (!string.IsNullOrWhiteSpace(localImagePath))
             {
                 imageUrl = await uploadFile(localImagePath, "message_images");
             }
 
+            // 2. Tạo object ChatMessage
             var msg = new ChatMessage
             {
                 senderId = senderId,
                 text = text ?? string.Empty,
                 imageUrl = imageUrl,
-                createdAt = Timestamp.FromDateTime(DateTime.UtcNow)
+                createdAt = Timestamp.FromDateTime(DateTime.UtcNow),
+                isRecalled = false,
+                isDeleted = false
             };
 
+            // 3. Ghi vào subcollection Matches/{matchId}/messages
             DocumentReference matchDoc = db.Collection("Matches").Document(matchId);
             CollectionReference messagesCol = matchDoc.Collection("messages");
-            await messagesCol.AddAsync(msg);
+            DocumentReference addedMsgDoc = await messagesCol.AddAsync(msg);   // AddAsync trả về DocumentReference có Id 
 
-            string lastMsgPreview;
-            if (!string.IsNullOrWhiteSpace(text))
-                lastMsgPreview = text;
-            else
-                lastMsgPreview = "[Hình ảnh]";
+            // lưu lại Id document vào object để dùng khi xoá/thu hồi
+            msg.messageId = addedMsgDoc.Id;
 
-            await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);
+            // 4. Cập nhật lastMessage trong document Matches/{matchId}
+            string lastMsgPreview = !string.IsNullOrWhiteSpace(text) ? text : "[Hình ảnh]";
+            await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);  // Update field theo mẫu docs 
 
             return msg;
         }
+
 
         // ==============================================
         // HÀM GET MATCHES (ĐÃ TÁCH RIÊNG KHÔNG CHÈN NHẦM)
