@@ -10,24 +10,25 @@ public partial class UserChatitem : UserControl
     private Label lblTime;
     private Label lblBadge;
 
-    public event Action<USER> OnOpenChat;   // 🟢 THÊM EVENT NÀY
+    public event Action<USER> OnOpenChat;
 
     public string UserName => lblName.Text;
     public USER UserData { get; private set; }
     public ChatMeta MetaData { get; private set; }
+    private FirebaseAuthHelper firebase;
 
     public UserChatitem()
     {
         InitializeComponents();
     }
 
-    public UserChatitem(USER user, ChatMeta meta)
+    public UserChatitem(USER user, ChatMeta meta, FirebaseAuthHelper firebase)
     {
         UserData = user;
         MetaData = meta;
-
-        this.Width = 320;
-        this.Height = 75;
+        this.firebase = firebase;
+        this.Width = 522;
+        this.Height = 150;
         this.BackColor = Color.White;
         this.Margin = new Padding(5);
         this.Cursor = Cursors.Hand;
@@ -40,8 +41,8 @@ public partial class UserChatitem : UserControl
     {
         picAvatar = new PictureBox
         {
-            Width = 55,
-            Height = 55,
+            Width = 130,
+            Height = 130,
             Left = 10,
             Top = 10,
             SizeMode = PictureBoxSizeMode.Zoom,
@@ -50,17 +51,18 @@ public partial class UserChatitem : UserControl
 
         lblName = new Label
         {
-            Left = 80,
-            Top = 5,
+            Left = 150,
+            Top = 10,
             Width = 200,
-            Font = new Font("Segoe UI", 11, FontStyle.Bold)
+            Height = 45,
+            Font = new Font("Segoe UI", 18F, FontStyle.Bold)
         };
 
         lblLastMessage = new Label
         {
-            Left = 80,
-            Top = 30,
-            Width = 200,
+            Left = 150,
+            Top = 50,
+            Width = 150,
             Font = new Font("Segoe UI", 9),
             ForeColor = Color.Gray
         };
@@ -108,11 +110,11 @@ public partial class UserChatitem : UserControl
 
     private void BindData()
     {
-        lblName.Text = UserData.ten ?? "Không tên";
+        lblName.Text = UserData.ten ?? "Anonymous";
 
         if (!string.IsNullOrEmpty(UserData.AvatarUrl))
         {
-            try { picAvatar.LoadAsync(UserData.AvatarUrl); } catch { }
+            try { picAvatar.Image = firebase.Base64ToImage(UserData.AvatarUrl); } catch { }
         }
 
         lblLastMessage.Text = MetaData.lastMessage ?? "";

@@ -300,6 +300,13 @@ namespace LOGIN
         }
         public string ImageToBase64(Image img)
         {
+            string defaultImgPath = Path.Combine(Application.StartupPath, "Images", "AvatarMacDinh.jpg");
+
+            if (img == null)
+            {
+                img = Image.FromFile(defaultImgPath);
+            }
+
             using (MemoryStream ms = new MemoryStream())
             {
                 img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -308,10 +315,22 @@ namespace LOGIN
         }
         public Image Base64ToImage(string base64)
         {
-            byte[] bytes = Convert.FromBase64String(base64);
-            using (MemoryStream ms = new MemoryStream(bytes))
+            string defaultPath = Path.Combine(Application.StartupPath, "Images", "AvatarMacDinh.jpg");
+
+            if (string.IsNullOrEmpty(base64))
+                return Image.FromFile(defaultPath);
+
+            try
             {
-                return Image.FromStream(ms);
+                byte[] bytes = Convert.FromBase64String(base64);
+                using (MemoryStream ms = new MemoryStream(bytes))
+                {
+                    return Image.FromStream(ms);
+                }
+            }
+            catch
+            {
+                return Image.FromFile(defaultPath);
             }
         }
         public async Task<List<USER>> GetRandomSuggest(string userId, int limit = 5)

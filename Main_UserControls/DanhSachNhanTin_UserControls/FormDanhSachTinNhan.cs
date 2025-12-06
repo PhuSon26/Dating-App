@@ -18,23 +18,29 @@ namespace LOGIN
         private FirebaseAuthHelper firebase;
         private string myUserId = Session.LocalId;
         public Main MainForm;
+        public USER u;
         public FormDanhSachTinNhan()
         {
             InitializeComponent();
             firebase = new FirebaseAuthHelper("login - bb104");
         }
-        public FormDanhSachTinNhan(Main m)
+        public FormDanhSachTinNhan(Main m, USER u)
         {
             InitializeComponent();
             firebase = new FirebaseAuthHelper("login - bb104");
             MainForm = m;
+            this.u = u;
         }
 
         private async void FormDanhSachTinNhan_Load(object sender, EventArgs e)
         {
             await LoadMatchedUsers();
+            try
+            {
+                picAvatarNguoiDung.Image = firebase.Base64ToImage(u.AvatarUrl);
+            }
+            catch { }
         }
-
         private async Task LoadMatchedUsers()
         {
             try
@@ -67,7 +73,7 @@ namespace LOGIN
 
                     if (meta != null)
                     {
-                        item = new UserChatitem(otherUser, meta);
+                        item = new UserChatitem(otherUser, meta, firebase);
                         items.Add((item, meta.lastTimestamp));
                     }
                     else
@@ -83,7 +89,7 @@ namespace LOGIN
                             userB = otherId
                         };
 
-                        item = new UserChatitem(otherUser, emptyMeta);
+                        item = new UserChatitem(otherUser, emptyMeta, firebase);
 
                         items.Add((item, Timestamp.FromDateTime(DateTime.UnixEpoch)));
                     }
@@ -117,13 +123,6 @@ namespace LOGIN
             this.Controls.Clear();
             this.Controls.Add(chat);
         }
-
-
-        private void picAvatarNguoiDung_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Mở trang cá nhân!");
-        }
-
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
             string keyword = txtTimKiem.Text.Trim().ToLower();

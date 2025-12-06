@@ -46,6 +46,7 @@ namespace LOGIN
             panel1.Controls.Add(btnTimKiem);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(picAvatarNguoiDung);
+            panel1.Dock = DockStyle.Top;
             panel1.Controls.Add(txtTimKiem);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -58,7 +59,7 @@ namespace LOGIN
             btnTimKiem.CornerRadius = 20;
             btnTimKiem.FlatStyle = FlatStyle.Flat;
             btnTimKiem.ForeColor = Color.White;
-            btnTimKiem.Location = new Point(827, 25);
+            btnTimKiem.Location = new Point(920, 25);
             btnTimKiem.Name = "btnTimKiem";
             btnTimKiem.Size = new Size(109, 36);
             btnTimKiem.TabIndex = 0;
@@ -78,23 +79,26 @@ namespace LOGIN
             // 
             // picAvatarNguoiDung
             // 
-            picAvatarNguoiDung.Location = new Point(panel1.Width - 100, 12);
+            picAvatarNguoiDung.Location = new Point(900, 0);
+            picAvatarNguoiDung.Size = new Size(125, 80);
             picAvatarNguoiDung.Name = "picAvatarNguoiDung";
-            picAvatarNguoiDung.Size = new Size(88, 61);
             picAvatarNguoiDung.TabIndex = 2;
             picAvatarNguoiDung.TabStop = false;
-            picAvatarNguoiDung.Click += picAvatarNguoiDung_Click;
+            picAvatarNguoiDung.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            picAvatarNguoiDung.SizeMode = PictureBoxSizeMode.Zoom;
             // 
             // txtTimKiem
             // 
             txtTimKiem.Font = new Font("Segoe UI", 16F);
-            txtTimKiem.Location = new Point(306, 25);
+            txtTimKiem.Location = new Point(430, 25);
             txtTimKiem.Name = "txtTimKiem";
-            txtTimKiem.Size = new Size(516, 36);
+            txtTimKiem.Size = new Size(480, 36);
             txtTimKiem.TabIndex = 3;
             // 
             // flowLayoutPanel1
             // 
+            flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
+            flowLayoutPanel1.WrapContents = true;
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.Location = new Point(20, 90);
             flowLayoutPanel1.Name = "flowLayoutPanel1";

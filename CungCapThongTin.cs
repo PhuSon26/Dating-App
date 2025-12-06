@@ -80,7 +80,6 @@ namespace LOGIN
             MainForm = new Main(_auth);
             MainForm.Show();
         }
-
         private void CungCapThongTin_Load(object sender, EventArgs e)
         {
 

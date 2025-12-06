@@ -13,6 +13,7 @@ namespace Main_Interface
         public Thongtinuser ttuser;
         public FirebaseAuthHelper auth;
         public CaiDat cd;
+        public USER u;
 
         private bool loadedHscn = false;
         private bool loadedVip = false;
@@ -23,12 +24,12 @@ namespace Main_Interface
         {
             InitializeComponent();
             this.auth = auth;
-           
             SetupButtons();
         }
 
-        public void Main_Load(object sender, EventArgs e)
+        public async void Main_Load(object sender, EventArgs e)
         {
+            u = await auth.getUser();
             gd = new GhepDoi(this);
             LoadContent(gd);
         }
@@ -47,7 +48,7 @@ namespace Main_Interface
         {
             if (!loadedDs)
             {
-                dstn = new FormDanhSachTinNhan(this);
+                dstn = new FormDanhSachTinNhan(this, u);
                 loadedDs = true;
             }
             LoadContent(dstn);
@@ -77,7 +78,6 @@ namespace Main_Interface
         {
             if (!loadedHscn)
             {
-                USER u = await auth.getUser();
                 ttuser = new Thongtinuser(auth, u);
                 ttuser.setUserInfo(u);
                 loadedHscn = true;

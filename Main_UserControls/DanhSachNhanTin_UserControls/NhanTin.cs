@@ -42,6 +42,7 @@ namespace Main_Interface.User_Controls
             this.Load += NhanTin_Load;
             SetupCustomUI();
             MainForm = m;
+            this.firebase = m.auth;
         }
 
         // ======================================================
@@ -78,8 +79,8 @@ namespace Main_Interface.User_Controls
             // Avatar
             picAvatar = new PictureBox
             {
-                Width = 50,
-                Height = 50,
+                Width = 60,
+                Height = 60,
                 Location = new Point(70, 15),
                 SizeMode = PictureBoxSizeMode.Zoom,
                 BackColor = Color.White
@@ -95,7 +96,7 @@ namespace Main_Interface.User_Controls
             {
                 try
                 {
-                    picAvatar.LoadAsync(targetUser.AvatarUrl);
+                    picAvatar.Image = firebase.Base64ToImage(targetUser.AvatarUrl);
                 }
                 catch { }
             }
@@ -288,7 +289,7 @@ namespace Main_Interface.User_Controls
         {
             // Dừng listener
             listener?.StopAsync();
-            MainForm.LoadContent(new FormDanhSachTinNhan(MainForm));
+            MainForm.LoadContent(new FormDanhSachTinNhan(MainForm, MainForm.u));
         }
 
         // ======================================================
