@@ -191,7 +191,66 @@ namespace LOGIN
                 return await task;
             }
         }
+        /// <summary>
+        /// Gửi tin nhắn (text + optional ảnh) vào cuộc trò chuyện của một match.
+        /// Lưu tin nhắn vào subcollection:
+        ///   Matches/{matchId}/messages
+        /// Đồng thời cập nhật trường lastMessage trong document Matches/{matchId}.
+        /// </summary>
+        /// <param name="matchId">Id document trong collection Matches</param>
+        /// <param name="senderId">uid người gửi</param>
+        /// <param name="text">nội dung text (có thể rỗng nếu chỉ gửi ảnh)</param>
+        /// <param name="localImagePath">đường dẫn ảnh local, null nếu không gửi ảnh</param>
+        /// <returns>Đối tượng ChatMessage đã gửi</returns>
+        public async Task<ChatMessage> SendMessageAsync(
+            string matchId,
+            string senderId,
+            string text,
+            string localImagePath = null)
+        {
+            if (string.IsNullOrWhiteSpace(matchId))
+                throw new ArgumentException("matchId trống", nameof(matchId));
 
+            if (string.IsNullOrWhiteSpace(senderId))
+                throw new ArgumentException("senderId trống", nameof(senderId));
+
+            if (string.IsNullOrWhiteSpace(text) &&
+                string.IsNullOrWhiteSpace(localImagePath))
+                throw new ArgumentException("Phải có text hoặc ảnh.");
+
+            // 1. Nếu có ảnh → upload lên Firebase Storage, lấy URL
+            string imageUrl = null;
+            if (!string.IsNullOrWhiteSpace(localImagePath))
+            {
+                // "message_images" là tên folder trên Firebase Storage
+                imageUrl = await uploadFile(localImagePath, "message_images");
+            }
+
+            // 2. Tạo object ChatMessage
+            var msg = new ChatMessage
+            {
+                senderId = senderId,
+                text = text ?? string.Empty,
+                imageUrl = imageUrl,
+                createdAt = Timestamp.FromDateTime(DateTime.UtcNow)
+            };
+
+            // 3. Ghi vào subcollection Matches/{matchId}/messages
+            DocumentReference matchDoc = db.Collection("Matches").Document(matchId);
+            CollectionReference messagesCol = matchDoc.Collection("messages");
+            await messagesCol.AddAsync(msg);
+
+            // 4. Cập nhật lastMessage trong document Matches/{matchId}
+            string lastMsgPreview;
+            if (!string.IsNullOrWhiteSpace(text))
+                lastMsgPreview = text;
+            else
+                lastMsgPreview = "[Hình ảnh]";
+
+            await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);
+
+            return msg;
+        }
         public async Task<USER> getUser()
         {
             if (string.IsNullOrEmpty(userID)) return null;
