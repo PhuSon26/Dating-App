@@ -212,6 +212,39 @@ namespace LOGIN
                 return await task;
             }
         }
+        /// <summary>
+        /// Lấy tất cả document trong collection "Matches"
+        /// mà mảng users có chứa userId truyền vào.
+        /// </summary>
+        public async Task<List<Match>> GetMatchesAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId trống", nameof(userId));
+
+            // Query: whereArrayContains("users", userId)
+            // theo cú pháp array-contains của Firestore
+            var query = db.Collection("Matches")
+                          .WhereArrayContains("users", userId);
+
+            QuerySnapshot snap = await query.GetSnapshotAsync();
+
+            List<Match> matches = new List<Match>();
+
+            foreach (DocumentSnapshot doc in snap.Documents)
+            {
+                if (!doc.Exists) continue;
+
+                Match m = doc.ConvertTo<Match>();
+
+                // Nếu muốn gán luôn doc.Id cho matchID:
+                // if (string.IsNullOrEmpty(m.matchID))
+                //     m.matchID = doc.Id;
+
+                matches.Add(m);
+            }
+
+            return matches;
+        }
 
         public async Task<USER> getUser()
         {
