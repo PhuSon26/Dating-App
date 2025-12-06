@@ -40,7 +40,7 @@
             panelMain.Location = new Point(0, 0);
             panelMain.Margin = new Padding(3, 2, 3, 2);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(1050, 634);
+            panelMain.Size = new Size(1050, 687);
             panelMain.TabIndex = 0;
             // 
             // lblLogo
@@ -85,7 +85,7 @@
             // 
             panelButtons.BackColor = Color.White;
             panelButtons.Dock = DockStyle.Bottom;
-            panelButtons.Location = new Point(0, 565);
+            panelButtons.Location = new Point(0, 618);
             panelButtons.Margin = new Padding(3, 2, 3, 2);
             panelButtons.Name = "panelButtons";
             panelButtons.Padding = new Padding(0, 4, 0, 4);
@@ -132,7 +132,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1050, 634);
+            ClientSize = new Size(1050, 687);
             Controls.Add(panelMain);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(3, 2, 3, 2);

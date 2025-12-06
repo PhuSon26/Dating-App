@@ -1,4 +1,6 @@
-﻿namespace Main_Interface.User_Controls
+﻿using LOGIN;
+
+namespace Main_Interface.User_Controls
 {
     partial class NhanTin
     {
@@ -7,8 +9,8 @@
         private FlowLayoutPanel flPanel_tinNhan;
         private Panel panelBottom;
         private TextBox tb_message;
-        private Button btn_send;
-        private Button btn_anh;
+        private RoundedGlossyButton btn_send;
+        private RoundedGlossyButton btn_anh;
 
         protected override void Dispose(bool disposing)
         {
@@ -23,9 +25,9 @@
         {
             flPanel_tinNhan = new FlowLayoutPanel();
             panelBottom = new Panel();
-            btn_anh = new Button();
+            btn_anh = new RoundedGlossyButton();
             tb_message = new TextBox();
-            btn_send = new Button();
+            btn_send = new RoundedGlossyButton();
             panelBottom.SuspendLayout();
             SuspendLayout();
             // 

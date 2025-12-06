@@ -12,7 +12,7 @@
           "FirebaseAuthentication.net": "4.1.0",
           "FirebaseDatabase.net": "5.0.0",
           "FirebaseStorage.net": "1.0.3",
-          "Google.Cloud.Firestore": "3.12.0",
+          "Google.Cloud.Firestore": "4.0.0",
           "Microsoft.Data.SqlClient": "6.1.2",
           "SendGrid": "9.29.3",
           "Twilio": "7.13.5"
@@ -23,7 +23,7 @@
       },
       "Azure.Core/1.47.1": {
         "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "8.0.0",
+          "Microsoft.Bcl.AsyncInterfaces": "10.0.0",
           "System.ClientModel": "1.5.1",
           "System.Memory.Data": "8.0.1"
         },
@@ -104,7 +104,7 @@
       },
       "Google.Api.Gax/4.12.1": {
         "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "8.0.0",
+          "Microsoft.Bcl.AsyncInterfaces": "10.0.0",
           "Newtonsoft.Json": "13.0.4",
           "System.Diagnostics.DiagnosticSource": "6.0.2"
         },
@@ -167,20 +167,21 @@
           }
         }
       },
-      "Google.Cloud.Firestore/3.12.0": {
+      "Google.Cloud.Firestore/4.0.0": {
         "dependencies": {
-          "Google.Cloud.Firestore.V1": "3.12.0",
+          "Google.Cloud.Firestore.V1": "4.0.0",
+          "Microsoft.Bcl.AsyncInterfaces": "10.0.0",
           "System.Collections.Immutable": "8.0.0",
-          "System.Linq.Async": "6.0.3"
+          "System.Linq.AsyncEnumerable": "10.0.0"
         },
         "runtime": {
           "lib/netstandard2.0/Google.Cloud.Firestore.dll": {
-            "assemblyVersion": "3.12.0.0",
-            "fileVersion": "3.12.0.0"
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
           }
         }
       },
-      "Google.Cloud.Firestore.V1/3.12.0": {
+      "Google.Cloud.Firestore.V1/4.0.0": {
         "dependencies": {
           "Google.Api.Gax.Grpc": "4.12.1",
           "Google.Cloud.Location": "2.4.0",
@@ -188,8 +189,8 @@
         },
         "runtime": {
           "lib/netstandard2.0/Google.Cloud.Firestore.V1.dll": {
-            "assemblyVersion": "3.12.0.0",
-            "fileVersion": "3.12.0.0"
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
           }
         }
       },
@@ -274,11 +275,11 @@
           }
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/8.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/10.0.0": {
         "runtime": {
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.23.53103"
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
           }
         }
       },
@@ -941,11 +942,11 @@
           "System.Runtime.Extensions": "4.3.0"
         }
       },
-      "System.Linq.Async/6.0.3": {
+      "System.Linq.AsyncEnumerable/10.0.0": {
         "runtime": {
-          "lib/net6.0/System.Linq.Async.dll": {
-            "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.0.3.6811"
+          "lib/net8.0/System.Linq.AsyncEnumerable.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.25.52411"
           }
         }
       },
@@ -1504,19 +1505,19 @@
       "path": "google.apis.core/1.72.0",
       "hashPath": "google.apis.core.1.72.0.nupkg.sha512"
     },
-    "Google.Cloud.Firestore/3.12.0": {
+    "Google.Cloud.Firestore/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-cprPkj0Ua0TOTs9Q0N8zA7zZsF8IEDl28InEGn6pwT4xLFRYC+GD/8Gv1U7QPliAfncZDkdvJbrl47R4DNqfvQ==",
-      "path": "google.cloud.firestore/3.12.0",
-      "hashPath": "google.cloud.firestore.3.12.0.nupkg.sha512"
+      "sha512": "sha512-yXdis2q8wg3E0XTmbslZU2agos3ojcvjKgiX5c3zf68JFn+XquhfPyAt3+rAq5qkv6JFuOmu2GJ9BchqrPT+Gg==",
+      "path": "google.cloud.firestore/4.0.0",
+      "hashPath": "google.cloud.firestore.4.0.0.nupkg.sha512"
     },
-    "Google.Cloud.Firestore.V1/3.12.0": {
+    "Google.Cloud.Firestore.V1/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Q0LpxWahTF5baOPV86pWrci4SoKfindcXohm6wgTqgPCcnHSNIOBW3ZUs7lZOt6Zg7Xs1jTviJaj9daEr858lw==",
-      "path": "google.cloud.firestore.v1/3.12.0",
-      "hashPath": "google.cloud.firestore.v1.3.12.0.nupkg.sha512"
+      "sha512": "sha512-2eAExvI+QsHQcHkG8NJNlGrcb0r0net5IK78cBOsgNTu0OdNnipKGlQfyY05WvKzcA/rY/RnwYXO3v348kmzsg==",
+      "path": "google.cloud.firestore.v1/4.0.0",
+      "hashPath": "google.cloud.firestore.v1.4.0.0.nupkg.sha512"
     },
     "Google.Cloud.Location/2.4.0": {
       "type": "package",
@@ -1574,12 +1575,12 @@
       "path": "litedb/5.0.17",
       "hashPath": "litedb.5.0.17.nupkg.sha512"
     },
-    "Microsoft.Bcl.AsyncInterfaces/8.0.0": {
+    "Microsoft.Bcl.AsyncInterfaces/10.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-3WA9q9yVqJp222P3x1wYIGDAkpjAku0TMUaaQV22g6L67AI0LdOIrVS7Ht2vJfLHGSPVuqN94vIr15qn+HEkHw==",
-      "path": "microsoft.bcl.asyncinterfaces/8.0.0",
-      "hashPath": "microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512"
+      "sha512": "sha512-vFuwSLj9QJBbNR0NeNO4YVASUbokxs+i/xbuu8B+Fs4FAZg5QaFa6eGrMaRqTzzNI5tAb97T7BhSxtLckFyiRA==",
+      "path": "microsoft.bcl.asyncinterfaces/10.0.0",
+      "hashPath": "microsoft.bcl.asyncinterfaces.10.0.0.nupkg.sha512"
     },
     "Microsoft.Bcl.Cryptography/8.0.0": {
       "type": "package",
@@ -2085,12 +2086,12 @@
       "path": "system.linq/4.3.0",
       "hashPath": "system.linq.4.3.0.nupkg.sha512"
     },
-    "System.Linq.Async/6.0.3": {
+    "System.Linq.AsyncEnumerable/10.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-hSHiq2m1ky7zUQgTp+/2h1K3lABIQ+GltRixoclHPg/Sc1vnfeS6g/Uy5moOVZKrZJdQiFPFZd6OobBp3tZcFg==",
-      "path": "system.linq.async/6.0.3",
-      "hashPath": "system.linq.async.6.0.3.nupkg.sha512"
+      "sha512": "sha512-t1jnw7So3eeZVemma+82w+Y394oPX1bebkr3gY3IzyotP3kKC/JWwGRz2WssoUFODWWvkACT2hXliumgCHu9LQ==",
+      "path": "system.linq.asyncenumerable/10.0.0",
+      "hashPath": "system.linq.asyncenumerable.10.0.0.nupkg.sha512"
     },
     "System.Linq.Expressions/4.3.0": {
       "type": "package",
