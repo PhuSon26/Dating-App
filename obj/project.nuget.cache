@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "yQ7AAzyyUWI=",
+  "dgSpecHash": "Mgw6jeW+yaY=",
   "success": true,
   "projectFilePath": "C:\\Users\\leson\\source\\repos\\Dating-App\\Main Interface\\LOGIN.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\leson\\.nuget\\packages\\awssdk.core\\4.0.3.4\\awssdk.core.4.0.3.4.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\awssdk.elasticbeanstalk\\4.0.2.6\\awssdk.elasticbeanstalk.4.0.2.6.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\awssdk.elasticloadbalancing\\4.0.2.7\\awssdk.elasticloadbalancing.4.0.2.7.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\firebase.auth\\1.0.0\\firebase.auth.1.0.0.nupkg.sha512",

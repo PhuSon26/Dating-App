@@ -8,6 +8,8 @@
     ".NETCoreApp,Version=v8.0": {
       "LOGIN/1.0.0": {
         "dependencies": {
+          "AWSSDK.ElasticBeanstalk": "4.0.2.6",
+          "AWSSDK.ElasticLoadBalancing": "4.0.2.7",
           "Firebase.Auth": "1.0.0",
           "FirebaseAuthentication.net": "4.1.0",
           "FirebaseDatabase.net": "5.0.0",
@@ -19,6 +21,36 @@
         },
         "runtime": {
           "LOGIN.dll": {}
+        }
+      },
+      "AWSSDK.Core/4.0.3.4": {
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.3.4"
+          }
+        }
+      },
+      "AWSSDK.ElasticBeanstalk/4.0.2.6": {
+        "dependencies": {
+          "AWSSDK.Core": "4.0.3.4"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.ElasticBeanstalk.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.2.6"
+          }
+        }
+      },
+      "AWSSDK.ElasticLoadBalancing/4.0.2.7": {
+        "dependencies": {
+          "AWSSDK.Core": "4.0.3.4"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.ElasticLoadBalancing.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.2.7"
+          }
         }
       },
       "Azure.Core/1.47.1": {
@@ -1420,6 +1452,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AWSSDK.Core/4.0.3.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Bykx2u1jNLfPr/otJBPb1QwXiEip4GbjX72Ah+Rhv7QiazUZGo+d+zuhi4uT1HCnzGK7JfQZ7V+vzTysaLcObw==",
+      "path": "awssdk.core/4.0.3.4",
+      "hashPath": "awssdk.core.4.0.3.4.nupkg.sha512"
+    },
+    "AWSSDK.ElasticBeanstalk/4.0.2.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Tm4s5zDLeY6V6WMqoYuXyTuQSQAC7t4QpS35i2TSnqt9OCisPlEFuLatH+nRTcuGjK6dJQXiQ94Cen1HKwAJJw==",
+      "path": "awssdk.elasticbeanstalk/4.0.2.6",
+      "hashPath": "awssdk.elasticbeanstalk.4.0.2.6.nupkg.sha512"
+    },
+    "AWSSDK.ElasticLoadBalancing/4.0.2.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WXk4FFIZG//mrjuHl1IqZ4k/wQjLwc4trtHW0EpvdITP0/Ts2udSM6k53crjl7INeRxNNaSixuZO/RSahJJ57A==",
+      "path": "awssdk.elasticloadbalancing/4.0.2.7",
+      "hashPath": "awssdk.elasticloadbalancing.4.0.2.7.nupkg.sha512"
     },
     "Azure.Core/1.47.1": {
       "type": "package",

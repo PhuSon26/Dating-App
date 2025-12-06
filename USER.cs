@@ -40,7 +40,7 @@ namespace LOGIN
         public string gthieu { get; set; }
 
         [FirestoreProperty]
-        public float chieucao { get; set; }
+        public double chieucao { get; set; }
         [FirestoreProperty]
         public string vitri { get; set; }
 

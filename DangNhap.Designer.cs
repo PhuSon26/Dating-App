@@ -41,7 +41,7 @@ namespace LOGIN
             tb_email.Font = new Font("Segoe UI", 11F);
             tb_email.Location = new Point(321, 134);
             tb_email.Name = "tb_email";
-            tb_email.Size = new Size(244, 32);
+            tb_email.Size = new Size(244, 27);
             tb_email.TabIndex = 2;
             // 
             // label2
@@ -59,7 +59,8 @@ namespace LOGIN
             tb_matkhau.Font = new Font("Segoe UI", 11F);
             tb_matkhau.Location = new Point(321, 184);
             tb_matkhau.Name = "tb_matkhau";
-            tb_matkhau.Size = new Size(244, 32);
+            tb_matkhau.PasswordChar = '●';
+            tb_matkhau.Size = new Size(244, 27);
             tb_matkhau.TabIndex = 4;
             tb_matkhau.UseSystemPasswordChar = true;
             tb_matkhau.TextChanged += tb_matkhau_TextChanged;
@@ -67,6 +68,7 @@ namespace LOGIN
             // btn_dangnhap
             // 
             btn_dangnhap.BackColor = Color.FromArgb(255, 111, 145);
+            btn_dangnhap.CornerRadius = 20;
             btn_dangnhap.FlatAppearance.BorderSize = 0;
             btn_dangnhap.FlatStyle = FlatStyle.Flat;
             btn_dangnhap.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
@@ -127,7 +129,7 @@ namespace LOGIN
             label3.ForeColor = Color.DeepPink;
             label3.Location = new Point(224, 9);
             label3.Name = "label3";
-            label3.Size = new Size(364, 60);
+            label3.Size = new Size(291, 47);
             label3.TabIndex = 8;
             label3.Text = "💖 SynHeart 💖";
             // 
@@ -140,6 +142,7 @@ namespace LOGIN
             Name = "FormDangNhap";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Đăng nhập - SynHeart";
+            Load += FormDangNhap_Load;
             panel.ResumeLayout(false);
             panel.PerformLayout();
             ResumeLayout(false);

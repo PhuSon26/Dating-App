@@ -100,5 +100,10 @@ namespace LOGIN
         {
 
         }
+
+        private void FormDangNhap_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

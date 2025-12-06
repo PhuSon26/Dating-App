@@ -105,6 +105,7 @@
             btn_ghepdoi.Name = "btn_ghepdoi";
             btn_ghepdoi.Size = new Size(75, 23);
             btn_ghepdoi.TabIndex = 0;
+            btn_ghepdoi.Click += btn_ghepdoi_Click_1;
             // 
             // btn_dsnt
             // 

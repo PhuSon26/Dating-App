@@ -50,6 +50,14 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
+            "AWSSDK.ElasticBeanstalk": {
+              "target": "Package",
+              "version": "[4.0.2.6, )"
+            },
+            "AWSSDK.ElasticLoadBalancing": {
+              "target": "Package",
+              "version": "[4.0.2.7, )"
+            },
             "Firebase.Auth": {
               "target": "Package",
               "version": "[1.0.0, )"

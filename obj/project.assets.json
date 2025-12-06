@@ -2,6 +2,51 @@
   "version": 3,
   "targets": {
     "net8.0-windows7.0": {
+      "AWSSDK.Core/4.0.3.4": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "AWSSDK.ElasticBeanstalk/4.0.2.6": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[4.0.3.4, 5.0.0)"
+        },
+        "compile": {
+          "lib/net8.0/AWSSDK.ElasticBeanstalk.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.ElasticBeanstalk.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "AWSSDK.ElasticLoadBalancing/4.0.2.7": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[4.0.3.4, 5.0.0)"
+        },
+        "compile": {
+          "lib/net8.0/AWSSDK.ElasticLoadBalancing.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.ElasticLoadBalancing.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "Azure.Core/1.47.1": {
         "type": "package",
         "dependencies": {
@@ -2436,6 +2481,90 @@
     }
   },
   "libraries": {
+    "AWSSDK.Core/4.0.3.4": {
+      "sha512": "Bykx2u1jNLfPr/otJBPb1QwXiEip4GbjX72Ah+Rhv7QiazUZGo+d+zuhi4uT1HCnzGK7JfQZ7V+vzTysaLcObw==",
+      "type": "package",
+      "path": "awssdk.core/4.0.3.4",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "awssdk.core.4.0.3.4.nupkg.sha512",
+        "awssdk.core.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.Core.dll",
+        "lib/net472/AWSSDK.Core.pdb",
+        "lib/net472/AWSSDK.Core.xml",
+        "lib/net8.0/AWSSDK.Core.dll",
+        "lib/net8.0/AWSSDK.Core.pdb",
+        "lib/net8.0/AWSSDK.Core.xml",
+        "lib/netcoreapp3.1/AWSSDK.Core.dll",
+        "lib/netcoreapp3.1/AWSSDK.Core.pdb",
+        "lib/netcoreapp3.1/AWSSDK.Core.xml",
+        "lib/netstandard2.0/AWSSDK.Core.dll",
+        "lib/netstandard2.0/AWSSDK.Core.pdb",
+        "lib/netstandard2.0/AWSSDK.Core.xml",
+        "tools/account-management.ps1"
+      ]
+    },
+    "AWSSDK.ElasticBeanstalk/4.0.2.6": {
+      "sha512": "Tm4s5zDLeY6V6WMqoYuXyTuQSQAC7t4QpS35i2TSnqt9OCisPlEFuLatH+nRTcuGjK6dJQXiQ94Cen1HKwAJJw==",
+      "type": "package",
+      "path": "awssdk.elasticbeanstalk/4.0.2.6",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/AWSSDK.ElasticBeanstalk.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/SharedAnalysisCode.dll",
+        "awssdk.elasticbeanstalk.4.0.2.6.nupkg.sha512",
+        "awssdk.elasticbeanstalk.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.ElasticBeanstalk.dll",
+        "lib/net472/AWSSDK.ElasticBeanstalk.pdb",
+        "lib/net472/AWSSDK.ElasticBeanstalk.xml",
+        "lib/net8.0/AWSSDK.ElasticBeanstalk.dll",
+        "lib/net8.0/AWSSDK.ElasticBeanstalk.pdb",
+        "lib/net8.0/AWSSDK.ElasticBeanstalk.xml",
+        "lib/netcoreapp3.1/AWSSDK.ElasticBeanstalk.dll",
+        "lib/netcoreapp3.1/AWSSDK.ElasticBeanstalk.pdb",
+        "lib/netcoreapp3.1/AWSSDK.ElasticBeanstalk.xml",
+        "lib/netstandard2.0/AWSSDK.ElasticBeanstalk.dll",
+        "lib/netstandard2.0/AWSSDK.ElasticBeanstalk.pdb",
+        "lib/netstandard2.0/AWSSDK.ElasticBeanstalk.xml",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
+    "AWSSDK.ElasticLoadBalancing/4.0.2.7": {
+      "sha512": "WXk4FFIZG//mrjuHl1IqZ4k/wQjLwc4trtHW0EpvdITP0/Ts2udSM6k53crjl7INeRxNNaSixuZO/RSahJJ57A==",
+      "type": "package",
+      "path": "awssdk.elasticloadbalancing/4.0.2.7",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/AWSSDK.ElasticLoadBalancing.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/SharedAnalysisCode.dll",
+        "awssdk.elasticloadbalancing.4.0.2.7.nupkg.sha512",
+        "awssdk.elasticloadbalancing.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.ElasticLoadBalancing.dll",
+        "lib/net472/AWSSDK.ElasticLoadBalancing.pdb",
+        "lib/net472/AWSSDK.ElasticLoadBalancing.xml",
+        "lib/net8.0/AWSSDK.ElasticLoadBalancing.dll",
+        "lib/net8.0/AWSSDK.ElasticLoadBalancing.pdb",
+        "lib/net8.0/AWSSDK.ElasticLoadBalancing.xml",
+        "lib/netcoreapp3.1/AWSSDK.ElasticLoadBalancing.dll",
+        "lib/netcoreapp3.1/AWSSDK.ElasticLoadBalancing.pdb",
+        "lib/netcoreapp3.1/AWSSDK.ElasticLoadBalancing.xml",
+        "lib/netstandard2.0/AWSSDK.ElasticLoadBalancing.dll",
+        "lib/netstandard2.0/AWSSDK.ElasticLoadBalancing.pdb",
+        "lib/netstandard2.0/AWSSDK.ElasticLoadBalancing.xml",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "Azure.Core/1.47.1": {
       "sha512": "oPcncSsDHuxB8SC522z47xbp2+ttkcKv2YZ90KXhRKN0YQd2+7l1UURT9EBzUNEXtkLZUOAB5xbByMTrYRh3yA==",
       "type": "package",
@@ -7560,6 +7689,8 @@
   },
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
+      "AWSSDK.ElasticBeanstalk >= 4.0.2.6",
+      "AWSSDK.ElasticLoadBalancing >= 4.0.2.7",
       "Firebase.Auth >= 1.0.0",
       "FirebaseAuthentication.net >= 4.1.0",
       "FirebaseDatabase.net >= 5.0.0",
@@ -7620,6 +7751,14 @@
       "net8.0-windows7.0": {
         "targetAlias": "net8.0-windows",
         "dependencies": {
+          "AWSSDK.ElasticBeanstalk": {
+            "target": "Package",
+            "version": "[4.0.2.6, )"
+          },
+          "AWSSDK.ElasticLoadBalancing": {
+            "target": "Package",
+            "version": "[4.0.2.7, )"
+          },
           "Firebase.Auth": {
             "target": "Package",
             "version": "[1.0.0, )"

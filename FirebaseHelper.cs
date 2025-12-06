@@ -4,10 +4,12 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Google.Cloud.Firestore;
 using System.IO;
 using Firebase.Storage;
 using Firebase.Auth;
+using Amazon.ElasticBeanstalk.Model;
+using Amazon.ElasticLoadBalancing.Model;
+using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
 
 namespace LOGIN
 {
@@ -33,7 +35,6 @@ namespace LOGIN
 
             db = FirestoreDb.Create("login-bb104");
         }
-
         private async Task<string> PostAsync(string url, object data)
         {
             using var client = new HttpClient();
@@ -49,7 +50,6 @@ namespace LOGIN
 
             return await response.Content.ReadAsStringAsync();
         }
-
         public Task<string> SignUp(string email, string password)
         {
             string url = $"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={apiKey}";
@@ -86,7 +86,6 @@ namespace LOGIN
             };
             return PostAsync(url, data);
         }
-
         public void SignOut(ref string idToken, ref string refreshToken)
         {
             idToken = null;
@@ -275,7 +274,6 @@ namespace LOGIN
 
             return matches;
         }
-
         public async Task<USER> getUser()
         {
             if (string.IsNullOrEmpty(userID)) return null;
@@ -284,7 +282,6 @@ namespace LOGIN
             if (!snapshot.Exists) return null;
             return snapshot.ConvertTo<USER>();
         }
-
         public async Task UploadAvatarAsync(Image avatarImage, string userId)
         {
             string base64 = ImageToBase64(avatarImage);
@@ -301,7 +298,6 @@ namespace LOGIN
 
             await docRef.SetAsync(new { PhotosBase64 = base64List }, SetOptions.MergeAll);
         }
-
         public string ImageToBase64(Image img)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -310,13 +306,228 @@ namespace LOGIN
                 return Convert.ToBase64String(ms.ToArray());
             }
         }
-
         public Image Base64ToImage(string base64)
         {
             byte[] bytes = Convert.FromBase64String(base64);
             using (MemoryStream ms = new MemoryStream(bytes))
             {
                 return Image.FromStream(ms);
+            }
+        }
+        public async Task<List<USER>> GetRandomSuggest(string userId, int limit = 5)
+        {
+            try
+            {
+                var usersCollection = db.Collection("Users");
+                var snapshot = await usersCollection.GetSnapshotAsync();
+
+                var allUsers = snapshot.Documents
+                                       .Select(d =>
+                                       {
+                                           var user = d.ConvertTo<USER>();
+                                           user.Id = d.Id;
+                                           return user;
+                                       })
+                                       .ToList();
+
+                // Tìm user hiện tại
+                var currentUser = allUsers.FirstOrDefault(u => u.Id == userId);
+                if (currentUser == null)
+                    return new List<USER>();
+
+                // Lọc user hợp lệ
+                var randomUsers = allUsers
+                    .Where(u => u.Id != userId &&
+                                !string.IsNullOrEmpty(u.gioitinh) &&
+                                u.gioitinh != currentUser.gioitinh)
+                    .OrderBy(u => Guid.NewGuid())
+                    .Take(limit)
+                    .ToList();
+
+                return randomUsers;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi GetRandomSuggest: " + ex.Message);
+                return new List<USER>();
+            }
+        }
+        public async Task SendMessage(string fromUser, string toUser, string text)
+        {
+            string conversationId = GetConversationId(fromUser, toUser);
+
+            var msgRef = db.Collection("messages").Document();
+
+            await msgRef.SetAsync(new
+            {
+                fromUserId = fromUser,
+                toUserId = toUser,
+                text = text,
+                timestamp = Timestamp.GetCurrentTimestamp(),
+                ChatId = conversationId
+            });
+        }
+
+
+        public string GetConversationId(string u1, string u2)
+        {
+            return string.Compare(u1, u2) < 0 ? $"{u1}_{u2}" : $"{u2}_{u1}";
+        }
+
+
+        public FirestoreChangeListener ListenToMessages(
+    string user1,
+    string user2,
+    Action<List<Messagemodels>> onMessagesChanged)
+        {
+            string chatId = GetConversationId(user1, user2);
+
+            // BỎ .OrderBy() để tránh lỗi index
+            var messagesRef = db.Collection("messages")
+                                .WhereEqualTo("ChatId", chatId);
+
+            return messagesRef.Listen(snapshot =>
+            {
+                List<Messagemodels> messages = new();
+
+                foreach (var doc in snapshot.Documents)
+                {
+                    var msg = doc.ConvertTo<Messagemodels>();
+                    msg.Id = doc.Id;
+                    messages.Add(msg);
+                }
+
+                // Sắp xếp trong code
+                messages = messages.OrderBy(m =>
+                {
+                    try { return m.timestamp.ToDateTime(); }
+                    catch { return DateTime.MinValue; }
+                }).ToList();
+
+                onMessagesChanged(messages);
+            });
+        }
+        public async Task UpdateChatMeta(string fromUser, string toUser, string text)
+        {
+            string conversationId = GetConversationId(fromUser, toUser);
+
+            var metaRef = db.Collection("ChatMeta").Document(conversationId);
+
+            string unreadField =
+                (fromUser.CompareTo(toUser) < 0)
+                ? "unread_userB"
+                : "unread_userA";
+
+            await metaRef.SetAsync(
+                new Dictionary<string, object>
+                {
+            { "lastMessage", text },
+            { "lastTimestamp", Timestamp.GetCurrentTimestamp() },
+            { unreadField, FieldValue.Increment(1) }
+                },
+                SetOptions.MergeAll
+            );
+        }
+        public async Task ResetUnread(string u1, string u2)
+        {
+            string conversationId = GetConversationId(u1, u2);
+
+            var metaRef = db.Collection("ChatMeta").Document(conversationId);
+
+            string unreadField =
+                (u1.CompareTo(u2) < 0)
+                ? "unread_userA"
+                : "unread_userB";
+
+            await metaRef.UpdateAsync(unreadField, 0);
+        }
+        public async Task<USER> GetUserById(string userId)
+        {
+            var doc = await db.Collection("Users").Document(userId).GetSnapshotAsync();
+            if (!doc.Exists) return null;
+
+            var u = doc.ConvertTo<USER>();
+            u.Id = doc.Id;  // đảm bảo không null
+            return u;
+        }
+        public async Task<List<ChatMeta>> GetAllChatMeta(string userId)
+        {
+            var collection = db.Collection("ChatMeta");
+
+            var snap = await collection
+                .WhereEqualTo("userA", userId)
+                .GetSnapshotAsync();
+
+            var snap2 = await collection
+                .WhereEqualTo("userB", userId)
+                .GetSnapshotAsync();
+
+            List<ChatMeta> metas = new();
+
+            foreach (var doc in snap.Documents)
+            {
+                var m = doc.ConvertTo<ChatMeta>();
+                metas.Add(m);
+            }
+
+            foreach (var doc in snap2.Documents)
+            {
+                var m = doc.ConvertTo<ChatMeta>();
+                metas.Add(m);
+            }
+
+            return metas;
+        }
+        public async Task<List<string>> GetMatchedUsers(string currentUserId)
+        {
+            var snap = await db.Collection("Matches").GetSnapshotAsync();
+            List<string> results = new();
+
+            foreach (var doc in snap.Documents)
+            {
+                var arr = doc.GetValue<List<string>>("users");
+
+                if (arr != null && arr.Contains(currentUserId))
+                {
+                    string other = arr.First(u => u != currentUserId);
+                    results.Add(other);
+                }
+            }
+            return results;
+        }
+        public async Task CreateChatMeta(string userA, string userB)
+        {
+            try
+            {
+                string metaId1 = $"{userA}_{userB}";
+                string metaId2 = $"{userB}_{userA}";
+
+                var metaRef1 = db.Collection("ChatMeta").Document(metaId1);
+                var metaRef2 = db.Collection("ChatMeta").Document(metaId2);
+
+                var doc1 = await metaRef1.GetSnapshotAsync();
+                var doc2 = await metaRef2.GetSnapshotAsync();
+
+                // Nếu meta đã tồn tại thì không tạo lại
+                if (doc1.Exists || doc2.Exists)
+                    return;
+
+                ChatMeta meta = new ChatMeta
+                {
+                    Id = metaId1,
+                    userA = userA,
+                    userB = userB,
+                    lastMessage = "",
+                    lastTimestamp = Timestamp.FromDateTime(DateTime.UtcNow),
+                    unread_userA = 0,
+                    unread_userB = 0
+                };
+
+                await metaRef1.SetAsync(meta);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("LỖI TẠO CHAT META: " + ex.Message);
             }
         }
     }

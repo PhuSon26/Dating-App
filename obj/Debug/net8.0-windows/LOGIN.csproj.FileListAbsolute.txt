@@ -280,3 +280,11 @@ C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\M
 C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.AssemblyInfoInputs.cache
 C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.AssemblyInfo.cs
 C:\Users\leson\source\repos\Dating-App\Main Interface\bin\Debug\net8.0-windows\System.Linq.AsyncEnumerable.dll
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.dsthongbao.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\UserChatitem.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\Main_Interface.User_Controls.MatchForm.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.thongbaonoi.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\obj\Debug\net8.0-windows\LOGIN.FormDanhSachTinNhan.resources
+C:\Users\leson\source\repos\Dating-App\Main Interface\bin\Debug\net8.0-windows\AWSSDK.Core.dll
+C:\Users\leson\source\repos\Dating-App\Main Interface\bin\Debug\net8.0-windows\AWSSDK.ElasticBeanstalk.dll
+C:\Users\leson\source\repos\Dating-App\Main Interface\bin\Debug\net8.0-windows\AWSSDK.ElasticLoadBalancing.dll

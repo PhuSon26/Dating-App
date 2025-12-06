@@ -8,10 +8,16 @@
     <Compile Update="DangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="dsthongbao.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Main_UserControls\FormDanhSachTinNhan.cs">
+    <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\FormDanhSachTinNhan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\UserChatitem.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Main_UserControls\GhepDoi_UserControls\LocUser.cs">
@@ -44,7 +50,7 @@
     <Compile Update="Main_UserControls\GhepDoi.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Main_UserControls\GhepDoi_UserControls\Match.cs">
+    <Compile Update="Main_UserControls\GhepDoi_UserControls\MatchForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Main_UserControls\NapVIP.cs">
@@ -65,12 +71,18 @@
     <Compile Update="RoundedGlossyButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="thongbaonoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Main.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Update="Main_UserControls\CaiDat.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Main_UserControls\DanhSachNhanTin_UserControls\FormDanhSachTinNhan.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

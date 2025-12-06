@@ -9,120 +9,147 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static Google.Rpc.Context.AttributeContext.Types;
-using static System.Net.WebRequestMethods;
+using System.Text.Json;
+
 
 namespace Main_Interface.User_Controls
 {
+
     public partial class GhepDoi : UserControl
     {
+        private readonly HttpClient _client = new HttpClient();
+
         private List<System.Drawing.Image> images = new List<System.Drawing.Image>();
         private Main MainForm;
         private LocUser loc;
         private MatchFilterAPI filterAPI;
-        private List<USER> filteredUsers = new List<USER>();
-        private int current_index = 0;
-        private FirebaseAuthHelper auth;
+        private FirebaseAuthHelper authHelper;
+        private List<USER> suggestedUsers = new List<USER>();
+
+        private int suggestIndex = 0;
+        private LOGIN.Match match;
+        string myUserId = Session.LocalId;
         public GhepDoi()
         {
             InitializeComponent();
+            authHelper = new FirebaseAuthHelper("login-bb104");
             this.Load += GhepDoi_Load;
         }
         public GhepDoi(Main m)
         {
             InitializeComponent();
             this.Load += GhepDoi_Load;
+            match = new LOGIN.Match("login-bb104", myUserId);
             MainForm = m;
-            this.auth = m.auth;
+            authHelper = new FirebaseAuthHelper("login-bb104");
             loc = new LocUser(MainForm);
-            //filterAPI = new MatchFilterAPI("login - bb104");
+
         }
 
         private void ShowUser(USER u)
         {
             flpanel_pictures.Controls.Clear();
 
-            tb_name.Text = u.ten;
+            if (u == null) return;
+
+            // --- XỬ LÝ ẢNH (QUAN TRỌNG) ---
+            flpanel_pictures.Controls.Clear(); // Xóa ảnh cũ đi
+
+            // Kiểm tra xem list photos có dữ liệu không
+            if (u.photos != null && u.photos.Count > 0)
+            {
+                // Nếu có list ảnh -> Duyệt vòng lặp để hiện hết lên
+                foreach (string photoUrl in u.photos)
+                {
+                    AddImageToPanel(photoUrl);
+                }
+            }
+            else if (!string.IsNullOrEmpty(u.AvatarUrl))
+            {
+                // Nếu không có list ảnh mà chỉ có Avatar -> Hiện Avatar
+                AddImageToPanel(u.AvatarUrl);
+            }
+            else
+            {
+                // Nếu không có gì cả -> Có thể hiện ảnh mặc định (Placeholder)
+                // AddImageToPanel("link_anh_mac_dinh.png");
+            }
+
+            tb_name.Text = u.ten ?? "No Name";
             tb_tuoi.Text = u.tuoi.ToString();
             tb_snhat.Text = u.snhat;
-            tb_hocvan.Text = u.hocvan;
-            tb_nghe.Text = u.nghenghiep;
-            tb_chieucao.Text = u.chieucao.ToString();
-            tb_thoiquen.Text = u.thoiquen;
-            tb_vitri.Text = u.vitri;
-            tb_gioithieu.Text = u.gthieu;
+            tb_hocvan.Text = u.hocvan ?? "---";
+            tb_nghe.Text = u.nghenghiep ?? "---";
 
-            // Avatar
-            if (!string.IsNullOrEmpty(u.AvatarUrl))
-            {
-                try
-                {
-                    avatar.Image = auth.Base64ToImage(u.AvatarUrl);
-                    avatar.SizeMode = PictureBoxSizeMode.Zoom;
-                }
-                catch { }
-            }
 
-            // Many photos
-            flpanel_pictures.Controls.Clear();
+            tb_chieucao.Text = u.chieucao > 0 ? $"{u.chieucao}m" : "---";
 
-            if (u.photos != null)
-            {
-                foreach (var b64 in u.photos)
-                {
-                    try
-                    {
-                        PictureBox pb = new PictureBox();
-                        pb.Image = auth.Base64ToImage(b64);
-                        pb.SizeMode = PictureBoxSizeMode.Zoom;
-                        pb.Size = new Size(flpanel_pictures.Width - 20, 180);
-                        pb.Margin = new Padding(5);
-                        flpanel_pictures.Controls.Add(pb);
-                    }
-                    catch { }
-                }
-            }
-
+            tb_thoiquen.Text = u.thoiquen ?? "Chưa cập nhật";
+            tb_vitri.Text = u.vitri ?? "---";
+            tb_gioithieu.Text = u.gthieu ?? "Người dùng này chưa viết gì về mình.";
         }
+        private void AddImageToPanel(string url)
+        {
+            PictureBox pb = new PictureBox();
+            pb.Size = new Size(300, 350);
+            pb.SizeMode = PictureBoxSizeMode.Zoom;
+            pb.Margin = new Padding(10);
+
+            try
+            {
+                pb.LoadAsync(url);
+            }
+            catch
+            {
+                pb.BackColor = Color.LightGray;
+            }
+
+            flpanel_pictures.Controls.Add(pb);
+        }
+
         private async Task LoadFilteredUsers(FilterModel filter)
         {
-            filteredUsers = await filterAPI.FilterUsers(filter);
+            suggestedUsers = await filterAPI.FilterUsers(filter);
 
-            current_index = 0;
+            suggestIndex = 0;
 
-            if (filteredUsers.Count > 0)
-                ShowUser(filteredUsers[0]);
+            if (suggestedUsers.Count > 0)
+                ShowUser(suggestedUsers[0]);
             else
                 MessageBox.Show("Không tìm thấy người phù hợp!");
         }
 
-        private void GhepDoi_Load(object sender, EventArgs e)
+        private async void GhepDoi_Load(object sender, EventArgs e)
         {
-            /*
-            // Thư mục chứa ảnh demo
-            string folder = @"C:\Users\leson\OneDrive\Documents\uit\html lab3"; // đổi theo nơi bạn lưu ảnh
-            if (!System.IO.Directory.Exists(folder))
-            {
-                MessageBox.Show("Tạo thư mục DemoImages và bỏ vài tấm ảnh vào nhé!");
-                return;
-            }
 
-            string[] files = System.IO.Directory.GetFiles(folder, "*.png"); // hoặc *.jpg
-            foreach (var file in files)
-            {
-                // Chỉ định rõ System.Drawing.Image
-                System.Drawing.Image img = System.Drawing.Image.FromFile(file);
-                images.Add(img);
+            await LoadSuggestUsers(myUserId);
 
-                PictureBox pb = new PictureBox();
-                pb.Image = img;
-                pb.SizeMode = PictureBoxSizeMode.StretchImage;
-                pb.Size = new Size(300, 300);
-                pb.Margin = new Padding(10);
-                flpanel_pictures.Controls.Add(pb);
-            }
-            */
+
+
+
         }
+
+        private async Task LoadSuggestUsers(string userId)
+        {
+            try
+            {
+                suggestedUsers = await authHelper.GetRandomSuggest(userId, 5);
+
+                if (suggestedUsers == null || suggestedUsers.Count == 0)
+                {
+                    MessageBox.Show("Không có user nào phù hợp để gợi ý.");
+                    return;
+                }
+
+                suggestIndex = 0; // reset index
+                ShowUser(suggestedUsers[suggestIndex]); // hiển thị user đầu tiên
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải gợi ý: " + ex.Message);
+            }
+        }
+
         public void LoadUserControl(UserControl uc)
         {
             MainForm.panelContent.Controls.Clear();
@@ -178,21 +205,83 @@ namespace Main_Interface.User_Controls
 
         }
 
-        private void nextUser()
+        private void NextSuggestUser()
         {
-            if (filteredUsers.Count == 0) return;
-            current_index++;
-            if (current_index >= filteredUsers.Count) current_index = 0;
-            ShowUser(filteredUsers[current_index]);
-        }
-        private void btn_kothich_Click(object sender, EventArgs e)
-        {
-            nextUser();
+            if (suggestedUsers.Count == 0) return;
+
+            suggestIndex++;
+            if (suggestIndex >= suggestedUsers.Count)
+                suggestIndex = 0;
+
+            ShowUser(suggestedUsers[suggestIndex]);
         }
 
-        private void btn_tim_Click(object sender, EventArgs e)
+        private void btn_kothich_Click(object sender, EventArgs e)
         {
-            nextUser();
+            NextSuggestUser();
+        }
+
+        // Trong file GhepDoi.cs
+
+        private async void btn_tim_Click(object sender, EventArgs e)
+        {
+
+            if (suggestedUsers == null || suggestedUsers.Count == 0) return;
+
+            USER currentUserOnCard = suggestedUsers[suggestIndex];
+            string targetUserId = currentUserOnCard.Id;
+
+
+            btn_tim.Enabled = false;
+
+            try
+            {
+
+                bool isMatch = await match.LikeUser(targetUserId);
+
+
+                if (isMatch)
+                {
+                    MessageBox.Show($"Chúc mừng! Bạn và {currentUserOnCard.ten} đã tương hợp!", "It's a Match!");
+
+                }
+                else
+                {
+
+                    MessageBox.Show("Đã thả tim thành công!");
+                }
+
+
+                NextSuggestUser();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi kết nối: " + ex.Message);
+            }
+            finally
+            {
+                // Mở lại nút bấm
+                btn_tim.Enabled = true;
+            }
+        }
+        private void panelPictures_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btn_timVIP_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelQuet_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panelThongTin_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
