@@ -213,15 +213,15 @@ namespace LOGIN
 
 
         public FirestoreChangeListener ListenToMessages(
-     string user1,
-     string user2,
-     Action<List<Messagemodels>> onMessagesChanged)
+    string user1,
+    string user2,
+    Action<List<Messagemodels>> onMessagesChanged)
         {
             string chatId = GetConversationId(user1, user2);
 
+            // BỎ .OrderBy() để tránh lỗi index
             var messagesRef = db.Collection("messages")
-                                .WhereEqualTo("ChatId", chatId)
-                                .OrderBy("timestamp");
+                                .WhereEqualTo("ChatId", chatId);
 
             return messagesRef.Listen(snapshot =>
             {
@@ -233,6 +233,13 @@ namespace LOGIN
                     msg.Id = doc.Id;
                     messages.Add(msg);
                 }
+
+                // Sắp xếp trong code
+                messages = messages.OrderBy(m =>
+                {
+                    try { return m.timestamp.ToDateTime(); }
+                    catch { return DateTime.MinValue; }
+                }).ToList();
 
                 onMessagesChanged(messages);
             });
@@ -311,26 +318,7 @@ namespace LOGIN
 
             return metas;
         }
-        public async Task EnsureChatMeta(string u1, string u2)
-        {
-            string id = GetConversationId(u1, u2);
-
-            var doc = db.Collection("ChatMeta").Document(id);
-            var snap = await doc.GetSnapshotAsync();
-
-            if (!snap.Exists)
-            {
-                await doc.SetAsync(new
-                {
-                    userA = (u1.CompareTo(u2) < 0) ? u1 : u2,
-                    userB = (u1.CompareTo(u2) < 0) ? u2 : u1,
-                    lastMessage = "",
-                    lastTimestamp = Timestamp.GetCurrentTimestamp(),
-                    unread_userA = 0,
-                    unread_userB = 0
-                });
-            }
-        }
+       
 
 
 
@@ -340,17 +328,60 @@ namespace LOGIN
 
         public async Task<List<string>> GetMatchedUsers(string currentUserId)
         {
-            List<string> ids = new();
-            //var matchRef = db.Collection("Matches").Document(currentUserId).Collection("matched");
-            //var snap = await matchRef.GetSnapshotAsync();
+            var snap = await db.Collection("Matches").GetSnapshotAsync();
+            List<string> results = new();
 
-            //foreach (var doc in snap.Documents)
-            //{
-            //    ids.Add(doc.Id);
-            //}
+            foreach (var doc in snap.Documents)
+            {
+                var arr = doc.GetValue<List<string>>("users");
 
-            return ids;
+                if (arr != null && arr.Contains(currentUserId))
+                {
+                    string other = arr.First(u => u != currentUserId);
+                    results.Add(other);
+                }
+            }
+
+            return results;
         }
+        public async Task CreateChatMeta(string userA, string userB)
+        {
+            try
+            {
+                string metaId1 = $"{userA}_{userB}";
+                string metaId2 = $"{userB}_{userA}";
+
+                var metaRef1 = db.Collection("ChatMeta").Document(metaId1);
+                var metaRef2 = db.Collection("ChatMeta").Document(metaId2);
+
+                var doc1 = await metaRef1.GetSnapshotAsync();
+                var doc2 = await metaRef2.GetSnapshotAsync();
+
+                // Nếu meta đã tồn tại thì không tạo lại
+                if (doc1.Exists || doc2.Exists)
+                    return;
+
+                ChatMeta meta = new ChatMeta
+                {
+                    Id = metaId1,
+                    userA = userA,
+                    userB = userB,
+                    lastMessage = "",
+                    lastTimestamp = Timestamp.FromDateTime(DateTime.UtcNow),
+                    unread_userA = 0,
+                    unread_userB = 0
+                };
+
+                await metaRef1.SetAsync(meta);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("LỖI TẠO CHAT META: " + ex.Message);
+            }
+        }
+
+
+
 
 
     }

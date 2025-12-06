@@ -23,32 +23,25 @@ namespace LOGIN
             firebase = new FirebaseAuthHelper("login - bb104");
         }
 
-        // ==================================================
-        // ===================== FORM LOAD ==================
-        // ==================================================
         private async void FormDanhSachTinNhan_Load(object sender, EventArgs e)
         {
             await LoadMatchedUsers();
         }
 
-        // ==================================================
-        // ========= LẤY DANH SÁCH USER ĐÃ MATCH =============
-        // ==================================================
         private async Task LoadMatchedUsers()
         {
             try
             {
-               
+                // 1. Danh sách user đã match
                 List<string> matchedUserIds = await firebase.GetMatchedUsers(myUserId);
 
-                // 2. Lấy toàn bộ ChatMeta có liên quan đến user
+                // 2. Lấy toàn bộ chat meta của mình
                 Dictionary<string, ChatMeta> metas =
                     (await firebase.GetAllChatMeta(myUserId))
                     .ToDictionary(m => m.Id, m => m);
 
                 flowLayoutPanel1.Controls.Clear();
 
-                // 3. Tạo list để sort theo lastTimestamp
                 var items = new List<(UserChatitem item, Timestamp time)>();
 
                 foreach (string otherId in matchedUserIds)
@@ -60,7 +53,6 @@ namespace LOGIN
 
                     ChatMeta meta = null;
 
-                    // kiểm tra meta của cặp này
                     if (metas.ContainsKey(metaId1)) meta = metas[metaId1];
                     else if (metas.ContainsKey(metaId2)) meta = metas[metaId2];
 
@@ -68,13 +60,11 @@ namespace LOGIN
 
                     if (meta != null)
                     {
-                        // Có tin nhắn rồi
                         item = new UserChatitem(otherUser, meta);
                         items.Add((item, meta.lastTimestamp));
                     }
                     else
                     {
-                        
                         ChatMeta emptyMeta = new ChatMeta
                         {
                             Id = metaId1,
@@ -88,16 +78,16 @@ namespace LOGIN
 
                         item = new UserChatitem(otherUser, emptyMeta);
 
-                        // Sắp xếp xuống dưới cùng vì chưa có chat
                         items.Add((item, Timestamp.FromDateTime(DateTime.UnixEpoch)));
                     }
+
+
+                    item.OnOpenChat += OpenChatWindow;
                 }
 
-                // 4. Sort danh sách chat
+                // Sort theo thời gian
                 foreach (var x in items.OrderByDescending(i => i.time))
                 {
-                    // click → mở chat
-                    x.item.Click += (s, e) => OpenChatWindow(x.item.UserData);
                     flowLayoutPanel1.Controls.Add(x.item);
                 }
             }
@@ -107,49 +97,47 @@ namespace LOGIN
             }
         }
 
-
-
-        // ==================================================
-        // =================== MỞ CHAT =======================
-        // ==================================================
+        // =====================================================
+        // =============== MỞ CHAT =============================
+        // =====================================================
         private void OpenChatWindow(USER user)
         {
-            var chat = new NhanTin(user);
-            chat.Show();
+            var chat = new NhanTin(user)
+            {
+                Dock = DockStyle.Fill
+            };
+
+            this.Controls.Clear();
+            this.Controls.Add(chat);
         }
 
 
-        // ==================================================
-        // =============== CLICK AVATAR ======================
-        // ==================================================
         private void picAvatarNguoiDung_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Mở trang cá nhân!");
         }
 
-        // ==================================================
-        // ================== TÌM KIẾM =======================
-        // ==================================================
-       private void btnTimKiem_Click(object sender, EventArgs e)
-{
-    string keyword = txtTimKiem.Text.Trim().ToLower();
-
-    foreach (Control c in flowLayoutPanel1.Controls)
-    {
-        if (c is UserChatitem item)
+        private void btnTimKiem_Click(object sender, EventArgs e)
         {
-            item.Visible = item.UserName.ToLower().Contains(keyword);
+            string keyword = txtTimKiem.Text.Trim().ToLower();
+
+            foreach (Control c in flowLayoutPanel1.Controls)
+            {
+                if (c is UserChatitem item)
+                {
+                    item.Visible = item.UserName.ToLower().Contains(keyword);
+                }
+            }
         }
-    }
-}
 
-
-        // ==================================================
-        // ===================== BACK ========================
-        // ==================================================
         private void button1_Click(object sender, EventArgs e)
         {
             this.Visible = false;
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

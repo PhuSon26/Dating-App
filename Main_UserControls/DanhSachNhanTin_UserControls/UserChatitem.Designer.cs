@@ -1,6 +1,6 @@
 ﻿namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
 {
-    partial class UserChat_item : UserControl
+    partial class UserChatitem : UserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,13 +30,12 @@
         {
             SuspendLayout();
             // 
-            // UserChat_item
+            // UserChatitem
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-
-            Name = "UserChat_item";
-           
+            AutoScaleMode = AutoScaleMode.Font;
+            Name = "UserChatitem";
+           // Load += this.UserChatitem_Load;
             ResumeLayout(false);
         }
 
