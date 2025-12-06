@@ -1,4 +1,5 @@
 ﻿using LOGIN;
+using static System.Net.WebRequestMethods;
 
 namespace Dating_app_nhom3
 {
@@ -18,7 +19,7 @@ namespace Dating_app_nhom3
             components = new System.ComponentModel.Container();
             label1 = new Label();
             ptb_avt = new PictureBox();
-            tb_tennguoidung = new TextBox();
+            lb_tennguoidung = new Label();
             cb_chinhsua = new CheckBox();
             label_gioitinh = new Label();
             cb_gioitinh = new ComboBox();
@@ -32,15 +33,15 @@ namespace Dating_app_nhom3
             tb_congviec = new TextBox();
             label_hocvan = new Label();
             tb_hocvan = new TextBox();
-            btn_avatar = new RoundedButton();
+            btn_avatar = new RoundedGlossyButton();
             label3 = new Label();
             label_chieucao = new Label();
             num_chieucao = new NumericUpDown();
             label_gioithieu = new Label();
             tb_gioithieu = new TextBox();
-            lv_anh = new ListView();
             imageListAnh = new ImageList(components);
-            btn_themAnh = new RoundedButton();
+            btn_themAnh = new RoundedGlossyButton();
+            flp = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)ptb_avt).BeginInit();
             ((System.ComponentModel.ISupportInitialize)num_chieucao).BeginInit();
             SuspendLayout();
@@ -65,16 +66,15 @@ namespace Dating_app_nhom3
             ptb_avt.TabIndex = 1;
             ptb_avt.TabStop = false;
             // 
-            // tb_tennguoidung
+            // lb_tennguoidung
             // 
-            tb_tennguoidung.Enabled = false;
-            tb_tennguoidung.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            tb_tennguoidung.Location = new Point(384, 66);
-            tb_tennguoidung.Multiline = true;
-            tb_tennguoidung.Name = "tb_tennguoidung";
-            tb_tennguoidung.PlaceholderText = "Tên người dùng";
-            tb_tennguoidung.Size = new Size(320, 37);
-            tb_tennguoidung.TabIndex = 3;
+            lb_tennguoidung.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lb_tennguoidung.Location = new Point(450, 60);
+            lb_tennguoidung.Name = "tb_tennguoidung";
+            lb_tennguoidung.Size = new Size(320, 37);
+            lb_tennguoidung.TabIndex = 3;
+            lb_tennguoidung.Text = "Anonymous";
+            lb_tennguoidung.AutoSize = true;
             // 
             // cb_chinhsua
             // 
@@ -90,119 +90,130 @@ namespace Dating_app_nhom3
             cb_chinhsua.Text = "✏️ Chỉnh sửa hồ sơ";
             cb_chinhsua.TextAlign = ContentAlignment.MiddleCenter;
             cb_chinhsua.UseVisualStyleBackColor = false;
-            cb_chinhsua.CheckedChanged += cb_chinhsua_CheckedChanged;
             cb_chinhsua.Click += cb_chinhsua_Click;
             // 
             // label_gioitinh
             // 
             label_gioitinh.AutoSize = true;
+            label_gioitinh.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_gioitinh.Location = new Point(268, 128);
             label_gioitinh.Name = "label_gioitinh";
-            label_gioitinh.Size = new Size(64, 19);
+            label_gioitinh.Size = new Size(80, 21);
             label_gioitinh.TabIndex = 6;
             label_gioitinh.Text = "Giới tính:";
             // 
             // cb_gioitinh
             // 
             cb_gioitinh.Enabled = false;
+            cb_gioitinh.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cb_gioitinh.Items.AddRange(new object[] { "Nam", "Nữ" });
             cb_gioitinh.Location = new Point(384, 128);
             cb_gioitinh.Name = "cb_gioitinh";
-            cb_gioitinh.Size = new Size(320, 27);
+            cb_gioitinh.Size = new Size(320, 29);
             cb_gioitinh.TabIndex = 7;
             // 
             // label_sinhnhat
             // 
             label_sinhnhat.AutoSize = true;
+            label_sinhnhat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_sinhnhat.Location = new Point(268, 178);
             label_sinhnhat.Name = "label_sinhnhat";
-            label_sinhnhat.Size = new Size(70, 19);
+            label_sinhnhat.Size = new Size(87, 21);
             label_sinhnhat.TabIndex = 8;
             label_sinhnhat.Text = "Sinh nhật:";
             // 
             // dtp_sinhnhat
             // 
             dtp_sinhnhat.Enabled = false;
+            dtp_sinhnhat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dtp_sinhnhat.Format = DateTimePickerFormat.Short;
             dtp_sinhnhat.Location = new Point(384, 178);
             dtp_sinhnhat.Name = "dtp_sinhnhat";
-            dtp_sinhnhat.Size = new Size(320, 26);
+            dtp_sinhnhat.Size = new Size(320, 29);
             dtp_sinhnhat.TabIndex = 9;
             // 
             // label_diachi
             // 
             label_diachi.AutoSize = true;
+            label_diachi.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_diachi.Location = new Point(268, 231);
             label_diachi.Name = "label_diachi";
-            label_diachi.Size = new Size(53, 19);
+            label_diachi.Size = new Size(67, 21);
             label_diachi.TabIndex = 10;
             label_diachi.Text = "Địa chỉ:";
             // 
             // tb_diachi
             // 
             tb_diachi.Enabled = false;
+            tb_diachi.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_diachi.Location = new Point(384, 231);
             tb_diachi.Name = "tb_diachi";
-            tb_diachi.Size = new Size(320, 26);
+            tb_diachi.Size = new Size(320, 29);
             tb_diachi.TabIndex = 11;
             // 
             // label_sothich
             // 
             label_sothich.AutoSize = true;
+            label_sothich.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_sothich.Location = new Point(268, 278);
             label_sothich.Name = "label_sothich";
-            label_sothich.Size = new Size(61, 19);
+            label_sothich.Size = new Size(76, 21);
             label_sothich.TabIndex = 12;
             label_sothich.Text = "Sở thích:";
             // 
             // tb_sothich
             // 
             tb_sothich.Enabled = false;
+            tb_sothich.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_sothich.Location = new Point(384, 278);
             tb_sothich.Name = "tb_sothich";
-            tb_sothich.Size = new Size(320, 26);
+            tb_sothich.Size = new Size(320, 29);
             tb_sothich.TabIndex = 13;
             // 
             // label_congviec
             // 
             label_congviec.AutoSize = true;
+            label_congviec.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_congviec.Location = new Point(268, 331);
             label_congviec.Name = "label_congviec";
-            label_congviec.Size = new Size(72, 19);
+            label_congviec.Size = new Size(89, 21);
             label_congviec.TabIndex = 14;
             label_congviec.Text = "Công việc:";
-            label_congviec.Click += label_congviec_Click;
             // 
             // tb_congviec
             // 
             tb_congviec.Enabled = false;
+            tb_congviec.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_congviec.Location = new Point(384, 328);
             tb_congviec.Name = "tb_congviec";
-            tb_congviec.Size = new Size(320, 26);
+            tb_congviec.Size = new Size(320, 29);
             tb_congviec.TabIndex = 15;
             // 
             // label_hocvan
             // 
             label_hocvan.AutoSize = true;
+            label_hocvan.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_hocvan.Location = new Point(268, 381);
             label_hocvan.Name = "label_hocvan";
-            label_hocvan.Size = new Size(62, 19);
+            label_hocvan.Size = new Size(76, 21);
             label_hocvan.TabIndex = 16;
             label_hocvan.Text = "Học vấn:";
             // 
             // tb_hocvan
             // 
             tb_hocvan.Enabled = false;
+            tb_hocvan.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_hocvan.Location = new Point(384, 374);
             tb_hocvan.Name = "tb_hocvan";
-            tb_hocvan.Size = new Size(320, 26);
+            tb_hocvan.Size = new Size(320, 29);
             tb_hocvan.TabIndex = 17;
             // 
             // btn_avatar
             // 
-            btn_avatar.BackColor = Color.WhiteSmoke;
+            btn_avatar.BackColor = Color.FromArgb(255, 111, 145);
             btn_avatar.CornerRadius = 20;
-            btn_avatar.FlatStyle = FlatStyle.Popup;
+            btn_avatar.Enabled = false;
+            btn_avatar.FlatStyle = FlatStyle.Flat;
             btn_avatar.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             btn_avatar.ForeColor = Color.White;
             btn_avatar.Location = new Point(50, 260);
@@ -227,50 +238,43 @@ namespace Dating_app_nhom3
             // label_chieucao
             // 
             label_chieucao.AutoSize = true;
+            label_chieucao.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_chieucao.Location = new Point(268, 428);
             label_chieucao.Name = "label_chieucao";
-            label_chieucao.Size = new Size(102, 19);
+            label_chieucao.Size = new Size(89, 21);
             label_chieucao.TabIndex = 21;
-            label_chieucao.Text = "Chiều cao: (cm)";
+            label_chieucao.Text = "Chiều cao:";
             // 
             // num_chieucao
             // 
             num_chieucao.Enabled = false;
+            num_chieucao.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             num_chieucao.Location = new Point(384, 421);
             num_chieucao.Maximum = new decimal(new int[] { 250, 0, 0, 0 });
             num_chieucao.Name = "num_chieucao";
-            num_chieucao.Size = new Size(320, 26);
+            num_chieucao.Size = new Size(320, 29);
             num_chieucao.TabIndex = 22;
             // 
             // label_gioithieu
             // 
             label_gioithieu.AutoSize = true;
+            label_gioithieu.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label_gioithieu.Location = new Point(269, 478);
             label_gioithieu.Name = "label_gioithieu";
-            label_gioithieu.Size = new Size(71, 19);
+            label_gioithieu.Size = new Size(89, 21);
             label_gioithieu.TabIndex = 23;
             label_gioithieu.Text = "Giới thiệu:";
             // 
             // tb_gioithieu
             // 
             tb_gioithieu.Enabled = false;
+            tb_gioithieu.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_gioithieu.Location = new Point(384, 469);
             tb_gioithieu.Multiline = true;
             tb_gioithieu.Name = "tb_gioithieu";
             tb_gioithieu.PlaceholderText = "Nhập giới thiệu bản thân";
             tb_gioithieu.Size = new Size(320, 61);
             tb_gioithieu.TabIndex = 24;
-            // 
-            // lv_anh
-            // 
-            lv_anh.BorderStyle = BorderStyle.FixedSingle;
-            lv_anh.LargeImageList = imageListAnh;
-            lv_anh.Location = new Point(747, 66);
-            lv_anh.MultiSelect = false;
-            lv_anh.Name = "lv_anh";
-            lv_anh.Size = new Size(300, 450);
-            lv_anh.TabIndex = 22;
-            lv_anh.UseCompatibleStateImageBehavior = false;
             // 
             // imageListAnh
             // 
@@ -280,8 +284,9 @@ namespace Dating_app_nhom3
             // 
             // btn_themAnh
             // 
-            btn_themAnh.BackColor = Color.WhiteSmoke;
+            btn_themAnh.BackColor = Color.FromArgb(255, 111, 145);
             btn_themAnh.CornerRadius = 20;
+            btn_themAnh.Enabled = false;
             btn_themAnh.FlatStyle = FlatStyle.Flat;
             btn_themAnh.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             btn_themAnh.ForeColor = Color.White;
@@ -293,13 +298,24 @@ namespace Dating_app_nhom3
             btn_themAnh.UseVisualStyleBackColor = false;
             btn_themAnh.Click += btn_themAnh_Click;
             // 
+            // flp
+            // 
+            flp.AutoScroll = true;
+            flp.BorderStyle = BorderStyle.FixedSingle;
+            flp.FlowDirection = FlowDirection.TopDown;
+            flp.Location = new Point(747, 66);
+            flp.Name = "flp";
+            flp.Size = new Size(320, 460);
+            flp.TabIndex = 22;
+            flp.WrapContents = false;
+            // 
             // Thongtinuser
             // 
             AutoScaleDimensions = new SizeF(8F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(255, 230, 230);
+            BackColor = Color.FromArgb(255, 240, 245);
             Controls.Add(label_chieucao);
-            Controls.Add(lv_anh);
+            Controls.Add(flp);
             Controls.Add(btn_themAnh);
             Controls.Add(num_chieucao);
             Controls.Add(label_gioithieu);
@@ -307,7 +323,7 @@ namespace Dating_app_nhom3
             Controls.Add(label3);
             Controls.Add(ptb_avt);
             Controls.Add(btn_avatar);
-            Controls.Add(tb_tennguoidung);
+            Controls.Add(lb_tennguoidung);
             Controls.Add(label_gioitinh);
             Controls.Add(cb_gioitinh);
             Controls.Add(label_sinhnhat);
@@ -326,7 +342,6 @@ namespace Dating_app_nhom3
             ForeColor = Color.Black;
             Name = "Thongtinuser";
             Size = new Size(1198, 620);
-            Load += Thongtinuser_Load;
             ((System.ComponentModel.ISupportInitialize)ptb_avt).EndInit();
             ((System.ComponentModel.ISupportInitialize)num_chieucao).EndInit();
             ResumeLayout(false);
@@ -337,7 +352,7 @@ namespace Dating_app_nhom3
 
         private Label label1;
         private PictureBox ptb_avt;
-        private TextBox tb_tennguoidung;
+        private Label lb_tennguoidung;
         private CheckBox cb_chinhsua;
         private Label label_gioitinh, label_sinhnhat, label_diachi, label_sothich, label_congviec, label_hocvan;
         private TextBox tb_diachi, tb_sothich, tb_congviec, tb_hocvan;
@@ -346,10 +361,10 @@ namespace Dating_app_nhom3
         private NumericUpDown num_chieucao;
         private ComboBox cb_gioitinh;
         private DateTimePicker dtp_sinhnhat;
-        private RoundedButton btn_avatar;
+        private RoundedGlossyButton btn_avatar;
         private Label label3;
-        private ListView lv_anh;
-        private RoundedButton btn_themAnh;
+        private RoundedGlossyButton btn_themAnh;
         private ImageList imageListAnh;
+        private FlowLayoutPanel flp;
     }
 }

@@ -9,13 +9,12 @@ namespace Main_Interface.User_Controls
 {
     public partial class CaiDat : UserControl
     {
-        private readonly FirebaseAuthHelper _auth =
+        public readonly FirebaseAuthHelper _auth =
      new FirebaseAuthHelper("AIzaSyDg9nNBc3h74QjNl2obv6pH1Y29RQQ8TjU");
-        private Main MainForm;
-        private SuaHoSoUser suahoso;
-        private DoiEmailMatKhau dmk;
-        private GioiThieuUngDung gthieu;
-        private DanhSachChan dsc;
+        public Main MainForm;
+        public DoiEmailMatKhau dmk;
+        public GioiThieuUngDung gthieu;
+        public DanhSachChan dsc;
         public CaiDat()
         {
             InitializeComponent();
@@ -25,7 +24,6 @@ namespace Main_Interface.User_Controls
         {
             InitializeComponent();
             MainForm = m;
-            suahoso = new SuaHoSoUser(MainForm);
             dmk = new DoiEmailMatKhau(MainForm);
             gthieu = new GioiThieuUngDung(MainForm);
             dsc = new DanhSachChan(MainForm);
@@ -40,11 +38,6 @@ namespace Main_Interface.User_Controls
         private void CaiDat_Load(object sender, EventArgs e)
         {
             // Additional initialization if needed
-        }
-
-        private void btn_csHoSo_Click(object sender, EventArgs e)
-        {
-            LoadUserControl(suahoso);
         }
         private void btn_doiEmailMk_Click(object sender, EventArgs e)
         {

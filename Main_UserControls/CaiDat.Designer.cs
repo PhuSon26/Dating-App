@@ -44,7 +44,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(60, 60, 60);
-            label1.Location = new Point(472, 0);
+            label1.Location = new Point(472, 50);
             label1.Name = "label1";
             label1.Size = new Size(237, 81);
             label1.TabIndex = 0;
@@ -177,7 +177,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(240, 248, 255);
+            BackColor = Color.FromArgb(255, 240, 245);
             Controls.Add(panel);
             Name = "CaiDat";
             Size = new Size(1193, 727);

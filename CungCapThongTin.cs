@@ -76,8 +76,9 @@ namespace LOGIN
         }
         private void btnBoQua_Click(object sender, EventArgs e)
         {
-
             this.Close();
+            MainForm = new Main(_auth);
+            MainForm.Show();
         }
 
         private void CungCapThongTin_Load(object sender, EventArgs e)

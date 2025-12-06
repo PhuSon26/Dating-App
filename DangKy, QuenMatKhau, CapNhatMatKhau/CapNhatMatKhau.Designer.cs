@@ -97,6 +97,8 @@ namespace LOGIN
             tb_email.Name = "tb_email";
             tb_email.Size = new Size(220, 32);
             tb_email.TabIndex = 11;
+            tb_email.PasswordChar = '●';
+            tb_email.UseSystemPasswordChar = false;
             // 
             // btn_xacnhan
             // 

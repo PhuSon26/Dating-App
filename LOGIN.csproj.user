@@ -38,12 +38,6 @@
     <Compile Update="Main_UserControls\CaiDat_UserControls\GioiThieuUngDung.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Main_UserControls\Thongtinuser_UserControls\SuaHoSoUser.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Main_UserControls\DanhSachNhanTin.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\NhanTin.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -52,9 +46,6 @@
     </Compile>
     <Compile Update="Main_UserControls\GhepDoi_UserControls\Match.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Main_UserControls\HoSoCaNhan.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Main_UserControls\NapVIP.cs">
       <SubType>UserControl</SubType>
@@ -70,6 +61,9 @@
     </Compile>
     <Compile Update="DangKy, QuenMatKhau, CapNhatMatKhau\QuenMatKhau.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RoundedGlossyButton.cs">
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

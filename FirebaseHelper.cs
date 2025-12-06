@@ -16,6 +16,8 @@ namespace LOGIN
         private readonly string apiKey;
         public FirestoreDb db;
         public string userID;
+        public string email;
+        public string password;
         public FirebaseAuthHelper(string apiKey)
         {
             this.apiKey = apiKey;
@@ -75,6 +77,8 @@ namespace LOGIN
                 password = password,
                 returnSecureToken = true
             };
+            this.email = email;
+            this.password = password;
             return PostAsync(url, data);
         }
 
@@ -117,6 +121,23 @@ namespace LOGIN
                 password = newPassword,
                 returnSecureToken = true
             };
+            return await PostAsync(url, data);
+        }
+        // Trong class FirebaseAuthHelper
+
+        public async Task<string> UpdatePasswordInApp(string idToken, string newPassword)
+        {
+            // URL API update profile (bao gồm password)
+            string url = $"https://identitytoolkit.googleapis.com/v1/accounts:update?key={apiKey}";
+
+            var data = new
+            {
+                idToken = idToken,
+                password = newPassword,
+                returnSecureToken = true // Quan trọng: Yêu cầu trả về Token mới
+            };
+
+            // Gọi hàm PostAsync có sẵn của bạn
             return await PostAsync(url, data);
         }
         // ==============================
@@ -213,6 +234,38 @@ namespace LOGIN
 
             if (string.IsNullOrWhiteSpace(senderId))
                 throw new ArgumentException("senderId trống", nameof(senderId));
+        /// Lấy tất cả document trong collection "Matches"
+        /// mà mảng users có chứa userId truyền vào.
+        /// </summary>
+        public async Task<List<Match>> GetMatchesAsync(string userId)
+        {
+            if (string.IsNullOrWhiteSpace(userId))
+                throw new ArgumentException("userId trống", nameof(userId));
+
+            // Query: whereArrayContains("users", userId)
+            // theo cú pháp array-contains của Firestore
+            var query = db.Collection("Matches")
+                          .WhereArrayContains("users", userId);
+
+            QuerySnapshot snap = await query.GetSnapshotAsync();
+
+            List<Match> matches = new List<Match>();
+
+            foreach (DocumentSnapshot doc in snap.Documents)
+            {
+                if (!doc.Exists) continue;
+
+                Match m = doc.ConvertTo<Match>();
+
+                // Nếu muốn gán luôn doc.Id cho matchID:
+                // if (string.IsNullOrEmpty(m.matchID))
+                //     m.matchID = doc.Id;
+
+                matches.Add(m);
+            }
+
+            return matches;
+        }
 
             if (string.IsNullOrWhiteSpace(text) &&
                 string.IsNullOrWhiteSpace(localImagePath))
@@ -258,6 +311,41 @@ namespace LOGIN
             DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
             if (!snapshot.Exists) return null;
             return snapshot.ConvertTo<USER>();
+        }
+        // Upload avatar
+        public async Task UploadAvatarAsync(Image avatarImage, string userId)
+        {
+            string base64 = ImageToBase64(avatarImage);
+            var docRef = db.Collection("Users").Document(userId);
+            await docRef.SetAsync(new { AvatarBase64 = base64 }, SetOptions.MergeAll);
+        }
+
+        // Upload nhiều ảnh
+        public async Task UploadPhotosAsync(List<Image> images, string userId)
+        {
+            var docRef = db.Collection("Users").Document(userId);
+            List<string> base64List = new List<string>();
+            foreach (var img in images)
+                base64List.Add(ImageToBase64(img));
+
+            await docRef.SetAsync(new { PhotosBase64 = base64List }, SetOptions.MergeAll);
+        }
+        public string ImageToBase64(Image img)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return Convert.ToBase64String(ms.ToArray());
+            }
+        }
+
+        public Image Base64ToImage(string base64)
+        {
+            byte[] bytes = Convert.FromBase64String(base64);
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                return Image.FromStream(ms);
+            }
         }
     }
 }

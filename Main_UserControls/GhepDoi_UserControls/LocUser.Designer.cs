@@ -33,9 +33,9 @@
             // labelTitle
             // 
             labelTitle.AutoSize = true;
-            labelTitle.Font = new Font("Segoe UI", 26F, FontStyle.Bold);
+            labelTitle.Font = new Font("Segoe UI", 30F, FontStyle.Bold);
             labelTitle.ForeColor = Color.HotPink;
-            labelTitle.Location = new Point(350, 30);
+            labelTitle.Location = new Point(320, 50);
             labelTitle.Name = "labelTitle";
             labelTitle.Size = new Size(417, 47);
             labelTitle.TabIndex = 0;
@@ -43,44 +43,47 @@
             // 
             // labelGioiTinh
             // 
-            labelGioiTinh.Font = new Font("Segoe UI", 14F);
-            labelGioiTinh.Location = new Point(260, 120);
+            labelGioiTinh.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelGioiTinh.Location = new Point(320, 170);
             labelGioiTinh.Name = "labelGioiTinh";
             labelGioiTinh.Size = new Size(180, 40);
             labelGioiTinh.TabIndex = 1;
             labelGioiTinh.Text = "Giới tính:";
+            labelGioiTinh.AutoSize = true;
             // 
             // labelTuoi
             // 
-            labelTuoi.Font = new Font("Segoe UI", 14F);
-            labelTuoi.Location = new Point(260, 210);
+            labelTuoi.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelTuoi.Location = new Point(320, 250);
             labelTuoi.Name = "labelTuoi";
             labelTuoi.Size = new Size(180, 40);
             labelTuoi.TabIndex = 3;
+            labelTuoi.AutoSize = true;
             labelTuoi.Text = "Độ tuổi:";
             // 
             // labelNoiSong
             // 
-            labelNoiSong.Font = new Font("Segoe UI", 14F);
-            labelNoiSong.Location = new Point(260, 390);
+            labelNoiSong.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelNoiSong.Location = new Point(320, 430);
             labelNoiSong.Name = "labelNoiSong";
             labelNoiSong.Size = new Size(180, 40);
             labelNoiSong.TabIndex = 7;
             labelNoiSong.Text = "Nơi sống:";
+            labelNoiSong.AutoSize = true;
             // 
             // comboGioiTinh
             // 
-            comboGioiTinh.Font = new Font("Segoe UI", 14F);
+            comboGioiTinh.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
             comboGioiTinh.Items.AddRange(new object[] { "Nam", "Nữ" });
-            comboGioiTinh.Location = new Point(460, 120);
+            comboGioiTinh.Location = new Point(520, 170);
             comboGioiTinh.Name = "comboGioiTinh";
             comboGioiTinh.Size = new Size(350, 33);
             comboGioiTinh.TabIndex = 2;
             // 
             // textNoiSong
             // 
-            textNoiSong.Font = new Font("Segoe UI", 14F);
-            textNoiSong.Location = new Point(460, 390);
+            textNoiSong.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textNoiSong.Location = new Point(520, 430);
             textNoiSong.Name = "textNoiSong";
             textNoiSong.Size = new Size(350, 32);
             textNoiSong.TabIndex = 8;
@@ -88,11 +91,11 @@
             // btnTimKiem
             // 
             btnTimKiem.BackColor = Color.LightPink;
-            btnTimKiem.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
+            btnTimKiem.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
             btnTimKiem.ForeColor = Color.Maroon;
-            btnTimKiem.Location = new Point(260, 480);
+            btnTimKiem.Location = new Point(320, 550);
             btnTimKiem.Name = "btnTimKiem";
-            btnTimKiem.Size = new Size(560, 55);
+            btnTimKiem.Size = new Size(560, 66);
             btnTimKiem.TabIndex = 9;
             btnTimKiem.Text = "🔍 Tìm kiếm";
             btnTimKiem.UseVisualStyleBackColor = false;
@@ -100,8 +103,8 @@
             // 
             // num_dotuoi
             // 
-            num_dotuoi.Font = new Font("Segoe UI", 14F);
-            num_dotuoi.Location = new Point(460, 210);
+            num_dotuoi.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            num_dotuoi.Location = new Point(520, 250);
             num_dotuoi.Maximum = new decimal(new int[] { 60, 0, 0, 0 });
             num_dotuoi.Minimum = new decimal(new int[] { 18, 0, 0, 0 });
             num_dotuoi.Name = "num_dotuoi";
@@ -111,8 +114,8 @@
             // 
             // num_chieucao
             // 
-            num_chieucao.Font = new Font("Segoe UI", 14F);
-            num_chieucao.Location = new Point(460, 300);
+            num_chieucao.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            num_chieucao.Location = new Point(520, 340);
             num_chieucao.Maximum = new decimal(new int[] { 220, 0, 0, 0 });
             num_chieucao.Minimum = new decimal(new int[] { 140, 0, 0, 0 });
             num_chieucao.Name = "num_chieucao";
@@ -122,11 +125,12 @@
             // 
             // label1
             // 
-            label1.Font = new Font("Segoe UI", 14F);
-            label1.Location = new Point(260, 300);
+            label1.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0); 
+            label1.Location = new Point(320, 340);
             label1.Name = "label1";
             label1.Size = new Size(180, 40);
             label1.TabIndex = 5;
+            label1.AutoSize = true;
             label1.Text = "Chiều cao:";
             // 
             // btn_back

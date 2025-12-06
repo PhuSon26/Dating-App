@@ -2,15 +2,14 @@
 {
     partial class NhanTin
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private FlowLayoutPanel flPanel_tinNhan;
+        private Panel panelBottom;
+        private TextBox tb_message;
+        private Button btn_send;
+        private Button btn_anh;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,173 +19,85 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            panelHeader = new Panel();
-            pb_avatar = new PictureBox();
-            btn_goiVideo = new Button();
-            btn_goi = new Button();
-            tb_userName = new TextBox();
-            btn_back = new Button();
             flPanel_tinNhan = new FlowLayoutPanel();
-            tb_message = new TextBox();
-            btn = new Button();
+            panelBottom = new Panel();
             btn_anh = new Button();
-            btn_icon = new Button();
-            panelHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pb_avatar).BeginInit();
+            tb_message = new TextBox();
+            btn_send = new Button();
+            panelBottom.SuspendLayout();
             SuspendLayout();
-            // 
-            // panelHeader
-            // 
-            panelHeader.Controls.Add(pb_avatar);
-            panelHeader.Controls.Add(btn_goiVideo);
-            panelHeader.Controls.Add(btn_goi);
-            panelHeader.Controls.Add(tb_userName);
-            panelHeader.Controls.Add(btn_back);
-            panelHeader.Location = new Point(-1, 2);
-            panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(1189, 74);
-            panelHeader.TabIndex = 0;
-            // 
-            // pb_avatar
-            // 
-            pb_avatar.Location = new Point(224, -2);
-            pb_avatar.Name = "pb_avatar";
-            pb_avatar.Size = new Size(139, 76);
-            pb_avatar.TabIndex = 0;
-            pb_avatar.TabStop = false;
-            // 
-            // btn_goiVideo
-            // 
-            btn_goiVideo.BackColor = Color.Cyan;
-            btn_goiVideo.Font = new Font("Segoe UI", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_goiVideo.Location = new Point(1066, -2);
-            btn_goiVideo.Name = "btn_goiVideo";
-            btn_goiVideo.Size = new Size(123, 76);
-            btn_goiVideo.TabIndex = 3;
-            btn_goiVideo.Text = "📹";
-            btn_goiVideo.UseVisualStyleBackColor = false;
-            // 
-            // btn_goi
-            // 
-            btn_goi.BackColor = Color.Lime;
-            btn_goi.Font = new Font("Segoe UI", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_goi.ForeColor = SystemColors.ControlText;
-            btn_goi.Location = new Point(947, -2);
-            btn_goi.Name = "btn_goi";
-            btn_goi.Size = new Size(123, 76);
-            btn_goi.TabIndex = 2;
-            btn_goi.Text = "📞";
-            btn_goi.UseVisualStyleBackColor = false;
-            // 
-            // tb_userName
-            // 
-            tb_userName.Location = new Point(361, 0);
-            tb_userName.Multiline = true;
-            tb_userName.Name = "tb_userName";
-            tb_userName.Size = new Size(588, 74);
-            tb_userName.TabIndex = 1;
-            // 
-            // btn_back
-            // 
-            btn_back.AllowDrop = true;
-            btn_back.BackColor = SystemColors.ActiveCaption;
-            btn_back.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_back.Location = new Point(0, -24);
-            btn_back.Name = "btn_back";
-            btn_back.Size = new Size(226, 104);
-            btn_back.TabIndex = 0;
-            btn_back.Text = "⬅";
-            btn_back.UseVisualStyleBackColor = false;
             // 
             // flPanel_tinNhan
             // 
-            flPanel_tinNhan.Location = new Point(-1, 79);
+            flPanel_tinNhan.AutoScroll = true;
+            flPanel_tinNhan.BackColor = Color.WhiteSmoke;
+            flPanel_tinNhan.Dock = DockStyle.Top;
+            flPanel_tinNhan.FlowDirection = FlowDirection.TopDown;
+            flPanel_tinNhan.Location = new Point(0, 0);
             flPanel_tinNhan.Name = "flPanel_tinNhan";
-            flPanel_tinNhan.Size = new Size(1189, 458);
+            flPanel_tinNhan.Padding = new Padding(10);
+            flPanel_tinNhan.Size = new Size(700, 400);
             flPanel_tinNhan.TabIndex = 1;
+            flPanel_tinNhan.WrapContents = false;
             // 
-            // tb_message
+            // panelBottom
             // 
-            tb_message.Location = new Point(248, 543);
-            tb_message.Multiline = true;
-            tb_message.Name = "tb_message";
-            tb_message.Size = new Size(830, 56);
-            tb_message.TabIndex = 4;
-            // 
-            // btn
-            // 
-            btn.BackColor = SystemColors.MenuHighlight;
-            btn.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn.Location = new Point(1065, 538);
-            btn.Name = "btn";
-            btn.Size = new Size(124, 56);
-            btn.TabIndex = 0;
-            btn.Text = "Gửi";
-            btn.UseVisualStyleBackColor = false;
+            panelBottom.BackColor = Color.WhiteSmoke;
+            panelBottom.Controls.Add(btn_send);
+            panelBottom.Controls.Add(tb_message);
+            panelBottom.Controls.Add(btn_anh);
+            panelBottom.Dock = DockStyle.Bottom;
+            panelBottom.Location = new Point(0, 403);
+            panelBottom.Name = "panelBottom";
+            panelBottom.Size = new Size(700, 60);
+            panelBottom.TabIndex = 0;
             // 
             // btn_anh
             // 
-            btn_anh.BackColor = SystemColors.MenuHighlight;
-            btn_anh.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_anh.Location = new Point(-1, 538);
+            btn_anh.Font = new Font("Segoe UI Emoji", 16F);
+            btn_anh.Location = new Point(10, 10);
             btn_anh.Name = "btn_anh";
-            btn_anh.Size = new Size(124, 56);
-            btn_anh.TabIndex = 5;
-            btn_anh.Text = "Ảnh";
-            btn_anh.UseVisualStyleBackColor = false;
+            btn_anh.Size = new Size(50, 40);
+            btn_anh.TabIndex = 0;
+            btn_anh.Text = "📷";
             // 
-            // btn_icon
+            // tb_message
             // 
-            btn_icon.BackColor = SystemColors.MenuHighlight;
-            btn_icon.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_icon.Location = new Point(118, 538);
-            btn_icon.Name = "btn_icon";
-            btn_icon.Size = new Size(124, 56);
-            btn_icon.TabIndex = 6;
-            btn_icon.Text = "Icon";
-            btn_icon.UseVisualStyleBackColor = false;
+            tb_message.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            tb_message.Font = new Font("Segoe UI", 11F);
+            tb_message.Location = new Point(65, 10);
+            tb_message.Multiline = true;
+            tb_message.Name = "tb_message";
+            tb_message.Size = new Size(550, 40);
+            tb_message.TabIndex = 1;
+            //
+            // btn_send
+            //
+            btn_send.BackColor = Color.DeepSkyBlue;
+            btn_send.FlatStyle = FlatStyle.Flat;
+            btn_send.FlatAppearance.BorderSize = 0;
+            btn_send.Size = new Size(85, 40);        
+            btn_send.Location = new Point(615, 10);
+            btn_send.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            btn_send.Text = "Gửi";                    
+            btn_send.Name = "btn_send";
+            btn_send.TabIndex = 2;
+            btn_send.UseVisualStyleBackColor = false;
+            btn_send.Anchor = AnchorStyles.Right | AnchorStyles.Bottom;
+            btn_send.Click += btn_send_Click;
             // 
             // NhanTin
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1189, 593);
-            Controls.Add(btn_icon);
-            Controls.Add(btn_anh);
-            Controls.Add(btn);
-            Controls.Add(tb_message);
+            Controls.Add(panelBottom);
             Controls.Add(flPanel_tinNhan);
-            Controls.Add(panelHeader);
             Name = "NhanTin";
-            Text = "NhanTin";
+            Size = new Size(700, 463);
             Load += NhanTin_Load;
-            panelHeader.ResumeLayout(false);
-            panelHeader.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pb_avatar).EndInit();
+            panelBottom.ResumeLayout(false);
+            panelBottom.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
-
-        #endregion
-
-        private Panel panelHeader;
-        private Button btn_back;
-        private Button btn_goi;
-        private TextBox tb_userName;
-        private Button btn_goiVideo;
-        private PictureBox pb_avatar;
-        private FlowLayoutPanel flPanel_tinNhan;
-        private Button btn;
-        private TextBox tb_message;
-        private Button btn_anh;
-        private Button btn_icon;
     }
 }

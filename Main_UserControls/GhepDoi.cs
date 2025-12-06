@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Google.Rpc.Context.AttributeContext.Types;
+using static System.Net.WebRequestMethods;
 
 namespace Main_Interface.User_Controls
 {
@@ -20,6 +22,7 @@ namespace Main_Interface.User_Controls
         private MatchFilterAPI filterAPI;
         private List<USER> filteredUsers = new List<USER>();
         private int current_index = 0;
+        private FirebaseAuthHelper auth;
         public GhepDoi()
         {
             InitializeComponent();
@@ -30,6 +33,7 @@ namespace Main_Interface.User_Controls
             InitializeComponent();
             this.Load += GhepDoi_Load;
             MainForm = m;
+            this.auth = m.auth;
             loc = new LocUser(MainForm);
             //filterAPI = new MatchFilterAPI("login - bb104");
         }
@@ -37,12 +41,6 @@ namespace Main_Interface.User_Controls
         private void ShowUser(USER u)
         {
             flpanel_pictures.Controls.Clear();
-
-            PictureBox pb = new PictureBox();
-            pb.Size = new Size(300, 300);
-            pb.SizeMode = PictureBoxSizeMode.Zoom;
-            pb.LoadAsync(u.AvatarUrl);     // Thuộc tính AvatarUrl trong USER
-            flpanel_pictures.Controls.Add(pb);
 
             tb_name.Text = u.ten;
             tb_tuoi.Text = u.tuoi.ToString();
@@ -53,6 +51,38 @@ namespace Main_Interface.User_Controls
             tb_thoiquen.Text = u.thoiquen;
             tb_vitri.Text = u.vitri;
             tb_gioithieu.Text = u.gthieu;
+
+            // Avatar
+            if (!string.IsNullOrEmpty(u.AvatarUrl))
+            {
+                try
+                {
+                    avatar.Image = auth.Base64ToImage(u.AvatarUrl);
+                    avatar.SizeMode = PictureBoxSizeMode.Zoom;
+                }
+                catch { }
+            }
+
+            // Many photos
+            flpanel_pictures.Controls.Clear();
+
+            if (u.photos != null)
+            {
+                foreach (var b64 in u.photos)
+                {
+                    try
+                    {
+                        PictureBox pb = new PictureBox();
+                        pb.Image = auth.Base64ToImage(b64);
+                        pb.SizeMode = PictureBoxSizeMode.Zoom;
+                        pb.Size = new Size(flpanel_pictures.Width - 20, 180);
+                        pb.Margin = new Padding(5);
+                        flpanel_pictures.Controls.Add(pb);
+                    }
+                    catch { }
+                }
+            }
+
         }
         private async Task LoadFilteredUsers(FilterModel filter)
         {
@@ -68,6 +98,7 @@ namespace Main_Interface.User_Controls
 
         private void GhepDoi_Load(object sender, EventArgs e)
         {
+            /*
             // Thư mục chứa ảnh demo
             string folder = @"C:\Users\leson\OneDrive\Documents\uit\html lab3"; // đổi theo nơi bạn lưu ảnh
             if (!System.IO.Directory.Exists(folder))
@@ -90,6 +121,7 @@ namespace Main_Interface.User_Controls
                 pb.Margin = new Padding(10);
                 flpanel_pictures.Controls.Add(pb);
             }
+            */
         }
         public void LoadUserControl(UserControl uc)
         {
