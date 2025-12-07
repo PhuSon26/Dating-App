@@ -92,19 +92,10 @@ namespace Main_Interface.User_Controls
             path.AddEllipse(0, 0, picAvatar.Width, picAvatar.Height);
             picAvatar.Region = new Region(path);
 
-            // Load avatar
-            if (!string.IsNullOrEmpty(targetUser.AvatarUrl))
-            {
-                try
-                {
-                    picAvatar.Image = firebase.Base64ToImage(targetUser.AvatarUrl);
-                }
-                catch { }
-            }
-
+            picAvatar.Image = firebase.Base64ToImage(targetUser.AvatarUrl);
             lblUserName = new Label
             {
-                Text = targetUser.ten ?? targetUser.ten ?? "Người dùng",
+                Text = string.IsNullOrWhiteSpace(targetUser.ten) ? "Anonymous" : targetUser.ten,
                 Font = new Font("Segoe UI", 13F, FontStyle.Bold),
                 ForeColor = Color.White,
                 AutoSize = true,
@@ -303,6 +294,12 @@ namespace Main_Interface.User_Controls
         // ======================================================
         private async void NhanTin_Load(object sender, EventArgs e)
         {
+            this.btnBack.Enabled = false;
+            this.btnSend.Enabled = false;
+            this.picAvatar.Enabled = false;
+            LoadingSpinner loading = new LoadingSpinner(this);
+            loading.pbSpinner.BackColor = Color.FromArgb(240, 242, 245);
+            loading.Show();
             System.Diagnostics.Debug.WriteLine($"NhanTin_Load - MyUserId: {myUserId}, TargetUserId: {targetUser.Id}");
             System.Diagnostics.Debug.WriteLine($"ConversationId: {conversationId}");
 
@@ -332,12 +329,17 @@ namespace Main_Interface.User_Controls
                 // Reset số tin chưa đọc
                 await firebase.ResetUnread(myUserId, targetUser.Id);
             }
+
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"LỖI: {ex.Message}");
                 System.Diagnostics.Debug.WriteLine($"StackTrace: {ex.StackTrace}");
                 MessageBox.Show($"Lỗi khởi tạo chat: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            loading.Hide();
+            this.btnBack.Enabled = true;
+            this.btnSend.Enabled = true;
+            this.picAvatar.Enabled = true;
         }
 
         // TẢI TIN NHẮN CŨ

@@ -64,16 +64,7 @@ namespace Main_Interface.User_Controls
                     AddImageToPanel(photoUrl);
                 }
             }
-            if (!string.IsNullOrEmpty(u.AvatarUrl))
-            {
-                // Nếu không có list ảnh mà chỉ có Avatar -> Hiện Avatar
-                avatar.Image = authHelper.Base64ToImage(u.AvatarUrl);
-            }
-            else
-            {
-                // Nếu không có gì cả -> Có thể hiện ảnh mặc định (Placeholder)
-                // AddImageToPanel("link_anh_mac_dinh.png");
-            }
+            avatar.Image = authHelper.Base64ToImage(u.AvatarUrl);
 
             tb_name.Text = u.ten ?? "No Name";
             tb_tuoi.Text = u.tuoi.ToString();
@@ -140,12 +131,16 @@ namespace Main_Interface.User_Controls
 
         private async void GhepDoi_Load(object sender, EventArgs e)
         {
-
+            this.btn_kothich.Enabled = false;
+            this.btn_loc.Enabled = false;
+            this.btn_tim.Enabled = false;
+            LoadingSpinner loading = new LoadingSpinner(this);
+            loading.Show();
             await LoadSuggestUsers(myUserId);
-
-
-
-
+            loading.Hide();
+            this.btn_kothich.Enabled = true;
+            this.btn_loc.Enabled = true;
+            this.btn_tim.Enabled = true;
         }
 
         private async Task LoadSuggestUsers(string userId)
@@ -275,6 +270,25 @@ namespace Main_Interface.User_Controls
                 btn_tim.Enabled = true;
             }
         }
+        private void Flpanel_pictures_MouseWheel(object sender, MouseEventArgs e)
+        {
+            FlowLayoutPanel panel = sender as FlowLayoutPanel;
+
+            if (panel == null) return;
+
+            // Invert e.Delta nếu muốn cuộn theo hướng mong muốn
+            int scrollAmount = panel.HorizontalScroll.Value - e.Delta;
+
+            // Giới hạn trong min/max
+            if (scrollAmount < panel.HorizontalScroll.Minimum)
+                scrollAmount = panel.HorizontalScroll.Minimum;
+            if (scrollAmount > panel.HorizontalScroll.Maximum)
+                scrollAmount = panel.HorizontalScroll.Maximum;
+
+            panel.HorizontalScroll.Value = scrollAmount;
+            panel.PerformLayout();
+        }
+
         private void panelPictures_Paint(object sender, PaintEventArgs e)
         {
 

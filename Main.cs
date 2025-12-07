@@ -29,9 +29,23 @@ namespace Main_Interface
 
         public async void Main_Load(object sender, EventArgs e)
         {
+            this.btn_ghepdoi.Enabled = false;
+            this.btn_dsnt.Enabled = false;
+            this.btn_caidat.Enabled = false;
+            this.btn_hscn.Enabled = false;
+            this.btn_thongbao.Enabled = false;
+            LoadingSpinner loading = new LoadingSpinner(this);
+            loading.pbSpinner.BackColor = Color.FromArgb(255, 250, 253);
+            loading.Show();
             u = await auth.getUser();
             gd = new GhepDoi(this);
             LoadContent(gd);
+            loading.Hide();
+            this.btn_ghepdoi.Enabled = true;
+            this.btn_dsnt.Enabled = true;
+            this.btn_caidat.Enabled = true;
+            this.btn_hscn.Enabled = true;
+            this.btn_thongbao.Enabled = true;
         }
 
         private void btn_vip_Click(object sender, EventArgs e)
@@ -76,6 +90,7 @@ namespace Main_Interface
 
         private async void btn_hscn_Click(object sender, EventArgs e)
         {
+            LoadingSpinner loading = new LoadingSpinner(this);
             if (!loadedHscn)
             {
                 ttuser = new Thongtinuser(auth, u);
@@ -84,6 +99,7 @@ namespace Main_Interface
             }
 
             LoadContent(ttuser);
+            loading.Hide();
         }
 
         private Button activeButton = null;
@@ -160,7 +176,7 @@ namespace Main_Interface
             btn_ghepdoi.Width = buttonWidth;
 
             x += buttonWidth + spacing;
-            btn_dsnt = CreateNavButton("💬", "Danh sách", new Point(x, y));
+            btn_dsnt = CreateNavButton("💬", "Tin nhắn", new Point(x, y));
             btn_dsnt.Width = buttonWidth;
 
             x += buttonWidth + spacing;

@@ -34,12 +34,14 @@ namespace LOGIN
 
         private async void FormDanhSachTinNhan_Load(object sender, EventArgs e)
         {
+            this.btnTimKiem.Enabled = false;
+            LoadingSpinner loading = new LoadingSpinner(this);
+            loading.pbSpinner.BackColor = Color.FromArgb(255, 240, 245);
+            loading.Show();
             await LoadMatchedUsers();
-            try
-            {
-                picAvatarNguoiDung.Image = firebase.Base64ToImage(u.AvatarUrl);
-            }
-            catch { }
+            picAvatarNguoiDung.Image = firebase.Base64ToImage(u.AvatarUrl);
+            loading.Hide();
+            this.btnTimKiem.Enabled = true;
         }
         private async Task LoadMatchedUsers()
         {

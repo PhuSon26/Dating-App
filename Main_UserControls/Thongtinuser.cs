@@ -49,16 +49,8 @@ namespace Dating_app_nhom3
             tb_gioithieu.Text = u.gthieu;
 
             // Avatar
-            if (!string.IsNullOrEmpty(u.AvatarUrl))
-            {
-                try
-                {
-                    ptb_avt.Image = auth.Base64ToImage(u.AvatarUrl);
-                    ptb_avt.SizeMode = PictureBoxSizeMode.Zoom;
-                }
-                catch { }
-            }
-
+            ptb_avt.Image = auth.Base64ToImage(u.AvatarUrl);
+            ptb_avt.SizeMode = PictureBoxSizeMode.Zoom;
             // Many photos
             flp.Controls.Clear();
 
@@ -231,6 +223,10 @@ namespace Dating_app_nhom3
                     }
                 }
             }
+        }
+
+        private void Thongtinuser_Load(object sender, EventArgs e)
+        {
         }
     }
 }

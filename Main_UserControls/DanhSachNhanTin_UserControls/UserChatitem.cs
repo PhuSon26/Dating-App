@@ -67,15 +67,15 @@ public partial class UserChatitem : UserControl
         {
             Left = 150,
             Top = 60,
-            Width = 350,          
-            Height = 40,          
+            Width = 350,
+            Height = 40,
             Font = new Font("Segoe UI", 10),
             ForeColor = Color.FromArgb(50, 50, 50),
             BackColor = Color.Transparent,
             TextAlign = ContentAlignment.TopLeft,
             UseCompatibleTextRendering = true,
-            AutoSize = false,     
-            AutoEllipsis = true  
+            AutoSize = false,
+            AutoEllipsis = true
         };
         lblTime = new Label
         {
@@ -120,12 +120,9 @@ public partial class UserChatitem : UserControl
 
     private void BindData()
     {
-        lblName.Text = UserData.ten ?? "Anonymous";
+        lblName.Text = string.IsNullOrWhiteSpace(UserData.ten) ? "Anonymous" : UserData.ten;
 
-        if (!string.IsNullOrEmpty(UserData.AvatarUrl))
-        {
-            try { picAvatar.Image = firebase.Base64ToImage(UserData.AvatarUrl); } catch { }
-        }
+        picAvatar.Image = firebase.Base64ToImage(UserData.AvatarUrl);
 
         lblLastMessage.Text = MetaData.lastMessage ?? "";
         lblTime.Text = FormatTime(MetaData.lastTimestamp);
