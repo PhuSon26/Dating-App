@@ -160,7 +160,7 @@ namespace Main_Interface
             btn_ghepdoi.Width = buttonWidth;
 
             x += buttonWidth + spacing;
-            btn_dsnt = CreateNavButton("💬", "Danh sách", new Point(x, y));
+            btn_dsnt = CreateNavButton("💬", "Tin nhắn", new Point(x, y));
             btn_dsnt.Width = buttonWidth;
 
             x += buttonWidth + spacing;

@@ -76,6 +76,7 @@
             flpanel_pictures.Size = new Size(851, 376);
             flpanel_pictures.WrapContents = false;
             flpanel_pictures.FlowDirection = FlowDirection.LeftToRight;
+            flpanel_pictures.MouseWheel += Flpanel_pictures_MouseWheel;
             // 
             // panelThongTin
             // 

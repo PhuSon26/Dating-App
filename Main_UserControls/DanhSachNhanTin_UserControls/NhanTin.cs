@@ -104,7 +104,7 @@ namespace Main_Interface.User_Controls
 
             lblUserName = new Label
             {
-                Text = targetUser.ten ?? targetUser.ten ?? "Người dùng",
+                Text = string.IsNullOrWhiteSpace(targetUser.ten) ? "Anonymous" : targetUser.ten,
                 Font = new Font("Segoe UI", 13F, FontStyle.Bold),
                 ForeColor = Color.White,
                 AutoSize = true,
