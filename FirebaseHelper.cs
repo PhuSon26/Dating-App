@@ -300,11 +300,11 @@ namespace LOGIN
         }
         public string ImageToBase64(Image img)
         {
-            string defaultImgPath = Path.Combine(Application.StartupPath, "Images", "AvatarMacDinh.jpg");
+            string defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "AvatarMacDinh.jpg");
 
             if (img == null)
             {
-                img = Image.FromFile(defaultImgPath);
+                img = Image.FromFile(defaultPath);
             }
 
             using (MemoryStream ms = new MemoryStream())
@@ -315,7 +315,7 @@ namespace LOGIN
         }
         public Image Base64ToImage(string base64)
         {
-            string defaultPath = Path.Combine(Application.StartupPath, "Images", "AvatarMacDinh.jpg");
+            string defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "AvatarMacDinh.jpg");
 
             if (string.IsNullOrEmpty(base64))
                 return Image.FromFile(defaultPath);
@@ -356,9 +356,7 @@ namespace LOGIN
 
                 // Lọc user hợp lệ
                 var randomUsers = allUsers
-                    .Where(u => u.Id != userId &&
-                                !string.IsNullOrEmpty(u.gioitinh) &&
-                                u.gioitinh != currentUser.gioitinh)
+                    .Where(u => u.Id != userId)
                     .OrderBy(u => Guid.NewGuid())
                     .Take(limit)
                     .ToList();

@@ -97,15 +97,14 @@ namespace LOGIN
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
-            flowLayoutPanel1.WrapContents = true;
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.Location = new Point(20, 90);
+            flowLayoutPanel1.WrapContents = true;
+            flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
+            flowLayoutPanel1.Padding = new Padding(10);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(1005, 430);
-            flowLayoutPanel1.TabIndex = 1;
-            flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
-            // 
+            flowLayoutPanel1.BackColor = Color.FromArgb(255, 240, 245);
             // contextMenuStrip1
             // 
             contextMenuStrip1.Name = "contextMenuStrip1";
@@ -113,8 +112,8 @@ namespace LOGIN
             // 
             // FormDanhSachTinNhan
             // 
-            Controls.Add(panel1);
             Controls.Add(flowLayoutPanel1);
+            Controls.Add(panel1);
             Name = "FormDanhSachTinNhan";
             Size = new Size(1045, 570);
             Load += FormDanhSachTinNhan_Load;

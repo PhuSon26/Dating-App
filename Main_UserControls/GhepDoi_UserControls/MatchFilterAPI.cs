@@ -18,7 +18,7 @@ namespace LOGIN.Main_UserControls.GhepDoi_UserControls
 
         public async Task<List<USER>> FilterUsers(FilterModel filter)
         {
-            CollectionReference userRef = db.Collection("User");
+            CollectionReference userRef = db.Collection("Users");
             Query query = userRef;
             if (!string.IsNullOrEmpty(filter.GioiTinh) && filter.GioiTinh != "Tất cả")
             {
@@ -43,6 +43,36 @@ namespace LOGIN.Main_UserControls.GhepDoi_UserControls
                 ans = ans.Where(u => u.chieucao >= filter.ChieuCaoMin.Value).ToList();
             }
             return ans;
+        }
+        public static bool CheckFilter(USER user, FilterModel f)
+        {
+            if (user == null) return false;
+
+            if (!string.IsNullOrEmpty(f.GioiTinh))
+            {
+                if (!string.Equals(user.gioitinh, f.GioiTinh, StringComparison.OrdinalIgnoreCase))
+                    return false;
+            }
+
+            if (f.DoTuoi.HasValue)
+            {
+                if (user.tuoi != f.DoTuoi.Value)  
+                    return false;
+            }
+
+            if (f.ChieuCaoMin.HasValue)
+            {
+                if (user.chieucao < f.ChieuCaoMin.Value)
+                    return false;
+            }
+
+            if (!string.IsNullOrEmpty(f.NoiSong))
+            {
+                if (!string.Equals(user.vitri, f.NoiSong, StringComparison.OrdinalIgnoreCase))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

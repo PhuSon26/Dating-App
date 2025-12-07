@@ -56,10 +56,7 @@ namespace Dating_app_nhom3
                     ptb_avt.Image = auth.Base64ToImage(u.AvatarUrl);
                     ptb_avt.SizeMode = PictureBoxSizeMode.Zoom;
                 }
-                catch
-                {
-                    MessageBox.Show("Không tải được ảnh đại diện!");
-                }
+                catch { }
             }
 
             // Many photos
@@ -78,7 +75,7 @@ namespace Dating_app_nhom3
                         pb.Margin = new Padding(5);
                         flp.Controls.Add(pb);
                     }
-                    catch (Exception ex) { MessageBox.Show(ex.Message); }
+                    catch { }
                 }
             }
         }
@@ -115,7 +112,7 @@ namespace Dating_app_nhom3
             u.thoiquen = tb_sothich.Text;
             u.nghenghiep = tb_congviec.Text;
             u.hocvan = tb_hocvan.Text;
-            u.chieucao = float.Parse(num_chieucao.Text);
+            u.chieucao = int.Parse(num_chieucao.Text);
             u.gthieu = tb_gioithieu.Text;
 
             // =============================

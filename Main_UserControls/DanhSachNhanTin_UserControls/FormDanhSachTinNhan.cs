@@ -119,9 +119,7 @@ namespace LOGIN
             {
                 Dock = DockStyle.Fill
             };
-
-            this.Controls.Clear();
-            this.Controls.Add(chat);
+            MainForm.LoadContent(chat);
         }
         private void btnTimKiem_Click(object sender, EventArgs e)
         {

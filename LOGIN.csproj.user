@@ -17,6 +17,9 @@
     <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\FormDanhSachTinNhan.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\HoSoNguoiKhac.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\UserChatitem.cs">
       <SubType>UserControl</SubType>
     </Compile>

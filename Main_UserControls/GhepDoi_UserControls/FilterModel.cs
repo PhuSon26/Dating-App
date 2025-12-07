@@ -10,7 +10,7 @@ namespace LOGIN.Main_UserControls.GhepDoi_UserControls
     {
         public string GioiTinh { get; set; }
         public int? DoTuoi { get; set; }
-        public float? ChieuCaoMin { get; set; }
+        public int? ChieuCaoMin { get; set; }
         public string NoiSong { get; set; }
     }
 }

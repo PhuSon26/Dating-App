@@ -43,7 +43,7 @@ namespace LOGIN
                 nghenghiep = txtNgheNghiep.Text.Trim(),
                 thoiquen = txtThoiQuen.Text.Trim(),
                 gthieu = txtGioiThieu.Text.Trim(),
-                chieucao = (float)nudChieuCao.Value,
+                chieucao = (int)nudChieuCao.Value,
                 vitri = txtViTri.Text.Trim(),
                 AvatarUrl = "",                    // tạm thời chưa up avatar
                 photos = new List<string>(),    // list rỗng

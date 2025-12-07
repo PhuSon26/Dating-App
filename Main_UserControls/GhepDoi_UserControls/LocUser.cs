@@ -37,7 +37,12 @@ namespace Main_Interface.User_Controls
             try
             {
                 List<USER> ans = await api.FilterUsers(filter);
-                MainForm.gd.LoadFilteredUsers(ans);
+
+                if (MainForm.CurrentControl is GhepDoi gd)
+                {
+                    gd.LoadFilteredUsers(ans);
+                }
+
                 if (ans.Count > 0)
                 {
                     MessageBox.Show(

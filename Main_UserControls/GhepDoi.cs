@@ -64,10 +64,10 @@ namespace Main_Interface.User_Controls
                     AddImageToPanel(photoUrl);
                 }
             }
-            else if (!string.IsNullOrEmpty(u.AvatarUrl))
+            if (!string.IsNullOrEmpty(u.AvatarUrl))
             {
                 // Nếu không có list ảnh mà chỉ có Avatar -> Hiện Avatar
-                AddImageToPanel(u.AvatarUrl);
+                avatar.Image = authHelper.Base64ToImage(u.AvatarUrl);
             }
             else
             {
@@ -88,7 +88,7 @@ namespace Main_Interface.User_Controls
             tb_vitri.Text = u.vitri ?? "---";
             tb_gioithieu.Text = u.gthieu ?? "Người dùng này chưa viết gì về mình.";
         }
-        private void AddImageToPanel(string url)
+        private async void AddImageToPanel(string url)
         {
             PictureBox pb = new PictureBox();
             pb.Size = new Size(300, 350);
@@ -97,16 +97,35 @@ namespace Main_Interface.User_Controls
 
             try
             {
-                pb.LoadAsync(url);
+                if (url.StartsWith("http"))
+                {
+                    // Ảnh URL từ Firebase Storage
+                    pb.Image = await LoadImageFromUrl(url);
+                }
+                else
+                {
+                    // Ảnh Base64
+                    pb.Image = authHelper.Base64ToImage(url);
+                }
             }
             catch
             {
-                pb.BackColor = Color.LightGray;
+                pb.BackColor = Color.LightGray; // fallback
             }
 
             flpanel_pictures.Controls.Add(pb);
         }
-
+        private async Task<Image> LoadImageFromUrl(string url)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var bytes = await client.GetByteArrayAsync(url);
+                using (var ms = new MemoryStream(bytes))
+                {
+                    return Image.FromStream(ms);
+                }
+            }
+        }
         private async Task LoadFilteredUsers(FilterModel filter)
         {
             suggestedUsers = await filterAPI.FilterUsers(filter);
@@ -173,12 +192,7 @@ namespace Main_Interface.User_Controls
                 // Load avatar
                 if (!string.IsNullOrEmpty(u.AvatarUrl))
                 {
-                    var req = System.Net.WebRequest.Create(u.AvatarUrl);
-                    using (var res = req.GetResponse())
-                    using (var stream = res.GetResponseStream())
-                    {
-                        pb.Image = Image.FromStream(stream);
-                    }
+                    pb.Image = authHelper.Base64ToImage(u.AvatarUrl);
                 }
 
                 pb.Click += (s, e) =>
@@ -197,7 +211,7 @@ namespace Main_Interface.User_Controls
 
         private void btn_loc_Click(object sender, EventArgs e)
         {
-            LoadUserControl(loc);
+            MainForm.LoadContent(new LocUser(MainForm));
         }
 
         private void GhepDoi_Load_1(object sender, EventArgs e)
@@ -220,9 +234,6 @@ namespace Main_Interface.User_Controls
         {
             NextSuggestUser();
         }
-
-        // Trong file GhepDoi.cs
-
         private async void btn_tim_Click(object sender, EventArgs e)
         {
 

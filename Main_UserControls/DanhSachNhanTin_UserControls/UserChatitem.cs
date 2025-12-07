@@ -1,6 +1,10 @@
 ﻿using LOGIN;
 using Google.Cloud.Firestore;
 using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 public partial class UserChatitem : UserControl
 {
@@ -20,20 +24,18 @@ public partial class UserChatitem : UserControl
     public UserChatitem()
     {
         InitializeComponents();
+        this.Width = 580;
+        this.Height = 150;
+        this.Margin = new Padding(5);
+        this.Cursor = Cursors.Hand;
     }
 
-    public UserChatitem(USER user, ChatMeta meta, FirebaseAuthHelper firebase)
+    public UserChatitem(USER user, ChatMeta meta, FirebaseAuthHelper firebase) : this()
     {
         UserData = user;
         MetaData = meta;
         this.firebase = firebase;
-        this.Width = 522;
-        this.Height = 150;
-        this.BackColor = Color.White;
-        this.Margin = new Padding(5);
-        this.Cursor = Cursors.Hand;
 
-        InitializeComponents();
         BindData();
     }
 
@@ -45,7 +47,7 @@ public partial class UserChatitem : UserControl
             Height = 130,
             Left = 10,
             Top = 10,
-            SizeMode = PictureBoxSizeMode.Zoom,
+            SizeMode = PictureBoxSizeMode.StretchImage,
             BorderStyle = BorderStyle.FixedSingle
         };
 
@@ -53,37 +55,47 @@ public partial class UserChatitem : UserControl
         {
             Left = 150,
             Top = 10,
-            Width = 200,
+            Width = 150,
+            AutoSize = true,
             Height = 45,
-            Font = new Font("Segoe UI", 18F, FontStyle.Bold)
+            BackColor = Color.Transparent,
+            Font = new Font("Segoe UI", 18F, FontStyle.Bold),
+            ForeColor = Color.FromArgb(50, 50, 50)
         };
 
         lblLastMessage = new Label
         {
             Left = 150,
-            Top = 50,
-            Width = 150,
-            Font = new Font("Segoe UI", 9),
-            ForeColor = Color.Gray
+            Top = 60,
+            Width = 350,          
+            Height = 40,          
+            Font = new Font("Segoe UI", 10),
+            ForeColor = Color.FromArgb(50, 50, 50),
+            BackColor = Color.Transparent,
+            TextAlign = ContentAlignment.TopLeft,
+            UseCompatibleTextRendering = true,
+            AutoSize = false,     
+            AutoEllipsis = true  
         };
-
         lblTime = new Label
         {
-            Left = 260,
-            Top = 5,
+            Left = 480,
+            Top = 10,
             Width = 50,
-            Font = new Font("Segoe UI", 8),
+            BackColor = Color.Transparent,
+            AutoSize = true,
+            Font = new Font("Segoe UI", 16),
             TextAlign = ContentAlignment.TopRight,
-            ForeColor = Color.Gray
+            ForeColor = Color.FromArgb(50, 50, 50)
         };
 
         lblBadge = new Label
         {
-            Left = 260,
-            Top = 35,
+            Left = 520,
+            Top = 40,
             Width = 30,
             Height = 20,
-            BackColor = Color.Red,
+            BackColor = Color.FromArgb(255, 255, 99, 71), // tomato red
             ForeColor = Color.White,
             TextAlign = ContentAlignment.MiddleCenter,
             Font = new Font("Segoe UI", 9, FontStyle.Bold),
@@ -96,12 +108,10 @@ public partial class UserChatitem : UserControl
         this.Controls.Add(lblTime);
         this.Controls.Add(lblBadge);
 
-
         this.Click += HandleClick;
         foreach (Control c in this.Controls)
             c.Click += HandleClick;
     }
-
 
     private void HandleClick(object sender, EventArgs e)
     {
@@ -149,8 +159,40 @@ public partial class UserChatitem : UserControl
         return dt.ToString("dd/MM");
     }
 
-    private void UserChatitem_Load(object sender, EventArgs e)
+    protected override void OnPaint(PaintEventArgs e)
     {
+        base.OnPaint(e);
 
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+        // Gradient background SynHeart
+        using (LinearGradientBrush brush = new LinearGradientBrush(
+            this.ClientRectangle,
+            Color.FromArgb(255, 240, 242, 245), // xám nhạt xanh
+            Color.FromArgb(255, 255, 192, 203), // pastel hồng
+            LinearGradientMode.Horizontal))
+        {
+            e.Graphics.FillRectangle(brush, this.ClientRectangle);
+        }
+
+        // Bo góc 20px
+        using (GraphicsPath path = RoundedRect(this.ClientRectangle, 20))
+        {
+            this.Region = new Region(path);
+        }
+    }
+
+    private GraphicsPath RoundedRect(Rectangle bounds, int radius)
+    {
+        GraphicsPath path = new GraphicsPath();
+        int diameter = radius * 2;
+
+        path.AddArc(bounds.X, bounds.Y, diameter, diameter, 180, 90);
+        path.AddArc(bounds.Right - diameter, bounds.Y, diameter, diameter, 270, 90);
+        path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+        path.AddArc(bounds.X, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+        path.CloseFigure();
+
+        return path;
     }
 }

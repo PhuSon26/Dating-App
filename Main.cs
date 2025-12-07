@@ -130,34 +130,56 @@ namespace Main_Interface
             activeButton.ForeColor = Color.FromArgb(255, 90, 130); // hồng đậm
         }
 
+        public UserControl CurrentControl { get; private set; }
+
         public void LoadContent(UserControl uc)
         {
             panelContent.Controls.Clear();
             uc.Dock = DockStyle.Fill;
             panelContent.Controls.Add(uc);
+
+            CurrentControl = uc;
         }
 
         private void SetupButtons()
         {
             panelButtons.Controls.Clear();
 
-            btn_vip = CreateNavButton("💎", "VIP", new Point(60, 10));
-            btn_ghepdoi = CreateNavButton("❤️", "Ghép đôi", new Point(280, 10));
-            btn_dsnt = CreateNavButton("💬", "Danh sách", new Point(500, 10));
-            btn_hscn = CreateNavButton("👤", "Hồ sơ", new Point(720, 10));
-            btn_caidat = CreateNavButton("⚙️", "Cài đặt", new Point(940, 10));
+            int buttonCount = 4; // số nút còn lại
+            int panelWidth = panelButtons.Width;
+            int spacing = 10; // khoảng cách tối thiểu giữa các nút
+
+            // Tính chiều rộng nút sao cho vừa khít
+            int totalSpacing = spacing * (buttonCount + 1);
+            int buttonWidth = (panelWidth - totalSpacing) / buttonCount;
+            int y = 10; // vị trí top cố định
+
+            // Tạo vị trí X cho từng nút
+            int x = spacing;
+            btn_ghepdoi = CreateNavButton("❤️", "Ghép đôi", new Point(x, y));
+            btn_ghepdoi.Width = buttonWidth;
+
+            x += buttonWidth + spacing;
+            btn_dsnt = CreateNavButton("💬", "Danh sách", new Point(x, y));
+            btn_dsnt.Width = buttonWidth;
+
+            x += buttonWidth + spacing;
+            btn_hscn = CreateNavButton("👤", "Hồ sơ", new Point(x, y));
+            btn_hscn.Width = buttonWidth;
+
+            x += buttonWidth + spacing;
+            btn_caidat = CreateNavButton("⚙️", "Cài đặt", new Point(x, y));
+            btn_caidat.Width = buttonWidth;
 
             // Gắn sự kiện click
-            btn_vip.Click += btn_vip_Click;
             btn_ghepdoi.Click += btn_ghepdoi_Click;
             btn_dsnt.Click += btn_dsnt_Click;
             btn_hscn.Click += btn_hscn_Click;
             btn_caidat.Click += btn_caidat_Click;
 
-      
             panelButtons.Controls.AddRange(new Control[]
             {
-                btn_vip, btn_ghepdoi, btn_dsnt, btn_hscn, btn_caidat
+        btn_ghepdoi, btn_dsnt, btn_hscn, btn_caidat
             });
         }
 
@@ -165,7 +187,7 @@ namespace Main_Interface
         private Button CreateNavButton(string icon, string text)
         {
             var btn = new Button();
-            btn.Size = new Size(180, 60);
+            btn.Size = new Size(262, 60);
             btn.FlatStyle = FlatStyle.Flat;
             btn.FlatAppearance.BorderSize = 0;
             btn.BackColor = Color.FromArgb(255, 130, 160);

@@ -20,7 +20,7 @@ namespace Main_Interface.User_Controls
         private FlowLayoutPanel pnlChatContainer;
         private Panel pnlBottom;
         private TextBox txtMessage;
-        private Button btnSend;
+        private RoundedGlossyButton btnSend;
         private Main MainForm;
 
         private readonly FirebaseAuthHelper firebase;
@@ -82,10 +82,11 @@ namespace Main_Interface.User_Controls
                 Width = 60,
                 Height = 60,
                 Location = new Point(70, 15),
-                SizeMode = PictureBoxSizeMode.Zoom,
+                SizeMode = PictureBoxSizeMode.StretchImage,
                 BackColor = Color.White
             };
-
+            picAvatar.Cursor = Cursors.Hand;
+            picAvatar.Click += PicAvatar_Click;
             // Bo tròn avatar
             System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
             path.AddEllipse(0, 0, picAvatar.Width, picAvatar.Height);
@@ -209,7 +210,7 @@ namespace Main_Interface.User_Controls
             };
 
             // BUTTON GỬI
-            btnSend = new Button
+            btnSend = new RoundedGlossyButton
             {
                 Text = "➤",
                 Size = new Size(50, 50),
@@ -281,6 +282,11 @@ namespace Main_Interface.User_Controls
             Controls.Add(pnlBottom);
             Controls.Add(pnlHeader);
         }
+        private void PicAvatar_Click(object sender, EventArgs e)
+        {
+            HoSoNguoiKhac hsnk = new HoSoNguoiKhac(targetUser, firebase);
+            hsnk.ShowDialog();
+        }
 
         // ======================================================
         // ==================== QUAY LẠI ========================
@@ -289,7 +295,7 @@ namespace Main_Interface.User_Controls
         {
             // Dừng listener
             listener?.StopAsync();
-            MainForm.LoadContent(new FormDanhSachTinNhan(MainForm, MainForm.u));
+            MainForm.LoadContent(MainForm.dstn);
         }
 
         // ======================================================
