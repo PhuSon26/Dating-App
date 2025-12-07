@@ -131,12 +131,16 @@ namespace Main_Interface.User_Controls
 
         private async void GhepDoi_Load(object sender, EventArgs e)
         {
-
+            this.btn_kothich.Enabled = false;
+            this.btn_loc.Enabled = false;
+            this.btn_tim.Enabled = false;
+            LoadingSpinner loading = new LoadingSpinner(this);
+            loading.Show();
             await LoadSuggestUsers(myUserId);
-
-
-
-
+            loading.Hide();
+            this.btn_kothich.Enabled = true;
+            this.btn_loc.Enabled = true;
+            this.btn_tim.Enabled = true;
         }
 
         private async Task LoadSuggestUsers(string userId)

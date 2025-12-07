@@ -227,10 +227,6 @@ namespace Dating_app_nhom3
 
         private void Thongtinuser_Load(object sender, EventArgs e)
         {
-            if (selectedAvatar == null)
-            {
-                selectedAvatar = auth.Base64ToImage(null);
-            }
         }
     }
 }

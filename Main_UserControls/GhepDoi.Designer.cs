@@ -53,7 +53,6 @@
             panelQuet = new Panel();
             btn_loc = new RoundedButton();
             btn_kothich = new RoundedButton();
-            btn_timVIP = new RoundedButton();
             btn_tim = new RoundedButton();
             panelPictures.SuspendLayout();
             panelThongTin.SuspendLayout();
@@ -283,7 +282,6 @@
             panelQuet.BackColor = Color.FromArgb(192, 192, 255);
             panelQuet.Controls.Add(btn_loc);
             panelQuet.Controls.Add(btn_kothich);
-            panelQuet.Controls.Add(btn_timVIP);
             panelQuet.Controls.Add(btn_tim);
             panelQuet.Location = new Point(0, 605);
             panelQuet.Name = "panelQuet";
@@ -296,9 +294,9 @@
             btn_loc.FlatStyle = FlatStyle.Flat;
             btn_loc.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_loc.ForeColor = Color.Gray;
-            btn_loc.Location = new Point(123, -4);
+            btn_loc.Location = new Point(0, -4);
             btn_loc.Name = "btn_loc";
-            btn_loc.Size = new Size(127, 131);
+            btn_loc.Size = new Size(390, 131);
             btn_loc.TabIndex = 3;
             btn_loc.Text = "🔍";
             btn_loc.UseVisualStyleBackColor = false;
@@ -310,26 +308,13 @@
             btn_kothich.FlatStyle = FlatStyle.Flat;
             btn_kothich.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_kothich.ForeColor = Color.Red;
-            btn_kothich.Location = new Point(388, -4);
+            btn_kothich.Location = new Point(400, -4);
             btn_kothich.Name = "btn_kothich";
-            btn_kothich.Size = new Size(132, 131);
+            btn_kothich.Size = new Size(390, 131);
             btn_kothich.TabIndex = 2;
             btn_kothich.Text = "❌";
             btn_kothich.UseVisualStyleBackColor = false;
             btn_kothich.Click += btn_kothich_Click;
-            // 
-            // btn_timVIP
-            // 
-            btn_timVIP.CornerRadius = 20;
-            btn_timVIP.FlatStyle = FlatStyle.Flat;
-            btn_timVIP.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_timVIP.ForeColor = Color.Yellow;
-            btn_timVIP.Location = new Point(674, 0);
-            btn_timVIP.Name = "btn_timVIP";
-            btn_timVIP.Size = new Size(127, 131);
-            btn_timVIP.TabIndex = 1;
-            btn_timVIP.Text = "🌟";
-            btn_timVIP.UseVisualStyleBackColor = false;
             // 
             // btn_tim
             // 
@@ -337,9 +322,9 @@
             btn_tim.FlatStyle = FlatStyle.Flat;
             btn_tim.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_tim.ForeColor = Color.Fuchsia;
-            btn_tim.Location = new Point(933, 0);
+            btn_tim.Location = new Point(800, 0);
             btn_tim.Name = "btn_tim";
-            btn_tim.Size = new Size(127, 131);
+            btn_tim.Size = new Size(400, 131);
             btn_tim.TabIndex = 0;
             btn_tim.Text = "❤️";
             btn_tim.UseVisualStyleBackColor = false;
@@ -389,7 +374,6 @@
         private PictureBox avatar;
         private RoundedButton btn_tim;
         private RoundedButton btn_kothich;
-        private RoundedButton btn_timVIP;
         private RoundedButton btn_loc;
     }
 }
