@@ -28,7 +28,11 @@ namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
 
         [FirestoreProperty]
         public string ChatId { get; set; }
+        [FirestoreProperty]
+        public Dictionary<string, string> reaction { get; set; } = new Dictionary<string, string>();
+
+        [FirestoreProperty]
+        public List<string> blockedBy { get; set; } = new List<string>();
+
     }
-
-
 }

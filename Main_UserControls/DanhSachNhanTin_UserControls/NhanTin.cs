@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -31,6 +32,10 @@ namespace Main_Interface.User_Controls
         private string conversationId;
         private List<Messagemodels> currentMessages = new List<Messagemodels>();
 
+        private bool isBlocked = false;
+        private RoundedGlossyButton btnBlock;
+        LoadingSpinner loading;
+
         public NhanTin(USER user, Main m)
         {
             targetUser = user;
@@ -43,6 +48,7 @@ namespace Main_Interface.User_Controls
             SetupCustomUI();
             MainForm = m;
             this.firebase = m.auth;
+            loading = new LoadingSpinner(this);
         }
 
         // ======================================================
@@ -110,66 +116,10 @@ namespace Main_Interface.User_Controls
                 AutoSize = true,
                 Location = new Point(130, 43)
             };
-
-            // NÚT REFRESH
-            Button btnRefresh = new Button
-            {
-                Text = "🔄",
-                Size = new Size(50, 30),
-                Location = new Point(pnlHeader.Width - 150, 25),
-                BackColor = Color.FromArgb(50, 150, 255),
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                Anchor = AnchorStyles.Top | AnchorStyles.Right
-            };
-            btnRefresh.FlatAppearance.BorderSize = 0;
-            btnRefresh.Click += async (s, e) =>
-            {
-                System.Diagnostics.Debug.WriteLine("Đang refresh...");
-                await LoadExistingMessages();
-            };
-
-            // NÚT TEST (tạm thời để debug)
-            Button btnTest = new Button
-            {
-                Text = "Test",
-                Size = new Size(60, 30),
-                Location = new Point(pnlHeader.Width - 80, 25),
-                BackColor = Color.Orange,
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                Anchor = AnchorStyles.Top | AnchorStyles.Right
-            };
-            btnTest.FlatAppearance.BorderSize = 0;
-            btnTest.Click += async (s, e) =>
-            {
-                try
-                {
-                    System.Diagnostics.Debug.WriteLine("Gửi tin TEST...");
-                    await firebase.SendMessage(myUserId, targetUser.Id, $"Test {DateTime.Now:HH:mm:ss}");
-                    await firebase.UpdateChatMeta(myUserId, targetUser.Id, "Test");
-                    System.Diagnostics.Debug.WriteLine("Test đã gửi, đang tải lại...");
-
-                    await Task.Delay(500);
-                    await LoadExistingMessages();
-
-                    MessageBox.Show("Đã gửi và hiển thị tin test!");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Lỗi test: {ex.Message}");
-                    System.Diagnostics.Debug.WriteLine($"Lỗi: {ex.Message}");
-                }
-            };
-
             pnlHeader.Controls.Add(btnBack);
             pnlHeader.Controls.Add(picAvatar);
             pnlHeader.Controls.Add(lblUserName);
             pnlHeader.Controls.Add(lblStatus);
-            pnlHeader.Controls.Add(btnRefresh);
-            pnlHeader.Controls.Add(btnTest);
 
             // PANEL CHỨA TIN NHẮN
             pnlChatContainer = new FlowLayoutPanel
@@ -267,6 +217,7 @@ namespace Main_Interface.User_Controls
 
             pnlBottom.Controls.Add(txtContainer);
             pnlBottom.Controls.Add(btnSend);
+            SetupBlockButton();
 
             // Thêm controls vào form
             Controls.Add(pnlChatContainer);
@@ -289,6 +240,64 @@ namespace Main_Interface.User_Controls
             MainForm.LoadContent(MainForm.dstn);
         }
 
+        private async void SetupBlockButton()
+        {
+            btnBlock = new RoundedGlossyButton
+            {
+                Size = new Size(120, 80),
+                Location = new Point(pnlHeader.Width - 120, 0),
+                BackColor = Color.Red,
+                Font = new Font("Segoe UI", 14F, FontStyle.Bold),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand,
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+            btnBlock.FlatAppearance.BorderSize = 0;
+            btnBlock.Click += async (s, e) =>
+            {
+                btnSend.Enabled = false;
+                btnBack.Enabled = false;
+                btnBlock.Enabled = false;
+                loading.Show();
+                if (!isBlocked)
+                {
+                    await firebase.BlockUser(myUserId, targetUser.Id);
+                }
+                else
+                {
+                    await firebase.UnblockUser(myUserId, targetUser.Id);
+                }
+                await LoadBlockState();
+                loading.Hide();
+                btnBlock.Enabled = true;
+                btnBack.Enabled = true;
+                btnSend.Enabled = true;
+            };
+            pnlHeader.Controls.Add(btnBlock);
+            await LoadBlockState();
+        }
+
+        private async Task LoadBlockState()
+        {
+            isBlocked = await firebase.IsBlocked(myUserId, targetUser.Id);
+            if (isBlocked)
+            {
+                btnBlock.Text = "Unblock";
+                btnSend.Enabled = false;
+                txtMessage.Enabled = false;
+                txtMessage.Text = "Đã bị chặn";
+            }
+            else
+            {
+                btnBlock.Text = "Block";
+                btnSend.Enabled = true;
+                txtMessage.Enabled = true;
+                txtMessage.Text = "Nhập tin nhắn...";
+            }
+        }
+
+
         // ======================================================
         // ====================== LOAD LISTENER =================
         // ======================================================
@@ -297,7 +306,7 @@ namespace Main_Interface.User_Controls
             this.btnBack.Enabled = false;
             this.btnSend.Enabled = false;
             this.picAvatar.Enabled = false;
-            LoadingSpinner loading = new LoadingSpinner(this);
+            this.btnBlock.Enabled = false;
             loading.pbSpinner.BackColor = Color.FromArgb(240, 242, 245);
             loading.Show();
             System.Diagnostics.Debug.WriteLine($"NhanTin_Load - MyUserId: {myUserId}, TargetUserId: {targetUser.Id}");
@@ -340,6 +349,7 @@ namespace Main_Interface.User_Controls
             this.btnBack.Enabled = true;
             this.btnSend.Enabled = true;
             this.picAvatar.Enabled = true;
+            this.btnBlock.Enabled = true;
         }
 
         // TẢI TIN NHẮN CŨ
@@ -429,6 +439,7 @@ namespace Main_Interface.User_Controls
         // ======================================================
         private async void BtnSend_Click(object sender, EventArgs e)
         {
+            if (isBlocked) return;
             string text = txtMessage.Text.Trim();
             if (string.IsNullOrEmpty(text) || text == "Nhập tin nhắn...") return;
 
@@ -679,7 +690,6 @@ namespace Main_Interface.User_Controls
             innerLayout.Controls.Add(lblTime, 0, 1);
             bubble.Controls.Add(innerLayout);
 
-            // Thay đổi chính ở đây
             Panel wrapper = new Panel
             {
                 AutoSize = true,
@@ -689,6 +699,7 @@ namespace Main_Interface.User_Controls
                 Padding = new Padding(10, 0, 10, 0)  // Thêm padding để không sát mép quá
             };
             wrapper.Controls.Add(bubble);
+            // ================= REACTION =================
 
             return wrapper;
         }

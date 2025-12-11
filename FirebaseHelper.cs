@@ -396,7 +396,7 @@ namespace LOGIN
     string user1,
     string user2,
     Action<List<Messagemodels>> onMessagesChanged)
-        {
+        {   
             string chatId = GetConversationId(user1, user2);
 
             // BỎ .OrderBy() để tránh lỗi index
@@ -546,6 +546,43 @@ namespace LOGIN
             {
                 System.Diagnostics.Debug.WriteLine("LỖI TẠO CHAT META: " + ex.Message);
             }
+        }
+        public async Task AddReaction(string messageId, string userId, string emoji)
+        {
+            var msgRef = db.Collection("messages").Document(messageId);
+            await msgRef.UpdateAsync($"reaction.{userId}", emoji);
+        }
+        public async Task RemoveReaction(string messageId, string userId)
+        {
+            var msgRef = db.Collection("messages").Document(messageId);
+            await msgRef.UpdateAsync($"reaction.{userId}", FieldValue.Delete);
+        }
+        public async Task BlockUser(string myId, string targetId)
+        {
+            string chatId = GetConversationId(myId, targetId);
+            var doc = db.Collection("ChatMeta").Document(chatId);
+
+            await doc.UpdateAsync("blockedBy", FieldValue.ArrayUnion(myId));
+        }
+
+        public async Task UnblockUser(string myId, string targetId)
+        {
+            string chatId = GetConversationId(myId, targetId);
+            var doc = db.Collection("ChatMeta").Document(chatId);
+
+            await doc.UpdateAsync("blockedBy", FieldValue.ArrayRemove(myId));
+        }
+        public async Task<bool> IsBlocked(string user1, string user2)
+        {
+            string chatId = GetConversationId(user1, user2);
+
+            var doc = await db.Collection("ChatMeta").Document(chatId).GetSnapshotAsync();
+            if (!doc.Exists) return false;
+
+            var blockedList = doc.GetValue<List<string>>("blockedBy");
+            if (blockedList == null) return false;
+
+            return blockedList.Contains(user1) || blockedList.Contains(user2);
         }
     }
 }
