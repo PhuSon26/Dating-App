@@ -558,55 +558,37 @@ namespace LOGIN
             var msgRef = db.Collection("messages").Document(messageId);
             await msgRef.UpdateAsync($"reaction.{userId}", FieldValue.Delete);
         }
-        // =================== BLOCK NGƯỜI DÙNG ===================
+        // Block
         public async Task BlockUser(string myId, string targetId)
         {
             string chatId = GetConversationId(myId, targetId);
             var docRef = db.Collection("ChatMeta").Document(chatId);
-
-            var snapshot = await docRef.GetSnapshotAsync();
-            List<string> blockedList = new List<string>();
-
-            if (snapshot.Exists && snapshot.TryGetValue("blockedBy", out List<string> existingBlocked))
-                blockedList = existingBlocked;
-
-            if (!blockedList.Contains(myId))
-                blockedList.Add(myId);
-
-            await docRef.SetAsync(new { blockedBy = blockedList }, SetOptions.MergeAll);
+            await docRef.UpdateAsync("blockedBy", FieldValue.ArrayUnion(myId));
         }
 
-        // =================== UNBLOCK NGƯỜI DÙNG ===================
+        // Unblock
         public async Task UnblockUser(string myId, string targetId)
         {
             string chatId = GetConversationId(myId, targetId);
             var docRef = db.Collection("ChatMeta").Document(chatId);
-
-            var snapshot = await docRef.GetSnapshotAsync();
-            if (!snapshot.Exists) return;
-
-            List<string> blockedList = new List<string>();
-            if (snapshot.TryGetValue("blockedBy", out List<string> existingBlocked))
-                blockedList = existingBlocked;
-
-            if (blockedList.Contains(myId))
-                blockedList.Remove(myId);
-
-            await docRef.SetAsync(new { blockedBy = blockedList }, SetOptions.MergeAll);
+            await docRef.UpdateAsync("blockedBy", FieldValue.ArrayRemove(myId));
         }
 
         // =================== KIỂM TRA BLOCK ===================
-        public async Task<bool> IsBlocked(string user1, string user2)
+        public async Task<List<string>> GetBlockedList(string myId, string targetId)
         {
-            string chatId = GetConversationId(user1, user2);
+            string chatId = GetConversationId(myId, targetId);
             var doc = await db.Collection("ChatMeta").Document(chatId).GetSnapshotAsync();
-            if (!doc.Exists) return false;
+            if (!doc.Exists) return new List<string>();
+            if (doc.TryGetValue("blockedBy", out List<string> blocked))
+                return blocked;
+            return new List<string>();
+        }
 
-            List<string> blockedList = null;
-            if (doc.TryGetValue("blockedBy", out blockedList))
-                return blockedList.Contains(user1) || blockedList.Contains(user2);
-
-            return false;
+        public async Task<bool> IsBlocked(string myId, string targetId)
+        {
+            var blocked = await GetBlockedList(myId, targetId);
+            return blocked.Contains(targetId); // người kia block mình
         }
     }
 }

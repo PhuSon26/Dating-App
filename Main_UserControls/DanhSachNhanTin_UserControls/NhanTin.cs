@@ -26,6 +26,7 @@ namespace Main_Interface.User_Controls
 
         private readonly FirebaseAuthHelper firebase;
         private FirestoreChangeListener listener;
+        private FirestoreChangeListener blockListener;
 
         private USER targetUser;
         private string myUserId;
@@ -277,10 +278,9 @@ namespace Main_Interface.User_Controls
             pnlHeader.Controls.Add(btnBlock);
             await LoadBlockState();
         }
-
+        /*
         private async Task LoadBlockState()
         {
-            isBlocked = await firebase.IsBlocked(myUserId, targetUser.Id);
             if (isBlocked)
             {
                 btnBlock.Text = "Unblock";
@@ -294,6 +294,44 @@ namespace Main_Interface.User_Controls
                 btnSend.Enabled = true;
                 txtMessage.Enabled = true;
                 txtMessage.Text = "Nhập tin nhắn...";
+            }
+        }
+        */
+        private async Task LoadBlockState()
+        {
+            try
+            {
+                var blockedList = await firebase.GetBlockedList(myUserId, targetUser.Id);
+                bool iAmBlocked = blockedList.Contains(targetUser.Id); // người kia block mình
+                bool iBlocked = blockedList.Contains(myUserId);        // mình block người kia
+
+                isBlocked = iAmBlocked || iBlocked;
+
+                if (iBlocked)
+                {
+                    btnBlock.Text = "Unblock";
+                    btnSend.Enabled = false;
+                    txtMessage.Enabled = false;
+                    txtMessage.Text = "Bạn đã chặn người này";
+                }
+                else if (iAmBlocked)
+                {
+                    btnBlock.Text = "Block";
+                    btnSend.Enabled = false;
+                    txtMessage.Enabled = false;
+                    txtMessage.Text = "Bạn đã bị chặn";
+                }
+                else
+                {
+                    btnBlock.Text = "Block";
+                    btnSend.Enabled = true;
+                    txtMessage.Enabled = true;
+                    txtMessage.Text = "Nhập tin nhắn...";
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Lỗi LoadBlockState: " + ex.Message);
             }
         }
 
@@ -323,6 +361,7 @@ namespace Main_Interface.User_Controls
 
                 // TẢI TIN NHẮN CŨ TRƯỚC
                 await LoadExistingMessages();
+                StartBlockListener();
 
                 System.Diagnostics.Debug.WriteLine("Đang bắt đầu listener...");
 
@@ -351,7 +390,27 @@ namespace Main_Interface.User_Controls
             this.picAvatar.Enabled = true;
             this.btnBlock.Enabled = true;
         }
+        private void StartBlockListener()
+        {
+            string chatId = firebase.GetConversationId(myUserId, targetUser.Id);
+            blockListener = firebase.db.Collection("ChatMeta").Document(chatId)
+                .Listen(snapshot =>
+                {
+                    if (!snapshot.Exists) return;
 
+                    var blockedBy = snapshot.GetValue<List<string>>("blockedBy") ?? new List<string>();
+                    bool iAmBlocked = blockedBy.Contains(targetUser.Id); // người kia block mình
+
+                    if (iAmBlocked != isBlocked) // nếu trạng thái thay đổi
+                    {
+                        this.Invoke(new Action(async () =>
+                        {
+                            isBlocked = iAmBlocked;
+                            await LoadBlockState();
+                        }));
+                    }
+                });
+        }
         // TẢI TIN NHẮN CŨ
         private async Task LoadExistingMessages()
         {
@@ -775,6 +834,7 @@ namespace Main_Interface.User_Controls
 
             return wrapper;
         }
+
         private void ShowEmojiPopup(Control bubble, Messagemodels msg)
         {
             // Tạo Form nhỏ làm popup
@@ -855,6 +915,7 @@ namespace Main_Interface.User_Controls
         protected override void OnHandleDestroyed(EventArgs e)
         {
             listener?.StopAsync();
+            blockListener?.StopAsync();
             base.OnHandleDestroyed(e);
         }
     }
