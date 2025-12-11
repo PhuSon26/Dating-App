@@ -32,6 +32,9 @@ namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
         [FirestoreProperty]
         public int unread_userB { get; set; }
 
+        [FirestoreProperty]
+
+        public List<string> blockedBy { get; set; }
         // --- Helper methods ---
 
         // Trả về id của người còn lại trong cặp (dùng trong UI)

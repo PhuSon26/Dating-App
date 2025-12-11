@@ -650,6 +650,7 @@ namespace Main_Interface.User_Controls
                     e.Graphics.DrawPath(new Pen(Color.FromArgb(220, 220, 220)), path);
                 }
             };
+            bubble.Cursor = Cursors.Hand;
             Label lblText = new Label
             {
                 Text = msg.text ?? "",
@@ -690,18 +691,162 @@ namespace Main_Interface.User_Controls
             innerLayout.Controls.Add(lblTime, 0, 1);
             bubble.Controls.Add(innerLayout);
 
+            // ================= REACTION =================
+            FlowLayoutPanel pnlReaction = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding(0, 5, 0, 0)
+            };
+
+            if (msg.reaction != null && msg.reaction.Count > 0)
+            {
+                // Tính số lượng reaction cùng emoji
+                var emojiCount = msg.reaction.Values
+                    .GroupBy(v => v)
+                    .ToDictionary(g => g.Key, g => g.Count());
+
+                foreach (var kvp in emojiCount)
+                {
+                    string emojiName = kvp.Key;
+                    int count = kvp.Value;
+
+                    Panel pnlEmoji = new Panel
+                    {
+                        AutoSize = true,
+                        Margin = new Padding(2)
+                    };
+
+                    PictureBox pb = new PictureBox
+                    {
+                        Size = new Size(20, 20),
+                        SizeMode = PictureBoxSizeMode.Zoom
+                    };
+
+                    try
+                    {
+                        string path = Path.Combine(Application.StartupPath, "Images", $"{emojiName}.png");
+                        pb.Image = Image.FromFile(path);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+
+                    Label lblCount = new Label
+                    {
+                        Text = count > 1 ? count.ToString() : "",
+                        Font = new Font("Segoe UI", 7F, FontStyle.Bold),
+                        ForeColor = Color.Black,
+                        AutoSize = true,
+                        Location = new Point(pb.Width - 8, pb.Height - 10),
+                        BackColor = Color.Transparent
+                    };
+
+                    pnlEmoji.Controls.Add(pb);
+                    pnlEmoji.Controls.Add(lblCount);
+
+                    pnlReaction.Controls.Add(pnlEmoji);
+                }
+            }
+
+            innerLayout.Controls.Add(pnlReaction, 0, 2);
+            innerLayout.RowCount = 3;
+            innerLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+            // ================= CLICK VÀ HIỆN POPUP EMOJI =================
+            void AttachClick(Control parent)
+            {
+                parent.Click += (s, e) => { ShowEmojiPopup(bubble, msg); };
+                foreach (Control c in parent.Controls)
+                    AttachClick(c);
+            }
+            AttachClick(bubble);
+            // ================= WRAPPER =================
             Panel wrapper = new Panel
             {
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Dock = isMine ? DockStyle.Right : DockStyle.Left,  // Sát phải nếu của mình, sát trái nếu của người khác
+                Dock = isMine ? DockStyle.Right : DockStyle.Left,
                 Margin = new Padding(0, 2, 0, 2),
-                Padding = new Padding(10, 0, 10, 0)  // Thêm padding để không sát mép quá
+                Padding = new Padding(10, 0, 10, 0)
             };
             wrapper.Controls.Add(bubble);
-            // ================= REACTION =================
 
             return wrapper;
+        }
+        private void ShowEmojiPopup(Control bubble, Messagemodels msg)
+        {
+            // Tạo Form nhỏ làm popup
+            Form popup = new Form
+            {
+                FormBorderStyle = FormBorderStyle.None,
+                StartPosition = FormStartPosition.Manual,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                ShowInTaskbar = false,
+                TopMost = true,
+                BackColor = Color.Fuchsia,
+                TransparencyKey = Color.Fuchsia
+            };
+            FlowLayoutPanel emojiPanel = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                Padding = new Padding(5)
+            };
+
+            string[] emojiNames = { "like", "tim", "haha", "sad", "wow", "phanno" };
+            foreach (var name in emojiNames)
+            {
+                PictureBox pb = new PictureBox
+                {
+                    Size = new Size(26, 26), // emoji nhỏ
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Cursor = Cursors.Hand,
+                    Margin = new Padding(2)
+                };
+
+                try
+                {
+                    string path = Path.Combine(Application.StartupPath, "Images", $"{name}.png");
+                    pb.Image = Image.FromFile(path);
+                }
+                catch { continue; }
+
+                pb.Click += async (s, e) =>
+                {
+                    if (msg.reaction == null) msg.reaction = new Dictionary<string, string>();
+                    msg.reaction[myUserId] = name;
+                    await firebase.AddReaction(msg.Id, myUserId, name);
+                    UpdateUIWithMessages(currentMessages);
+                    popup.Close();
+                };
+
+                emojiPanel.Controls.Add(pb);
+            }
+
+            popup.Controls.Add(emojiPanel);
+            emojiPanel.PerformLayout();
+            popup.Size = emojiPanel.PreferredSize;
+
+            Point screenPoint = bubble.PointToScreen(Point.Empty);
+
+            if (msg.fromUserId != Session.LocalId)
+            {
+                // Tin nhắn của người khác => popup bên phải bubble
+                popup.Location = new Point(screenPoint.X + bubble.Width + 5, screenPoint.Y);
+            }
+            else
+            {
+                // Tin nhắn của mình => popup bên trái bubble
+                popup.Location = new Point(screenPoint.X - popup.Width - 5, screenPoint.Y);
+            }
+
+            // Click ra ngoài để đóng popup
+            popup.Deactivate += (s, e) => { popup.Close(); };
+
+            popup.Show();
         }
         private void flPanel_tinNhan_Paint(object sender, PaintEventArgs e)
         {
