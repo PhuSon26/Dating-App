@@ -29,21 +29,19 @@ namespace Main_Interface.User_Controls
         private int suggestIndex = 0;
         private LOGIN.Match match;
         string myUserId = Session.LocalId;
+        private USER myUser;
         public GhepDoi()
         {
             InitializeComponent();
             authHelper = new FirebaseAuthHelper("login-bb104");
-            this.Load += GhepDoi_Load;
         }
         public GhepDoi(Main m)
         {
             InitializeComponent();
-            this.Load += GhepDoi_Load;
             match = new LOGIN.Match("login-bb104", myUserId);
             MainForm = m;
             authHelper = new FirebaseAuthHelper("login-bb104");
             loc = new LocUser(MainForm);
-
         }
 
         private void ShowUser(USER u)
@@ -136,6 +134,7 @@ namespace Main_Interface.User_Controls
             this.btn_tim.Enabled = false;
             LoadingSpinner loading = new LoadingSpinner(this);
             loading.Show();
+            myUser = await authHelper.GetUserById(myUserId);
             await LoadSuggestUsers(myUserId);
             loading.Hide();
             this.btn_kothich.Enabled = true;
@@ -208,12 +207,6 @@ namespace Main_Interface.User_Controls
         {
             MainForm.LoadContent(new LocUser(MainForm));
         }
-
-        private void GhepDoi_Load_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void NextSuggestUser()
         {
             if (suggestedUsers.Count == 0) return;
@@ -248,12 +241,15 @@ namespace Main_Interface.User_Controls
 
                 if (isMatch)
                 {
-                    MessageBox.Show($"Chúc mừng! Bạn và {currentUserOnCard.ten} đã tương hợp!", "It's a Match!");
+                    MatchForm match = new MatchForm(myUser, currentUserOnCard, authHelper);
+                    match.ShowDialog();
+                    //MessageBox.Show($"Chúc mừng! Bạn và {currentUserOnCard.ten} đã tương hợp!", "It's a Match!");
 
                 }
                 else
                 {
-
+                    MatchForm match = new MatchForm(myUser, currentUserOnCard, authHelper);
+                    match.ShowDialog();
                     MessageBox.Show("Đã thả tim thành công!");
                 }
 

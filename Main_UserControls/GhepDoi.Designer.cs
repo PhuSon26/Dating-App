@@ -339,7 +339,7 @@
             Controls.Add(panelPictures);
             Name = "GhepDoi";
             Size = new Size(1201, 760);
-            Load += GhepDoi_Load_1;
+            Load += GhepDoi_Load;
             panelPictures.ResumeLayout(false);
             panelThongTin.ResumeLayout(false);
             panelThongTin.PerformLayout();

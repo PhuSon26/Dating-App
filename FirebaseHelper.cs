@@ -315,7 +315,7 @@ namespace LOGIN
         }
         public Image Base64ToImage(string base64)
         {
-            string defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "AvatarMacDinh.jpg");
+            string defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "AvatarMacDinh.png");
 
             if (string.IsNullOrEmpty(base64))
                 return Image.FromFile(defaultPath);
