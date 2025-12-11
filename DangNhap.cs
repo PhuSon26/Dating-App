@@ -105,5 +105,10 @@ namespace LOGIN
         {
 
         }
+
+        private void panel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

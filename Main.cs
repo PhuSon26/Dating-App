@@ -1,7 +1,11 @@
 ﻿using Dating_app_nhom3;
 using LOGIN;
+using LOGIN.Models;
 using Main_Interface.User_Controls;
+using System.Dynamic;
 using System.Threading.Tasks;
+
+
 
 namespace Main_Interface
 {
@@ -34,13 +38,16 @@ namespace Main_Interface
             this.btn_caidat.Enabled = false;
             this.btn_hscn.Enabled = false;
             this.btn_thongbao.Enabled = false;
-            LoadingSpinner loading = new LoadingSpinner(this);
+        LoadingSpinner loading = new LoadingSpinner(this);
             loading.pbSpinner.BackColor = Color.FromArgb(255, 250, 253);
             loading.Show();
             u = await auth.getUser();
+            Session.LocalId = u.Id;
+            InitVideoSystem();
             gd = new GhepDoi(this);
             LoadContent(gd);
             loading.Hide();
+          
             this.btn_ghepdoi.Enabled = true;
             this.btn_dsnt.Enabled = true;
             this.btn_caidat.Enabled = true;
@@ -229,5 +236,95 @@ namespace Main_Interface
         {
           
         }
+        public void InitVideoSystem()
+        {
+           
+
+            auth.OnIncomingCall += HandleIncomingCall;
+          
+
+            auth.ListenForIncomingCall(Session.LocalId);
+        }
+        // Trong Main.cs, sửa hàm HandleIncomingCall
+
+        private async void HandleIncomingCall(VideoCall call)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => HandleIncomingCall(call)));
+                return;
+            }
+            string callername = call.CallerName;
+            
+            Image avatar = null;
+            try
+            {
+               
+                USER caller = await auth.GetUserById(call.CallerId);
+                if (caller != null)
+                {
+                    // Lấy tên thật trong hồ sơ (nếu có)
+                    if (!string.IsNullOrEmpty(caller.ten))
+                        callername = caller.ten;
+
+                    // Lấy Avatar thật (Convert từ Base64)
+                    // Lưu ý: Đảm bảo user có trường AvatarUrl hoặc AvatarBase64 tùy model của bạn
+                    if (!string.IsNullOrEmpty(caller.AvatarUrl))
+                    {
+                        avatar = auth.Base64ToImage(caller.AvatarUrl);
+                    }
+                }
+
+            }
+            catch { }
+
+            // 2. PHÁT NHẠC CHUÔNG (Tùy chọn - Cực kỳ khuyến khích)
+          //  System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\admin\Desktop\nhac_chuong_iphone_11_pro_max-www_tiengdong_com.mp3");
+           
+          //  try { player.PlayLooping(); } catch { }
+
+            
+            using (var incomingForm = new IncomingCallForm(call.CallerName, avatar))
+            {
+                // Hiện form đè lên trên cùng (TopMost)
+                incomingForm.TopMost = true;
+
+                var result = incomingForm.ShowDialog(); // Chờ người dùng bấm
+
+                // Tắt nhạc chuông
+             //   try { player.Stop(); } catch { }
+
+                if (result == DialogResult.Yes)
+                {
+                    // --- CHẤP NHẬN ---
+                    var vcForm = new VideoCallForm(
+                        Session.LocalId,
+                        u.ten,
+                        call.CallerId,
+                        call.CallerName,
+                        auth,
+                        call.CallId
+                    );
+                    vcForm.Show();
+                    _ = vcForm.AnswerIncoming(call);
+                }
+                else
+                {
+                    // --- TỪ CHỐI ---
+                    try
+                    {
+                        _ = auth.RejectCall(call.CallId);
+                    }
+                    catch { }
+                }
+            }
+        }
+
+
+
+
+
+
+
     }
 }

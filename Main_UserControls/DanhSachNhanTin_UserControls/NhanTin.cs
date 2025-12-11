@@ -1,6 +1,7 @@
 using Google.Cloud.Firestore;
 using LOGIN;
 using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
+using LOGIN.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,6 +18,7 @@ namespace Main_Interface.User_Controls
         private Label lblUserName;
         private Label lblStatus;
         private Button btnBack;
+        private Button btnVideoCall; 
         private FlowLayoutPanel pnlChatContainer;
         private Panel pnlBottom;
         private TextBox txtMessage;
@@ -35,15 +37,25 @@ namespace Main_Interface.User_Controls
         {
             targetUser = user;
             myUserId = Session.LocalId;
-            firebase = new FirebaseAuthHelper("login-bb104");
+
+            if (m.auth == null)
+            {
+                m.auth = new FirebaseAuthHelper("login-bb104");
+             
+            }
+            this.firebase = m.auth;
+
             conversationId = firebase.GetConversationId(myUserId, targetUser.Id);
 
             InitializeComponent();
             this.Load += NhanTin_Load;
             SetupCustomUI();
             MainForm = m;
-            this.firebase = m.auth;
+           
+           
         }
+       
+
 
         // ======================================================
         // ====================== UI CHAT ========================
@@ -110,6 +122,26 @@ namespace Main_Interface.User_Controls
                 AutoSize = true,
                 Location = new Point(130, 43)
             };
+            ///Nút Call video
+            btnVideoCall = new Button
+            {
+                Text = "📹",
+                Size = new Size(50, 50),
+                Location = new Point(pnlHeader.Width - 220, 15),
+                BackColor = Color.FromArgb(0, 123, 255),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 20F),
+                Cursor = Cursors.Hand,
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+            btnVideoCall.FlatAppearance.BorderSize = 0;
+            btnVideoCall.Click += BtnVideoCall_Click;
+
+            // Bo tròn nút video call
+            System.Drawing.Drawing2D.GraphicsPath pathVideo = new System.Drawing.Drawing2D.GraphicsPath();
+            pathVideo.AddEllipse(0, 0, btnVideoCall.Width, btnVideoCall.Height);
+            btnVideoCall.Region = new Region(pathVideo);
 
             // NÚT REFRESH
             Button btnRefresh = new Button
@@ -130,46 +162,15 @@ namespace Main_Interface.User_Controls
                 await LoadExistingMessages();
             };
 
-            // NÚT TEST (tạm thời để debug)
-            Button btnTest = new Button
-            {
-                Text = "Test",
-                Size = new Size(60, 30),
-                Location = new Point(pnlHeader.Width - 80, 25),
-                BackColor = Color.Orange,
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                Anchor = AnchorStyles.Top | AnchorStyles.Right
-            };
-            btnTest.FlatAppearance.BorderSize = 0;
-            btnTest.Click += async (s, e) =>
-            {
-                try
-                {
-                    System.Diagnostics.Debug.WriteLine("Gửi tin TEST...");
-                    await firebase.SendMessage(myUserId, targetUser.Id, $"Test {DateTime.Now:HH:mm:ss}");
-                    await firebase.UpdateChatMeta(myUserId, targetUser.Id, "Test");
-                    System.Diagnostics.Debug.WriteLine("Test đã gửi, đang tải lại...");
-
-                    await Task.Delay(500);
-                    await LoadExistingMessages();
-
-                    MessageBox.Show("Đã gửi và hiển thị tin test!");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Lỗi test: {ex.Message}");
-                    System.Diagnostics.Debug.WriteLine($"Lỗi: {ex.Message}");
-                }
-            };
+           
 
             pnlHeader.Controls.Add(btnBack);
             pnlHeader.Controls.Add(picAvatar);
             pnlHeader.Controls.Add(lblUserName);
             pnlHeader.Controls.Add(lblStatus);
             pnlHeader.Controls.Add(btnRefresh);
-            pnlHeader.Controls.Add(btnTest);
+            pnlHeader.Controls.Add(btnVideoCall);
+          
 
             // PANEL CHỨA TIN NHẮN
             pnlChatContainer = new FlowLayoutPanel
@@ -272,6 +273,127 @@ namespace Main_Interface.User_Controls
             Controls.Add(pnlChatContainer);
             Controls.Add(pnlBottom);
             Controls.Add(pnlHeader);
+        }
+        private async void BtnVideoCall_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                btnVideoCall.Enabled = false;
+
+                System.Diagnostics.Debug.WriteLine($"Bắt đầu gọi video tới {targetUser.ten}");
+
+                // Hiển thị form video call
+                VideoCallForm videoForm = new VideoCallForm(
+                    myUserId,
+                  "bạn",
+                    targetUser.Id,
+                    targetUser.ten,
+                    firebase
+                );
+
+                videoForm.Show();
+
+                // Bắt đầu cuộc gọi
+                await videoForm.StartOutgoingCall();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khởi tạo video call: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Diagnostics.Debug.WriteLine($"Lỗi video call: {ex.Message}");
+            }
+            finally
+            {
+                btnVideoCall.Enabled = true;
+            }
+        }
+        private void OnIncomingVideoCall(VideoCall call)
+        {
+            // Chỉ xử lý nếu cuộc gọi từ người đang chat
+            if (call.CallerId != targetUser.Id) return;
+
+            System.Diagnostics.Debug.WriteLine($"Nhận cuộc gọi video từ {call.CallerName}");
+
+            this.Invoke(new Action(async () =>
+            {
+                // Hiển thị dialog xác nhận
+                var result = MessageBox.Show(
+                    $"{call.CallerName} đang gọi video cho bạn.\n\nBạn có muốn trả lời không?",
+                    "Cuộc gọi đến",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        // Trả lời cuộc gọi
+                        VideoCallForm videoForm = new VideoCallForm(
+                            myUserId,
+                            Session.LocalId ?? "Bạn",
+                            call.CallerId,
+                            call.CallerName,
+                            firebase,
+                            call.CallId
+                        );
+
+                        videoForm.Show();
+                        await videoForm.AnswerIncoming(call);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Lỗi trả lời cuộc gọi: {ex.Message}", "Lỗi");
+                        System.Diagnostics.Debug.WriteLine($"Lỗi answer call: {ex.Message}");
+                    }
+                }
+                else
+                {
+                    // Từ chối cuộc gọi
+                    try
+                    {
+                        await firebase.RejectCall(call.CallId);
+                        System.Diagnostics.Debug.WriteLine("Đã từ chối cuộc gọi");
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Lỗi reject call: {ex.Message}");
+                    }
+                }
+            }));
+        }
+
+        /// <summary>
+        /// Xử lý khi cuộc gọi được chấp nhận
+        /// </summary>
+        private void OnVideoCallAccepted(VideoCall call)
+        {
+            System.Diagnostics.Debug.WriteLine($"Cuộc gọi {call.CallId} đã được chấp nhận");
+            // VideoCallForm sẽ xử lý phần này
+        }
+
+        /// <summary>
+        /// Xử lý khi cuộc gọi bị từ chối
+        /// </summary>
+        private void OnVideoCallRejected(VideoCall call)
+        {
+            this.Invoke(new Action(() =>
+            {
+                MessageBox.Show(
+                    $"{targetUser.ten} đã từ chối cuộc gọi",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }));
+        }
+
+        /// <summary>
+        /// Xử lý khi cuộc gọi kết thúc
+        /// </summary>
+        private void OnVideoCallEnded(VideoCall call)
+        {
+            System.Diagnostics.Debug.WriteLine($"Cuộc gọi {call.CallId} đã kết thúc");
+            // VideoCallForm sẽ tự đóng
         }
         private void PicAvatar_Click(object sender, EventArgs e)
         {

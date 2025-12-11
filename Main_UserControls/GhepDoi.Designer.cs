@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             panelPictures = new Panel();
-            flpanel_pictures = new FlowLayoutPanel();
             avatar = new PictureBox();
+            flpanel_pictures = new FlowLayoutPanel();
             panelThongTin = new Panel();
             tb_gioithieu = new TextBox();
             tb_vitri = new TextBox();
@@ -55,26 +55,42 @@
             btn_kothich = new RoundedButton();
             btn_tim = new RoundedButton();
             panelPictures.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)avatar).BeginInit();
             panelThongTin.SuspendLayout();
             panelQuet.SuspendLayout();
             SuspendLayout();
+            // 
             // panelPictures
+            // 
             panelPictures.Controls.Add(avatar);
             panelPictures.Controls.Add(flpanel_pictures);
             panelPictures.Location = new Point(0, 0);
-            panelPictures.Size = new Size(1201, 376);
-
+            panelPictures.Margin = new Padding(3, 2, 3, 2);
+            panelPictures.Name = "panelPictures";
+            panelPictures.Size = new Size(1051, 282);
+            panelPictures.TabIndex = 3;
+            // 
             // avatar
-            avatar.Location = new Point(0, 0);
-            avatar.Size = new Size(400, 376);
-            avatar.SizeMode = PictureBoxSizeMode.Zoom;
+            // 
             avatar.BorderStyle = BorderStyle.FixedSingle;
+            avatar.Location = new Point(0, 0);
+            avatar.Margin = new Padding(3, 2, 3, 2);
+            avatar.Name = "avatar";
+            avatar.Size = new Size(350, 282);
+            avatar.SizeMode = PictureBoxSizeMode.Zoom;
+            avatar.TabIndex = 0;
+            avatar.TabStop = false;
+            // 
             // flpanel_pictures
+            // 
             flpanel_pictures.AutoScroll = true;
-            flpanel_pictures.Location = new Point(400, 0);
-            flpanel_pictures.Size = new Size(851, 376);
+            flpanel_pictures.Location = new Point(350, 0);
+            flpanel_pictures.Margin = new Padding(3, 2, 3, 2);
+            flpanel_pictures.Name = "flpanel_pictures";
+            flpanel_pictures.Size = new Size(745, 282);
+            flpanel_pictures.TabIndex = 1;
             flpanel_pictures.WrapContents = false;
-            flpanel_pictures.FlowDirection = FlowDirection.LeftToRight;
+            flpanel_pictures.Paint += flpanel_pictures_Paint;
             flpanel_pictures.MouseWheel += Flpanel_pictures_MouseWheel;
             // 
             // panelThongTin
@@ -98,182 +114,192 @@
             panelThongTin.Controls.Add(label3);
             panelThongTin.Controls.Add(label2);
             panelThongTin.Controls.Add(label1);
-            panelThongTin.Location = new Point(0, 376);
+            panelThongTin.Location = new Point(0, 282);
+            panelThongTin.Margin = new Padding(3, 2, 3, 2);
             panelThongTin.Name = "panelThongTin";
-            panelThongTin.Size = new Size(1201, 226);
+            panelThongTin.Size = new Size(1051, 170);
             panelThongTin.TabIndex = 1;
             // 
             // tb_gioithieu
             // 
-            tb_gioithieu.Location = new Point(817, 150);
+            tb_gioithieu.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_gioithieu.Location = new Point(715, 112);
+            tb_gioithieu.Margin = new Padding(3, 2, 3, 2);
             tb_gioithieu.Multiline = true;
             tb_gioithieu.Name = "tb_gioithieu";
             tb_gioithieu.ReadOnly = true;
-            tb_gioithieu.Size = new Size(336, 69);
-            tb_gioithieu.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_gioithieu.Size = new Size(294, 53);
             tb_gioithieu.TabIndex = 17;
             // 
             // tb_vitri
             // 
-            tb_vitri.Location = new Point(817, 77);
+            tb_vitri.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_vitri.Location = new Point(715, 58);
+            tb_vitri.Margin = new Padding(3, 2, 3, 2);
             tb_vitri.Multiline = true;
             tb_vitri.Name = "tb_vitri";
-            tb_vitri.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             tb_vitri.ReadOnly = true;
-            tb_vitri.Size = new Size(336, 69);
+            tb_vitri.Size = new Size(294, 53);
             tb_vitri.TabIndex = 16;
             // 
             // tb_thoiquen
             // 
-            tb_thoiquen.Location = new Point(817, 2);
-            tb_thoiquen.Multiline = true;
             tb_thoiquen.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_thoiquen.Location = new Point(715, 2);
+            tb_thoiquen.Margin = new Padding(3, 2, 3, 2);
+            tb_thoiquen.Multiline = true;
             tb_thoiquen.Name = "tb_thoiquen";
             tb_thoiquen.ReadOnly = true;
-            tb_thoiquen.Size = new Size(336, 69);
+            tb_thoiquen.Size = new Size(294, 53);
             tb_thoiquen.TabIndex = 15;
             // 
             // tb_chieucao
             // 
-            tb_chieucao.Location = new Point(152, 190);
             tb_chieucao.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_chieucao.Location = new Point(133, 142);
+            tb_chieucao.Margin = new Padding(3, 2, 3, 2);
             tb_chieucao.Name = "tb_chieucao";
             tb_chieucao.ReadOnly = true;
-            tb_chieucao.Size = new Size(275, 27);
+            tb_chieucao.Size = new Size(241, 29);
             tb_chieucao.TabIndex = 14;
             // 
             // tb_nghe
             // 
-            tb_nghe.Location = new Point(152, 150);
             tb_nghe.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_nghe.Location = new Point(133, 112);
+            tb_nghe.Margin = new Padding(3, 2, 3, 2);
             tb_nghe.Name = "tb_nghe";
             tb_nghe.ReadOnly = true;
-            tb_nghe.Size = new Size(275, 27);
+            tb_nghe.Size = new Size(241, 29);
             tb_nghe.TabIndex = 13;
             // 
             // tb_hocvan
             // 
-            tb_hocvan.Location = new Point(152, 117);
+            tb_hocvan.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_hocvan.Location = new Point(133, 88);
+            tb_hocvan.Margin = new Padding(3, 2, 3, 2);
             tb_hocvan.Name = "tb_hocvan";
             tb_hocvan.ReadOnly = true;
-            tb_hocvan.Size = new Size(275, 27);
-            tb_hocvan.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_hocvan.Size = new Size(241, 29);
             tb_hocvan.TabIndex = 12;
             // 
             // tb_snhat
             // 
-            tb_snhat.Location = new Point(152, 82);
+            tb_snhat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_snhat.Location = new Point(133, 62);
+            tb_snhat.Margin = new Padding(3, 2, 3, 2);
             tb_snhat.Name = "tb_snhat";
             tb_snhat.ReadOnly = true;
-            tb_snhat.Size = new Size(275, 27);
-            tb_snhat.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_snhat.Size = new Size(241, 29);
             tb_snhat.TabIndex = 11;
             // 
             // tb_tuoi
             // 
-            tb_tuoi.Location = new Point(152, 44);
+            tb_tuoi.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_tuoi.Location = new Point(133, 33);
+            tb_tuoi.Margin = new Padding(3, 2, 3, 2);
             tb_tuoi.Name = "tb_tuoi";
             tb_tuoi.ReadOnly = true;
-            tb_tuoi.Size = new Size(275, 27);
-            tb_tuoi.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_tuoi.Size = new Size(241, 29);
             tb_tuoi.TabIndex = 10;
             // 
             // tb_name
             // 
-            tb_name.Location = new Point(152, 8);
             tb_name.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            tb_name.Location = new Point(133, 6);
+            tb_name.Margin = new Padding(3, 2, 3, 2);
             tb_name.Name = "tb_name";
             tb_name.ReadOnly = true;
-            tb_name.Size = new Size(275, 27);
+            tb_name.Size = new Size(241, 29);
             tb_name.TabIndex = 9;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(664, 73);
-            label9.Name = "label9";
-            label9.Size = new Size(53, 25);
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label9.Location = new Point(581, 55);
+            label9.Name = "label9";
+            label9.Size = new Size(53, 21);
             label9.TabIndex = 8;
             label9.Text = "Vị Trí:";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(21, 186);
-            label8.Name = "label8";
-            label8.Size = new Size(96, 25);
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.Location = new Point(18, 140);
+            label8.Name = "label8";
+            label8.Size = new Size(91, 21);
             label8.TabIndex = 7;
             label8.Text = "Chiều Cao:";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(664, 149);
-            label7.Name = "label7";
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Size = new Size(94, 25);
+            label7.Location = new Point(581, 112);
+            label7.Name = "label7";
+            label7.Size = new Size(92, 21);
             label7.TabIndex = 6;
             label7.Text = "Giới Thiệu:";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(664, 1);
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Location = new Point(581, 1);
             label6.Name = "label6";
-            label6.Size = new Size(98, 25);
+            label6.Size = new Size(93, 21);
             label6.TabIndex = 5;
             label6.Text = "Thói Quen:";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(21, 152);
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Location = new Point(18, 114);
             label5.Name = "label5";
-            label5.Size = new Size(122, 25);
+            label5.Size = new Size(117, 21);
             label5.TabIndex = 4;
             label5.Text = "Nghề Nghiệp:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(21, 116);
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Location = new Point(18, 87);
             label4.Name = "label4";
-            label4.Size = new Size(83, 25);
+            label4.Size = new Size(78, 21);
             label4.TabIndex = 3;
             label4.Text = "Học Vấn:";
-            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(21, 81);
-            label3.Name = "label3";
-            label3.Size = new Size(93, 25);
-            label3.TabIndex = 2;
             label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Location = new Point(18, 61);
+            label3.Name = "label3";
+            label3.Size = new Size(90, 21);
+            label3.TabIndex = 2;
             label3.Text = "Sinh Nhật:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(21, 46);
-            label2.Name = "label2";
-            label2.Size = new Size(50, 25);
-            label2.TabIndex = 1;
             label2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(18, 34);
+            label2.Name = "label2";
+            label2.Size = new Size(47, 21);
+            label2.TabIndex = 1;
             label2.Text = "Tuổi:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(21, 10);
-            label1.Name = "label1";
-            label1.Size = new Size(71, 25);
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(18, 8);
+            label1.Name = "label1";
+            label1.Size = new Size(67, 21);
             label1.TabIndex = 0;
             label1.Text = "Họ Tên:";
             // 
@@ -283,20 +309,23 @@
             panelQuet.Controls.Add(btn_loc);
             panelQuet.Controls.Add(btn_kothich);
             panelQuet.Controls.Add(btn_tim);
-            panelQuet.Location = new Point(0, 605);
+            panelQuet.Location = new Point(0, 454);
+            panelQuet.Margin = new Padding(3, 2, 3, 2);
             panelQuet.Name = "panelQuet";
-            panelQuet.Size = new Size(1201, 155);
+            panelQuet.Size = new Size(1051, 116);
             panelQuet.TabIndex = 2;
             // 
             // btn_loc
             // 
+            btn_loc.BackColor = Color.FromArgb(100, 149, 237);
             btn_loc.CornerRadius = 20;
             btn_loc.FlatStyle = FlatStyle.Flat;
             btn_loc.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_loc.ForeColor = Color.Gray;
-            btn_loc.Location = new Point(0, -4);
+            btn_loc.Location = new Point(0, -3);
+            btn_loc.Margin = new Padding(3, 2, 3, 2);
             btn_loc.Name = "btn_loc";
-            btn_loc.Size = new Size(390, 131);
+            btn_loc.Size = new Size(341, 98);
             btn_loc.TabIndex = 3;
             btn_loc.Text = "🔍";
             btn_loc.UseVisualStyleBackColor = false;
@@ -304,13 +333,15 @@
             // 
             // btn_kothich
             // 
+            btn_kothich.BackColor = Color.FromArgb(100, 149, 237);
             btn_kothich.CornerRadius = 20;
             btn_kothich.FlatStyle = FlatStyle.Flat;
             btn_kothich.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_kothich.ForeColor = Color.Red;
-            btn_kothich.Location = new Point(400, -4);
+            btn_kothich.Location = new Point(350, -3);
+            btn_kothich.Margin = new Padding(3, 2, 3, 2);
             btn_kothich.Name = "btn_kothich";
-            btn_kothich.Size = new Size(390, 131);
+            btn_kothich.Size = new Size(341, 98);
             btn_kothich.TabIndex = 2;
             btn_kothich.Text = "❌";
             btn_kothich.UseVisualStyleBackColor = false;
@@ -318,13 +349,15 @@
             // 
             // btn_tim
             // 
+            btn_tim.BackColor = Color.FromArgb(100, 149, 237);
             btn_tim.CornerRadius = 20;
             btn_tim.FlatStyle = FlatStyle.Flat;
             btn_tim.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_tim.ForeColor = Color.Fuchsia;
-            btn_tim.Location = new Point(800, 0);
+            btn_tim.Location = new Point(700, 0);
+            btn_tim.Margin = new Padding(3, 2, 3, 2);
             btn_tim.Name = "btn_tim";
-            btn_tim.Size = new Size(400, 131);
+            btn_tim.Size = new Size(350, 98);
             btn_tim.TabIndex = 0;
             btn_tim.Text = "❤️";
             btn_tim.UseVisualStyleBackColor = false;
@@ -332,15 +365,17 @@
             // 
             // GhepDoi
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panelQuet);
             Controls.Add(panelThongTin);
             Controls.Add(panelPictures);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "GhepDoi";
-            Size = new Size(1201, 760);
+            Size = new Size(1051, 570);
             Load += GhepDoi_Load_1;
             panelPictures.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)avatar).EndInit();
             panelThongTin.ResumeLayout(false);
             panelThongTin.PerformLayout();
             panelQuet.ResumeLayout(false);

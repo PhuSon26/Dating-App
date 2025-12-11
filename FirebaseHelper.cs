@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 using System.IO;
 using Firebase.Storage;
 using Firebase.Auth;
+using Firebase.Database;
+using Firebase.Database.Query;
+
 using Amazon.ElasticBeanstalk.Model;
 using Amazon.ElasticLoadBalancing.Model;
 using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
+using LOGIN.Models;
 
 namespace LOGIN
 {
@@ -20,6 +24,9 @@ namespace LOGIN
         public string userID;
         public string email;
         public string password;
+        public FirebaseClient rtcClient;
+        private IDisposable callListener;
+        private IDisposable iceListener;
 
         public FirebaseAuthHelper(string apiKey)
         {
@@ -34,6 +41,11 @@ namespace LOGIN
                 credPath);
 
             db = FirestoreDb.Create("login-bb104");
+            rtcClient = new FirebaseClient(
+               "https://login-bb104-default-rtdb.firebaseio.com/"
+           );
+
+
         }
         private async Task<string> PostAsync(string url, object data)
         {
@@ -333,7 +345,7 @@ namespace LOGIN
                 return Image.FromFile(defaultPath);
             }
         }
-        public async Task<List<USER>> GetRandomSuggest(string userId, int limit = 5)
+        public async Task<List<USER>> GetRandomSuggest(string userId, int limit = 10)
         {
             try
             {
@@ -547,5 +559,187 @@ namespace LOGIN
                 System.Diagnostics.Debug.WriteLine("LỖI TẠO CHAT META: " + ex.Message);
             }
         }
+        // =============================================
+        // ============  VIDEO CALL MODULE  ============
+        // =============================================
+
+       
+        /// <summary>
+        /// Khởi tạo module VideoCall
+        /// </summary>
+       
+
+
+       
+        public event Action<VideoCall> OnIncomingCall;
+        public event Action<VideoCall> OnCallAccepted;
+        public event Action<VideoCall> OnCallRejected;
+        public event Action<VideoCall> OnCallEnded;
+        public event Action<IceCandidate> OnIceCandidate;
+
+        /// <summary>
+        /// Gửi lời mời gọi video
+        /// </summary>
+        public async Task<string> SendCallOffer(
+            string callerId,
+            string callerName,
+            string receiverId,
+            string offerSdp)
+        {
+            string callId = Guid.NewGuid().ToString();
+
+            var callData = new VideoCall
+            {
+                CallId = callId,
+                CallerId = callerId,
+                CallerName = callerName,
+                ReceiverId = receiverId,
+                Offer = offerSdp,
+                Status = "ringing",
+                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            };
+
+            await rtcClient
+                .Child("video_calls")
+                .Child(callId)
+                .PutAsync(callData);
+
+            return callId;
+        }
+
+        /// <summary>
+        /// Lắng nghe các cuộc gọi đến user hiện tại
+        /// </summary>
+        public void ListenForIncomingCall(string userId)
+        {
+            callListener?.Dispose();
+
+
+            callListener = rtcClient
+                .Child("video_calls")
+                .AsObservable<VideoCall>()
+                .Subscribe(d =>
+                {
+                    if (d.Object == null) return;
+
+                    var call = d.Object;
+                    
+                    if (call.ReceiverId == userId && call.Status == "ringing")
+                        OnIncomingCall?.Invoke(call);
+
+                    if (call.CallerId == userId && call.Status == "accepted")
+                        OnCallAccepted?.Invoke(call);
+
+                    if ((call.CallerId == userId || call.ReceiverId == userId))
+                    {
+                        if (call.Status == "rejected") OnCallRejected?.Invoke(call);
+                        if (call.Status == "ended") OnCallEnded?.Invoke(call);
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Trả lời cuộc gọi (send answer SDP)
+        /// </summary>
+        public async Task AcceptCall(string callId, string answerSdp)
+        {
+            await rtcClient
+                .Child("video_calls")
+                .Child(callId)
+                .PatchAsync(new
+                {
+                    answer = answerSdp,
+                    status = "accepted"
+                });
+        }
+
+        /// <summary>
+        /// Từ chối cuộc gọi
+        /// </summary>
+        public async Task RejectCall(string callId)
+        {
+            await rtcClient
+                .Child("video_calls")
+                .Child(callId)
+                .PatchAsync(new { status = "rejected" });
+        }
+
+        /// <summary>
+        /// Kết thúc cuộc gọi
+        /// </summary>
+        public async Task EndCall(string callId)
+        {
+            await rtcClient
+                .Child("video_calls")
+                .Child(callId)
+                .PatchAsync(new { status = "ended" });
+        }
+
+
+        // =====================
+        // ICE CANDIDATES
+        // =====================
+
+        public async Task SendIceCandidate(
+    string callId, string userId,
+    string candidate, string sdpMid, int index)
+        {
+            // Thêm kiểm tra an toàn
+            if (rtcClient == null)
+            {
+                System.Diagnostics.Debug.WriteLine("LỖI: rtcClient chưa được khởi tạo!");
+                return;
+            }
+            if (string.IsNullOrEmpty(callId))
+            {
+                System.Diagnostics.Debug.WriteLine("LỖI: callId bị null, chưa thể gửi candidate.");
+                return;
+            }
+
+            var data = new IceCandidate
+            {
+                UserId = userId,
+                Candidate = candidate,
+                SdpMid = sdpMid,
+                SdpMLineIndex = index
+            };
+
+            try
+            {
+                await rtcClient
+                    .Child("ice_candidates")
+                    .Child(callId)
+                    .PostAsync(data);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Lỗi gửi ICE: " + ex.Message);
+            }
+        }
+
+        public void ListenIceCandidate(string callId, string localUserId)
+        {
+            iceListener = rtcClient
+                .Child("ice_candidates")
+                .Child(callId)
+                .AsObservable<IceCandidate>()
+                .Subscribe(d =>
+                {
+                    if (d.Object == null) return;
+
+                    var ice = d.Object;
+                    if (ice.UserId != localUserId)
+                        OnIceCandidate?.Invoke(ice);
+                });
+            
+        }
+        public void StopVideoCallListeners()
+        {
+            callListener?.Dispose();
+            iceListener?.Dispose();
+        }
+
+
+
     }
 }

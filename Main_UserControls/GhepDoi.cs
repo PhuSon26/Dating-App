@@ -308,5 +308,10 @@ namespace Main_Interface.User_Controls
         {
 
         }
+
+        private void flpanel_pictures_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

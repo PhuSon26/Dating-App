@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { background: #000; margin: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        video { object-fit: cover; }
+        #remoteVideo { width: 100%; height: 100%; }
+        #localVideo { position: absolute; bottom: 20px; right: 20px; width: 150px; height: 100px; border: 2px solid #fff; border-radius: 8px; z-index: 2; background: #333; }
+        #status { position: absolute; top: 20px; color: white; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 5px; font-family: sans-serif; z-index: 3; }
+    </style>
+</head>
+<body>
+    <div id="status">Ready</div>
+    <video id="remoteVideo" autoplay playsinline></video>
+    <video id="localVideo" autoplay muted playsinline></video>
+
+    <script>
+        const localVideo = document.getElementById('localVideo');
+        const remoteVideo = document.getElementById('remoteVideo');
+        const statusDiv = document.getElementById('status');
+        
+        let localStream;
+        let peerConnection;
+        const config = {
+            iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+        };
+
+        // Gửi log về C# để debug dễ hơn
+        function log(msg) {
+            console.log(msg);
+            statusDiv.innerText = msg;
+        }
+
+        async function init() {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                localVideo.srcObject = localStream;
+                log("Camera ready");
+            } catch (e) {
+                log("Error accessing media: " + e.message);
+            }
+        }
+
+        function createPeerConnection() {
+            if (peerConnection) return;
+            
+            peerConnection = new RTCPeerConnection(config);
+
+            // Add tracks
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+            // On Ice Candidate -> Gửi ngay lập tức về C# (Trickle ICE)
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    // Format: candidate|sdpMid|sdpMLineIndex
+                    const data = event.candidate.candidate + "|" + 
+                                 (event.candidate.sdpMid || "") + "|" + 
+                                 event.candidate.sdpMLineIndex;
+                    window.chrome.webview.postMessage("candidate:" + data);
+                }
+            };
+
+            // On Track -> Hiện video đối phương
+            peerConnection.ontrack = event => {
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            peerConnection.onconnectionstatechange = () => {
+                if (peerConnection.connectionState === 'connected') {
+                    window.chrome.webview.postMessage("connected");
+                    log("Connected");
+                } else if (peerConnection.connectionState === 'disconnected') {
+                    window.chrome.webview.postMessage("disconnected");
+                    log("Disconnected");
+                }
+            };
+        }
+
+        // --- CÁC HÀM C# GỌI ---
+
+        async function createOffer() {
+            await init();
+            createPeerConnection();
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            // Gửi offer ngay, không chờ
+            window.chrome.webview.postMessage("offer:" + offer.sdp); 
+        }
+
+        async function setRemoteOffer(sdp) {
+            await init();
+            createPeerConnection();
+            await peerConnection.setRemoteDescription(new RTCSessionDescription({ type: 'offer', sdp: sdp }));
+            
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            window.chrome.webview.postMessage("answer:" + answer.sdp);
+        }
+
+        async function setRemoteAnswer(sdp) {
+            await peerConnection.setRemoteDescription(new RTCSessionDescription({ type: 'answer', sdp: sdp }));
+        }
+
+        async function addIceCandidate(data) {
+            // Data format: candidate|sdpMid|sdpMLineIndex
+            try {
+                const parts = data.split('|');
+                const candidate = new RTCIceCandidate({
+                    candidate: parts[0],
+                    sdpMid: parts[1],
+                    sdpMLineIndex: parseInt(parts[2])
+                });
+                await peerConnection.addIceCandidate(candidate);
+                console.log("Added remote candidate");
+            } catch (e) {
+                console.error("Error adding candidate", e);
+            }
+        }
+
+        function toggleMute(isMuted) {
+            localStream.getAudioTracks().forEach(track => track.enabled = !isMuted);
+        }
+    </script>
+</body>
+</html>

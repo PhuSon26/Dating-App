@@ -121,6 +121,7 @@ namespace LOGIN
             panel.Name = "panel";
             panel.Size = new Size(800, 450);
             panel.TabIndex = 8;
+            panel.Paint += panel_Paint;
             // 
             // label3
             // 
