@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.WinForms;
 using LOGIN.Models;
@@ -20,6 +21,8 @@ namespace LOGIN
 
         private bool isMuted = false;
         private bool callStarted = false;
+        private List<string> pendingIceCandidates = new List<string>();
+        private string currentTempHtmlPath = "";
 
         // Constructor cho cuộc gọi đi (outgoing)
         public VideoCallForm(
@@ -67,35 +70,27 @@ namespace LOGIN
         {
             try
             {
-                // 1. Khởi tạo WebView2
                 await webView.EnsureCoreWebView2Async(null);
-
-                // 2. Đăng ký sự kiện tự động cấp quyền (Giữ nguyên phần này như bài trước)
                 webView.CoreWebView2.PermissionRequested += CoreWebView2_PermissionRequested;
 
-                // --- ĐOẠN SỬA ĐỔI QUAN TRỌNG ---
-                // Thay vì dùng NavigateToString, ta lưu HTML ra file tạm để tạo "Secure Context"
+                // --- ĐOẠN SỬA ĐỔI ---
                 string tempFileName = $"VideoCall_{Guid.NewGuid()}.html";
 
-                // Lấy đường dẫn file tạm
-                string tempPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "VideoCall_Temp.html");
+                // Dùng biến toàn cục currentTempHtmlPath để lưu đường dẫn
+                currentTempHtmlPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), tempFileName);
 
-                // Lấy nội dung HTML từ Resources
-                string htmlContent = Properties.Resource.CallVD;
+                // Ghi nội dung ra file này
+                System.IO.File.WriteAllText(currentTempHtmlPath, Properties.Resource.CallVD);
 
-                // Ghi ra file
-                System.IO.File.WriteAllText(tempPath, htmlContent);
-
-                // Điều hướng WebView tới file này
-                webView.CoreWebView2.Navigate(tempPath);
-                // -------------------------------
+                // Load đúng file vừa tạo
+                webView.CoreWebView2.Navigate(currentTempHtmlPath);
+                // --------------------
 
                 await Task.Delay(1000);
-                System.Diagnostics.Debug.WriteLine("WebRTC initialized via File Protocol");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khởi tạo WebRTC: {ex.Message}", "Lỗi");
+                MessageBox.Show($"Lỗi WebRTC: {ex.Message}");
             }
         }
 
@@ -297,6 +292,11 @@ namespace LOGIN
 
                     // Bắt đầu lắng nghe ICE candidates
                     firebase.ListenIceCandidate(callId, localUserId);
+                    foreach (var pendingMsg in pendingIceCandidates)
+                    {
+                        ProcessCandidateMsg(pendingMsg);
+                    }
+                    pendingIceCandidates.Clear();
                 }
                 else if (msg.StartsWith("answer:"))
                 {
@@ -307,16 +307,13 @@ namespace LOGIN
                 }
                 else if (msg.StartsWith("candidate:"))
                 {
-                    var data = msg.Substring(10).Split('|');
-                    if (data.Length >= 3)
+                    if (string.IsNullOrEmpty(callId))
                     {
-                        await firebase.SendIceCandidate(
-                            callId,
-                            localUserId,
-                            data[0],
-                            data[1],
-                            int.Parse(data[2])
-                        );
+                        pendingIceCandidates.Add(msg);
+                    }
+                    else
+                    {
+                        ProcessCandidateMsg(msg);
                     }
                 }
                 else if (msg == "connected")
@@ -335,6 +332,19 @@ namespace LOGIN
                 System.Diagnostics.Debug.WriteLine($"Lỗi OnWebMessageReceived: {ex.Message}");
             }
         }
+        private async void ProcessCandidateMsg(string msg)
+        {
+            try
+            {
+                var data = msg.Substring(10).Split('|');
+                if (data.Length >= 3)
+                {
+                    await firebase.SendIceCandidate(callId, localUserId, data[0], data[1], int.Parse(data[2]));
+                }
+            }
+            catch { }
+        }
+
 
         // ---------------- XỬ LÝ ICE CANDIDATES ----------------
 
@@ -462,6 +472,10 @@ namespace LOGIN
                 if (webView?.CoreWebView2 != null)
                 {
                     webView.CoreWebView2.WebMessageReceived -= OnWebMessageReceived;
+                }
+                if (!string.IsNullOrEmpty(currentTempHtmlPath) && System.IO.File.Exists(currentTempHtmlPath))
+                {
+                    System.IO.File.Delete(currentTempHtmlPath);
                 }
             }
             catch (Exception ex)

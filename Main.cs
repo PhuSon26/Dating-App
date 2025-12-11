@@ -37,7 +37,7 @@ namespace Main_Interface
             this.btn_dsnt.Enabled = false;
             this.btn_caidat.Enabled = false;
             this.btn_hscn.Enabled = false;
-            this.btn_thongbao.Enabled = false;
+          //  this.btn_thongbao.Enabled = false;
         LoadingSpinner loading = new LoadingSpinner(this);
             loading.pbSpinner.BackColor = Color.FromArgb(255, 250, 253);
             loading.Show();
@@ -52,7 +52,7 @@ namespace Main_Interface
             this.btn_dsnt.Enabled = true;
             this.btn_caidat.Enabled = true;
             this.btn_hscn.Enabled = true;
-            this.btn_thongbao.Enabled = true;
+          //  this.btn_thongbao.Enabled = true;
         }
 
         private void btn_vip_Click(object sender, EventArgs e)
