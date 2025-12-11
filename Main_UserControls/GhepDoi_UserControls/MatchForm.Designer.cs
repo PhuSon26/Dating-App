@@ -73,7 +73,7 @@ namespace Main_Interface.User_Controls
             lb_user1.AutoSize = true;
             lb_user1.BackColor = Color.Transparent;
             lb_user1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lb_user1.ForeColor = Color.DeepPink;
+            lb_user1.ForeColor = Color.Black;
             lb_user1.Location = new Point(60, 360);
             lb_user1.Name = "txtNameUser1";
             lb_user1.Size = new Size(86, 32);
@@ -85,8 +85,8 @@ namespace Main_Interface.User_Controls
             lb_user2.AutoSize = true;
             lb_user2.BackColor = Color.Transparent;
             lb_user2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lb_user2.ForeColor = Color.DeepPink;
-            lb_user2.Location = new Point(835, 360);
+            lb_user2.ForeColor = Color.Black;
+            lb_user2.Location = new Point(845, 360);
             lb_user2.Name = "txtNameUser2";
             lb_user2.Size = new Size(86, 32);
             lb_user2.TabIndex = 3;

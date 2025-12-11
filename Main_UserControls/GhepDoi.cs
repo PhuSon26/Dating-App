@@ -248,8 +248,6 @@ namespace Main_Interface.User_Controls
                 }
                 else
                 {
-                    MatchForm match = new MatchForm(myUser, currentUserOnCard, authHelper);
-                    match.ShowDialog();
                     MessageBox.Show("Đã thả tim thành công!");
                 }
 
