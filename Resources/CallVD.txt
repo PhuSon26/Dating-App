@@ -28,6 +28,7 @@
             width: 100vw;
         }
 
+        /* Container chính bao trùm tất cả */
         #videoContainer {
             position: relative;
             width: 100%;
@@ -38,6 +39,7 @@
             background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
         }
 
+        /* Video người đối diện (Full màn hình) */
         #remoteVideo {
             width: 100%;
             height: 100%;
@@ -45,27 +47,51 @@
             z-index: 1;
         }
 
-       .local-video-wrapper {
-    position: absolute;
-    
-    /* --- SỬA Ở ĐÂY --- */
-    top: 20px;          /* Đổi từ bottom -> top: Để đưa lên trên */
-    right: 20px;        /* Giữ nguyên bên phải */
-    width: 180px;       /* Giảm kích thước xíu cho tinh tế (cũ là 240px) */
-    /* ---------------- */
+        /* Overlay icon trạng thái (Mic tắt/Cam tắt) của người đối diện */
+        #remoteStatusOverlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 20px;
+            z-index: 5;
+        }
 
-    aspect-ratio: 16/9;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    z-index: 10;
-    transition: all 0.3s ease;
-}
+        .remote-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ef4444; /* Màu đỏ */
+            font-size: 32px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Video của chính mình (Góc trên phải) */
+        .local-video-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 200px;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            transition: all 0.3s ease;
+            background: #000;
+        }
 
         .local-video-wrapper:hover {
-             transform: scale(1.02);
-             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+             transform: scale(1.05);
+             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+             border-color: rgba(255, 255, 255, 0.5);
         }
 
         #localVideo {
@@ -73,47 +99,25 @@
             height: 100%;
             object-fit: cover;
             background: var(--secondary-color);
-            transform: scaleX(-1);
+            transform: scaleX(-1); /* Lật gương video selfie */
         }
-        #remoteStatusOverlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    gap: 20px;
-    z-index: 5; /* Nằm trên remoteVideo nhưng dưới localVideo */
-}
-.remote-icon {
-    width: 60px;
-    height: 60px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #ef4444; /* Màu đỏ */
-    font-size: 24px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(4px);
-}
 
-        /* --- THANH TRẠNG THÁI & TIMER --- */
+        /* Thanh trạng thái & Đồng hồ */
         #statusText {
             position: absolute;
             top: 30px;
             left: 50%;
             transform: translateX(-50%);
             color: var(--text-color);
-            background: rgba(20, 20, 20, 0.85);
+            background: rgba(20, 20, 20, 0.75);
             backdrop-filter: blur(10px);
-            padding: 8px 20px;
+            padding: 8px 24px;
             border-radius: 30px;
             font-size: 14px;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 12px; /* Khoảng cách giữa các phần tử */
+            gap: 12px;
             z-index: 20;
             border: 1px solid rgba(255,255,255,0.1);
             opacity: 0;
@@ -126,101 +130,111 @@
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #fbbf24;
+            width: 10px;
+            height: 10px;
+            background-color: #fbbf24; /* Vàng: Đang kết nối */
             border-radius: 50%;
             display: inline-block;
         }
 
         #statusText.connected .status-dot {
-            background-color: #10b981;
+            background-color: #10b981; /* Xanh: Đã kết nối */
             box-shadow: 0 0 8px #10b981;
         }
 
-        /* Style cho đồng hồ đếm giờ */
         #callTimer {
-            display: none; /* Ẩn mặc định */
+            display: none;
             padding-left: 12px;
-            border-left: 1px solid rgba(255,255,255,0.3); /* Đường gạch ngăn cách */
-            font-variant-numeric: tabular-nums; /* Giúp số không bị nhảy độ rộng */
-            font-family: 'Courier New', Courier, monospace; /* Font số kỹ thuật số */
+            border-left: 1px solid rgba(255,255,255,0.3);
+            font-variant-numeric: tabular-nums;
+            font-family: 'Consolas', 'Courier New', monospace;
             font-weight: 600;
             letter-spacing: 1px;
         }
 
-        /* --- CÁC NÚT ĐIỀU KHIỂN --- */
-       .controls-container {
-    position: absolute;
-    bottom: 30px; /* Cách đáy 30px */
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 20px; /* Tăng khoảng cách giữa các nút cho thoáng */
-    padding: 12px 30px;
-    background: rgba(20, 20, 20, 0.6); /* Giảm độ đậm nền để trông nhẹ nhàng hơn */
-    backdrop-filter: blur(8px);
-    border-radius: 40px; /* Bo tròn hơn */
-    z-index: 100; /* Đảm bảo luôn nổi lên trên cùng */
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-}
+        /* Thanh điều khiển (Nằm dưới đáy) */
+        .controls-container {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            padding: 12px 30px;
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            z-index: 100; /* Luôn nổi trên cùng */
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
 
         .control-btn {
-            width: 50px;
-            height: 50px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             border: none;
             background: rgba(255, 255, 255, 0.1);
             color: var(--text-color);
-            font-size: 20px;
+            font-size: 22px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .control-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-4px);
         }
 
+        .control-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Nút Mic/Cam khi TẮT (active-off) */
         .control-btn.active-off {
-            background: var(--text-color);
-            color: var(--primary-color);
+            background: #ffffff;
+            color: #000000;
         }
 
+        /* Nút Kết Thúc (Màu đỏ) */
         .control-btn.hangup-btn {
             background: var(--danger-color);
-            width: 60px;
+            width: 70px; /* Nút to hơn chút */
+            border-radius: 20px; /* Bo góc khác chút cho nổi bật */
         }
         
         .control-btn.hangup-btn:hover {
              background: #dc2626;
-             box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+             box-shadow: 0 4px 20px rgba(239, 68, 68, 0.5);
         }
 
     </style>
 </head>
 <body>
-   <div id="videoContainer">
-    <video id="remoteVideo" autoplay playsinline></video>
-    
-    <div id="remoteStatusOverlay">
-        <div id="remoteMuteIcon" class="remote-icon" style="display: none;">
-            <i class="fa-solid fa-microphone-slash"></i>
+    <div id="videoContainer">
+        <video id="remoteVideo" autoplay playsinline></video>
+        
+        <div id="remoteStatusOverlay">
+            <div id="remoteMuteIcon" class="remote-icon" style="display: none;">
+                <i class="fa-solid fa-microphone-slash"></i>
+            </div>
+            <div id="remoteCamIcon" class="remote-icon" style="display: none;">
+                <i class="fa-solid fa-video-slash"></i>
+            </div>
         </div>
-        <div id="remoteCamIcon" class="remote-icon" style="display: none;">
-            <i class="fa-solid fa-video-slash"></i>
+
+        <div class="local-video-wrapper">
+             <video id="localVideo" autoplay muted playsinline></video>
         </div>
-    </div>
-    <div class="local-video-wrapper">
 
         <div id="statusText" class="visible">
             <span class="status-dot"></span>
             <span id="statusMsgContent">Đang kết nối...</span>
-            <span id="callTimer">00:00</span> </div>
+            <span id="callTimer">00:00</span> 
+        </div>
 
         <div class="controls-container">
             <button class="control-btn" id="btnToggleMic" title="Bật/Tắt Mic">
@@ -236,9 +250,7 @@
     </div>
 
     <script>
-        // ==========================================
-        // PHẦN 1: GIAO DIỆN & TIMER (UI LOGIC)
-        // ==========================================
+        // --- UI ELEMENTS ---
         const localVideo = document.getElementById('localVideo');
         const remoteVideo = document.getElementById('remoteVideo');
         const statusTextContainer = document.getElementById('statusText');
@@ -249,12 +261,27 @@
         const btnToggleCam = document.getElementById('btnToggleCam');
         const btnHangup = document.getElementById('btnHangup');
 
+        // --- STATE VARIABLES ---
         let isMicOn = true;
         let isCamOn = true;
         let timerInterval = null;
         let totalSeconds = 0;
 
-        // --- ĐỒNG HỒ ĐẾM GIỜ ---
+        let localStream = null;
+        let peerConnection = null;
+        let pendingCandidates = [];
+
+        // Cấu hình STUN Server
+        const config = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' }
+            ],
+            iceCandidatePoolSize: 10
+        };
+
+        // ================= UI FUNCTIONS =================
+
         function startTimer() {
             stopTimer();
             totalSeconds = 0;
@@ -273,7 +300,6 @@
             callTimerDisplay.style.display = "none";
         }
 
-        // --- CẬP NHẬT TRẠNG THÁI ---
         function updateStatus(state) {
             const messages = {
                 'new': 'Đang khởi tạo...',
@@ -282,7 +308,7 @@
                 'connected': 'Đã kết nối',
                 'disconnected': 'Mất kết nối',
                 'failed': 'Kết nối thất bại',
-                'closed': 'Đã kết thúc'
+                'closed': 'Cuộc gọi kết thúc'
             };
             
             statusMsgContent.textContent = messages[state] || state;
@@ -290,84 +316,85 @@
             
             if (state === 'connected') {
                 statusTextContainer.classList.add('connected');
-                startTimer(); // Bắt đầu đếm giờ khi kết nối
+                startTimer();
             } else {
                 statusTextContainer.classList.remove('connected');
                 stopTimer();
             }
         }
 
-        // --- SỰ KIỆN NÚT BẤM ---
-      btnToggleMic.addEventListener('click', () => {
-    isMicOn = !isMicOn;
-    const icon = btnToggleMic.querySelector('i');
-    if (isMicOn) {
-        icon.className = 'fa-solid fa-microphone';
-        btnToggleMic.classList.remove('active-off');
-    } else {
-        icon.className = 'fa-solid fa-microphone-slash';
-        btnToggleMic.classList.add('active-off');
-    }
-    toggleMute(!isMicOn);
-    
-    // GỬI VỀ C#: mic:on hoặc mic:off
-    if(window.chrome && window.chrome.webview) {
-        window.chrome.webview.postMessage('mic:' + (isMicOn ? 'on' : 'off'));
-    }
-});
+        function updateRemoteState(type, state) {
+            // Xử lý chuỗi JSON thừa ngoặc kép nếu có
+            const cleanState = state.replace(/"/g, ''); 
+            
+            if (type === 'mic') {
+                document.getElementById('remoteMuteIcon').style.display = (cleanState === 'off') ? 'flex' : 'none';
+            } else if (type === 'cam') {
+                document.getElementById('remoteCamIcon').style.display = (cleanState === 'off') ? 'flex' : 'none';
+            }
+        }
 
-btnToggleCam.addEventListener('click', () => {
-    isCamOn = !isCamOn;
-    const icon = btnToggleCam.querySelector('i');
-    if (isCamOn) {
-        icon.className = 'fa-solid fa-video';
-        btnToggleCam.classList.remove('active-off');
-        if (localStream) localStream.getVideoTracks()[0].enabled = true;
-    } else {
-        icon.className = 'fa-solid fa-video-slash';
-        btnToggleCam.classList.add('active-off');
-        if (localStream) localStream.getVideoTracks()[0].enabled = false;
-    }
-    
-    // GỬI VỀ C#: cam:on hoặc cam:off
-    if(window.chrome && window.chrome.webview) {
-        window.chrome.webview.postMessage('cam:' + (isCamOn ? 'on' : 'off'));
-    }
-});
+        // ================= BUTTON EVENTS =================
+
+        btnToggleMic.addEventListener('click', () => {
+            isMicOn = !isMicOn;
+            const icon = btnToggleMic.querySelector('i');
+            if (isMicOn) {
+                icon.className = 'fa-solid fa-microphone';
+                btnToggleMic.classList.remove('active-off');
+            } else {
+                icon.className = 'fa-solid fa-microphone-slash';
+                btnToggleMic.classList.add('active-off');
+            }
+            toggleMute(!isMicOn);
+            
+            // Gửi tín hiệu về C#
+            if(window.chrome && window.chrome.webview) {
+                window.chrome.webview.postMessage('mic:' + (isMicOn ? 'on' : 'off'));
+            }
+        });
+
+        btnToggleCam.addEventListener('click', () => {
+            isCamOn = !isCamOn;
+            const icon = btnToggleCam.querySelector('i');
+            if (isCamOn) {
+                icon.className = 'fa-solid fa-video';
+                btnToggleCam.classList.remove('active-off');
+                if (localStream) localStream.getVideoTracks()[0].enabled = true;
+            } else {
+                icon.className = 'fa-solid fa-video-slash';
+                btnToggleCam.classList.add('active-off');
+                if (localStream) localStream.getVideoTracks()[0].enabled = false;
+            }
+            
+            if(window.chrome && window.chrome.webview) {
+                window.chrome.webview.postMessage('cam:' + (isCamOn ? 'on' : 'off'));
+            }
+        });
 
         btnHangup.addEventListener('click', () => {
             if (window.chrome && window.chrome.webview) {
                 window.chrome.webview.postMessage('hangup');
             } else {
-                // Test mode
+                // Test mode trên trình duyệt thường
                 updateStatus('closed');
                 if(peerConnection) peerConnection.close();
+                if(localStream) localStream.getTracks().forEach(track => track.stop());
             }
         });
 
-        // ==========================================
-        // PHẦN 2: WEBRTC LOGIC (CORE)
-        // ==========================================
-        let localStream = null;
-        let peerConnection = null;
-        let pendingCandidates = [];
-
-        const config = {
-            iceServers: [
-                { urls: 'stun:stun.l.google.com:19302' },
-                { urls: 'stun:stun1.l.google.com:19302' }
-            ],
-            iceCandidatePoolSize: 10
-        };
+        // ================= WEBRTC CORE =================
 
         async function init() {
             try {
-                if(localStream) return true; // Đã init rồi thì thôi
+                if(localStream) return true;
                 updateStatus('new');
+                
                 localStream = await navigator.mediaDevices.getUserMedia({
                     video: { width: { ideal: 1280 }, height: { ideal: 720 } },
                     audio: { echoCancellation: true, noiseSuppression: true }
                 });
+                
                 localVideo.srcObject = localStream;
                 return true;
             } catch (error) {
@@ -376,7 +403,6 @@ btnToggleCam.addEventListener('click', () => {
                 return false;
             }
         }
-
 
         function createPeerConnection() {
             if (peerConnection) return peerConnection;
@@ -417,17 +443,6 @@ btnToggleCam.addEventListener('click', () => {
             return peerConnection;
         }
 
-
-        function updateRemoteState(type, state) {
-    if (type === 'mic') {
-        // state là 'on' hoặc 'off'
-        document.getElementById('remoteMuteIcon').style.display = (state === 'off') ? 'flex' : 'none';
-    } else if (type === 'cam') {
-        document.getElementById('remoteCamIcon').style.display = (state === 'off') ? 'flex' : 'none';
-    }
-}
-
-        // --- HÀM CHỜ ICE (QUAN TRỌNG) ---
         function waitForIceGathering(pc) {
             return new Promise((resolve) => {
                 if (pc.iceGatheringState === 'complete') {
@@ -445,7 +460,13 @@ btnToggleCam.addEventListener('click', () => {
             });
         }
 
-        // --- CÁC HÀM C# GỌI ---
+        function toggleMute(muted) {
+            if(localStream) {
+                localStream.getAudioTracks().forEach(t => t.enabled = !muted);
+            }
+        }
+
+        // ================= PUBLIC FUNCTIONS (CALLED BY C#) =================
 
         async function createOffer() {
             const inited = await init();
@@ -455,7 +476,6 @@ btnToggleCam.addEventListener('click', () => {
             const offer = await pc.createOffer({offerToReceiveAudio:1, offerToReceiveVideo:1});
             await pc.setLocalDescription(offer);
             
-            // Đợi thu thập ICE đầy đủ rồi mới gửi
             await waitForIceGathering(pc);
             
             window.chrome.webview.postMessage('offer:' + pc.localDescription.sdp);
@@ -473,6 +493,8 @@ btnToggleCam.addEventListener('click', () => {
                 await pc.addIceCandidate(c);
             }
             pendingCandidates = [];
+
+            // --- QUAN TRỌNG: TỰ ĐỘNG TẠO ANSWER ---
             await createAnswer();
         }
 
@@ -492,7 +514,6 @@ btnToggleCam.addEventListener('click', () => {
             
             await peerConnection.setRemoteDescription(new RTCSessionDescription({type:'answer', sdp:sdp}));
             
-            // SỬA LỖI Ở ĐÂY: Dùng 'peerConnection' thay vì 'pc'
             for(const c of pendingCandidates) {
                 await peerConnection.addIceCandidate(c);
             }
@@ -514,13 +535,7 @@ btnToggleCam.addEventListener('click', () => {
             }
         }
 
-        function toggleMute(muted) {
-            if(localStream) {
-                localStream.getAudioTracks().forEach(t => t.enabled = !muted);
-            }
-        }
-
-        console.log('WebRTC Script Loaded & Ready');
+        console.log('WebRTC Engine Ready');
     </script>
 </body>
 </html>
