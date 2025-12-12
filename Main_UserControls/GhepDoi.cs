@@ -1,3 +1,4 @@
+using Google.Cloud.Firestore;
 using LOGIN;
 using LOGIN.Main_UserControls.GhepDoi_UserControls;
 using System;
@@ -7,9 +8,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.Json;
+using static Google.Cloud.Firestore.V1.StructuredQuery.Types;
 
 
 namespace Main_Interface.User_Controls
@@ -25,6 +27,7 @@ namespace Main_Interface.User_Controls
         private MatchFilterAPI filterAPI;
         private FirebaseAuthHelper authHelper;
         private List<USER> suggestedUsers = new List<USER>();
+        public FirestoreDb db;
 
         private int suggestIndex = 0;
         private LOGIN.Match match;
@@ -42,6 +45,8 @@ namespace Main_Interface.User_Controls
             MainForm = m;
             authHelper = new FirebaseAuthHelper("login-bb104");
             loc = new LocUser(MainForm);
+            filterAPI = new MatchFilterAPI("login-bb104");
+            db = FirestoreDb.Create("login-bb104");
         }
 
         private void ShowUser(USER u)
@@ -135,7 +140,20 @@ namespace Main_Interface.User_Controls
             LoadingSpinner loading = new LoadingSpinner(this);
             loading.Show();
             myUser = await authHelper.GetUserById(myUserId);
-            await LoadSuggestUsers(myUserId);
+            // Nếu vừa lọc xong → load danh sách lọc
+            if (MainForm.FilteredUsers != null && MainForm.FilteredUsers.Count > 0)
+            {
+                suggestedUsers = MainForm.FilteredUsers;
+                suggestIndex = 0;
+                ShowUser(suggestedUsers[0]);
+
+                MainForm.FilteredUsers = null; // reset
+            }
+            else
+            {
+                // Ngược lại → random user bình thường
+                await LoadSuggestUsers(myUserId);
+            }
             loading.Hide();
             this.btn_kothich.Enabled = true;
             this.btn_loc.Enabled = true;
@@ -146,7 +164,10 @@ namespace Main_Interface.User_Controls
         {
             try
             {
-                suggestedUsers = await authHelper.GetRandomSuggest(userId, 5);
+                var allUsers = await db.Collection("Users").GetSnapshotAsync();
+                int totalUsers = allUsers.Count;
+
+                suggestedUsers = await authHelper.GetRandomSuggest(userId, totalUsers);
 
                 if (suggestedUsers == null || suggestedUsers.Count == 0)
                 {
@@ -171,36 +192,16 @@ namespace Main_Interface.User_Controls
         }
         public void LoadFilteredUsers(List<USER> users)
         {
-            flpanel_pictures.Controls.Clear();
+            suggestedUsers = users;
+            suggestIndex = 0;
 
-            foreach (var u in users)
+            if (users == null || users.Count == 0)
             {
-                PictureBox pb = new PictureBox()
-                {
-                    Width = 250,
-                    Height = 250,
-                    SizeMode = PictureBoxSizeMode.StretchImage,
-                    Margin = new Padding(10)
-                };
-
-                // Load avatar
-                if (!string.IsNullOrEmpty(u.AvatarUrl))
-                {
-                    pb.Image = authHelper.Base64ToImage(u.AvatarUrl);
-                }
-
-                pb.Click += (s, e) =>
-                {
-                    tb_name.Text = u.ten;
-                    tb_tuoi.Text = u.tuoi.ToString();
-                    tb_hocvan.Text = u.hocvan;
-                    tb_nghe.Text = u.nghenghiep;
-                    tb_chieucao.Text = u.chieucao.ToString();
-                    tb_vitri.Text = u.vitri;
-                };
-
-                flpanel_pictures.Controls.Add(pb);
+                MessageBox.Show("Không có user phù hợp!");
+                return;
             }
+
+            ShowUser(users[0]); // Hiển thị đúng UI chuẩn
         }
 
         private void btn_loc_Click(object sender, EventArgs e)

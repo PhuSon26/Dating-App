@@ -393,15 +393,21 @@ namespace Main_Interface.User_Controls
         private void StartBlockListener()
         {
             string chatId = firebase.GetConversationId(myUserId, targetUser.Id);
+
             blockListener = firebase.db.Collection("ChatMeta").Document(chatId)
                 .Listen(snapshot =>
                 {
                     if (!snapshot.Exists) return;
 
-                    var blockedBy = snapshot.GetValue<List<string>>("blockedBy") ?? new List<string>();
+                    List<string> blockedBy;
+                    if (!snapshot.TryGetValue("blockedBy", out blockedBy))
+                    {
+                        blockedBy = new List<string>(); // chưa bị ai block
+                    }
+
                     bool iAmBlocked = blockedBy.Contains(targetUser.Id); // người kia block mình
 
-                    if (iAmBlocked != isBlocked) // nếu trạng thái thay đổi
+                    if (iAmBlocked != isBlocked)
                     {
                         this.Invoke(new Action(async () =>
                         {
@@ -831,6 +837,30 @@ namespace Main_Interface.User_Controls
                 Padding = new Padding(10, 0, 10, 0)
             };
             wrapper.Controls.Add(bubble);
+            // ===== Context menu: Xóa phía tôi / Thu hồi =====
+            var menu = new ContextMenuStrip();
+
+            menu.Items.Add("Xóa phía tôi", null, async (_, __) =>
+            {
+                await firebase.DeleteMessageForMeAsync(msg.Id, Session.LocalId);
+            });
+
+            // Chỉ người gửi mới được thu hồi
+            if (msg.fromUserId == Session.LocalId)
+            {
+                menu.Items.Add("Thu hồi (cả 2 bên)", null, async (_, __) =>
+                {
+                    await firebase.RecallMessageForAllAsync(msg.Id, Session.LocalId);
+                });
+            }
+
+            // Gán cho wrapper + bubble + các control con (để bấm chuột phải ở đâu cũng hiện menu)
+            void AttachMenu(Control parent)
+            {
+                parent.ContextMenuStrip = menu;
+                foreach (Control c in parent.Controls) AttachMenu(c);
+            }
+            AttachMenu(wrapper);
 
             return wrapper;
         }

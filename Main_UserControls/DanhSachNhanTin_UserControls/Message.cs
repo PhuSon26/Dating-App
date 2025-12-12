@@ -33,6 +33,12 @@ namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
 
         [FirestoreProperty]
         public List<string> blockedBy { get; set; } = new List<string>();
+        // Các field thêm mới:
+        [FirestoreProperty] public List<string> deletedFor { get; set; } = new();
+        [FirestoreProperty] public bool isRecalled { get; set; } = false;
+        [FirestoreProperty] public string recalledBy { get; set; } = "";
+        [FirestoreProperty] public Timestamp? recalledAt { get; set; } = null; // ✅ Cho phép null
+        [FirestoreProperty] public string imageUrl { get; set; } = null;        // nếu có ảnh
 
     }
 }

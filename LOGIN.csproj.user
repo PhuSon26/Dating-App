@@ -32,9 +32,6 @@
     <Compile Update="Main_UserControls\DanhSachNhanTin_UserControls\User.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Main_UserControls\Uservip.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Main_UserControls\CaiDat.cs">
       <SubType>UserControl</SubType>
     </Compile>

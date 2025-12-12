@@ -10,7 +10,7 @@ namespace LOGIN.Main_UserControls.GhepDoi_UserControls
     public class MatchFilterAPI
     {
         public readonly FirestoreDb db;
-
+        public int cnt_users_filtered = 0;
         public MatchFilterAPI(string id)
         {
             db = FirestoreDb.Create(id);
@@ -20,28 +20,33 @@ namespace LOGIN.Main_UserControls.GhepDoi_UserControls
         {
             CollectionReference userRef = db.Collection("Users");
             Query query = userRef;
+
             if (!string.IsNullOrEmpty(filter.GioiTinh) && filter.GioiTinh != "Tất cả")
             {
                 query = query.WhereEqualTo("gioitinh", filter.GioiTinh);
             }
-            if (filter.DoTuoi.HasValue)
-            {
-                query = query.WhereLessThanOrEqualTo("tuoi", filter.DoTuoi.Value);
-            }
+
             if (!string.IsNullOrWhiteSpace(filter.NoiSong))
             {
                 query = query.WhereEqualTo("vitri", filter.NoiSong);
             }
+
             QuerySnapshot snapshot = await query.GetSnapshotAsync();
-            List<USER> ans = new List<USER>();
-            foreach(var doc in snapshot.Documents)
+
+            List<USER> ans = snapshot.Documents
+                .Select(d => d.ConvertTo<USER>())
+                .ToList();
+
+            if (filter.DoTuoi.HasValue)
             {
-                ans.Add(doc.ConvertTo<USER>());
+                ans = ans.Where(u => u.tuoi <= filter.DoTuoi.Value).ToList();
             }
+
             if (filter.ChieuCaoMin.HasValue)
             {
                 ans = ans.Where(u => u.chieucao >= filter.ChieuCaoMin.Value).ToList();
             }
+            cnt_users_filtered = ans.Count;
             return ans;
         }
         public static bool CheckFilter(USER user, FilterModel f)

@@ -1,101 +1,102 @@
-﻿using LOGIN;
-using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
+﻿    using LOGIN;
+    using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Linq;
+    using System.Windows.Forms;
 
-namespace Main_Interface.User_Controls.CaiDat_UserControls
-{
-    public partial class DanhSachChan : UserControl
+    namespace Main_Interface.User_Controls.CaiDat_UserControls
     {
-        private Main MainForm;
-        private FirebaseAuthHelper auth;
-
-        public DanhSachChan()
+        public partial class DanhSachChan : UserControl
         {
-            InitializeComponent();
-        }
+            private Main MainForm;
+            private FirebaseAuthHelper auth;
 
-        public DanhSachChan(Main m, FirebaseAuthHelper auth)
-        {
-            InitializeComponent();
-            MainForm = m;
-            this.auth = auth;
-            loadBlockedUsers();
-        }
-
-        private async void loadBlockedUsers()
-        {
-            flp_list.Controls.Clear();
-            var allMetas = await auth.GetAllChatMeta(Session.LocalId);
-
-            foreach (var meta in allMetas)
+            public DanhSachChan()
             {
-                // Khởi tạo blockedBy nếu null
-                var blockedBy = meta.blockedBy ?? new List<string>();
-                if (!blockedBy.Contains(Session.LocalId)) continue; // chỉ lấy người mình block
+                InitializeComponent();
+            }
 
-                string otherUserId = meta.userA == Session.LocalId ? meta.userB : meta.userA;
-                var user = await auth.GetUserById(otherUserId);
-                if (user == null) continue;
+            public DanhSachChan(Main m, FirebaseAuthHelper auth)
+            {
+                InitializeComponent();
+                MainForm = m;
+                this.auth = auth;
+                loadBlockedUsers();
+            }
 
-                var panelItem = new UserBlockItemPanel(user, meta, auth);
-                panelItem.UnBlockClicked += async (u, panel) =>
+            private async void loadBlockedUsers()
+            {
+                flp_list.Controls.Clear();
+                var allMetas = await auth.GetAllChatMeta(Session.LocalId);
+
+                foreach (var meta in allMetas)
                 {
-                    // Unblock user
-                    await auth.UnblockUser(Session.LocalId, u.Id);
+                    // Khởi tạo blockedBy nếu null
+                    var blockedBy = meta.blockedBy ?? new List<string>();
+                    if (!blockedBy.Contains(Session.LocalId)) continue; // chỉ lấy người mình block
 
-                    // Remove panel khỏi FlowLayoutPanel
-                    flp_list.Controls.Remove(panel);
-                    panel.Dispose();
-                };
+                    string otherUserId = meta.userA == Session.LocalId ? meta.userB : meta.userA;
+                    var user = await auth.GetUserById(otherUserId);
+                    if (user == null) continue;
 
-                flp_list.Controls.Add(panelItem);
+                    var panelItem = new UserBlockItemPanel(user, meta, auth);
+                    panelItem.UnBlockClicked += async (u, panel) =>
+                    {
+                        // Unblock user
+                        await auth.UnblockUser(Session.LocalId, u.Id);
+
+                        // Remove panel khỏi FlowLayoutPanel
+                        flp_list.Controls.Remove(panel);
+                        panel.Dispose();
+                    };
+
+                    flp_list.Controls.Add(panelItem);
+                }
+            }
+
+            private void btn_back_Click(object sender, EventArgs e)
+            {
+                MainForm.LoadContent(new CaiDat(MainForm));
             }
         }
-
-        private void btn_back_Click(object sender, EventArgs e)
-        {
-            MainForm.LoadContent(new CaiDat(MainForm));
-        }
-    }
 
     // Panel cho từng user bị block
     public class UserBlockItemPanel : Panel
     {
         public UserChatitem UserItem { get; set; }
-        public Button btn_unblock { get; set; }
+        public RoundedGlossyButton btn_unblock { get; set; }
 
         public event Action<USER, UserBlockItemPanel> UnBlockClicked;
 
         public UserBlockItemPanel(USER u, ChatMeta meta, FirebaseAuthHelper auth)
         {
-            this.Width = 580;
-            this.Height = 100;
+            this.Width = 1170;
+            this.Height = 150;
             this.Margin = new Padding(5);
             this.BackColor = Color.Transparent;
 
-            // Tạo UserChatitem
+            // ----- UserChatItem -----
             UserItem = new UserChatitem(u, meta, auth)
             {
                 Location = new Point(0, 0),
-                Width = 480,
-                Height = 100
+                Width = 1170 - 300,  // chừa chỗ cho nút unblock
+                Height = 150
             };
 
-            // Tạo nút Unblock bên phải
-            btn_unblock = new Button
+            // ----- Nút Unblock -----
+            btn_unblock = new RoundedGlossyButton
             {
                 Text = "Unblock",
-                Width = 80,
-                Height = 30,
-                Left = 490,
-                Top = (this.Height - 30) / 2,
+                Width = 1170 - 920,
+                Height = 150,
+                Left = 1170 - 280,       // sát mép phải
+                Top = 0,  // căn giữa
                 BackColor = Color.Red,
                 ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 24F, FontStyle.Bold)
             };
             btn_unblock.FlatAppearance.BorderSize = 0;
 

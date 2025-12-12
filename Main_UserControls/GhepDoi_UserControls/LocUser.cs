@@ -38,11 +38,12 @@ namespace Main_Interface.User_Controls
             {
                 List<USER> ans = await api.FilterUsers(filter);
 
-                if (MainForm.CurrentControl is GhepDoi gd)
-                {
-                    gd.LoadFilteredUsers(ans);
-                }
 
+                // → Gửi kết quả về MainForm
+                MainForm.FilteredUsers = ans;
+
+                // → Quay lại GhepDoi
+                MainForm.LoadContent(new GhepDoi(MainForm));
                 if (ans.Count > 0)
                 {
                     MessageBox.Show(

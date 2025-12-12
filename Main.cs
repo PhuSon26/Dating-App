@@ -20,6 +20,8 @@ namespace Main_Interface
         private bool loadedDs = false;
         private bool loadedGhepDoi = false;
         private bool loadedCaiDat = false;
+        public List<USER> FilteredUsers { get; set; } = null;
+
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();

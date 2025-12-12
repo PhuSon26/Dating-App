@@ -37,7 +37,23 @@ namespace LOGIN
             pbSpinner.Visible = false;
 
             string defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "loading.gif");
-            pbSpinner.Image = Image.FromFile(defaultPath);
+
+            if (File.Exists(defaultPath))
+            {
+                pbSpinner.Image = Image.FromFile(defaultPath);
+            }
+            else
+            {
+                // Nếu không có file gif, tạo ảnh tạm "Loading..." để không lỗi
+                Bitmap bmp = new Bitmap(100, 100);
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(Color.Transparent);
+                    g.DrawString("Loading...", new Font("Segoe UI", 10, FontStyle.Bold),
+                                 Brushes.Gray, new PointF(10, 40));
+                }
+                pbSpinner.Image = bmp;
+            }
 
             pbSpinner.BringToFront();
 
