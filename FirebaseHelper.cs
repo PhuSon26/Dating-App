@@ -205,6 +205,7 @@ namespace LOGIN
             }
         }
 
+
         /// <summary>
         /// Gửi tin nhắn (text + optional ảnh) vào cuộc trò chuyện của một match.
         /// Lưu tin nhắn vào subcollection Matches/{matchId}/messages
@@ -772,6 +773,28 @@ namespace LOGIN
                         OnMediaStatusChanged?.Invoke(d.Key, d.Object);
                     }
                 });
+        }
+        //Kiểm tra gọi
+        public async Task<VideoCall> CheckForPendingCalls(string myUserId)
+        {
+            try
+            {
+                var calls = await rtcClient
+                    .Child("calls")
+                    .OnceAsync<VideoCall>();
+
+                foreach (var item in calls)
+                {
+                    var call = item.Object;
+                    // Tìm cuộc gọi dành cho mình và đang ở trạng thái "calling"
+                    if (call.ReceiverId == myUserId && call.Status == "calling")
+                    {
+                        return call; // Tìm thấy!
+                    }
+                }
+            }
+            catch { }
+            return null; // Không có ai gọi
         }
 
 

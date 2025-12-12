@@ -4,6 +4,7 @@ using LOGIN.Models;
 using Main_Interface.User_Controls;
 using System.Dynamic;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 
 
@@ -24,6 +25,8 @@ namespace Main_Interface
         private bool loadedDs = false;
         private bool loadedGhepDoi = false;
         private bool loadedCaiDat = false;
+        private bool isBusy = false;
+        System.Windows.Forms.Timer callCheckTimer = new System.Windows.Forms.Timer();
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();
@@ -52,7 +55,33 @@ namespace Main_Interface
             this.btn_dsnt.Enabled = true;
             this.btn_caidat.Enabled = true;
             this.btn_hscn.Enabled = true;
-          //  this.btn_thongbao.Enabled = true;
+            //  this.btn_thongbao.Enabled = true;
+
+            callCheckTimer.Interval = 3000; // 3 giây
+            callCheckTimer.Tick += CallCheckTimer_Tick;
+            callCheckTimer.Start();
+        }
+        private async void CallCheckTimer_Tick(object sender, EventArgs e)
+        {
+            // Tạm dừng timer để tránh chạy chồng chéo
+            callCheckTimer.Stop();
+
+            try
+            {
+               
+                var pendingCall = await auth.CheckForPendingCalls(Session.LocalId);
+
+                if (pendingCall != null)
+                {
+                   
+                    HandleIncomingCall(pendingCall);
+                }
+            }
+            finally
+            {
+                // Chạy lại timer
+                callCheckTimer.Start();
+            }
         }
 
         private void btn_vip_Click(object sender, EventArgs e)
@@ -206,7 +235,7 @@ namespace Main_Interface
             });
         }
 
-        // ==== Hàm tạo nút chung (ver 2) ====
+       
         private Button CreateNavButton(string icon, string text)
         {
             var btn = new Button();
