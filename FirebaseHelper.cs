@@ -317,8 +317,26 @@ namespace LOGIN
         {
             string defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "AvatarMacDinh.png");
 
+            // ✅ Nếu base64 rỗng => thử dùng ảnh mặc định, hoặc ảnh tạm
             if (string.IsNullOrEmpty(base64))
-                return Image.FromFile(defaultPath);
+            {
+                if (File.Exists(defaultPath))
+                {
+                    return Image.FromFile(defaultPath);
+                }
+                else
+                {
+                    // ✅ Không có file ảnh mặc định => tạo ảnh tạm để tránh lỗi
+                    Bitmap bmp = new Bitmap(100, 100);
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        g.Clear(Color.LightGray);
+                        g.DrawString("No Avatar", new Font("Segoe UI", 9, FontStyle.Bold),
+                                     Brushes.Black, new PointF(10, 40));
+                    }
+                    return bmp;
+                }
+            }
 
             try
             {
@@ -330,7 +348,18 @@ namespace LOGIN
             }
             catch
             {
-                return Image.FromFile(defaultPath);
+                // ✅ Nếu base64 bị lỗi, vẫn fallback như trên
+                if (File.Exists(defaultPath))
+                    return Image.FromFile(defaultPath);
+
+                Bitmap bmp = new Bitmap(100, 100);
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(Color.LightGray);
+                    g.DrawString("Invalid Img", new Font("Segoe UI", 9, FontStyle.Bold),
+                                 Brushes.Black, new PointF(10, 40));
+                }
+                return bmp;
             }
         }
         public async Task<List<USER>> GetRandomSuggest(string userId, int limit = 5)
@@ -381,8 +410,48 @@ namespace LOGIN
                 toUserId = toUser,
                 text = text,
                 timestamp = Timestamp.GetCurrentTimestamp(),
-                ChatId = conversationId
+                ChatId = conversationId,
+
+                // NEW
+                deletedFor = new List<string>(),
+                isRecalled = false,
+                recalledBy = "",
+                recalledAt = (Timestamp?)null
             });
+        }
+
+        public async Task DeleteMessageForMeAsync(string messageId, string myUserId)
+        {
+            var msgRef = db.Collection("messages").Document(messageId);
+
+            await msgRef.UpdateAsync(new Dictionary<string, object>
+    {
+        { "deletedFor", FieldValue.ArrayUnion(myUserId) }
+    });
+        }
+
+
+        public async Task RecallMessageForAllAsync(string messageId, string myUserId)
+        {
+            var msgRef = db.Collection("messages").Document(messageId);
+            var snap = await msgRef.GetSnapshotAsync();
+            if (!snap.Exists) return;
+
+            // Chặn thu hồi nếu không phải người gửi
+            if (snap.TryGetValue("fromUserId", out string fromUserId))
+            {
+                if (fromUserId != myUserId)
+                    throw new InvalidOperationException("Chỉ người gửi mới được thu hồi tin nhắn.");
+            }
+
+            await msgRef.UpdateAsync(new Dictionary<string, object>
+{
+    { "isRecalled", true },
+    { "recalledBy", myUserId },
+    { "recalledAt", Timestamp.GetCurrentTimestamp() },
+    { "text", "" },
+    { "imageUrl", FieldValue.Delete }
+});
         }
 
 
@@ -409,10 +478,27 @@ namespace LOGIN
 
                 foreach (var doc in snapshot.Documents)
                 {
+                    // 1) Nếu user hiện tại nằm trong deletedFor => bỏ qua (ẩn phía tôi)
+                    if (doc.TryGetValue("deletedFor", out List<string> deletedFor) &&
+                        deletedFor != null && deletedFor.Contains(user1))   // giả định user1 là user hiện tại
+                    {
+                        continue;
+                    }
+
                     var msg = doc.ConvertTo<Messagemodels>();
                     msg.Id = doc.Id;
+
+                    // 2) Nếu đã thu hồi => ép UI hiển thị dạng "đã thu hồi"
+                    if (doc.TryGetValue("isRecalled", out bool isRecalled) && isRecalled)
+                    {
+                        msg.text = "Tin nhắn đã được thu hồi";
+                        // nếu Messagemodels có imageUrl thì set null
+                        // msg.imageUrl = null;
+                    }
+
                     messages.Add(msg);
                 }
+
 
                 // Sắp xếp trong code
                 messages = messages.OrderBy(m =>
