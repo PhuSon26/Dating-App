@@ -50,6 +50,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="Resources\CallVD.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="serviceAccountKey.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

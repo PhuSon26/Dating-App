@@ -84,6 +84,7 @@ namespace LOGIN
 
                 // Load đúng file vừa tạo
                 webView.CoreWebView2.Navigate(currentTempHtmlPath);
+                webView.WebMessageReceived += WebView_WebMessageReceived;
                 // --------------------
 
                 await Task.Delay(1000);
@@ -93,11 +94,19 @@ namespace LOGIN
                 MessageBox.Show($"Lỗi WebRTC: {ex.Message}");
             }
         }
+        private async void WebView_WebMessageReceived(object sender, Microsoft.Web.WebView2.Core.CoreWebView2WebMessageReceivedEventArgs e)
+        {
+            
+            string message = e.TryGetWebMessageAsString();
 
-        // ---------------------- UI -----------------------
-        private Button btnEnd;
-        private Button btnMute;
-        private Label lblStatus;
+            if (message == "hangup")
+            {
+
+                await EndCall();
+            }
+        }
+
+
         private WebView2 webView;
 
         private void InitUI()
@@ -114,56 +123,8 @@ namespace LOGIN
             };
             Controls.Add(webView);
 
-            Panel bottom = new Panel
-            {
-                Dock = DockStyle.Bottom,
-                Height = 70,
-                BackColor = System.Drawing.Color.FromArgb(30, 30, 30)
-            };
-            Controls.Add(bottom);
+            
 
-            btnEnd = new Button
-            {
-                Text = "End Call",
-                BackColor = System.Drawing.Color.Red,
-                ForeColor = System.Drawing.Color.White,
-                Width = 100,
-                Height = 40,
-                Left = 20,
-                Top = 15,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand
-            };
-            btnEnd.FlatAppearance.BorderSize = 0;
-            btnEnd.Click += async (s, e) => await EndCall();
-            bottom.Controls.Add(btnEnd);
-
-            btnMute = new Button
-            {
-                Text = "🎤 Mute",
-                BackColor = System.Drawing.Color.Gray,
-                ForeColor = System.Drawing.Color.White,
-                Width = 100,
-                Height = 40,
-                Left = 140,
-                Top = 15,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand
-            };
-            btnMute.FlatAppearance.BorderSize = 0;
-            btnMute.Click += ToggleMute;
-            bottom.Controls.Add(btnMute);
-
-            lblStatus = new Label
-            {
-                Text = isIncoming ? "Incoming call..." : "Calling...",
-                ForeColor = System.Drawing.Color.White,
-                Top = 25,
-                Left = 260,
-                AutoSize = true,
-                Font = new System.Drawing.Font("Segoe UI", 10F)
-            };
-            bottom.Controls.Add(lblStatus);
         }
 
         // ---------------- JS BRIDGE ---------------------
@@ -173,8 +134,8 @@ namespace LOGIN
             if (string.IsNullOrEmpty(s)) return "";
             return s.Replace("\\", "\\\\")
                     .Replace("\"", "\\\"")
-                    .Replace("\n", "\\n")
-                    .Replace("\r", "\\r");
+                    .Replace("\r", "")      
+                    .Replace("\n", "\\n"); 
         }
 
         private async Task CallJs(string fn, string arg)
@@ -197,7 +158,7 @@ namespace LOGIN
         {
             try
             {
-                lblStatus.Text = "Đang kết nối...";
+              
 
                 // 1. Khởi tạo WebRTC trước để sẵn sàng
                 await InitWebRTC();
@@ -233,7 +194,7 @@ namespace LOGIN
         {
             try
             {
-                lblStatus.Text = "Đang trả lời...";
+               
                 await InitWebRTC();
 
                 // Đăng ký nhận message từ WebView2
@@ -246,15 +207,19 @@ namespace LOGIN
                 // Lắng nghe ICE candidates
                 firebase.ListenIceCandidate(call.CallId, localUserId);
 
-                // LƯU callId nếu chưa lưu
+               
                 this.callId = call.CallId;
+                firebase.OnMediaStatusChanged += OnRemoteMediaStatusChanged;
+                firebase.ListenMediaStatus(callId, remoteUserId);
 
                 // Set remote offer into JS — giả sử JS có function setRemoteOffer(sdp)
                 if (!string.IsNullOrEmpty(call.Offer))
                 {
                     await CallJs("setRemoteOffer", call.Offer);
-                    // Sau khi vừa setRemoteOffer, JS nên tạo answer và post message "answer:<sdp>" => OnWebMessageReceived sẽ gửi AcceptCall
+                    await Task.Delay(500); 
+                    await CallJs("createAnswer", "");
                 }
+
 
                 System.Diagnostics.Debug.WriteLine("Đã sẵn sàng nhận offer");
             }
@@ -288,7 +253,11 @@ namespace LOGIN
                         sdp
                     );
 
-                    lblStatus.Text = "Đang chờ phản hồi...";
+                    // Đăng ký event
+                    firebase.OnMediaStatusChanged += OnRemoteMediaStatusChanged;
+
+                    // Bắt đầu lắng nghe trạng thái của đối phương
+                    firebase.ListenMediaStatus(callId, remoteUserId);
 
                     // Bắt đầu lắng nghe ICE candidates
                     firebase.ListenIceCandidate(callId, localUserId);
@@ -302,7 +271,7 @@ namespace LOGIN
                 {
                     string answer = msg.Substring(7);
                     await firebase.AcceptCall(callId, answer);
-                    lblStatus.Text = "Đã kết nối";
+                   
                     callStarted = true;
                 }
                 else if (msg.StartsWith("candidate:"))
@@ -318,19 +287,47 @@ namespace LOGIN
                 }
                 else if (msg == "connected")
                 {
-                    lblStatus.Text = "✓ Đã kết nối";
+                   
                     callStarted = true;
                 }
                 else if (msg == "disconnected")
                 {
-                    lblStatus.Text = "Mất kết nối";
+                   
                     await EndCall();
                 }
+                if (msg.StartsWith("mic:") || msg.StartsWith("cam:"))
+                {
+                    if (string.IsNullOrEmpty(callId)) return;
+                    var parts = msg.Split(':');
+                    string type = parts[0]; // mic hoặc cam
+                    string state = parts[1]; // on hoặc off
+
+                    // Gửi trạng thái này lên Firebase
+                    await firebase.UpdateMediaStatus(callId, localUserId, type, state);
+                }
+               
+
+
             }
+
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Lỗi OnWebMessageReceived: {ex.Message}");
             }
+        }
+        // Hàm này sẽ được gọi khi Firebase báo người kia thay đổi Mic/Cam
+        private void OnRemoteMediaStatusChanged(string type, string state)
+        {
+            if (this.IsDisposed || webView == null || webView.CoreWebView2 == null)
+            {
+                return; 
+            }
+            this.Invoke(new Action(async () =>
+            {
+                System.Diagnostics.Debug.WriteLine($"[C#] Nhận update từ Remote: Type={type}, State={state}");
+                await webView.ExecuteScriptAsync($"updateRemoteState('{type}', '{state}')");
+            }));
+           
         }
         private async void ProcessCandidateMsg(string msg)
         {
@@ -379,7 +376,7 @@ namespace LOGIN
             {
                 try
                 {
-                    lblStatus.Text = "Đang kết nối...";
+                   
 
                     // Set remote answer
                     if (!string.IsNullOrEmpty(call.Answer))
@@ -413,7 +410,7 @@ namespace LOGIN
 
             this.Invoke(new Action(() =>
             {
-                lblStatus.Text = "Cuộc gọi đã kết thúc";
+               
                 this.Close();
             }));
         }
@@ -446,21 +443,18 @@ namespace LOGIN
 
         // ---------------- MUTE ----------------
 
-        private void ToggleMute(object sender, EventArgs e)
-        {
-            isMuted = !isMuted;
-            btnMute.Text = isMuted ? "🔇 Unmute" : "🎤 Mute";
-            btnMute.BackColor = isMuted ? System.Drawing.Color.DarkRed : System.Drawing.Color.Gray;
-
-            webView.ExecuteScriptAsync($"toggleMute({(isMuted ? "true" : "false")});");
-        }
-
+      
         // ---------------- FORM CLOSING ----------------
 
         private void VideoCallForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
             {
+                if (!string.IsNullOrEmpty(callId))
+                {
+                    
+                    _ = firebase.EndCall(callId);
+                }
                 firebase.StopVideoCallListeners();
 
                 // Hủy đăng ký tất cả events
@@ -476,6 +470,11 @@ namespace LOGIN
                 if (!string.IsNullOrEmpty(currentTempHtmlPath) && System.IO.File.Exists(currentTempHtmlPath))
                 {
                     System.IO.File.Delete(currentTempHtmlPath);
+                }
+                if (webView != null && webView.CoreWebView2 != null)
+                {
+                    
+                    webView.Dispose();
                 }
             }
             catch (Exception ex)

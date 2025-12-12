@@ -738,6 +738,41 @@ namespace LOGIN
             callListener?.Dispose();
             iceListener?.Dispose();
         }
+        public async Task UpdateMediaStatus(string callId, string userId, string type, string state)
+        {
+            try
+            {
+                // Lưu vào path: calls/{callId}/states/{userId}/{type}
+                await rtcClient
+                    .Child("calls")
+                    .Child(callId)
+                    .Child("states")
+                    .Child(userId)
+                    .Child(type) // "mic" hoặc "cam"
+                    .PutAsync(state); // "on" hoặc "off"
+            }
+            catch { }
+        }
+        public event Action<string, string> OnMediaStatusChanged;
+
+        public void ListenMediaStatus(string callId, string remoteUserId)
+        {
+             rtcClient
+                .Child("calls")
+                .Child(callId)
+                .Child("states")
+                .Child(remoteUserId)
+                .AsObservable<string>()
+                .Subscribe(d =>
+                {
+                    if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate
+         && !string.IsNullOrEmpty(d.Key)
+         && !string.IsNullOrEmpty(d.Object))
+                    {
+                        OnMediaStatusChanged?.Invoke(d.Key, d.Object);
+                    }
+                });
+        }
 
 
 

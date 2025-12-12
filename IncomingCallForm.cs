@@ -2,11 +2,10 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using LOGIN.Models; // Đảm bảo import Models của bạn
-
+using LOGIN.Models;
 namespace LOGIN
 {
-    public  partial class IncomingCallForm : Form
+    public partial class IncomingCallForm : Form
     {
         private PictureBox picAvatar;
         private Label lblName;
@@ -18,7 +17,7 @@ namespace LOGIN
 
         public IncomingCallForm(string callerName, Image callerAvatar = null)
         {
-            // 1. Cấu hình Form
+           
             this.FormBorderStyle = FormBorderStyle.None;
             this.Size = new Size(350, 450);
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -34,11 +33,11 @@ namespace LOGIN
             picAvatar.Location = new Point((this.Width - 120) / 2, 50);
             picAvatar.SizeMode = PictureBoxSizeMode.StretchImage;
 
-            // Nếu có ảnh thì dùng, không thì dùng ảnh mặc định trong Resources
+          
             if (callerAvatar != null)
                 picAvatar.Image = callerAvatar;
             else
-                picAvatar.BackColor = Color.Gray; // Hoặc load ảnh default từ Resource
+                picAvatar.BackColor = Color.Gray; 
 
             // Làm tròn avatar
             GraphicsPath gp = new GraphicsPath();
@@ -68,7 +67,8 @@ namespace LOGIN
             // 5. Nút Từ chối (Đỏ)
             btnReject = CreateCircleButton("✖", Color.FromArgb(255, 69, 58), 60);
             btnReject.Location = new Point(50, 320);
-            btnReject.Click += (s, e) => {
+            btnReject.Click += (s, e) =>
+            {
                 this.DialogResult = DialogResult.No;
                 this.Close();
             };
@@ -76,7 +76,8 @@ namespace LOGIN
             // 6. Nút Nghe máy (Xanh)
             btnAccept = CreateCircleButton("📞", Color.FromArgb(48, 209, 88), 60);
             btnAccept.Location = new Point(240, 320);
-            btnAccept.Click += (s, e) => {
+            btnAccept.Click += (s, e) =>
+            {
                 this.DialogResult = DialogResult.Yes;
                 this.Close();
             };
@@ -114,7 +115,7 @@ namespace LOGIN
 
         private void IncomingCallForm_Paint(object sender, PaintEventArgs e)
         {
-            // Vẽ viền gradient cho đẹp
+           
             using (LinearGradientBrush brush = new LinearGradientBrush(this.ClientRectangle,
                 Color.FromArgb(20, 30, 48), Color.FromArgb(36, 59, 85), 90F))
             {
@@ -122,8 +123,13 @@ namespace LOGIN
             }
         }
 
-        // Import DLL để bo tròn Form
+       
         [System.Runtime.InteropServices.DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+
+        private void IncomingCallForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

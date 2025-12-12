@@ -37,7 +37,7 @@
             ClientSize = new Size(800, 450);
             Name = "IncomingCallForm";
             Text = "IncomingCallForm";
-           // Load += IncomingCallForm_Load;
+            Load += IncomingCallForm_Load;
             ResumeLayout(false);
         }
 

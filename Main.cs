@@ -245,8 +245,7 @@ namespace Main_Interface
 
             auth.ListenForIncomingCall(Session.LocalId);
         }
-        // Trong Main.cs, sửa hàm HandleIncomingCall
-
+        
         private async void HandleIncomingCall(VideoCall call)
         {
             if (InvokeRequired)
@@ -284,12 +283,12 @@ namespace Main_Interface
           //  try { player.PlayLooping(); } catch { }
 
             
-            using (var incomingForm = new IncomingCallForm(call.CallerName, avatar))
+            using (var incomingForm = new IncomingCallForm(callername, avatar))
             {
-                // Hiện form đè lên trên cùng (TopMost)
+               
                 incomingForm.TopMost = true;
 
-                var result = incomingForm.ShowDialog(); // Chờ người dùng bấm
+                var result = incomingForm.ShowDialog(); 
 
                 // Tắt nhạc chuông
              //   try { player.Stop(); } catch { }
@@ -301,7 +300,7 @@ namespace Main_Interface
                         Session.LocalId,
                         u.ten,
                         call.CallerId,
-                        call.CallerName,
+                        callername,
                         auth,
                         call.CallId
                     );
