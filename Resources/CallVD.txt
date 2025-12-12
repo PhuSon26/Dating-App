@@ -473,6 +473,7 @@ btnToggleCam.addEventListener('click', () => {
                 await pc.addIceCandidate(c);
             }
             pendingCandidates = [];
+            await createAnswer();
         }
 
         async function createAnswer() {

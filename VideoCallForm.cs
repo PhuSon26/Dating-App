@@ -216,8 +216,7 @@ namespace LOGIN
                 if (!string.IsNullOrEmpty(call.Offer))
                 {
                     await CallJs("setRemoteOffer", call.Offer);
-                    await Task.Delay(500); 
-                    await CallJs("createAnswer", "");
+                   
                 }
 
 
