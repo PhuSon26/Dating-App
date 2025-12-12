@@ -62,26 +62,19 @@ namespace LOGIN.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html&gt;
+        ///&lt;html lang=&quot;vi&quot;&gt;
         ///&lt;head&gt;
         ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
         ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-        ///    &lt;title&gt;Video Call&lt;/title&gt;
+        ///    &lt;title&gt;Modern Video Call Interface&lt;/title&gt;
+        ///    &lt;link href=&quot;https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css&quot; rel=&quot;stylesheet&quot;&gt;
         ///    &lt;style&gt;
-        ///        * {
-        ///            margin: 0;
-        ///            padding: 0;
-        ///            box-sizing: border-box;
-        ///        }
-        ///
-        ///        body {
-        ///            background: #000;
-        ///            overflow: hidden;
-        ///            font-family: &apos;Segoe UI&apos;, Tahoma, Geneva, Verdana, sans-serif;
-        ///        }
-        ///
-        ///        #videoContainer {
-        ///            position: rela [rest of string was truncated]&quot;;.
+        ///        :root {
+        ///            --primary-color: #0a0a0a;
+        ///            --secondary-color: #1f1f1f;
+        ///            --accent-color: #3b82f6;
+        ///            --danger-color: #ef4444;
+        ///            --text-co [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CallVD {
             get {

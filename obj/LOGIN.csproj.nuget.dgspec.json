@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[4.0.2.7, )"
             },
+            "FM.IceLink.WebRTC": {
+              "target": "Package",
+              "version": "[2.9.32, )"
+            },
             "Firebase.Auth": {
               "target": "Package",
               "version": "[1.0.0, )"
@@ -81,6 +85,10 @@
             "Microsoft.Data.SqlClient": {
               "target": "Package",
               "version": "[6.1.2, )"
+            },
+            "Microsoft.Web.WebView2": {
+              "target": "Package",
+              "version": "[1.0.3650.58, )"
             },
             "SendGrid": {
               "target": "Package",
@@ -110,7 +118,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
