@@ -17,7 +17,10 @@
           "Google.Cloud.Firestore": "4.0.0",
           "Microsoft.Data.SqlClient": "6.1.2",
           "SendGrid": "9.29.3",
-          "Twilio": "7.13.5"
+          "Twilio": "7.13.5",
+          "Microsoft.Web.WebView2.Core": "1.0.3650.58",
+          "Microsoft.Web.WebView2.WinForms": "1.0.3650.58",
+          "Microsoft.Web.WebView2.Wpf": "1.0.3650.58"
         },
         "runtime": {
           "LOGIN.dll": {}
@@ -1444,6 +1447,30 @@
             "fileVersion": "7.13.5.0"
           }
         }
+      },
+      "Microsoft.Web.WebView2.Core/1.0.3650.58": {
+        "runtime": {
+          "Microsoft.Web.WebView2.Core.dll": {
+            "assemblyVersion": "1.0.3650.58",
+            "fileVersion": "1.0.3650.58"
+          }
+        }
+      },
+      "Microsoft.Web.WebView2.WinForms/1.0.3650.58": {
+        "runtime": {
+          "Microsoft.Web.WebView2.WinForms.dll": {
+            "assemblyVersion": "1.0.3650.58",
+            "fileVersion": "1.0.3650.58"
+          }
+        }
+      },
+      "Microsoft.Web.WebView2.Wpf/1.0.3650.58": {
+        "runtime": {
+          "Microsoft.Web.WebView2.Wpf.dll": {
+            "assemblyVersion": "1.0.3650.58",
+            "fileVersion": "1.0.3650.58"
+          }
+        }
       }
     }
   },
@@ -2446,6 +2473,21 @@
       "sha512": "sha512-nbavXQTV/shSPnkpTXGfbMOl4G02Qc7vaKHQdwYgWZekOscCSCmH2ctk8AnJP5uUF3uKeap1WuWMZudfED2MjA==",
       "path": "twilio/7.13.5",
       "hashPath": "twilio.7.13.5.nupkg.sha512"
+    },
+    "Microsoft.Web.WebView2.Core/1.0.3650.58": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Web.WebView2.WinForms/1.0.3650.58": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Web.WebView2.Wpf/1.0.3650.58": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

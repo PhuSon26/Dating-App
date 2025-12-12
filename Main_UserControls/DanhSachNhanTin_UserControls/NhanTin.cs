@@ -393,15 +393,21 @@ namespace Main_Interface.User_Controls
         private void StartBlockListener()
         {
             string chatId = firebase.GetConversationId(myUserId, targetUser.Id);
+
             blockListener = firebase.db.Collection("ChatMeta").Document(chatId)
                 .Listen(snapshot =>
                 {
                     if (!snapshot.Exists) return;
 
-                    var blockedBy = snapshot.GetValue<List<string>>("blockedBy") ?? new List<string>();
+                    List<string> blockedBy;
+                    if (!snapshot.TryGetValue("blockedBy", out blockedBy))
+                    {
+                        blockedBy = new List<string>(); // chưa bị ai block
+                    }
+
                     bool iAmBlocked = blockedBy.Contains(targetUser.Id); // người kia block mình
 
-                    if (iAmBlocked != isBlocked) // nếu trạng thái thay đổi
+                    if (iAmBlocked != isBlocked)
                     {
                         this.Invoke(new Action(async () =>
                         {
