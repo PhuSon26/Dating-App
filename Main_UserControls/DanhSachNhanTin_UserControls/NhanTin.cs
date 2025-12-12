@@ -831,6 +831,30 @@ namespace Main_Interface.User_Controls
                 Padding = new Padding(10, 0, 10, 0)
             };
             wrapper.Controls.Add(bubble);
+            // ===== Context menu: Xóa phía tôi / Thu hồi =====
+            var menu = new ContextMenuStrip();
+
+            menu.Items.Add("Xóa phía tôi", null, async (_, __) =>
+            {
+                await firebase.DeleteMessageForMeAsync(msg.Id, Session.LocalId);
+            });
+
+            // Chỉ người gửi mới được thu hồi
+            if (msg.fromUserId == Session.LocalId)
+            {
+                menu.Items.Add("Thu hồi (cả 2 bên)", null, async (_, __) =>
+                {
+                    await firebase.RecallMessageForAllAsync(msg.Id, Session.LocalId);
+                });
+            }
+
+            // Gán cho wrapper + bubble + các control con (để bấm chuột phải ở đâu cũng hiện menu)
+            void AttachMenu(Control parent)
+            {
+                parent.ContextMenuStrip = menu;
+                foreach (Control c in parent.Controls) AttachMenu(c);
+            }
+            AttachMenu(wrapper);
 
             return wrapper;
         }
