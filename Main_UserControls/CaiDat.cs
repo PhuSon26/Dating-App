@@ -26,7 +26,7 @@ namespace Main_Interface.User_Controls
             MainForm = m;
             dmk = new DoiEmailMatKhau(MainForm);
             gthieu = new GioiThieuUngDung(MainForm);
-            dsc = new DanhSachChan(MainForm);
+            dsc = new DanhSachChan(MainForm, MainForm.auth);
         }
         public void LoadUserControl(UserControl uc)
         {
