@@ -26,7 +26,6 @@ namespace Main_Interface.User_Controls
             MainForm = m;
             dmk = new DoiEmailMatKhau(MainForm);
             gthieu = new GioiThieuUngDung(MainForm);
-            dsc = new DanhSachChan(MainForm, MainForm.auth);
         }
         public void LoadUserControl(UserControl uc)
         {
@@ -51,6 +50,7 @@ namespace Main_Interface.User_Controls
 
         private void btn_dsChan_Click(object sender, EventArgs e)
         {
+            dsc = new DanhSachChan(MainForm, MainForm.auth);
             LoadUserControl(dsc);
         }
 
