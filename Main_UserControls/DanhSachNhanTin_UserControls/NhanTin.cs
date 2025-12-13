@@ -1,6 +1,7 @@
 using Google.Cloud.Firestore;
 using LOGIN;
 using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
+using LOGIN.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,6 +19,7 @@ namespace Main_Interface.User_Controls
         private Label lblUserName;
         private Label lblStatus;
         private Button btnBack;
+        private Button btnVideoCall; 
         private FlowLayoutPanel pnlChatContainer;
         private Panel pnlBottom;
         private TextBox txtMessage;
@@ -41,7 +43,15 @@ namespace Main_Interface.User_Controls
         {
             targetUser = user;
             myUserId = Session.LocalId;
-            firebase = new FirebaseAuthHelper("login-bb104");
+
+
+            if (m.auth == null)
+            {
+                m.auth = new FirebaseAuthHelper("login-bb104");
+             
+            }
+            this.firebase = m.auth;
+
             conversationId = firebase.GetConversationId(myUserId, targetUser.Id);
 
             InitializeComponent();
@@ -51,8 +61,12 @@ namespace Main_Interface.User_Controls
             this.firebase = m.auth;
             loading = new LoadingSpinner(this);
         }
+       
 
-        
+
+        // ======================================================
+        // ====================== UI CHAT ========================
+        // ======================================================
         private void SetupCustomUI()
         {
             this.BackColor = Color.White;
@@ -115,13 +129,58 @@ namespace Main_Interface.User_Controls
                 AutoSize = true,
                 Location = new Point(130, 43)
             };
+            ///Nút Call video
+            btnVideoCall = new Button
+            {
+                Text = "🎥",
+                Size = new Size(50, 50),
+                Location = new Point(pnlHeader.Width - 220, 15),
+                BackColor = Color.FromArgb(0, 123, 255),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 20F),
+                Cursor = Cursors.Hand,
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+            btnVideoCall.FlatAppearance.BorderSize = 0;
+            btnVideoCall.Click += BtnVideoCall_Click;
+
+            // Bo tròn nút video call
+            System.Drawing.Drawing2D.GraphicsPath pathVideo = new System.Drawing.Drawing2D.GraphicsPath();
+            pathVideo.AddEllipse(0, 0, btnVideoCall.Width, btnVideoCall.Height);
+            btnVideoCall.Region = new Region(pathVideo);
+
+            // NÚT REFRESH
+            Button btnRefresh = new Button
+            {
+                Text = "🔄",
+                Size = new Size(50, 30),
+                Location = new Point(pnlHeader.Width - 150, 25),
+                BackColor = Color.FromArgb(50, 150, 255),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand,
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
+            };
+            btnRefresh.FlatAppearance.BorderSize = 0;
+            btnRefresh.Click += async (s, e) =>
+            {
+                System.Diagnostics.Debug.WriteLine("Đang refresh...");
+                await LoadExistingMessages();
+            };
+
+           
+
             pnlHeader.Controls.Add(btnBack);
             pnlHeader.Controls.Add(picAvatar);
             pnlHeader.Controls.Add(lblUserName);
             pnlHeader.Controls.Add(lblStatus);
+            pnlHeader.Controls.Add(btnRefresh);
+            pnlHeader.Controls.Add(btnVideoCall);
+          
 
             // PANEL CHỨA TIN NHẮN
-            pnlChatContainer = new FlowLayoutPanel
+            pnlChatContainer = new DoubleBufferedFlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 AutoScroll = true,
@@ -223,6 +282,65 @@ namespace Main_Interface.User_Controls
             Controls.Add(pnlBottom);
             Controls.Add(pnlHeader);
         }
+        private async void BtnVideoCall_Click(object sender, EventArgs e)
+        {
+            if (Session.IsBusy) return;
+            try
+            {
+                btnVideoCall.Enabled = false;
+                Session.IsBusy = true;
+                System.Diagnostics.Debug.WriteLine($"Bắt đầu gọi video tới {targetUser.ten}");
+
+                string myName ="Người Dùng";
+
+
+                VideoCallForm videoForm = new VideoCallForm(
+                    myUserId,
+                    myName
+                  ,
+                    targetUser.Id,
+                    targetUser.ten,
+                    firebase
+                );
+                videoForm.FormClosed += (s, args) =>
+                {
+                    Session.IsBusy = false;
+                };
+
+                videoForm.Show();
+
+                // Bắt đầu cuộc gọi
+                await videoForm.StartOutgoingCall();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khởi tạo video call: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Diagnostics.Debug.WriteLine($"Lỗi video call: {ex.Message}");
+            }
+            finally
+            {
+                btnVideoCall.Enabled = true;
+            }
+        }
+      
+
+       
+
+      
+        private void OnVideoCallRejected(VideoCall call)
+        {
+            this.Invoke(new Action(() =>
+            {
+                MessageBox.Show(
+                    $"{targetUser.ten} đã từ chối cuộc gọi",
+                    "Thông báo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }));
+        }
+
+       
         private void PicAvatar_Click(object sender, EventArgs e)
         {
             HoSoNguoiKhac hsnk = new HoSoNguoiKhac(targetUser, firebase);
@@ -447,7 +565,9 @@ namespace Main_Interface.User_Controls
                 {
                     try
                     {
-                        return m.timestamp.ToDateTime();
+                        if (m.timestamp == null) return DateTime.Now;
+
+                        return m.timestamp.ToDateTime().ToLocalTime();
                     }
                     catch
                     {
@@ -508,8 +628,7 @@ namespace Main_Interface.User_Controls
 
             string messageToSend = text;
             txtMessage.Clear();
-            txtMessage.Text = "Nhập tin nhắn...";
-            txtMessage.ForeColor = Color.Gray;
+          
 
             btnSend.Enabled = false;
 
@@ -522,9 +641,7 @@ namespace Main_Interface.User_Controls
 
                 System.Diagnostics.Debug.WriteLine("Tin đã gửi thành công");
 
-                // TẢI LẠI TIN NHẮN SAU KHI GỬI
-                await Task.Delay(500); // Đợi Firestore cập nhật
-                await LoadExistingMessages();
+                
             }
             catch (Exception ex)
             {
@@ -545,95 +662,110 @@ namespace Main_Interface.User_Controls
         // ======================================================
         private void UpdateUIWithMessages(List<Messagemodels> messages)
         {
-            System.Diagnostics.Debug.WriteLine($"=== UpdateUIWithMessages BẮT ĐẦU ===");
-            System.Diagnostics.Debug.WriteLine($"Số tin nhắn: {messages?.Count ?? 0}");
-            System.Diagnostics.Debug.WriteLine($"InvokeRequired: {pnlChatContainer.InvokeRequired}");
-
             if (pnlChatContainer.InvokeRequired)
             {
-                System.Diagnostics.Debug.WriteLine("Đang Invoke...");
                 pnlChatContainer.Invoke(new Action(() => UpdateUIWithMessages(messages)));
                 return;
             }
 
-            System.Diagnostics.Debug.WriteLine("Bắt đầu cập nhật UI...");
-
-            bool shouldScrollToBottom = false;
-            if (pnlChatContainer.Controls.Count > 0)
-            {
-                shouldScrollToBottom = pnlChatContainer.VerticalScroll.Value >=
-                    pnlChatContainer.VerticalScroll.Maximum - pnlChatContainer.Height - 50;
-            }
-            else
-            {
-                shouldScrollToBottom = true;
-            }
-
-            pnlChatContainer.SuspendLayout();
-            pnlChatContainer.Controls.Clear();
-            System.Diagnostics.Debug.WriteLine("Đã clear controls");
-
+            // 1. Nếu danh sách rỗng hoặc null -> Xóa hết hiển thị thông báo rỗng
             if (messages == null || messages.Count == 0)
             {
-                System.Diagnostics.Debug.WriteLine("Hiển thị UI rỗng");
-                Label lblEmpty = new Label
-                {
-                    Text = "Chưa có tin nhắn nào.\nHãy bắt đầu cuộc trò chuyện!",
-                    AutoSize = true,
-                    Font = new Font("Segoe UI", 11F),
-                    ForeColor = Color.Gray,
-                    TextAlign = ContentAlignment.MiddleCenter,
-                    Padding = new Padding(0, 50, 0, 0),
-                    Dock = DockStyle.Top
-                };
-                pnlChatContainer.Controls.Add(lblEmpty);
+                pnlChatContainer.Controls.Clear();
+              
+                return;
+            }
+
+            bool isAtBottom = IsScrolledToBottom();
+
+            if (currentMessages.Count == 0 || (messages.Count > 0 && messages.Last().fromUserId == myUserId))
+            {
+                isAtBottom = true;
+            }
+
+            pnlChatContainer.SuspendLayout(); // Tạm dừng vẽ để đỡ giật
+
+           
+            int startIndex = 0;
+
+            // Nếu UI đang có tin nhắn, ta chỉ lấy những tin mới hơn tin cuối cùng hiện tại
+            if (currentMessages.Count > 0 && messages.Count >= currentMessages.Count)
+            {
+                // Giả sử messages luôn là list đầy đủ và đã sort, ta chỉ cần vẽ phần đuôi
+                startIndex = currentMessages.Count;
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine($"Đang tạo bubble cho {messages.Count} tin nhắn");
-                string lastDate = "";
-
-                foreach (var msg in messages)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Tin: {msg.text} từ {msg.fromUserId}");
-
-                    DateTime msgDateTime;
-                    try
-                    {
-                        msgDateTime = msg.timestamp.ToDateTime();
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Lỗi convert timestamp: {ex.Message}");
-                        msgDateTime = DateTime.Now;
-                    }
-
-                    string msgDate = msgDateTime.ToString("dd/MM/yyyy");
-                    if (msgDate != lastDate)
-                    {
-                        pnlChatContainer.Controls.Add(CreateDateSeparator(msgDateTime));
-                        lastDate = msgDate;
-                    }
-
-                    pnlChatContainer.Controls.Add(CreateBubble(msg));
-                }
-
-                System.Diagnostics.Debug.WriteLine($"Đã tạo {pnlChatContainer.Controls.Count} controls");
+                // Trường hợp load lần đầu hoặc refresh -> Vẽ lại từ đầu
+                pnlChatContainer.Controls.Clear();
+                startIndex = 0;
             }
 
-            pnlChatContainer.ResumeLayout();
-            System.Diagnostics.Debug.WriteLine("ResumeLayout hoàn thành");
+            // 3. Vòng lặp chỉ chạy qua các tin nhắn MỚI
+            string lastDate = "";
 
-            if (shouldScrollToBottom && pnlChatContainer.Controls.Count > 0)
+            // Lấy ngày của tin nhắn cuối cùng đang hiện (nếu có) để so sánh separator
+            if (startIndex > 0 && currentMessages.Count > 0)
             {
-                pnlChatContainer.ScrollControlIntoView(
-                    pnlChatContainer.Controls[pnlChatContainer.Controls.Count - 1]
-                );
-                System.Diagnostics.Debug.WriteLine("Đã scroll xuống");
+                try
+                {
+                    lastDate = currentMessages.Last().timestamp.ToDateTime().ToLocalTime().ToString("dd/MM/yyyy");
+                }
+                catch { }
+            }
+
+            for (int i = startIndex; i < messages.Count; i++)
+            {
+                var msg = messages[i];
+                DateTime msgDateTime;
+                try { msgDateTime = msg.timestamp.ToDateTime().ToLocalTime(); }
+                catch { msgDateTime = DateTime.Now; }
+
+                // Kiểm tra ngày để thêm thanh ngăn cách
+                string msgDate = msgDateTime.ToString("dd/MM/yyyy");
+                if (msgDate != lastDate)
+                {
+                    pnlChatContainer.Controls.Add(CreateDateSeparator(msgDateTime));
+                    lastDate = msgDate;
+                }
+
+                // Thêm tin nhắn
+                pnlChatContainer.Controls.Add(CreateBubble(msg));
             }
 
             currentMessages = messages;
-            System.Diagnostics.Debug.WriteLine($"=== UpdateUIWithMessages KẾT THÚC ===");
+            pnlChatContainer.ResumeLayout();
+            if (isAtBottom)
+            {
+                // Hack nhẹ: Đợi UI vẽ xong mới cuộn
+                Task.Run(async () =>
+                {
+                    await Task.Delay(50); // Đợi 50ms cho layout ổn định
+                    this.Invoke(new Action(() =>
+                    {
+                        ScrollToBottom();
+                    }));
+                });
+            }
+
+        }
+        private void ScrollToBottom()
+        {
+            // Cách cuộn triệt để nhất trong WinForms
+            pnlChatContainer.AutoScrollPosition = new Point(0, pnlChatContainer.VerticalScroll.Maximum);
+            pnlChatContainer.VerticalScroll.Value = pnlChatContainer.VerticalScroll.Maximum;
+            pnlChatContainer.PerformLayout();
+        }
+
+        private bool IsScrolledToBottom()
+        {
+            // Kiểm tra xem thanh cuộn có đang ở gần đáy không
+            int totalHeight = pnlChatContainer.VerticalScroll.Maximum;
+            int visibleHeight = pnlChatContainer.ClientSize.Height;
+            int currentPos = pnlChatContainer.VerticalScroll.Value;
+
+            // Cho phép sai số 50px
+            return (totalHeight - visibleHeight - currentPos) < 50;
         }
 
         // ======================================================
@@ -726,7 +858,7 @@ namespace Main_Interface.User_Controls
             DateTime msgTime;
             try
             {
-                msgTime = msg.timestamp.ToDateTime();
+                msgTime = msg.timestamp.ToDateTime().ToLocalTime();
             }
             catch
             {
@@ -945,6 +1077,26 @@ namespace Main_Interface.User_Controls
             listener?.StopAsync();
             blockListener?.StopAsync();
             base.OnHandleDestroyed(e);
+        }
+        public class DoubleBufferedFlowLayoutPanel : FlowLayoutPanel
+        {
+            public DoubleBufferedFlowLayoutPanel()
+            {
+                this.DoubleBuffered = true;
+                this.SetStyle(ControlStyles.AllPaintingInWmPaint |
+                              ControlStyles.OptimizedDoubleBuffer |
+                              ControlStyles.UserPaint, true);
+                this.UpdateStyles();
+            }
+            protected override CreateParams CreateParams
+            {
+                get
+                {
+                    CreateParams cp = base.CreateParams;
+                    cp.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED
+                    return cp;
+                }
+            }
         }
     }
 }

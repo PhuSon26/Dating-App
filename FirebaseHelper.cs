@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 using System.IO;
 using Firebase.Storage;
 using Firebase.Auth;
+using Firebase.Database;
+using Firebase.Database.Query;
+
 using Amazon.ElasticBeanstalk.Model;
 using Amazon.ElasticLoadBalancing.Model;
 using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
+using LOGIN.Models;
 
 namespace LOGIN
 {
@@ -20,6 +24,9 @@ namespace LOGIN
         public string userID;
         public string email;
         public string password;
+        public FirebaseClient rtcClient;
+        private IDisposable callListener;
+        private IDisposable iceListener;
 
         public FirebaseAuthHelper(string apiKey)
         {
@@ -34,6 +41,11 @@ namespace LOGIN
                 credPath);
 
             db = FirestoreDb.Create("login-bb104");
+            rtcClient = new FirebaseClient(
+               "https://login-bb104-default-rtdb.firebaseio.com/"
+           );
+
+
         }
         private async Task<string> PostAsync(string url, object data)
         {
@@ -192,6 +204,7 @@ namespace LOGIN
                 return await task;
             }
         }
+
 
         /// <summary>
         /// Gửi tin nhắn (text + optional ảnh) vào cuộc trò chuyện của một match.
@@ -634,17 +647,242 @@ namespace LOGIN
                 System.Diagnostics.Debug.WriteLine("LỖI TẠO CHAT META: " + ex.Message);
             }
         }
-        public async Task AddReaction(string messageId, string userId, string emoji)
+        // =============================================
+        // ============  VIDEO CALL MODULE  ============
+        // =============================================
+
+       
+        /// <summary>
+        /// Khởi tạo module VideoCall
+        /// </summary>
+       
+
+
+       
+        public event Action<VideoCall> OnIncomingCall;
+        public event Action<VideoCall> OnCallAccepted;
+        public event Action<VideoCall> OnCallRejected;
+        public event Action<VideoCall> OnCallEnded;
+        public event Action<IceCandidate> OnIceCandidate;
+
+        /// <summary>
+        /// Gửi lời mời gọi video
+        /// </summary>
+        public async Task<string> SendCallOffer(
+            string callerId,
+            string callerName,
+            string receiverId,
+            string offerSdp)
         {
-            var msgRef = db.Collection("messages").Document(messageId);
-            await msgRef.UpdateAsync($"reaction.{userId}", emoji);
+            string callId = Guid.NewGuid().ToString();
+
+            var callData = new VideoCall
+            {
+                CallId = callId,
+                CallerId = callerId,
+                CallerName = callerName,
+                ReceiverId = receiverId,
+                Offer = offerSdp,
+                Status = "ringing",
+                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            };
+
+            await rtcClient
+                .Child("video_calls")
+                .Child(callId)
+                .PutAsync(callData);
+
+            return callId;
         }
-        public async Task RemoveReaction(string messageId, string userId)
+
+        /// <summary>
+        /// Lắng nghe các cuộc gọi đến user hiện tại
+        /// </summary>
+        public void ListenForIncomingCall(string userId)
         {
-            var msgRef = db.Collection("messages").Document(messageId);
-            await msgRef.UpdateAsync($"reaction.{userId}", FieldValue.Delete);
+            callListener?.Dispose();
+
+
+            callListener = rtcClient
+                .Child("video_calls")
+                .AsObservable<VideoCall>()
+                .Subscribe(d =>
+                {
+                    if (d.Object == null) return;
+
+                    var call = d.Object;
+                    
+                    if (call.ReceiverId == userId && call.Status == "ringing")
+                        OnIncomingCall?.Invoke(call);
+
+                    if (call.CallerId == userId && call.Status == "accepted")
+                        OnCallAccepted?.Invoke(call);
+
+                    if ((call.CallerId == userId || call.ReceiverId == userId))
+                    {
+                        if (call.Status == "rejected") OnCallRejected?.Invoke(call);
+                        if (call.Status == "ended") OnCallEnded?.Invoke(call);
+                    }
+                });
         }
-        // Block
+
+        /// <summary>
+        /// Trả lời cuộc gọi (send answer SDP)
+        /// </summary>
+        public async Task AcceptCall(string callId, string answerSdp)
+        {
+            await rtcClient
+                .Child("video_calls")
+                .Child(callId)
+                .PatchAsync(new
+                {
+                    answer = answerSdp,
+                    status = "accepted"
+                });
+        }
+
+        /// <summary>
+        /// Từ chối cuộc gọi
+        /// </summary>
+        public async Task RejectCall(string callId)
+        {
+            await rtcClient
+                .Child("video_calls")
+                .Child(callId)
+                .PatchAsync(new { status = "rejected" });
+        }
+
+        /// <summary>
+        /// Kết thúc cuộc gọi
+        /// </summary>
+        public async Task EndCall(string callId)
+        {
+            await rtcClient
+                .Child("video_calls")
+                .Child(callId)
+                .PatchAsync(new { status = "ended" });
+        }
+
+
+        // =====================
+        // ICE CANDIDATES
+        // =====================
+
+        public async Task SendIceCandidate(
+    string callId, string userId,
+    string candidate, string sdpMid, int index)
+        {
+            // Thêm kiểm tra an toàn
+            if (rtcClient == null)
+            {
+                System.Diagnostics.Debug.WriteLine("LỖI: rtcClient chưa được khởi tạo!");
+                return;
+            }
+            if (string.IsNullOrEmpty(callId))
+            {
+                System.Diagnostics.Debug.WriteLine("LỖI: callId bị null, chưa thể gửi candidate.");
+                return;
+            }
+
+            var data = new IceCandidate
+            {
+                UserId = userId,
+                Candidate = candidate,
+                SdpMid = sdpMid,
+                SdpMLineIndex = index
+            };
+
+            try
+            {
+                await rtcClient
+                    .Child("ice_candidates")
+                    .Child(callId)
+                    .PostAsync(data);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Lỗi gửi ICE: " + ex.Message);
+            }
+        }
+
+        public void ListenIceCandidate(string callId, string localUserId)
+        {
+            iceListener = rtcClient
+                .Child("ice_candidates")
+                .Child(callId)
+                .AsObservable<IceCandidate>()
+                .Subscribe(d =>
+                {
+                    if (d.Object == null) return;
+
+                    var ice = d.Object;
+                    if (ice.UserId != localUserId)
+                        OnIceCandidate?.Invoke(ice);
+                });
+            
+        }
+        public void StopVideoCallListeners()
+        {
+            callListener?.Dispose();
+            iceListener?.Dispose();
+        }
+        public async Task UpdateMediaStatus(string callId, string userId, string type, string state)
+        {
+            try
+            {
+                // Lưu vào path: calls/{callId}/states/{userId}/{type}
+                await rtcClient
+                    .Child("calls")
+                    .Child(callId)
+                    .Child("states")
+                    .Child(userId)
+                    .Child(type) // "mic" hoặc "cam"
+                    .PutAsync(state); // "on" hoặc "off"
+            }
+            catch { }
+        }
+        public event Action<string, string> OnMediaStatusChanged;
+
+        public void ListenMediaStatus(string callId, string remoteUserId)
+        {
+             rtcClient
+                .Child("calls")
+                .Child(callId)
+                .Child("states")
+                .Child(remoteUserId)
+                .AsObservable<string>()
+                .Subscribe(d =>
+                {
+                    if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate
+         && !string.IsNullOrEmpty(d.Key)
+         && !string.IsNullOrEmpty(d.Object))
+                    {
+                        OnMediaStatusChanged?.Invoke(d.Key, d.Object);
+                    }
+                });
+        }
+        //Kiểm tra gọi
+        public async Task<VideoCall> CheckForPendingCalls(string myUserId)
+        {
+            try
+            {
+                var calls = await rtcClient
+                    .Child("calls")
+                    .OnceAsync<VideoCall>();
+
+                foreach (var item in calls)
+                {
+                    var call = item.Object;
+                    // Tìm cuộc gọi dành cho mình và đang ở trạng thái "calling"
+                    if (call.ReceiverId == myUserId && call.Status == "calling")
+                    {
+                        return call; // Tìm thấy!
+                    }
+                }
+            }
+            catch { }
+            return null; // Không có ai gọi
+        }
         public async Task BlockUser(string myId, string targetId)
         {
             string chatId = GetConversationId(myId, targetId);
@@ -676,5 +914,19 @@ namespace LOGIN
             var blocked = await GetBlockedList(myId, targetId);
             return blocked.Contains(targetId); // người kia block mình
         }
+        public async Task AddReaction(string messageId, string userId, string emoji)
+        {
+            var msgRef = db.Collection("messages").Document(messageId);
+            await msgRef.UpdateAsync($"reaction.{userId}", emoji);
+        }
+        public async Task RemoveReaction(string messageId, string userId)
+        {
+            var msgRef = db.Collection("messages").Document(messageId);
+            await msgRef.UpdateAsync($"reaction.{userId}", FieldValue.Delete);
+        }
     }
 }
+
+
+
+    

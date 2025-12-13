@@ -1,7 +1,12 @@
 ﻿using Dating_app_nhom3;
 using LOGIN;
+using LOGIN.Models;
 using Main_Interface.User_Controls;
+using System.Dynamic;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
+
 
 namespace Main_Interface
 {
@@ -20,6 +25,8 @@ namespace Main_Interface
         private bool loadedDs = false;
         private bool loadedGhepDoi = false;
         private bool loadedCaiDat = false;
+        private bool isBusy = false;
+        System.Windows.Forms.Timer callCheckTimer = new System.Windows.Forms.Timer();
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();
@@ -33,19 +40,48 @@ namespace Main_Interface
             this.btn_dsnt.Enabled = false;
             this.btn_caidat.Enabled = false;
             this.btn_hscn.Enabled = false;
-            this.btn_thongbao.Enabled = false;
-            LoadingSpinner loading = new LoadingSpinner(this);
+          //  this.btn_thongbao.Enabled = false;
+        LoadingSpinner loading = new LoadingSpinner(this);
             loading.pbSpinner.BackColor = Color.FromArgb(255, 250, 253);
             loading.Show();
             u = await auth.getUser();
+            Session.LocalId = u.Id;
+            InitVideoSystem();
             gd = new GhepDoi(this);
             LoadContent(gd);
             loading.Hide();
+          
             this.btn_ghepdoi.Enabled = true;
             this.btn_dsnt.Enabled = true;
             this.btn_caidat.Enabled = true;
             this.btn_hscn.Enabled = true;
-            this.btn_thongbao.Enabled = true;
+            //  this.btn_thongbao.Enabled = true;
+
+            callCheckTimer.Interval = 3000; // 3 giây
+            callCheckTimer.Tick += CallCheckTimer_Tick;
+            callCheckTimer.Start();
+        }
+        private async void CallCheckTimer_Tick(object sender, EventArgs e)
+        {
+            // Tạm dừng timer để tránh chạy chồng chéo
+            callCheckTimer.Stop();
+
+            try
+            {
+               
+                var pendingCall = await auth.CheckForPendingCalls(Session.LocalId);
+
+                if (pendingCall != null)
+                {
+                   
+                    HandleIncomingCall(pendingCall);
+                }
+            }
+            finally
+            {
+                // Chạy lại timer
+                callCheckTimer.Start();
+            }
         }
 
         private void btn_vip_Click(object sender, EventArgs e)
@@ -199,7 +235,7 @@ namespace Main_Interface
             });
         }
 
-        // ==== Hàm tạo nút chung (ver 2) ====
+       
         private Button CreateNavButton(string icon, string text)
         {
             var btn = new Button();
@@ -229,5 +265,94 @@ namespace Main_Interface
         {
           
         }
+        public void InitVideoSystem()
+        {
+           
+
+            auth.OnIncomingCall += HandleIncomingCall;
+          
+
+            auth.ListenForIncomingCall(Session.LocalId);
+        }
+        
+        private async void HandleIncomingCall(VideoCall call)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => HandleIncomingCall(call)));
+                return;
+            }
+            string callername = call.CallerName;
+            
+            Image avatar = null;
+            try
+            {
+               
+                USER caller = await auth.GetUserById(call.CallerId);
+                if (caller != null)
+                {
+                    // Lấy tên thật trong hồ sơ (nếu có)
+                    if (!string.IsNullOrEmpty(caller.ten))
+                        callername = caller.ten;
+
+                    // Lấy Avatar thật (Convert từ Base64)
+                    // Lưu ý: Đảm bảo user có trường AvatarUrl hoặc AvatarBase64 tùy model của bạn
+                    if (!string.IsNullOrEmpty(caller.AvatarUrl))
+                    {
+                        avatar = auth.Base64ToImage(caller.AvatarUrl);
+                    }
+                }
+
+            }
+            catch { }
+
+            // 2. PHÁT NHẠC CHUÔNG (Tùy chọn - Cực kỳ khuyến khích)
+          //  System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\admin\Desktop\nhac_chuong_iphone_11_pro_max-www_tiengdong_com.mp3");
+           
+          //  try { player.PlayLooping(); } catch { }
+
+            
+            using (var incomingForm = new IncomingCallForm(callername, avatar))
+            {
+               
+                incomingForm.TopMost = true;
+
+                var result = incomingForm.ShowDialog(); 
+
+                // Tắt nhạc chuông
+             //   try { player.Stop(); } catch { }
+
+                if (result == DialogResult.Yes)
+                {
+                    // --- CHẤP NHẬN ---
+                    var vcForm = new VideoCallForm(
+                        Session.LocalId,
+                        u.ten,
+                        call.CallerId,
+                        callername,
+                        auth,
+                        call.CallId
+                    );
+                    vcForm.Show();
+                    _ = vcForm.AnswerIncoming(call);
+                }
+                else
+                {
+                    // --- TỪ CHỐI ---
+                    try
+                    {
+                        _ = auth.RejectCall(call.CallId);
+                    }
+                    catch { }
+                }
+            }
+        }
+
+
+
+
+
+
+
     }
 }

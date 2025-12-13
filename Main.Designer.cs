@@ -17,7 +17,6 @@
         {
             panelMain = new Panel();
             lblLogo = new Label();
-            btn_thongbao = new RoundedButton();
             panelContent = new Panel();
             panelButtons = new Panel();
             btn_vip = new Button();
@@ -33,7 +32,6 @@
             panelMain.AutoSize = true;
             panelMain.BackColor = Color.FromArgb(255, 245, 250);
             panelMain.Controls.Add(lblLogo);
-            panelMain.Controls.Add(btn_thongbao);
             panelMain.Controls.Add(panelContent);
             panelMain.Controls.Add(panelButtons);
             panelMain.Dock = DockStyle.Fill;
@@ -56,21 +54,6 @@
             lblLogo.TabIndex = 1;
             lblLogo.Text = "💖 SynHeart 💖";
             lblLogo.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // btn_thongbao
-            // 
-            btn_thongbao.BackColor = Color.FromArgb(235, 140, 46);
-            btn_thongbao.CornerRadius = 20;
-            btn_thongbao.FlatStyle = FlatStyle.Flat;
-            btn_thongbao.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_thongbao.ForeColor = Color.Yellow;
-            btn_thongbao.Location = new Point(907, 0);
-            btn_thongbao.Margin = new Padding(3, 2, 3, 2);
-            btn_thongbao.Name = "btn_thongbao";
-            btn_thongbao.Size = new Size(143, 76);
-            btn_thongbao.TabIndex = 3;
-            btn_thongbao.Text = "🔔";
-            btn_thongbao.UseVisualStyleBackColor = false;
             // 
             // panelContent
             // 

@@ -3,6 +3,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
+
+
 namespace LOGIN
 {
     public class LoadingSpinner
@@ -97,5 +99,19 @@ namespace LOGIN
             pbSpinner.Visible = false;
             Application.DoEvents();
         }
+        private Image LoadGifFromResource(UnmanagedMemoryStream resourceStream)
+        {
+            // Copy dữ liệu từ resource sang mảng byte
+            byte[] buffer = new byte[resourceStream.Length];
+            resourceStream.Read(buffer, 0, (int)resourceStream.Length);
+
+            // Tạo MemoryStream riêng – KHÔNG dispose – để giữ GIF sống
+            MemoryStream ms = new MemoryStream(buffer);
+
+            // Clone để tách khỏi MemoryStream (giảm lỗi GDI)
+            Image img = Image.FromStream(ms);
+            return new Bitmap(img);
+        }
+
     }
 }

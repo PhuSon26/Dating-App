@@ -11,6 +11,9 @@
     <Compile Update="dsthongbao.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="IncomingCallForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +78,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="thongbaonoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="VideoCallForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
