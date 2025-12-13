@@ -52,9 +52,7 @@ namespace Main_Interface.User_Controls
             loading = new LoadingSpinner(this);
         }
 
-        // ======================================================
-        // ====================== UI CHAT ========================
-        // ======================================================
+        
         private void SetupCustomUI()
         {
             this.BackColor = Color.White;
