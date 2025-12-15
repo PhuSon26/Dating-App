@@ -69,6 +69,7 @@
             panelPictures.Name = "panelPictures";
             panelPictures.Size = new Size(1051, 282);
             panelPictures.TabIndex = 3;
+            panelPictures.Paint += panelPictures_Paint_1;
             // 
             // avatar
             // 

@@ -522,12 +522,9 @@ namespace Main_Interface.User_Controls
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"=== ĐANG TẢI TIN NHẮN ===");
-                System.Diagnostics.Debug.WriteLine($"ConversationId đang dùng: {conversationId}");
-                System.Diagnostics.Debug.WriteLine($"MyUserId: {myUserId}");
-                System.Diagnostics.Debug.WriteLine($"TargetUserId: {targetUser.Id}");
+              
 
-                // BỎ .OrderBy() ĐỂ TRÁNH LỖI INDEX
+              
                 var messagesRef = firebase.db.Collection("messages")
                                     .WhereEqualTo("ChatId", conversationId);
 
@@ -544,7 +541,7 @@ namespace Main_Interface.User_Controls
                     messages.Add(msg);
                 }
 
-                // SẮP XẾP TRONG CODE THAY VÌ TRONG QUERY
+                
                 messages = messages.OrderBy(m =>
                 {
                     try
@@ -559,7 +556,7 @@ namespace Main_Interface.User_Controls
                     }
                 }).ToList();
 
-                System.Diagnostics.Debug.WriteLine($"Đã sắp xếp {messages.Count} tin nhắn");
+              
 
                 if (messages.Count > 0)
                 {
@@ -567,14 +564,13 @@ namespace Main_Interface.User_Controls
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine("Không có tin nhắn nào");
+                   
                     UpdateUIWithMessages(new List<Messagemodels>());
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Lỗi LoadExistingMessages: {ex.Message}");
-                System.Diagnostics.Debug.WriteLine($"StackTrace: {ex.StackTrace}");
+               
                 UpdateUIWithMessages(new List<Messagemodels>());
             }
         }
@@ -622,6 +618,13 @@ namespace Main_Interface.User_Controls
 
                 await firebase.SendMessage(myUserId, targetUser.Id, messageToSend);
                 await firebase.UpdateChatMeta(myUserId, targetUser.Id, messageToSend);
+                await firebase.PushNotificationAsync(
+                    Session.LocalId,
+                    "user",
+                    targetUser.Id,
+                    messageToSend,
+                    "message"
+                    );
 
                 System.Diagnostics.Debug.WriteLine("Tin đã gửi thành công");
 

@@ -478,7 +478,7 @@ namespace LOGIN
     string user1,
     string user2,
     Action<List<Messagemodels>> onMessagesChanged)
-        {   
+        {
             string chatId = GetConversationId(user1, user2);
 
             // BỎ .OrderBy() để tránh lỗi index
@@ -620,8 +620,14 @@ namespace LOGIN
 
                 if (arr != null && arr.Contains(currentUserId))
                 {
-                    string other = arr.First(u => u != currentUserId);
-                    results.Add(other);
+                    
+                    string other = arr.FirstOrDefault(u => u != currentUserId);
+
+                   
+                    if (!string.IsNullOrEmpty(other))
+                    {
+                        results.Add(other);
+                    }
                 }
             }
             return results;
@@ -666,14 +672,14 @@ namespace LOGIN
         // ============  VIDEO CALL MODULE  ============
         // =============================================
 
-       
+
         /// <summary>
         /// Khởi tạo module VideoCall
         /// </summary>
-       
 
 
-       
+
+
         public event Action<VideoCall> OnIncomingCall;
         public event Action<VideoCall> OnCallAccepted;
         public event Action<VideoCall> OnCallRejected;
@@ -726,7 +732,7 @@ namespace LOGIN
                     if (d.Object == null) return;
 
                     var call = d.Object;
-                    
+
                     if (call.ReceiverId == userId && call.Status == "ringing")
                         OnIncomingCall?.Invoke(call);
 
@@ -834,7 +840,7 @@ namespace LOGIN
                     if (ice.UserId != localUserId)
                         OnIceCandidate?.Invoke(ice);
                 });
-            
+
         }
         public void StopVideoCallListeners()
         {
@@ -860,21 +866,21 @@ namespace LOGIN
 
         public void ListenMediaStatus(string callId, string remoteUserId)
         {
-             rtcClient
-                .Child("calls")
-                .Child(callId)
-                .Child("states")
-                .Child(remoteUserId)
-                .AsObservable<string>()
-                .Subscribe(d =>
-                {
-                    if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate
-         && !string.IsNullOrEmpty(d.Key)
-         && !string.IsNullOrEmpty(d.Object))
-                    {
-                        OnMediaStatusChanged?.Invoke(d.Key, d.Object);
-                    }
-                });
+            rtcClient
+               .Child("calls")
+               .Child(callId)
+               .Child("states")
+               .Child(remoteUserId)
+               .AsObservable<string>()
+               .Subscribe(d =>
+               {
+                   if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate
+        && !string.IsNullOrEmpty(d.Key)
+        && !string.IsNullOrEmpty(d.Object))
+                   {
+                       OnMediaStatusChanged?.Invoke(d.Key, d.Object);
+                   }
+               });
         }
         //Kiểm tra gọi
         public async Task<VideoCall> CheckForPendingCalls(string myUserId)
@@ -943,10 +949,10 @@ namespace LOGIN
         ///THÔNG BÁO
 
         public event Action<NotificationModel> OnNotificationReceived;
-
         public void StartListeningNotification(string userId)
         {
             if (string.IsNullOrEmpty(userId)) return;
+            DateTime appStartTime = DateTime.UtcNow;
 
             var observable = rtcClient
                 .Child("notifications")
@@ -965,16 +971,159 @@ namespace LOGIN
 
                     if (noti != null)
                     {
-                        // 2. BẮN SỰ KIỆN: Gửi dữ liệu ra ngoài, ai lắng nghe thì tự xử lý UI
-                        OnNotificationReceived?.Invoke(noti);
+                        DateTime notiTime;
+                        bool isValidTime = DateTime.TryParse(noti.Timestamp, out notiTime);
+
+                        if (isValidTime && notiTime > appStartTime.AddSeconds(-2))
+                        {
+                            OnNotificationReceived?.Invoke(noti);
+                        }
                     }
                 }
             });
         }
 
-      
+       
+
+
+
+public async Task<List<NotificationModel>> GetAllNotifications(string userId)
+        {
+            try
+            {
+                var items = await rtcClient
+                    .Child("notifications")
+                    .Child(userId)
+                    .OrderByKey()
+                    .LimitToLast(20) // Lấy 20 thông báo gần nhất
+                    .OnceAsync<NotificationModel>();
+
+                List<NotificationModel> list = new List<NotificationModel>();
+
+                foreach (var item in items)
+                {
+                    var noti = item.Object;
+                    // Firebase Realtime DB lưu timestamp dạng ticks hoặc string, tùy dữ liệu thật của bạn
+                    // Code này giả định bạn muốn list đảo ngược (mới nhất lên đầu)
+                    list.Insert(0, noti);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Lỗi lấy danh sách thông báo: " + ex.Message);
+                return new List<NotificationModel>();
+            }
         }
+      
+        public async Task PushNotificationAsync(string senderId, string senderName, string receiverId, string content, string type)
+        {
+            try
+            {
+                var noti = new NotificationModel
+                {
+                    Title = senderName,
+                    Body = content,
+                    Type = type,        // "like", "match", "message"
+                    DataID = senderId,  // Gửi kèm ID người gửi
+                    Timestamp = DateTime.UtcNow.ToString("o")
+                };
+
+                // Ghi vào nhánh notifications/{receiverId}
+                await rtcClient.Child("notifications")
+                               .Child(receiverId)
+                               .PostAsync(noti);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Lỗi gửi thông báo: " + ex.Message);
+            }
+        }
+
+
+        // Sửa lại hàm này trong class FirebaseAuthHelper
+        public async Task<bool> SaveLikeAction(string myId, string targetId)
+        {
+            try
+            {
+                // 1. KIỂM TRA: Tìm xem đã có bản ghi nào chưa
+                QuerySnapshot checkSnap = await db.Collection("Likes")
+                    .WhereEqualTo("fromUserId", myId)
+                    .WhereEqualTo("toUserId", targetId)
+                    .Limit(1) // Chỉ cần tìm thấy 1 cái là đủ kết luận
+                    .GetSnapshotAsync();
+
+                // 2. KẾT LUẬN: Nếu tìm thấy (>0) nghĩa là đã like rồi
+                if (checkSnap.Count > 0)
+                {
+                    return false; // Trả về false để báo là "Đã like rồi"
+                }
+
+                // 3. THỰC HIỆN: Nếu chưa có thì mới thêm mới
+                var likeData = new
+                {
+                    fromUserId = myId,
+                    toUserId = targetId,
+                    createdAt = Timestamp.GetCurrentTimestamp()
+                };
+
+                await db.Collection("Likes").AddAsync(likeData);
+                return true; // Trả về true báo thành công
+            }
+            catch (Exception ex)
+            {
+                // Log lỗi nếu cần
+                return false;
+            }
+        }
+        public async Task<bool> CheckIfUserLikedMe(string myId, string targetId)
+        {
+            try
+            {
+               
+
+                QuerySnapshot snap = await db.Collection("Likes")
+                    .WhereEqualTo("fromUserId", targetId)
+                    .WhereEqualTo("toUserId", myId)
+                    .Limit(1) // Chỉ cần tìm thấy 1 cái là đủ
+                    .GetSnapshotAsync();
+
+                return snap.Count > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+      
+        public async Task CreateMatchRecord(string user1, string user2)
+        {
+            string matchId = GetConversationId(user1, user2);
+
+            DocumentSnapshot doc = await db.Collection("Matches").Document(matchId).GetSnapshotAsync();
+            if (doc.Exists) return;
+
+            var matchData = new
+            {
+                users = new System.Collections.Generic.List<string> { user1, user2 }, // Mảng users để query
+                createdAt = Timestamp.GetCurrentTimestamp(),
+                lastMessage = "You matched!",
+                id = matchId
+            };
+
+            await db.Collection("Matches").Document(matchId).SetAsync(matchData);
+        }
+
+
+
+
     }
+        
+    }
+
+
+
+
 
 
 

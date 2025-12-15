@@ -27,7 +27,7 @@ namespace Main_Interface.User_Controls
         private List<USER> suggestedUsers = new List<USER>();
 
         private int suggestIndex = 0;
-        private LOGIN.Match match;
+      
         string myUserId = Session.LocalId;
         private USER myUser;
         public GhepDoi()
@@ -38,7 +38,7 @@ namespace Main_Interface.User_Controls
         public GhepDoi(Main m)
         {
             InitializeComponent();
-            match = new LOGIN.Match("login-bb104", myUserId);
+           
             MainForm = m;
             authHelper = new FirebaseAuthHelper("login-bb104");
             loc = new LocUser(MainForm);
@@ -146,7 +146,7 @@ namespace Main_Interface.User_Controls
         {
             try
             {
-                suggestedUsers = await authHelper.GetRandomSuggest(userId, 5);
+                suggestedUsers = await authHelper.GetRandomSuggest(userId, 10);
 
                 if (suggestedUsers == null || suggestedUsers.Count == 0)
                 {
@@ -224,44 +224,75 @@ namespace Main_Interface.User_Controls
         }
         private async void btn_tim_Click(object sender, EventArgs e)
         {
-
+            // Kiểm tra dữ liệu đầu vào
             if (suggestedUsers == null || suggestedUsers.Count == 0) return;
+            if (suggestIndex < 0 || suggestIndex >= suggestedUsers.Count) return;
 
-            USER currentUserOnCard = suggestedUsers[suggestIndex];
-            string targetUserId = currentUserOnCard.Id;
+            USER targetUser = suggestedUsers[suggestIndex];
+            string targetUserId = targetUser.Id;
+            string myName = myUser.ten ?? "Someone";
 
-
-            btn_tim.Enabled = false;
+            btn_tim.Enabled = false; 
 
             try
             {
 
-                bool isMatch = await match.LikeUser(targetUserId);
+                bool isSuccess = await authHelper.SaveLikeAction(myUserId, targetUserId);
 
+                if (isSuccess == false)
+                {
+                    MessageBox.Show("Bạn đã thích người này rồi!");
+
+                   
+                    NextSuggestUser();
+                    return;
+
+                   
+                }
+
+
+                bool isMatch = await authHelper.CheckIfUserLikedMe(myUserId, targetUserId);
 
                 if (isMatch)
                 {
-                    MatchForm match = new MatchForm(myUser, currentUserOnCard, authHelper);
-                    match.ShowDialog();
-                    //MessageBox.Show($"Chúc mừng! Bạn và {currentUserOnCard.ten} đã tương hợp!", "It's a Match!");
+                  
+                    await authHelper.CreateMatchRecord(myUserId, targetUserId);
 
+                    
+                    await authHelper.PushNotificationAsync(
+                        myUserId, myName, targetUserId,
+                        "🔥 Tương hợp mới! Hãy bắt đầu trò chuyện.", "match");
+
+                  
+                    await authHelper.PushNotificationAsync(
+                        targetUserId, targetUser.ten, myUserId,
+                        "🔥 Bạn vừa tương hợp với " + targetUser.ten, "match");
+
+                    
+                    MessageBox.Show($"It's a Match! Bạn và {targetUser.ten} đã thích nhau.", "Chúc mừng");
                 }
                 else
                 {
-                    MessageBox.Show("Đã thả tim thành công!");
+                   
+
+                   
+                    await authHelper.PushNotificationAsync(
+                        myUserId, myName, targetUserId,
+                        "❤️ Ai đó vừa thích bạn!", "like");
+
+
                 }
 
-
+               
                 NextSuggestUser();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi kết nối: " + ex.Message);
+                MessageBox.Show("Lỗi: " + ex.Message);
             }
             finally
             {
-                // Mở lại nút bấm
-                btn_tim.Enabled = true;
+                btn_tim.Enabled = true; // Mở lại nút
             }
         }
         private void Flpanel_pictures_MouseWheel(object sender, MouseEventArgs e)
@@ -304,6 +335,11 @@ namespace Main_Interface.User_Controls
         }
 
         private void flpanel_pictures_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panelPictures_Paint_1(object sender, PaintEventArgs e)
         {
 
         }

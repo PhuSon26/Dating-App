@@ -133,7 +133,7 @@
             PerformLayout();
         }
         public Panel panelContent;
-        private RoundedButton btn_thongbao;
+        private Button btn_thongbao;
         private NotifyIcon notifyIcon1;
     }
 }

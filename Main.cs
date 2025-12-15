@@ -23,7 +23,7 @@ namespace Main_Interface
         public FirebaseAuthHelper auth;
         public CaiDat cd;
         public USER u;
-
+       
         private bool loadedHscn = false;
         private bool loadedVip = false;
         private bool loadedDs = false;
@@ -60,7 +60,6 @@ namespace Main_Interface
                     InitVideoSystem();
                     auth.OnNotificationReceived += FbHelper_OnNotificationReceived;
                     auth.StartListeningNotification(u.Id);
-
                     gd = new GhepDoi(this);
                     LoadContent(gd);
 
@@ -87,10 +86,15 @@ namespace Main_Interface
 
 
             }
+
+     
+
         private void FbHelper_OnNotificationReceived(LOGIN.Models.NotificationModel noti)
         {
+          
             if (this.InvokeRequired)
             {
+
                 this.Invoke(new Action(() => ShowNotificationUI(noti)));
             }
             else
@@ -101,40 +105,39 @@ namespace Main_Interface
 
         private void ShowNotificationUI(LOGIN.Models.NotificationModel noti)
         {
-            var icon = ToolTipIcon.Info;
-            string prefix = "";
+            // 1. Chuyển đổi từ string Type của Model sang Enum ToastType của Form
+            ToastType typeEnum = ToastType.System;
+            Image iconImg = null; // Hoặc set ảnh mặc định tùy ý
 
             switch (noti.Type)
             {
                 case "message":
-                    prefix = "[Tin nhắn] ";
-                    icon = ToolTipIcon.Info;
+                    typeEnum = ToastType.Message;
+                    // Nếu muốn hiện avatar người gửi, bạn cần tải ảnh từ noti.DataID (SenderID)
+                    // Tuy nhiên để thông báo hiện nhanh, ta tạm để null hoặc icon mặc định
                     break;
                 case "like":
-                    prefix = "❤️ ";
-                    icon = ToolTipIcon.None;
+                    typeEnum = ToastType.Like;
                     break;
                 case "match":
-                    prefix = "🔥 IT'S A MATCH! ";
-                    icon = ToolTipIcon.Warning;
+                    typeEnum = ToastType.Match;
                     break;
                 case "event":
-                    prefix = "📅 Sự kiện: ";
-                    icon = ToolTipIcon.Info;
+                    typeEnum = ToastType.System;
                     break;
                 default:
-                    prefix = "Thông báo: ";
+                    typeEnum = ToastType.System;
                     break;
             }
 
-            notifyIcon1.Visible = true;
-            notifyIcon1.BalloonTipTitle = prefix + noti.Title;
-            notifyIcon1.BalloonTipText = noti.Body;
-            notifyIcon1.BalloonTipIcon = icon;
-            notifyIcon1.Tag = noti.DataID;
+            
+            thongbaonoi toast = new thongbaonoi(noti.Title, noti.Body, iconImg, typeEnum);
 
-            notifyIcon1.ShowBalloonTip(5000);
+            // Hàm ShowInParent đã được bạn viết sẵn trong thongbaonoi.cs để trượt lên
+            toast.ShowInParent(this);
         }
+
+      
 
         // Sự kiện khi click vào bong bóng thông báo
         private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
@@ -281,7 +284,7 @@ namespace Main_Interface
         {
             panelButtons.Controls.Clear();
 
-            int buttonCount = 4; // số nút còn lại
+            int buttonCount = 5; // số nút còn lại
             int panelWidth = panelButtons.Width;
             int spacing = 10; // khoảng cách tối thiểu giữa các nút
 
@@ -307,16 +310,29 @@ namespace Main_Interface
             btn_caidat = CreateNavButton("⚙️", "Cài đặt", new Point(x, y));
             btn_caidat.Width = buttonWidth;
 
+            x += buttonWidth + spacing;
+            btn_thongbao = CreateNavButton("🔔", "Thông báo", new Point(x, y));
+
             // Gắn sự kiện click
             btn_ghepdoi.Click += btn_ghepdoi_Click;
             btn_dsnt.Click += btn_dsnt_Click;
             btn_hscn.Click += btn_hscn_Click;
             btn_caidat.Click += btn_caidat_Click;
+            btn_thongbao.Click += btn_thongbao_Click;
 
             panelButtons.Controls.AddRange(new Control[]
             {
-        btn_ghepdoi, btn_dsnt, btn_hscn, btn_caidat
+        btn_ghepdoi, btn_dsnt, btn_hscn, btn_caidat, btn_thongbao,
             });
+        }
+        private void btn_thongbao_Click(object sender, EventArgs e)
+        {
+            // Tạo và hiển thị UserControl danh sách
+            UC_ThongBaoList ucNoti = new UC_ThongBaoList(auth, Session.LocalId);
+            LoadContent(ucNoti);
+
+            // Highlight nút (Nếu dùng logic SetActiveButton)
+            SetActiveButton(btn_thongbao);
         }
 
 
