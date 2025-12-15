@@ -239,9 +239,25 @@ namespace LOGIN
             msg.messageId = addedMsgDoc.Id;
 
             string lastMsgPreview = !string.IsNullOrWhiteSpace(text) ? text : "[Hình ảnh]";
-            await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);
+
+            // nếu document chưa tồn tại, tạo mới luôn
+            var matchSnapshot = await matchDoc.GetSnapshotAsync();
+            if (!matchSnapshot.Exists)
+            {
+                await matchDoc.SetAsync(new Dictionary<string, object>
+    {
+        { "lastMessage", lastMsgPreview },
+        { "createdAt", Timestamp.FromDateTime(DateTime.UtcNow) },
+        { "users", new List<string> { senderId } } // hoặc thêm field cần thiết
+    });
+            }
+            else
+            {
+                await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);
+            }
 
             return msg;
+
         }
 
         // ==============================================

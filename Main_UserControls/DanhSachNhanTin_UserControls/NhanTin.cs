@@ -16,12 +16,15 @@ namespace Main_Interface.User_Controls
     {
         private readonly FirebaseAuthHelper auth;
         private readonly Main mainForm;
+        private Button btnSendImage;
+        
 
         public NhanTin(Main mainForm /* + các tham số khác nếu có */)
         {
             InitializeComponent();
             this.mainForm = mainForm;
             this.auth = mainForm.auth;
+            
         }
         private string currentMatchId;
         private Panel pnlHeader;
@@ -59,10 +62,13 @@ namespace Main_Interface.User_Controls
             this.Load += NhanTin_Load;
             SetupCustomUI();
             MainForm = m;
+
+          
+            this.auth = m.auth;
             this.firebase = m.auth;
+
             loading = new LoadingSpinner(this);
         }
-
         // ======================================================
         // ====================== UI CHAT ========================
         // ======================================================
@@ -235,6 +241,21 @@ namespace Main_Interface.User_Controls
             Controls.Add(pnlChatContainer);
             Controls.Add(pnlBottom);
             Controls.Add(pnlHeader);
+            btnSendImage = new Button
+            {
+                Text = "📷",
+                Size = new Size(50, 50),
+                Dock = DockStyle.Left,
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.White,
+                Font = new Font("Segoe UI Emoji", 14F, FontStyle.Regular),
+                Cursor = Cursors.Hand
+            };
+            btnSendImage.FlatAppearance.BorderSize = 0;
+            btnSendImage.Click += btnSendImage_Click;
+
+            // thêm nút vào panel chứa ô nhập tin nhắn
+            pnlBottom.Controls.Add(btnSendImage);
         }
         private void PicAvatar_Click(object sender, EventArgs e)
         {
@@ -973,9 +994,11 @@ namespace Main_Interface.User_Controls
 
                 string localPath = dlg.FileName;
 
-                // currentMatchId: matchId cuộc trò chuyện đang mở
-                await auth.SendMessageAsync(currentMatchId, Session.LocalId, text: "", localImagePath: localPath);
+                // currentMatchId:await auth.SendMessageAsync(conversationId, Session.LocalId, text: "", localImagePath: localPath);
+                await auth.SendMessageAsync(conversationId, Session.LocalId, text: "", localImagePath: localPath);
+
             }
+            ;
         }
     }
 }
