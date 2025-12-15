@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Google.Rpc.Context.AttributeContext.Types;
+using LOGIN.Properties;
 
 
 
@@ -431,10 +432,10 @@ namespace Main_Interface
             }
             catch { }
 
-            // 2. PHÁT NHẠC CHUÔNG (Tùy chọn - Cực kỳ khuyến khích)
-            //  System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\admin\Desktop\nhac_chuong_iphone_11_pro_max-www_tiengdong_com.mp3");
+           
+              System.Media.SoundPlayer player = new System.Media.SoundPlayer(LOGIN.Properties.Resource.nhaccho);
 
-            //  try { player.PlayLooping(); } catch { }
+             try { player.PlayLooping(); } catch { }
 
 
             using (var incomingForm = new IncomingCallForm(callername, avatar))
@@ -444,12 +445,11 @@ namespace Main_Interface
 
                 var result = incomingForm.ShowDialog();
 
-                // Tắt nhạc chuông
-                //   try { player.Stop(); } catch { }
+                  try { player.Stop(); } catch { }
 
                 if (result == DialogResult.Yes)
                 {
-                    // --- CHẤP NHẬN ---
+                  
                     var vcForm = new VideoCallForm(
                         Session.LocalId,
                         u.ten,

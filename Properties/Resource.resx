@@ -121,6 +121,9 @@
   <data name="CallVD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CallVD.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="nhaccho" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\nhac_chuong_iphone_11_pro_max-www_tiengdong_com.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="spin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Infinity@1x-1.0s-200px-200px.gif;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

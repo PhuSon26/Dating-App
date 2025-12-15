@@ -966,17 +966,21 @@ namespace LOGIN
                 // Chỉ xử lý khi có dữ liệu thêm mới hoặc cập nhật
                 if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
                 {
-                    // Lấy dữ liệu
                     var noti = d.Object;
+
 
                     if (noti != null)
                     {
                         DateTime notiTime;
                         bool isValidTime = DateTime.TryParse(noti.Timestamp, out notiTime);
 
-                        if (isValidTime && notiTime > appStartTime.AddSeconds(-2))
+                        if (isValidTime )
                         {
-                            OnNotificationReceived?.Invoke(noti);
+                            DateTime notiTimeUTC = notiTime.ToUniversalTime();
+                            if (notiTimeUTC > appStartTime)
+                            {
+                                OnNotificationReceived?.Invoke(noti);
+                            }
                         }
                     }
                 }

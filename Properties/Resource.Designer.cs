@@ -85,6 +85,15 @@ namespace LOGIN.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream nhaccho {
+            get {
+                return ResourceManager.GetStream("nhaccho", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream spin {
             get {
                 return ResourceManager.GetStream("spin", resourceCulture);
