@@ -1,19 +1,19 @@
+using Amazon.ElasticBeanstalk.Model;
+using Amazon.ElasticLoadBalancing.Model;
+using Firebase.Auth;
+using Firebase.Database;
+using Firebase.Database.Query;
+using Firebase.Storage;
 using Google.Cloud.Firestore;
+using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
+using LOGIN.Models;
 using System;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.IO;
-using Firebase.Storage;
-using Firebase.Auth;
-using Firebase.Database;
-using Firebase.Database.Query;
-
-using Amazon.ElasticBeanstalk.Model;
-using Amazon.ElasticLoadBalancing.Model;
-using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
-using LOGIN.Models;
+using System.Windows.Forms;
 
 namespace LOGIN
 {
@@ -523,6 +523,21 @@ namespace LOGIN
                 onMessagesChanged(messages);
             });
         }
+        public FirestoreChangeListener ListenToChatMeta(string user1, string user2, Action<ChatMeta> onMetaChanged)
+        {
+            string conversationId = GetConversationId(user1, user2);
+            DocumentReference docRef = db.Collection("ChatMeta").Document(conversationId);
+
+            return docRef.Listen(snapshot =>
+            {
+                if (snapshot.Exists)
+                {
+                    ChatMeta meta = snapshot.ConvertTo<ChatMeta>();
+                    meta.Id = snapshot.Id;
+                    onMetaChanged?.Invoke(meta);
+                }
+            });
+        }
         public async Task UpdateChatMeta(string fromUser, string toUser, string text)
         {
             string conversationId = GetConversationId(fromUser, toUser);
@@ -924,8 +939,43 @@ namespace LOGIN
             var msgRef = db.Collection("messages").Document(messageId);
             await msgRef.UpdateAsync($"reaction.{userId}", FieldValue.Delete);
         }
+
+        ///THÔNG BÁO
+
+        public event Action<NotificationModel> OnNotificationReceived;
+
+        public void StartListeningNotification(string userId)
+        {
+            if (string.IsNullOrEmpty(userId)) return;
+
+            var observable = rtcClient
+                .Child("notifications")
+                .Child(userId) // Dùng userId động, không hardcode "user_id_123"
+                .OrderByKey()
+                .LimitToLast(1)
+                .AsObservable<NotificationModel>();
+
+            observable.Subscribe(d =>
+            {
+                // Chỉ xử lý khi có dữ liệu thêm mới hoặc cập nhật
+                if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
+                {
+                    // Lấy dữ liệu
+                    var noti = d.Object;
+
+                    if (noti != null)
+                    {
+                        // 2. BẮN SỰ KIỆN: Gửi dữ liệu ra ngoài, ai lắng nghe thì tự xử lý UI
+                        OnNotificationReceived?.Invoke(noti);
+                    }
+                }
+            });
+        }
+
+      
+        }
     }
-}
+
 
 
 

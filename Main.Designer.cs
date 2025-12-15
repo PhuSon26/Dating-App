@@ -15,6 +15,7 @@
 
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             panelMain = new Panel();
             lblLogo = new Label();
             panelContent = new Panel();
@@ -24,6 +25,7 @@
             btn_dsnt = new Button();
             btn_hscn = new Button();
             btn_caidat = new Button();
+            notifyIcon1 = new NotifyIcon(components);
             panelMain.SuspendLayout();
             SuspendLayout();
             // 
@@ -40,6 +42,7 @@
             panelMain.Name = "panelMain";
             panelMain.Size = new Size(1050, 687);
             panelMain.TabIndex = 0;
+            panelMain.Paint += panelMain_Paint;
             // 
             // lblLogo
             // 
@@ -79,14 +82,12 @@
             // 
             btn_vip.Location = new Point(0, 0);
             btn_vip.Name = "btn_vip";
-            btn_vip.Size = new Size(75, 23);
             btn_vip.TabIndex = 0;
             // 
             // btn_ghepdoi
             // 
             btn_ghepdoi.Location = new Point(0, 0);
             btn_ghepdoi.Name = "btn_ghepdoi";
-            btn_ghepdoi.Size = new Size(75, 23);
             btn_ghepdoi.TabIndex = 0;
             btn_ghepdoi.Click += btn_ghepdoi_Click_1;
             // 
@@ -94,22 +95,23 @@
             // 
             btn_dsnt.Location = new Point(0, 0);
             btn_dsnt.Name = "btn_dsnt";
-            btn_dsnt.Size = new Size(75, 23);
             btn_dsnt.TabIndex = 0;
             // 
             // btn_hscn
             // 
             btn_hscn.Location = new Point(0, 0);
             btn_hscn.Name = "btn_hscn";
-            btn_hscn.Size = new Size(75, 23);
             btn_hscn.TabIndex = 0;
             // 
             // btn_caidat
             // 
             btn_caidat.Location = new Point(0, 0);
             btn_caidat.Name = "btn_caidat";
-            btn_caidat.Size = new Size(75, 23);
             btn_caidat.TabIndex = 0;
+            // 
+            // notifyIcon1
+            // 
+            notifyIcon1.Text = "notifyIcon1";
             // 
             // Main
             // 
@@ -132,5 +134,6 @@
         }
         public Panel panelContent;
         private RoundedButton btn_thongbao;
+        private NotifyIcon notifyIcon1;
     }
 }

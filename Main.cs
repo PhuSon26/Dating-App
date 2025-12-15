@@ -2,9 +2,13 @@
 using LOGIN;
 using LOGIN.Models;
 using Main_Interface.User_Controls;
+using System;
+using System.Drawing;
 using System.Dynamic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Google.Rpc.Context.AttributeContext.Types;
 
 
 
@@ -26,11 +30,14 @@ namespace Main_Interface
         private bool loadedGhepDoi = false;
         private bool loadedCaiDat = false;
         private bool isBusy = false;
-        System.Windows.Forms.Timer callCheckTimer = new System.Windows.Forms.Timer();
+        System.Windows.Forms.Timer callCheckTimer;
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();
             this.auth = auth;
+            callCheckTimer = new System.Windows.Forms.Timer();
+            callCheckTimer.Interval = 3000;
+            callCheckTimer.Tick += CallCheckTimer_Tick;
             SetupButtons();
         }
 
@@ -40,27 +47,104 @@ namespace Main_Interface
             this.btn_dsnt.Enabled = false;
             this.btn_caidat.Enabled = false;
             this.btn_hscn.Enabled = false;
-          //  this.btn_thongbao.Enabled = false;
-        LoadingSpinner loading = new LoadingSpinner(this);
+            //  this.btn_thongbao.Enabled = false;
+            LoadingSpinner loading = new LoadingSpinner(this);
             loading.pbSpinner.BackColor = Color.FromArgb(255, 250, 253);
             loading.Show();
-            u = await auth.getUser();
-            Session.LocalId = u.Id;
-            InitVideoSystem();
-            gd = new GhepDoi(this);
-            LoadContent(gd);
-            loading.Hide();
-          
+            try
+            {
+                u = await auth.getUser();
+                if (u != null)
+
+                { Session.LocalId = u.Id;
+                    InitVideoSystem();
+                    auth.OnNotificationReceived += FbHelper_OnNotificationReceived;
+                    auth.StartListeningNotification(u.Id);
+
+                    gd = new GhepDoi(this);
+                    LoadContent(gd);
+
+                    
+                    callCheckTimer.Start();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message);
+            }
+
+            finally
+            {
+                loading.Hide();
+               
+            }
             this.btn_ghepdoi.Enabled = true;
             this.btn_dsnt.Enabled = true;
             this.btn_caidat.Enabled = true;
             this.btn_hscn.Enabled = true;
-            //  this.btn_thongbao.Enabled = true;
+           
 
-            callCheckTimer.Interval = 3000; // 3 giây
-            callCheckTimer.Tick += CallCheckTimer_Tick;
-            callCheckTimer.Start();
+
+            }
+        private void FbHelper_OnNotificationReceived(LOGIN.Models.NotificationModel noti)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => ShowNotificationUI(noti)));
+            }
+            else
+            {
+                ShowNotificationUI(noti);
+            }
         }
+
+        private void ShowNotificationUI(LOGIN.Models.NotificationModel noti)
+        {
+            var icon = ToolTipIcon.Info;
+            string prefix = "";
+
+            switch (noti.Type)
+            {
+                case "message":
+                    prefix = "[Tin nhắn] ";
+                    icon = ToolTipIcon.Info;
+                    break;
+                case "like":
+                    prefix = "❤️ ";
+                    icon = ToolTipIcon.None;
+                    break;
+                case "match":
+                    prefix = "🔥 IT'S A MATCH! ";
+                    icon = ToolTipIcon.Warning;
+                    break;
+                case "event":
+                    prefix = "📅 Sự kiện: ";
+                    icon = ToolTipIcon.Info;
+                    break;
+                default:
+                    prefix = "Thông báo: ";
+                    break;
+            }
+
+            notifyIcon1.Visible = true;
+            notifyIcon1.BalloonTipTitle = prefix + noti.Title;
+            notifyIcon1.BalloonTipText = noti.Body;
+            notifyIcon1.BalloonTipIcon = icon;
+            notifyIcon1.Tag = noti.DataID;
+
+            notifyIcon1.ShowBalloonTip(5000);
+        }
+
+        // Sự kiện khi click vào bong bóng thông báo
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        {
+            string dataId = notifyIcon1.Tag as string;
+            // TODO: Xử lý chuyển trang dựa vào dataId
+            // Ví dụ: if (dataId.StartsWith("chat_")) { LoadContent(dstn); }
+        }
+
+
         private async void CallCheckTimer_Tick(object sender, EventArgs e)
         {
             // Tạm dừng timer để tránh chạy chồng chéo
@@ -68,12 +152,12 @@ namespace Main_Interface
 
             try
             {
-               
+
                 var pendingCall = await auth.CheckForPendingCalls(Session.LocalId);
 
                 if (pendingCall != null)
                 {
-                   
+
                     HandleIncomingCall(pendingCall);
                 }
             }
@@ -235,7 +319,7 @@ namespace Main_Interface
             });
         }
 
-       
+
         private Button CreateNavButton(string icon, string text)
         {
             var btn = new Button();
@@ -263,18 +347,18 @@ namespace Main_Interface
         }
         private async void btnLike_Click(object sender, EventArgs e)
         {
-          
+
         }
         public void InitVideoSystem()
         {
-           
+
 
             auth.OnIncomingCall += HandleIncomingCall;
-          
+
 
             auth.ListenForIncomingCall(Session.LocalId);
         }
-        
+
         private async void HandleIncomingCall(VideoCall call)
         {
             if (InvokeRequired)
@@ -283,11 +367,11 @@ namespace Main_Interface
                 return;
             }
             string callername = call.CallerName;
-            
+
             Image avatar = null;
             try
             {
-               
+
                 USER caller = await auth.GetUserById(call.CallerId);
                 if (caller != null)
                 {
@@ -307,20 +391,20 @@ namespace Main_Interface
             catch { }
 
             // 2. PHÁT NHẠC CHUÔNG (Tùy chọn - Cực kỳ khuyến khích)
-          //  System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\admin\Desktop\nhac_chuong_iphone_11_pro_max-www_tiengdong_com.mp3");
-           
-          //  try { player.PlayLooping(); } catch { }
+            //  System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"C:\Users\admin\Desktop\nhac_chuong_iphone_11_pro_max-www_tiengdong_com.mp3");
 
-            
+            //  try { player.PlayLooping(); } catch { }
+
+
             using (var incomingForm = new IncomingCallForm(callername, avatar))
             {
-               
+
                 incomingForm.TopMost = true;
 
-                var result = incomingForm.ShowDialog(); 
+                var result = incomingForm.ShowDialog();
 
                 // Tắt nhạc chuông
-             //   try { player.Stop(); } catch { }
+                //   try { player.Stop(); } catch { }
 
                 if (result == DialogResult.Yes)
                 {
@@ -348,11 +432,9 @@ namespace Main_Interface
             }
         }
 
+        private void panelMain_Paint(object sender, PaintEventArgs e)
+        {
 
-
-
-
-
-
+        }
     }
 }

@@ -46,8 +46,8 @@ namespace LOGIN
             panel1.Controls.Add(btnTimKiem);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(picAvatarNguoiDung);
-            panel1.Dock = DockStyle.Top;
             panel1.Controls.Add(txtTimKiem);
+            panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1045, 80);
@@ -73,19 +73,19 @@ namespace LOGIN
             label3.Font = new Font("Baskerville Old Face", 22F, FontStyle.Italic);
             label3.Location = new Point(2, 25);
             label3.Name = "label3";
-            label3.Size = new Size(200, 27);
+            label3.Size = new Size(343, 34);
             label3.TabIndex = 1;
             label3.Text = "Love begins with a message";
             // 
             // picAvatarNguoiDung
             // 
+            picAvatarNguoiDung.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             picAvatarNguoiDung.Location = new Point(900, 0);
-            picAvatarNguoiDung.Size = new Size(125, 80);
             picAvatarNguoiDung.Name = "picAvatarNguoiDung";
+            picAvatarNguoiDung.Size = new Size(125, 80);
+            picAvatarNguoiDung.SizeMode = PictureBoxSizeMode.Zoom;
             picAvatarNguoiDung.TabIndex = 2;
             picAvatarNguoiDung.TabStop = false;
-            picAvatarNguoiDung.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            picAvatarNguoiDung.SizeMode = PictureBoxSizeMode.Zoom;
             // 
             // txtTimKiem
             // 
@@ -97,14 +97,16 @@ namespace LOGIN
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1 = new FlowLayoutPanel();
-            flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.WrapContents = true;
-            flowLayoutPanel1.FlowDirection = FlowDirection.LeftToRight;
-            flowLayoutPanel1.Padding = new Padding(10);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.BackColor = Color.FromArgb(255, 240, 245);
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.Location = new Point(0, 80);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Padding = new Padding(10);
+            flowLayoutPanel1.Size = new Size(1045, 490);
+            flowLayoutPanel1.TabIndex = 0;
+            flowLayoutPanel1.Paint += flowLayoutPanel1_Paint_1;
+            // 
             // contextMenuStrip1
             // 
             contextMenuStrip1.Name = "contextMenuStrip1";

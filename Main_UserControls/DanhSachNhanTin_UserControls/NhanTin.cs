@@ -150,24 +150,8 @@ namespace Main_Interface.User_Controls
             pathVideo.AddEllipse(0, 0, btnVideoCall.Width, btnVideoCall.Height);
             btnVideoCall.Region = new Region(pathVideo);
 
-            // NÚT REFRESH
-            Button btnRefresh = new Button
-            {
-                Text = "🔄",
-                Size = new Size(50, 30),
-                Location = new Point(pnlHeader.Width - 150, 25),
-                BackColor = Color.FromArgb(50, 150, 255),
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                Anchor = AnchorStyles.Top | AnchorStyles.Right
-            };
-            btnRefresh.FlatAppearance.BorderSize = 0;
-            btnRefresh.Click += async (s, e) =>
-            {
-                System.Diagnostics.Debug.WriteLine("Đang refresh...");
-                await LoadExistingMessages();
-            };
+           
+           
 
            
 
@@ -175,7 +159,7 @@ namespace Main_Interface.User_Controls
             pnlHeader.Controls.Add(picAvatar);
             pnlHeader.Controls.Add(lblUserName);
             pnlHeader.Controls.Add(lblStatus);
-            pnlHeader.Controls.Add(btnRefresh);
+          
             pnlHeader.Controls.Add(btnVideoCall);
           
 
