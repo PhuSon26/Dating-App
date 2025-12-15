@@ -8,11 +8,22 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Google.Rpc.Context.AttributeContext.Types;
 
 namespace Main_Interface.User_Controls
 {
     public partial class NhanTin : UserControl
     {
+        private readonly FirebaseAuthHelper auth;
+        private readonly Main mainForm;
+
+        public NhanTin(Main mainForm /* + các tham số khác nếu có */)
+        {
+            InitializeComponent();
+            this.mainForm = mainForm;
+            this.auth = mainForm.auth;
+        }
+        private string currentMatchId;
         private Panel pnlHeader;
         private PictureBox picAvatar;
         private Label lblUserName;
@@ -398,7 +409,16 @@ namespace Main_Interface.User_Controls
                 {
                     if (!snapshot.Exists) return;
 
-                    var blockedBy = snapshot.GetValue<List<string>>("blockedBy") ?? new List<string>();
+                    List<string> blockedBy;
+                    try
+                    {
+                        blockedBy = snapshot.GetValue<List<string>>("blockedBy") ?? new List<string>();
+                    }
+                    catch
+                    {
+                        blockedBy = new List<string>();
+                    }
+
                     bool iAmBlocked = blockedBy.Contains(targetUser.Id); // người kia block mình
 
                     if (iAmBlocked != isBlocked) // nếu trạng thái thay đổi
@@ -941,6 +961,21 @@ namespace Main_Interface.User_Controls
             listener?.StopAsync();
             blockListener?.StopAsync();
             base.OnHandleDestroyed(e);
+        }
+        private async void btnSendImage_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+                dlg.Multiselect = false;
+
+                if (dlg.ShowDialog() != DialogResult.OK) return;
+
+                string localPath = dlg.FileName;
+
+                // currentMatchId: matchId cuộc trò chuyện đang mở
+                await auth.SendMessageAsync(currentMatchId, Session.LocalId, text: "", localImagePath: localPath);
+            }
         }
     }
 }

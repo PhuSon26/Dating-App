@@ -199,10 +199,10 @@ namespace LOGIN
         /// Đồng thời cập nhật trường lastMessage trong document Matches/{matchId}.
         /// </summary>
         public async Task<ChatMessage> SendMessageAsync(
-            string matchId,
-            string senderId,
-            string text,
-            string localImagePath = null)
+    string matchId,
+    string senderId,
+    string text,
+    string localImagePath = null)
         {
             if (string.IsNullOrWhiteSpace(matchId))
                 throw new ArgumentException("matchId trống", nameof(matchId));
@@ -214,39 +214,35 @@ namespace LOGIN
                 string.IsNullOrWhiteSpace(localImagePath))
                 throw new ArgumentException("Phải có text hoặc ảnh.");
 
-            // 1. Nếu có ảnh → upload lên Firebase Storage, lấy URL
-            string imageUrl = null;
+            // ==== KHÔNG DÙNG FIREBASE STORAGE NỮA ====
+            string imageBase64 = null;
             if (!string.IsNullOrWhiteSpace(localImagePath))
-            {
-                imageUrl = await uploadFile(localImagePath, "message_images");
-            }
+                imageBase64 = ImageFileToBase64(localImagePath);
 
-            // 2. Tạo object ChatMessage
             var msg = new ChatMessage
             {
                 senderId = senderId,
                 text = text ?? string.Empty,
-                imageUrl = imageUrl,
+
+                imageUrl = null,                // không dùng
+                imageBase64 = imageBase64,      // dùng base64
+
                 createdAt = Timestamp.FromDateTime(DateTime.UtcNow),
                 isRecalled = false,
                 isDeleted = false
             };
 
-            // 3. Ghi vào subcollection Matches/{matchId}/messages
             DocumentReference matchDoc = db.Collection("Matches").Document(matchId);
             CollectionReference messagesCol = matchDoc.Collection("messages");
-            DocumentReference addedMsgDoc = await messagesCol.AddAsync(msg);   // AddAsync trả về DocumentReference có Id 
+            DocumentReference addedMsgDoc = await messagesCol.AddAsync(msg);
 
-            // lưu lại Id document vào object để dùng khi xoá/thu hồi
             msg.messageId = addedMsgDoc.Id;
 
-            // 4. Cập nhật lastMessage trong document Matches/{matchId}
             string lastMsgPreview = !string.IsNullOrWhiteSpace(text) ? text : "[Hình ảnh]";
-            await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);  // Update field theo mẫu docs 
+            await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);
 
             return msg;
         }
-
 
         // ==============================================
         // HÀM GET MATCHES (ĐÃ TÁCH RIÊNG KHÔNG CHÈN NHẦM)
@@ -675,6 +671,16 @@ namespace LOGIN
         {
             var blocked = await GetBlockedList(myId, targetId);
             return blocked.Contains(targetId); // người kia block mình
+        }
+        public string ImageFileToBase64(string imagePath)
+        {
+            if (string.IsNullOrWhiteSpace(imagePath) || !File.Exists(imagePath))
+                return null;
+
+            using (var img = Image.FromFile(imagePath))
+            {
+                return ImageToBase64(img); // hàm có sẵn trong file :contentReference[oaicite:2]{index=2}
+            }
         }
     }
 }
