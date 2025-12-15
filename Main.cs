@@ -43,6 +43,14 @@ namespace Main_Interface
 
         public async void Main_Load(object sender, EventArgs e)
         {
+            this.BackColor = Color.FromArgb(240, 242, 245);
+            this.panelContent.BackColor = Color.FromArgb(240, 242, 245);
+
+            // 2. Thiết lập thanh Menu (panelButtons) màu trắng cho nổi bật
+            this.panelButtons.BackColor = Color.White;
+            // Thêm đường viền bóng mờ cho menu (tùy chọn, ở đây mình set màu đơn giản trước)
+            this.panelButtons.Padding = new Padding(0, 0, 0, 2); // Tạo khoảng hở
+
             this.btn_ghepdoi.Enabled = false;
             this.btn_dsnt.Enabled = false;
             this.btn_caidat.Enabled = false;
@@ -230,31 +238,40 @@ namespace Main_Interface
         private Button CreateNavButton(string icon, string label, Point location)
         {
             var btn = new Button();
-            btn.Size = new Size(160, 80);
+            // Tăng kích thước nút một chút cho dễ bấm
+            btn.Size = new Size(180, 70);
             btn.Location = location;
             btn.FlatStyle = FlatStyle.Flat;
             btn.FlatAppearance.BorderSize = 0;
-            btn.BackColor = Color.White;
+            btn.BackColor = Color.White; // Nền trắng hòa vào thanh menu
             btn.Cursor = Cursors.Hand;
             btn.TextAlign = ContentAlignment.MiddleCenter;
-            btn.Font = new Font("Segoe UI Emoji", 14, FontStyle.Regular);
-            btn.ForeColor = Color.Gray;
 
-            btn.Text = $"{icon}\n{label}";
+            // Dùng Font Segoe UI Emoji để icon và chữ đẹp hơn
+            btn.Font = new Font("Segoe UI Semibold", 11, FontStyle.Regular);
+            btn.ForeColor = Color.FromArgb(117, 125, 133); // Màu xám nhạt khi chưa chọn
 
+            btn.Text = $"{icon}  {label}"; // Thêm khoảng cách giữa icon và chữ
+
+            // Hiệu ứng Hover: Nền hồng rất nhạt
             btn.MouseEnter += (s, e) =>
             {
                 if (btn != activeButton)
-                    btn.ForeColor = Color.FromArgb(255, 130, 160);
+                {
+                    btn.BackColor = Color.FromArgb(255, 240, 245); // Hồng phấn nhạt
+                    btn.ForeColor = Color.FromArgb(253, 41, 123);  // Hồng Tinder
+                }
             };
 
             btn.MouseLeave += (s, e) =>
             {
                 if (btn != activeButton)
-                    btn.ForeColor = Color.Gray;
+                {
+                    btn.BackColor = Color.White;
+                    btn.ForeColor = Color.FromArgb(117, 125, 133);
+                }
             };
 
-            // Click
             btn.Click += (s, e) => SetActiveButton(btn);
 
             return btn;
@@ -263,10 +280,18 @@ namespace Main_Interface
         private void SetActiveButton(Button btn)
         {
             if (activeButton != null)
-                activeButton.ForeColor = Color.Gray;
+            {
+                // Reset nút cũ về trạng thái thường
+                activeButton.BackColor = Color.White;
+                activeButton.ForeColor = Color.FromArgb(117, 125, 133);
+                activeButton.Font = new Font("Segoe UI Semibold", 11, FontStyle.Regular);
+            }
 
             activeButton = btn;
-            activeButton.ForeColor = Color.FromArgb(255, 90, 130); // hồng đậm
+            // Highlight nút mới: Chữ màu Hồng đậm, Font đậm hơn
+            activeButton.ForeColor = Color.FromArgb(253, 41, 123); // Màu thương hiệu
+            activeButton.BackColor = Color.White; // Giữ nền trắng cho sạch
+            activeButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
         }
 
         public UserControl CurrentControl { get; private set; }

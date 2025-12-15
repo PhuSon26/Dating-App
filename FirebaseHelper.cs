@@ -1041,7 +1041,7 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
         }
 
 
-        // Sửa lại hàm này trong class FirebaseAuthHelper
+       
         public async Task<bool> SaveLikeAction(string myId, string targetId)
         {
             try

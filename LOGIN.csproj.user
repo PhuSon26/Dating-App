@@ -62,6 +62,9 @@
     <Compile Update="Main_UserControls\NapVIP.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="ProfileCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="RoundedButton.cs">
       <SubType>Component</SubType>
     </Compile>

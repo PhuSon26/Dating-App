@@ -8,10 +8,9 @@ namespace LOGIN
 {
     public static class EmailHelper
     {
-        // ⚠️ THAY BẰNG APP PASSWORD TỪ GMAIL: https://myaccount.google.com/apppasswords
+        
         private const string FromEmail = "lequangquy1522006@gmail.com";
-        private const string AppPassword = "yqwy ckhr yxqz dknx"; // ← Thay bằng App Password 16 ký tự
-
+        private const string AppPassword = "yqwy ckhr yxqz dknx"; 
         // SỬA: Thêm <bool> vào Task và return true/false
         public static async Task<bool> SendOTPEmail(string toEmail, string otp)
         {
