@@ -213,6 +213,7 @@ namespace LOGIN
             if (string.IsNullOrWhiteSpace(text) &&
                 string.IsNullOrWhiteSpace(localImagePath))
                 throw new ArgumentException("Phải có text hoặc ảnh.");
+            
 
             // ==== KHÔNG DÙNG FIREBASE STORAGE NỮA ====
             string imageBase64 = null;
@@ -232,28 +233,37 @@ namespace LOGIN
                 isDeleted = false
             };
 
-            DocumentReference matchDoc = db.Collection("Matches").Document(matchId);
-            CollectionReference messagesCol = matchDoc.Collection("messages");
+            CollectionReference messagesCol = db.Collection("messages");
             DocumentReference addedMsgDoc = await messagesCol.AddAsync(msg);
 
             msg.messageId = addedMsgDoc.Id;
 
+            // cập nhật preview tin nhắn (text hoặc "[Hình ảnh]")
             string lastMsgPreview = !string.IsNullOrWhiteSpace(text) ? text : "[Hình ảnh]";
 
-            // nếu document chưa tồn tại, tạo mới luôn
-            var matchSnapshot = await matchDoc.GetSnapshotAsync();
-            if (!matchSnapshot.Exists)
+            // cập nhật trường lastMessage trong Matches nếu có
+            try
             {
-                await matchDoc.SetAsync(new Dictionary<string, object>
-    {
-        { "lastMessage", lastMsgPreview },
-        { "createdAt", Timestamp.FromDateTime(DateTime.UtcNow) },
-        { "users", new List<string> { senderId } } // hoặc thêm field cần thiết
-    });
+                DocumentReference matchDoc = db.Collection("Matches").Document(matchId);
+                var matchSnapshot = await matchDoc.GetSnapshotAsync();
+
+                if (!matchSnapshot.Exists)
+                {
+                    await matchDoc.SetAsync(new Dictionary<string, object>
+        {
+            { "lastMessage", lastMsgPreview },
+            { "createdAt", Timestamp.FromDateTime(DateTime.UtcNow) },
+            { "users", new List<string> { senderId } }
+        });
+                }
+                else
+                {
+                    await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);
+                System.Diagnostics.Debug.WriteLine("Không thể cập nhật lastMessage: " + ex.Message);
             }
 
             return msg;
@@ -604,8 +614,9 @@ namespace LOGIN
 
                 if (arr != null && arr.Contains(currentUserId))
                 {
-                    string other = arr.First(u => u != currentUserId);
-                    results.Add(other);
+                    string other = arr.FirstOrDefault(u => u != currentUserId);
+                    if (!string.IsNullOrEmpty(other))
+                        results.Add(other);
                 }
             }
             return results;

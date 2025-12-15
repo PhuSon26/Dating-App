@@ -725,6 +725,7 @@ namespace Main_Interface.User_Controls
         private Control CreateBubble(Messagemodels msg)
         {
             bool isMine = msg.fromUserId == myUserId;
+
             Panel bubble = new Panel
             {
                 AutoSize = true,
@@ -734,6 +735,7 @@ namespace Main_Interface.User_Controls
                 Padding = new Padding(12, 8, 12, 8),
                 Margin = new Padding(5, 3, 5, 3),
             };
+
             bubble.Paint += (s, e) =>
             {
                 System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
@@ -750,7 +752,10 @@ namespace Main_Interface.User_Controls
                     e.Graphics.DrawPath(new Pen(Color.FromArgb(220, 220, 220)), path);
                 }
             };
+
             bubble.Cursor = Cursors.Hand;
+
+            // ================= TEXT =================
             Label lblText = new Label
             {
                 Text = msg.text ?? "",
@@ -760,6 +765,49 @@ namespace Main_Interface.User_Controls
                 ForeColor = isMine ? Color.White : Color.Black,
                 Padding = new Padding(0)
             };
+
+            // ================= IMAGE (nếu có) =================
+            PictureBox picMessageImage = null;
+            if (!string.IsNullOrWhiteSpace(msg.imageBase64))
+            {
+                try
+                {
+                    Image img = firebase.Base64ToImage(msg.imageBase64);
+                    picMessageImage = new PictureBox
+                    {
+                        Image = img,
+                        SizeMode = PictureBoxSizeMode.Zoom,
+                        MaximumSize = new Size(300, 300),
+                        Cursor = Cursors.Hand,
+                        Margin = new Padding(0, 5, 0, 0)
+                    };
+
+                    // mở lớn ảnh khi click
+                    picMessageImage.Click += (s, e) =>
+                    {
+                        Form viewer = new Form
+                        {
+                            StartPosition = FormStartPosition.CenterScreen,
+                            Size = new Size(600, 600),
+                            BackColor = Color.Black
+                        };
+                        PictureBox bigPic = new PictureBox
+                        {
+                            Dock = DockStyle.Fill,
+                            Image = img,
+                            SizeMode = PictureBoxSizeMode.Zoom
+                        };
+                        viewer.Controls.Add(bigPic);
+                        viewer.ShowDialog();
+                    };
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Lỗi hiển thị ảnh: " + ex.Message);
+                }
+            }
+
+            // ================= THỜI GIAN =================
             DateTime msgTime;
             try
             {
@@ -769,6 +817,7 @@ namespace Main_Interface.User_Controls
             {
                 msgTime = DateTime.Now;
             }
+
             Label lblTime = new Label
             {
                 Text = msgTime.ToString("HH:mm"),
@@ -778,20 +827,30 @@ namespace Main_Interface.User_Controls
                 TextAlign = ContentAlignment.BottomRight,
                 Padding = new Padding(0, 3, 0, 0)
             };
+
+            // ================= LAYOUT CHÍNH =================
             TableLayoutPanel innerLayout = new TableLayoutPanel
             {
                 AutoSize = true,
                 ColumnCount = 1,
-                RowCount = 2,
+                RowCount = 0,
                 Padding = new Padding(0)
             };
-            innerLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            innerLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            innerLayout.Controls.Add(lblText, 0, 0);
-            innerLayout.Controls.Add(lblTime, 0, 1);
+
+            // thêm text trước (nếu có)
+            if (!string.IsNullOrWhiteSpace(msg.text))
+                innerLayout.Controls.Add(lblText, 0, innerLayout.RowCount++);
+
+            // thêm ảnh (nếu có)
+            if (picMessageImage != null)
+                innerLayout.Controls.Add(picMessageImage, 0, innerLayout.RowCount++);
+
+            // thêm thời gian
+            innerLayout.Controls.Add(lblTime, 0, innerLayout.RowCount++);
+
             bubble.Controls.Add(innerLayout);
 
-            // ================= REACTION =================
+            // ================= REACTION (giữ nguyên) =================
             FlowLayoutPanel pnlReaction = new FlowLayoutPanel
             {
                 AutoSize = true,
@@ -801,7 +860,6 @@ namespace Main_Interface.User_Controls
 
             if (msg.reaction != null && msg.reaction.Count > 0)
             {
-                // Tính số lượng reaction cùng emoji
                 var emojiCount = msg.reaction.Values
                     .GroupBy(v => v)
                     .ToDictionary(g => g.Key, g => g.Count());
@@ -811,11 +869,7 @@ namespace Main_Interface.User_Controls
                     string emojiName = kvp.Key;
                     int count = kvp.Value;
 
-                    Panel pnlEmoji = new Panel
-                    {
-                        AutoSize = true,
-                        Margin = new Padding(2)
-                    };
+                    Panel pnlEmoji = new Panel { AutoSize = true, Margin = new Padding(2) };
 
                     PictureBox pb = new PictureBox
                     {
@@ -845,23 +899,12 @@ namespace Main_Interface.User_Controls
 
                     pnlEmoji.Controls.Add(pb);
                     pnlEmoji.Controls.Add(lblCount);
-
                     pnlReaction.Controls.Add(pnlEmoji);
                 }
             }
 
-            innerLayout.Controls.Add(pnlReaction, 0, 2);
-            innerLayout.RowCount = 3;
-            innerLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            innerLayout.Controls.Add(pnlReaction, 0, innerLayout.RowCount++);
 
-            // ================= CLICK VÀ HIỆN POPUP EMOJI =================
-            void AttachClick(Control parent)
-            {
-                parent.Click += (s, e) => { ShowEmojiPopup(bubble, msg); };
-                foreach (Control c in parent.Controls)
-                    AttachClick(c);
-            }
-            AttachClick(bubble);
             // ================= WRAPPER =================
             Panel wrapper = new Panel
             {
@@ -872,15 +915,13 @@ namespace Main_Interface.User_Controls
                 Padding = new Padding(10, 0, 10, 0)
             };
             wrapper.Controls.Add(bubble);
-            // ===== Context menu: Xóa phía tôi / Thu hồi =====
-            var menu = new ContextMenuStrip();
 
+            // gán menu chuột phải (giữ nguyên code cũ)
+            var menu = new ContextMenuStrip();
             menu.Items.Add("Xóa phía tôi", null, async (_, __) =>
             {
                 await firebase.DeleteMessageForMeAsync(msg.Id, Session.LocalId);
             });
-
-            // Chỉ người gửi mới được thu hồi
             if (msg.fromUserId == Session.LocalId)
             {
                 menu.Items.Add("Thu hồi (cả 2 bên)", null, async (_, __) =>
@@ -889,7 +930,6 @@ namespace Main_Interface.User_Controls
                 });
             }
 
-            // Gán cho wrapper + bubble + các control con (để bấm chuột phải ở đâu cũng hiện menu)
             void AttachMenu(Control parent)
             {
                 parent.ContextMenuStrip = menu;

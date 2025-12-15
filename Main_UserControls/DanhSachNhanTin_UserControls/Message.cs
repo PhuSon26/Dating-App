@@ -39,6 +39,9 @@ namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
         [FirestoreProperty] public string recalledBy { get; set; } = "";
         [FirestoreProperty] public Timestamp? recalledAt { get; set; } = null; // ✅ Cho phép null
         [FirestoreProperty] public string imageUrl { get; set; } = null;        // nếu có ảnh
+        [FirestoreProperty]
+        public string imageBase64 { get; set; }
+
 
     }
 }
