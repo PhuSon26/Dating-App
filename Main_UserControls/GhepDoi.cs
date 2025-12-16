@@ -36,6 +36,12 @@ namespace Main_Interface.User_Controls
         string myUserId = Session.LocalId;
         private USER myUser;
         private FlowLayoutPanel mainGrid;
+        private HeartRainOverlay _heartOverlay;
+        public GhepDoi()
+        {
+            InitializeComponent();
+            authHelper = new FirebaseAuthHelper("login-bb104");
+        }
 
       
 
@@ -77,6 +83,12 @@ namespace Main_Interface.User_Controls
             mainGrid.AutoScroll = true;
             mainGrid.WrapContents = true; // Tự động xuống dòng khi hết chỗ
             this.Controls.Add(mainGrid);
+
+            if (_heartOverlay == null)
+                _heartOverlay = new HeartRainOverlay();
+
+            this.Controls.Add(_heartOverlay);
+            _heartOverlay.BringToFront();
         }
 
         // Sửa hàm hiển thị User
@@ -102,12 +114,10 @@ namespace Main_Interface.User_Controls
         // Xử lý sự kiện khi bấm nút trên thẻ
         private async void Card_OnLikeClicked(object sender, USER targetUser)
         {
-            // Gọi lại logic like cũ của bạn
-            // Ví dụ: await authHelper.SaveLikeAction(myUserId, targetUser.Id);
+            _heartOverlay?.Trigger(totalHearts: 120, durationMs: 1400);
 
             MessageBox.Show($"Đã thích {targetUser.ten}! Hy vọng sẽ có kết quả tốt.", "LoveMatch");
 
-            // Xóa thẻ khỏi màn hình cho đẹp
             ProfileCard card = sender as ProfileCard;
             mainGrid.Controls.Remove(card);
         }
@@ -239,24 +249,32 @@ namespace Main_Interface.User_Controls
 
             USER targetUser = suggestedUsers[suggestIndex];
             string targetUserId = targetUser.Id;
-            string myName = myUser.ten ?? "Someone";
 
             btn_tim.Enabled = false;
 
             try
             {
                 bool isSuccess = await authHelper.SaveLikeAction(myUserId, targetUserId);
+
+                // like fail -> chuyển người khác, KHÔNG mưa tim
                 if (!isSuccess)
                 {
                     NextSuggestUser();
                     return;
                 }
 
+                // like OK -> mưa tim
+                _heartOverlay?.Trigger(totalHearts: 120, durationMs: 1400);
+
                 bool isMatch = await authHelper.CheckIfUserLikedMe(myUserId, targetUserId);
 
                 if (isMatch)
                 {
                     await authHelper.CreateMatchRecord(myUserId, targetUserId);
+
+                    // match -> mưa tim nhiều hơn (tuỳ)
+                    _heartOverlay?.Trigger(totalHearts: 220, durationMs: 1700);
+
                     MessageBox.Show($"It's a Match! Bạn và {targetUser.ten} đã thích nhau.", "Chúc mừng");
                 }
 
@@ -271,7 +289,6 @@ namespace Main_Interface.User_Controls
                 btn_tim.Enabled = true;
             }
         }
-      
 
         public void LoadFilteredUsers(List<USER> users)
         {
