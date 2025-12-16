@@ -11,6 +11,9 @@
     <Compile Update="dsthongbao.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="HeartRainOverlay.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="IncomingCallForm.cs">
       <SubType>Form</SubType>
     </Compile>
