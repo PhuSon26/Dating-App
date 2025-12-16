@@ -1,6 +1,6 @@
-﻿namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
+﻿namespace LOGIN
 {
-    partial class UserChatitem : UserControl
+    partial class UC_ThongBaoList
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,17 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            flowLayoutPanel1 = new FlowLayoutPanel();
             SuspendLayout();
             // 
-            // UserChatitem
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.Location = new Point(0, 0);
+            flowLayoutPanel1.Margin = new Padding(4, 3, 4, 3);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(467, 346);
+            flowLayoutPanel1.TabIndex = 0;
+            flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
+            // 
+            // UC_ThongBaoList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Name = "UserChatitem";
-           // Load += UserChatitem_Load;
+            Controls.Add(flowLayoutPanel1);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "UC_ThongBaoList";
+            Size = new Size(467, 346);
+            Load += UC_ThongBaoList_Load;
             ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

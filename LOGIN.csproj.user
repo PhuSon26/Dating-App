@@ -11,6 +11,9 @@
     <Compile Update="dsthongbao.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="IncomingCallForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,6 +59,9 @@
     <Compile Update="Main_UserControls\NapVIP.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="ProfileCard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="RoundedButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -72,6 +78,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="thongbaonoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UC_ThongBaoList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="VideoCallForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

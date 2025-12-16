@@ -7,13 +7,7 @@ using System.Threading.Tasks;
 namespace LOGIN
 {
     // 1. Mô hình dữ liệu (Map đúng với Firebase)
-    public class NotificationModel
-    {
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Type { get; set; } // Match, Like, Message
-        public string CreatedAt { get; set; }
-    }
+   
 
     public class FirebaseService
     {
@@ -29,37 +23,8 @@ namespace LOGIN
         }
 
         // --- HÀM 1: LẮNG NGHE (Nhận thông báo về) ---
-        public void ListenToNotifications(Action<NotificationModel> onReceived)
-        {
-            var observable = firebase
-                .Child("notifications")
-                .AsObservable<NotificationModel>()
-                .Subscribe(d =>
-                {
-                    // Chỉ lấy sự kiện Thêm mới (Insert)
-                    if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
-                    {
-                        if (d.Object != null)
-                        {
-                            onReceived(d.Object);
-                        }
-                    }
-                });
-        }
-
+      
         // --- HÀM 2: GỬI (Để test chức năng) ---
-        public async Task SendFakeNotification(string title, string content, string type)
-        {
-            var notif = new NotificationModel
-            {
-                Title = title,
-                Content = content,
-                Type = type,
-                CreatedAt = DateTime.Now.ToString()
-            };
-
-            // Đẩy dữ liệu lên node "notifications"
-            await firebase.Child("notifications").PostAsync(notif);
-        }
+       
     }
 }

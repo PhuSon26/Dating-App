@@ -1,7 +1,17 @@
 ﻿using Dating_app_nhom3;
 using LOGIN;
+using LOGIN.Models;
 using Main_Interface.User_Controls;
+using System;
+using System.Drawing;
+using System.Dynamic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static Google.Rpc.Context.AttributeContext.Types;
+using LOGIN.Properties;
+
+
 
 namespace Main_Interface
 {
@@ -14,40 +24,162 @@ namespace Main_Interface
         public FirebaseAuthHelper auth;
         public CaiDat cd;
         public USER u;
-
+       
         private bool loadedHscn = false;
         private bool loadedVip = false;
         private bool loadedDs = false;
         private bool loadedGhepDoi = false;
         private bool loadedCaiDat = false;
+        private bool isBusy = false;
+        System.Windows.Forms.Timer callCheckTimer;
         public List<USER> FilteredUsers { get; set; } = null;
 
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();
             this.auth = auth;
+            callCheckTimer = new System.Windows.Forms.Timer();
+            callCheckTimer.Interval = 3000;
+            callCheckTimer.Tick += CallCheckTimer_Tick;
             SetupButtons();
         }
 
         public async void Main_Load(object sender, EventArgs e)
         {
+            this.BackColor = Color.FromArgb(240, 242, 245);
+            this.panelContent.BackColor = Color.FromArgb(240, 242, 245);
+
+            // 2. Thiết lập thanh Menu (panelButtons) màu trắng cho nổi bật
+            this.panelButtons.BackColor = Color.White;
+            // Thêm đường viền bóng mờ cho menu (tùy chọn, ở đây mình set màu đơn giản trước)
+            this.panelButtons.Padding = new Padding(0, 0, 0, 2); // Tạo khoảng hở
+
             this.btn_ghepdoi.Enabled = false;
             this.btn_dsnt.Enabled = false;
             this.btn_caidat.Enabled = false;
             this.btn_hscn.Enabled = false;
-            this.btn_thongbao.Enabled = false;
+            //  this.btn_thongbao.Enabled = false;
             LoadingSpinner loading = new LoadingSpinner(this);
             loading.pbSpinner.BackColor = Color.FromArgb(255, 250, 253);
             loading.Show();
-            u = await auth.getUser();
-            gd = new GhepDoi(this);
-            LoadContent(gd);
-            loading.Hide();
+            try
+            {
+                u = await auth.getUser();
+                if (u != null)
+
+                { Session.LocalId = u.Id;
+                    InitVideoSystem();
+                    auth.OnNotificationReceived += FbHelper_OnNotificationReceived;
+                    auth.StartListeningNotification(u.Id);
+                    gd = new GhepDoi(this);
+                    LoadContent(gd);
+
+                    
+                    callCheckTimer.Start();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message);
+            }
+
+            finally
+            {
+                loading.Hide();
+               
+            }
             this.btn_ghepdoi.Enabled = true;
             this.btn_dsnt.Enabled = true;
             this.btn_caidat.Enabled = true;
             this.btn_hscn.Enabled = true;
-            this.btn_thongbao.Enabled = true;
+           
+
+
+            }
+
+     
+
+        private void FbHelper_OnNotificationReceived(LOGIN.Models.NotificationModel noti)
+        {
+          
+            if (this.InvokeRequired)
+            {
+
+                this.Invoke(new Action(() => ShowNotificationUI(noti)));
+            }
+            else
+            {
+                ShowNotificationUI(noti);
+            }
+        }
+
+        private void ShowNotificationUI(LOGIN.Models.NotificationModel noti)
+        {
+            // 1. Chuyển đổi từ string Type của Model sang Enum ToastType của Form
+            ToastType typeEnum = ToastType.System;
+            Image iconImg = null; // Hoặc set ảnh mặc định tùy ý
+
+            switch (noti.Type)
+            {
+                case "message":
+                    typeEnum = ToastType.Message;
+                    // Nếu muốn hiện avatar người gửi, bạn cần tải ảnh từ noti.DataID (SenderID)
+                    // Tuy nhiên để thông báo hiện nhanh, ta tạm để null hoặc icon mặc định
+                    break;
+                case "like":
+                    typeEnum = ToastType.Like;
+                    break;
+                case "match":
+                    typeEnum = ToastType.Match;
+                    break;
+                case "event":
+                    typeEnum = ToastType.System;
+                    break;
+                default:
+                    typeEnum = ToastType.System;
+                    break;
+            }
+
+            
+            thongbaonoi toast = new thongbaonoi(noti.Title, noti.Body, iconImg, typeEnum);
+
+            // Hàm ShowInParent đã được bạn viết sẵn trong thongbaonoi.cs để trượt lên
+            toast.ShowInParent(this);
+        }
+
+      
+
+        // Sự kiện khi click vào bong bóng thông báo
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        {
+            string dataId = notifyIcon1.Tag as string;
+            // TODO: Xử lý chuyển trang dựa vào dataId
+            // Ví dụ: if (dataId.StartsWith("chat_")) { LoadContent(dstn); }
+        }
+
+
+        private async void CallCheckTimer_Tick(object sender, EventArgs e)
+        {
+            // Tạm dừng timer để tránh chạy chồng chéo
+            callCheckTimer.Stop();
+
+            try
+            {
+
+                var pendingCall = await auth.CheckForPendingCalls(Session.LocalId);
+
+                if (pendingCall != null)
+                {
+
+                    HandleIncomingCall(pendingCall);
+                }
+            }
+            finally
+            {
+                // Chạy lại timer
+                callCheckTimer.Start();
+            }
         }
 
         private void btn_vip_Click(object sender, EventArgs e)
@@ -109,31 +241,40 @@ namespace Main_Interface
         private Button CreateNavButton(string icon, string label, Point location)
         {
             var btn = new Button();
-            btn.Size = new Size(160, 80);
+            // Tăng kích thước nút một chút cho dễ bấm
+            btn.Size = new Size(180, 70);
             btn.Location = location;
             btn.FlatStyle = FlatStyle.Flat;
             btn.FlatAppearance.BorderSize = 0;
-            btn.BackColor = Color.White;
+            btn.BackColor = Color.White; // Nền trắng hòa vào thanh menu
             btn.Cursor = Cursors.Hand;
             btn.TextAlign = ContentAlignment.MiddleCenter;
-            btn.Font = new Font("Segoe UI Emoji", 14, FontStyle.Regular);
-            btn.ForeColor = Color.Gray;
 
-            btn.Text = $"{icon}\n{label}";
+            // Dùng Font Segoe UI Emoji để icon và chữ đẹp hơn
+            btn.Font = new Font("Segoe UI Semibold", 11, FontStyle.Regular);
+            btn.ForeColor = Color.FromArgb(117, 125, 133); // Màu xám nhạt khi chưa chọn
 
+            btn.Text = $"{icon}  {label}"; // Thêm khoảng cách giữa icon và chữ
+
+            // Hiệu ứng Hover: Nền hồng rất nhạt
             btn.MouseEnter += (s, e) =>
             {
                 if (btn != activeButton)
-                    btn.ForeColor = Color.FromArgb(255, 130, 160);
+                {
+                    btn.BackColor = Color.FromArgb(255, 240, 245); // Hồng phấn nhạt
+                    btn.ForeColor = Color.FromArgb(253, 41, 123);  // Hồng Tinder
+                }
             };
 
             btn.MouseLeave += (s, e) =>
             {
                 if (btn != activeButton)
-                    btn.ForeColor = Color.Gray;
+                {
+                    btn.BackColor = Color.White;
+                    btn.ForeColor = Color.FromArgb(117, 125, 133);
+                }
             };
 
-            // Click
             btn.Click += (s, e) => SetActiveButton(btn);
 
             return btn;
@@ -142,10 +283,18 @@ namespace Main_Interface
         private void SetActiveButton(Button btn)
         {
             if (activeButton != null)
-                activeButton.ForeColor = Color.Gray;
+            {
+                // Reset nút cũ về trạng thái thường
+                activeButton.BackColor = Color.White;
+                activeButton.ForeColor = Color.FromArgb(117, 125, 133);
+                activeButton.Font = new Font("Segoe UI Semibold", 11, FontStyle.Regular);
+            }
 
             activeButton = btn;
-            activeButton.ForeColor = Color.FromArgb(255, 90, 130); // hồng đậm
+            // Highlight nút mới: Chữ màu Hồng đậm, Font đậm hơn
+            activeButton.ForeColor = Color.FromArgb(253, 41, 123); // Màu thương hiệu
+            activeButton.BackColor = Color.White; // Giữ nền trắng cho sạch
+            activeButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
         }
 
         public UserControl CurrentControl { get; private set; }
@@ -163,7 +312,7 @@ namespace Main_Interface
         {
             panelButtons.Controls.Clear();
 
-            int buttonCount = 4; // số nút còn lại
+            int buttonCount = 5; // số nút còn lại
             int panelWidth = panelButtons.Width;
             int spacing = 10; // khoảng cách tối thiểu giữa các nút
 
@@ -189,19 +338,32 @@ namespace Main_Interface
             btn_caidat = CreateNavButton("⚙️", "Cài đặt", new Point(x, y));
             btn_caidat.Width = buttonWidth;
 
+            x += buttonWidth + spacing;
+            btn_thongbao = CreateNavButton("🔔", "Thông báo", new Point(x, y));
+
             // Gắn sự kiện click
             btn_ghepdoi.Click += btn_ghepdoi_Click;
             btn_dsnt.Click += btn_dsnt_Click;
             btn_hscn.Click += btn_hscn_Click;
             btn_caidat.Click += btn_caidat_Click;
+            btn_thongbao.Click += btn_thongbao_Click;
 
             panelButtons.Controls.AddRange(new Control[]
             {
-        btn_ghepdoi, btn_dsnt, btn_hscn, btn_caidat
+        btn_ghepdoi, btn_dsnt, btn_hscn, btn_caidat, btn_thongbao,
             });
         }
+        private void btn_thongbao_Click(object sender, EventArgs e)
+        {
+            // Tạo và hiển thị UserControl danh sách
+            UC_ThongBaoList ucNoti = new UC_ThongBaoList(auth, Session.LocalId);
+            LoadContent(ucNoti);
 
-        // ==== Hàm tạo nút chung (ver 2) ====
+            // Highlight nút (Nếu dùng logic SetActiveButton)
+            SetActiveButton(btn_thongbao);
+        }
+
+
         private Button CreateNavButton(string icon, string text)
         {
             var btn = new Button();
@@ -229,7 +391,93 @@ namespace Main_Interface
         }
         private async void btnLike_Click(object sender, EventArgs e)
         {
-          
+
+        }
+        public void InitVideoSystem()
+        {
+
+
+            auth.OnIncomingCall += HandleIncomingCall;
+
+
+            auth.ListenForIncomingCall(Session.LocalId);
+        }
+
+        private async void HandleIncomingCall(VideoCall call)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => HandleIncomingCall(call)));
+                return;
+            }
+            string callername = call.CallerName;
+
+            Image avatar = null;
+            try
+            {
+
+                USER caller = await auth.GetUserById(call.CallerId);
+                if (caller != null)
+                {
+                    // Lấy tên thật trong hồ sơ (nếu có)
+                    if (!string.IsNullOrEmpty(caller.ten))
+                        callername = caller.ten;
+
+                    // Lấy Avatar thật (Convert từ Base64)
+                    // Lưu ý: Đảm bảo user có trường AvatarUrl hoặc AvatarBase64 tùy model của bạn
+                    if (!string.IsNullOrEmpty(caller.AvatarUrl))
+                    {
+                        avatar = auth.Base64ToImage(caller.AvatarUrl);
+                    }
+                }
+
+            }
+            catch { }
+
+           
+              System.Media.SoundPlayer player = new System.Media.SoundPlayer(LOGIN.Properties.Resource.nhaccho);
+
+             try { player.PlayLooping(); } catch { }
+
+
+            using (var incomingForm = new IncomingCallForm(callername, avatar))
+            {
+
+                incomingForm.TopMost = true;
+
+                var result = incomingForm.ShowDialog();
+
+                  try { player.Stop(); } catch { }
+
+                if (result == DialogResult.Yes)
+                {
+                  
+                    var vcForm = new VideoCallForm(
+                        Session.LocalId,
+                        u.ten,
+                        call.CallerId,
+                        callername,
+                        auth,
+                        call.CallId
+                    );
+                    vcForm.Show();
+                    _ = vcForm.AnswerIncoming(call);
+                }
+                else
+                {
+                    // --- TỪ CHỐI ---
+                    try
+                    {
+                        _ = auth.RejectCall(call.CallId);
+                    }
+                    catch { }
+                }
+            }
+        }
+
+        private void panelMain_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

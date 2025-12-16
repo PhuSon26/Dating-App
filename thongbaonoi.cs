@@ -144,8 +144,8 @@ namespace LOGIN
                 // Trượt lên
                 if (this.Top > _targetY)
                 {
-                    this.Top -= 5;
-                    this.Opacity += 0.1;
+                    this.Top -= 2;
+                    if (this.Opacity < 1) this.Opacity += 0.1;
                 }
                 else
                 {
@@ -158,7 +158,7 @@ namespace LOGIN
             else
             {
                 // Trượt xuống (Đóng)
-                this.Top += 5;
+                this.Top += 2;
                 this.Opacity -= 0.1;
 
                 if (this.Opacity <= 0)
@@ -175,7 +175,7 @@ namespace LOGIN
             _parentForm = parentForm;
             this.Owner = parentForm;
 
-            // 1. Đăng ký sự kiện: Khi cha di chuyển, con di chuyển theo
+           
             _parentForm.LocationChanged += ParentForm_LocationChanged;
 
             // 2. Đăng ký sự kiện: Khi cha thay đổi kích thước (Resize), con cũng cập nhật vị trí
@@ -186,14 +186,15 @@ namespace LOGIN
 
             // 4. Hiệu ứng trượt lên (giữ nguyên logic cũ)
             // Đặt vị trí thấp hơn đích đến 50px
-            this.Top = _targetY + 50;
-            this.Opacity = 0;
+            this.Top = _targetY + 20;
+            this.Opacity = 1;
 
             // Cắt bo tròn
             SetRoundedRegion();
 
             this.Show();
             _timerAnimation.Start();
+            this.BringToFront();
         }
 
         // --- HÀM TÍNH LẠI VỊ TRÍ ---
@@ -201,14 +202,11 @@ namespace LOGIN
         {
             if (_parentForm == null) return;
 
-            // Tính X (Bám góc phải)
-            int x = _parentForm.Location.X + _parentForm.Width - this.Width - _paddingRight;
+            Point parentScreenPos = _parentForm.PointToScreen(Point.Empty);
 
-            // Tính Y Đích đến (Bám góc dưới)
-            _targetY = _parentForm.Location.Y + _parentForm.Height - this.Height - _paddingBottom;
-
-            // Nếu animation đã chạy xong (thông báo đang đứng yên), thì cập nhật luôn vị trí Y
-            // Nếu animation đang chạy (đang trượt), ta chỉ cập nhật X, còn Y để Timer lo
+            Rectangle parentBounds = _parentForm.DesktopBounds;
+            int x = parentBounds.Right - this.Width - 20; // Cách mép phải 20px
+            _targetY = parentBounds.Bottom - this.Height - 20; // Cách mép dưới 20px
             if (!_timerAnimation.Enabled && !_isClosing)
             {
                 this.Location = new Point(x, _targetY);

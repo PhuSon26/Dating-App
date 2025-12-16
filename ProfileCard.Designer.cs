@@ -1,6 +1,6 @@
-﻿namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
-{
-    partial class UserChatitem : UserControl
+﻿
+
+    partial class ProfileCard
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,15 +30,15 @@
         {
             SuspendLayout();
             // 
-            // UserChatitem
+            // ProfileCard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Name = "UserChatitem";
-           // Load += UserChatitem_Load;
+            Name = "ProfileCard";
+           // Load += ProfileCard_Load;
             ResumeLayout(false);
         }
 
         #endregion
     }
-}
+

@@ -1,13 +1,13 @@
-﻿namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
+﻿namespace LOGIN
 {
-    partial class UserChatitem : UserControl
+    partial class VideoCallForm
     {
-        /// <summary> 
+        /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,22 +20,24 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
+        #region Windows Form Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
+        /// <summary>
+        /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             SuspendLayout();
             // 
-            // UserChatitem
+            // VideoCallForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Name = "UserChatitem";
-           // Load += UserChatitem_Load;
+            ClientSize = new Size(884, 552);
+            Name = "VideoCallForm";
+            Text = "VideoCallForm";
+            Load += VideoCallForm_Load;
             ResumeLayout(false);
         }
 
