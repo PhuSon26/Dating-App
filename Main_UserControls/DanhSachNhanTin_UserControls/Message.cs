@@ -41,6 +41,7 @@ namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
         [FirestoreProperty] public string imageUrl { get; set; } = null;        // nếu có ảnh
         [FirestoreProperty]
         public string imageBase64 { get; set; }
+        
 
 
     }

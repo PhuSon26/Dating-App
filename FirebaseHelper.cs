@@ -709,5 +709,41 @@ namespace LOGIN
                 return ImageToBase64(img); // hàm có sẵn trong file :contentReference[oaicite:2]{index=2}
             }
         }
+        public async Task SendImageToConversationAsync(string fromUserId, string toUserId, string localImagePath)
+        {
+            if (string.IsNullOrWhiteSpace(fromUserId))
+                throw new ArgumentException("fromUserId trống", nameof(fromUserId));
+
+            if (string.IsNullOrWhiteSpace(toUserId))
+                throw new ArgumentException("toUserId trống", nameof(toUserId));
+
+            if (string.IsNullOrWhiteSpace(localImagePath) || !File.Exists(localImagePath))
+                throw new ArgumentException("localImagePath không hợp lệ", nameof(localImagePath));
+
+            string conversationId = GetConversationId(fromUserId, toUserId);
+            string imageBase64 = ImageFileToBase64(localImagePath);
+
+            var msgRef = db.Collection("messages").Document();
+
+            await msgRef.SetAsync(new Dictionary<string, object>
+    {
+        { "fromUserId", fromUserId },
+        { "toUserId", toUserId },
+        { "text", "" },
+        { "timestamp", Timestamp.GetCurrentTimestamp() },
+        { "ChatId", conversationId },
+
+        { "imageBase64", imageBase64 },
+
+        { "reaction", new Dictionary<string, string>() },
+        { "deletedFor", new List<string>() },
+        { "isRecalled", false },
+        { "recalledBy", "" },
+        { "recalledAt", null }
+    });
+
+            await UpdateChatMeta(fromUserId, toUserId, "[Hình ảnh]");
+        }
+
     }
 }
