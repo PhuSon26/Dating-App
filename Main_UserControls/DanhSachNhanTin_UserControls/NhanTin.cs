@@ -899,7 +899,13 @@ namespace Main_Interface.User_Controls
 
                 try
                 {
-                    string path = Path.Combine(Application.StartupPath, "Images", $"{name}.png");
+                    string path = Path.Combine(
+                        Application.StartupPath,
+                        "Properties",
+                        "Resources",
+                        "Images",
+                        $"{name}.png"
+                    );
                     pb.Image = Image.FromFile(path);
                 }
                 catch { continue; }
