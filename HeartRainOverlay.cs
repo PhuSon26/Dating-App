@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -21,45 +20,58 @@ public sealed class HeartRainOverlay : Control
     private int _spawnRemaining;
     private float _spawnRatePerSec;
 
+    private Bitmap _bgSnapshot; // snapshot UI bên dưới
+
     public HeartRainOverlay()
     {
         SetStyle(ControlStyles.AllPaintingInWmPaint |
                  ControlStyles.OptimizedDoubleBuffer |
-                 ControlStyles.UserPaint |
-                 ControlStyles.SupportsTransparentBackColor, true);
+                 ControlStyles.UserPaint, true);
 
-        BackColor = Color.Transparent;
         Dock = DockStyle.Fill;
         Visible = false;
 
         _timer.Tick += (_, __) => TickFrame();
     }
 
-    protected override CreateParams CreateParams
+    // chụp UI của parent (bao gồm cả các control con)
+    private void CaptureBackground()
     {
-        get
-        {
-            const int WS_EX_TRANSPARENT = 0x20;
-            var cp = base.CreateParams;
-            cp.ExStyle |= WS_EX_TRANSPARENT; // để click xuyên qua
-            return cp;
-        }
+        if (Parent == null || Parent.ClientSize.Width <= 0 || Parent.ClientSize.Height <= 0) return;
+
+        _bgSnapshot?.Dispose();
+        _bgSnapshot = new Bitmap(Parent.ClientSize.Width, Parent.ClientSize.Height);
+        Parent.DrawToBitmap(_bgSnapshot, new Rectangle(Point.Empty, _bgSnapshot.Size));
     }
 
     public void Trigger(int totalHearts = 80, int durationMs = 1200)
     {
         if (totalHearts <= 0 || durationMs <= 0) return;
 
+        CaptureBackground();      // <<< quan trọng
+        BringToFront();
+        Visible = true;
+
         _spawnRemaining = totalHearts;
         _spawnRatePerSec = totalHearts / (durationMs / 1000f);
 
-        Visible = true;
+        _sw.Restart();
+        _timer.Start();
+    }
 
-        if (!_sw.IsRunning)
-        {
-            _sw.Restart();
-            _timer.Start();
-        }
+    protected override void OnResize(EventArgs e)
+    {
+        base.OnResize(e);
+        if (Visible) CaptureBackground();
+    }
+
+    protected override void OnPaintBackground(PaintEventArgs e)
+    {
+        // vẽ lại snapshot để “giữ nguyên UI ghép đôi”
+        if (_bgSnapshot != null)
+            e.Graphics.DrawImageUnscaled(_bgSnapshot, 0, 0);
+        else
+            e.Graphics.Clear(Parent?.BackColor ?? SystemColors.Control);
     }
 
     private void TickFrame()
@@ -98,6 +110,8 @@ public sealed class HeartRainOverlay : Control
             _timer.Stop();
             _sw.Reset();
             Visible = false;
+            _bgSnapshot?.Dispose();
+            _bgSnapshot = null;
         }
     }
 
@@ -125,8 +139,6 @@ public sealed class HeartRainOverlay : Control
         });
     }
 
-    protected override void OnPaintBackground(PaintEventArgs pevent) { }
-
     protected override void OnPaint(PaintEventArgs e)
     {
         var g = e.Graphics;
@@ -141,7 +153,6 @@ public sealed class HeartRainOverlay : Control
         {
             float t = h.Life / h.MaxLife;
             float alpha = (t > 0.75f) ? (1f - (t - 0.75f) / 0.25f) : 1f;
-
             int a = (int)(alpha * 255);
             if (a < 0) a = 0;
             if (a > 255) a = 255;
