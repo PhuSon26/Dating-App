@@ -337,7 +337,12 @@ namespace LOGIN
         }
         public Image Base64ToImage(string base64)
         {
-            string defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "AvatarMacDinh.png");
+            string defaultPath = Path.Combine(
+                                Application.StartupPath,
+                                "Properties",
+                                "Resources",
+                                "Images", "AvatarMacDinh.png"
+                            );
 
             // ✅ Nếu base64 rỗng => thử dùng ảnh mặc định, hoặc ảnh tạm
             if (string.IsNullOrEmpty(base64))

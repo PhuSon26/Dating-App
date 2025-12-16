@@ -292,6 +292,7 @@ namespace Main_Interface.User_Controls
                 btnSend.Enabled = false;
                 btnBack.Enabled = false;
                 btnBlock.Enabled = false;
+                btnSendImage.Enabled = false;
                 loading.Show();
                 if (!isBlocked)
                 {
@@ -306,6 +307,7 @@ namespace Main_Interface.User_Controls
                 btnBlock.Enabled = true;
                 btnBack.Enabled = true;
                 btnSend.Enabled = true;
+                btnSendImage.Enabled = true;
             };
             pnlHeader.Controls.Add(btnBlock);
             await LoadBlockState();
@@ -959,7 +961,13 @@ namespace Main_Interface.User_Controls
 
                 try
                 {
-                    string path = Path.Combine(Application.StartupPath, "Images", $"{name}.png");
+                    string path = Path.Combine(
+                        Application.StartupPath,
+                        "Properties",
+                        "Resources",
+                        "Images",
+                        $"{name}.png"
+                    );
                     pb.Image = Image.FromFile(path);
                 }
                 catch { continue; }
