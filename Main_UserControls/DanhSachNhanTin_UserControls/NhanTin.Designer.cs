@@ -27,6 +27,7 @@
             Size = new Size(700, 562);
             Load += NhanTin_Load;
             ResumeLayout(false);
+        
         }
 
         #endregion
