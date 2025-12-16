@@ -99,14 +99,17 @@ namespace LOGIN
                     {
 
                         if (this.IsDisposed || item.IsDisposed) return;
-
                         this.Invoke(new Action(() =>
                         {
-                           
+                            if (this.IsDisposed || item.IsDisposed) return;
+
                             item.UpdateData(updatedMeta);
 
-                          
-                             flowLayoutPanel1.Controls.SetChildIndex(item, 0);
+                            // kiểm tra xem item đã nằm trong flowLayoutPanel1 chưa
+                            if (item.Parent == flowLayoutPanel1 && flowLayoutPanel1.Controls.Contains(item))
+                            {
+                                flowLayoutPanel1.Controls.SetChildIndex(item, 0);
+                            }
                         }));
                     });
 
