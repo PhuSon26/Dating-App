@@ -85,5 +85,8 @@
     <EmbeddedResource Update="Main_UserControls\DanhSachNhanTin_UserControls\FormDanhSachTinNhan.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Update="Main_UserControls\GhepDoi_UserControls\MatchForm.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
