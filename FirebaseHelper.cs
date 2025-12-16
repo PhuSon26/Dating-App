@@ -212,10 +212,10 @@ namespace LOGIN
         /// Đồng thời cập nhật trường lastMessage trong document Matches/{matchId}.
         /// </summary>
         public async Task<ChatMessage> SendMessageAsync(
-            string matchId,
-            string senderId,
-            string text,
-            string localImagePath = null)
+    string matchId,
+    string senderId,
+    string text,
+    string localImagePath = null)
         {
             if (string.IsNullOrWhiteSpace(matchId))
                 throw new ArgumentException("matchId trống", nameof(matchId));
@@ -226,40 +226,62 @@ namespace LOGIN
             if (string.IsNullOrWhiteSpace(text) &&
                 string.IsNullOrWhiteSpace(localImagePath))
                 throw new ArgumentException("Phải có text hoặc ảnh.");
+            
 
-            // 1. Nếu có ảnh → upload lên Firebase Storage, lấy URL
-            string imageUrl = null;
+            // ==== KHÔNG DÙNG FIREBASE STORAGE NỮA ====
+            string imageBase64 = null;
             if (!string.IsNullOrWhiteSpace(localImagePath))
-            {
-                imageUrl = await uploadFile(localImagePath, "message_images");
-            }
+                imageBase64 = ImageFileToBase64(localImagePath);
 
-            // 2. Tạo object ChatMessage
             var msg = new ChatMessage
             {
                 senderId = senderId,
                 text = text ?? string.Empty,
-                imageUrl = imageUrl,
+
+                imageUrl = null,                // không dùng
+                imageBase64 = imageBase64,      // dùng base64
+
                 createdAt = Timestamp.FromDateTime(DateTime.UtcNow),
                 isRecalled = false,
                 isDeleted = false
             };
 
-            // 3. Ghi vào subcollection Matches/{matchId}/messages
-            DocumentReference matchDoc = db.Collection("Matches").Document(matchId);
-            CollectionReference messagesCol = matchDoc.Collection("messages");
-            DocumentReference addedMsgDoc = await messagesCol.AddAsync(msg);   // AddAsync trả về DocumentReference có Id 
+            CollectionReference messagesCol = db.Collection("messages");
+            DocumentReference addedMsgDoc = await messagesCol.AddAsync(msg);
 
-            // lưu lại Id document vào object để dùng khi xoá/thu hồi
             msg.messageId = addedMsgDoc.Id;
 
-            // 4. Cập nhật lastMessage trong document Matches/{matchId}
+            // cập nhật preview tin nhắn (text hoặc "[Hình ảnh]")
             string lastMsgPreview = !string.IsNullOrWhiteSpace(text) ? text : "[Hình ảnh]";
-            await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);  // Update field theo mẫu docs 
+
+            // cập nhật trường lastMessage trong Matches nếu có
+            try
+            {
+                DocumentReference matchDoc = db.Collection("Matches").Document(matchId);
+                var matchSnapshot = await matchDoc.GetSnapshotAsync();
+
+                if (!matchSnapshot.Exists)
+                {
+                    await matchDoc.SetAsync(new Dictionary<string, object>
+        {
+            { "lastMessage", lastMsgPreview },
+            { "createdAt", Timestamp.FromDateTime(DateTime.UtcNow) },
+            { "users", new List<string> { senderId } }
+        });
+                }
+                else
+                {
+                    await matchDoc.UpdateAsync("lastMessage", lastMsgPreview);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Không thể cập nhật lastMessage: " + ex.Message);
+            }
 
             return msg;
-        }
 
+        }
 
         // ==============================================
         // HÀM GET MATCHES (ĐÃ TÁCH RIÊNG KHÔNG CHÈN NHẦM)
@@ -328,7 +350,12 @@ namespace LOGIN
         }
         public Image Base64ToImage(string base64)
         {
-            string defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "AvatarMacDinh.png");
+            string defaultPath = Path.Combine(
+                                Application.StartupPath,
+                                "Properties",
+                                "Resources",
+                                "Images", "AvatarMacDinh.png"
+                            );
 
             // ✅ Nếu base64 rỗng => thử dùng ảnh mặc định, hoặc ảnh tạm
             if (string.IsNullOrEmpty(base64))
@@ -375,7 +402,7 @@ namespace LOGIN
                 return bmp;
             }
         }
-        public async Task<List<USER>> GetRandomSuggest(string userId, int limit = 5)
+        public async Task<List<USER>> GetRandomSuggest(string userId, int limit)
         {
             try
             {
@@ -1121,9 +1148,9 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
 
 
 
-    }
+    
         
-    }
+    
 
 
 
@@ -1133,3 +1160,51 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
 
 
     
+        public string ImageFileToBase64(string imagePath)
+        {
+            if (string.IsNullOrWhiteSpace(imagePath) || !File.Exists(imagePath))
+                return null;
+
+            using (var img = Image.FromFile(imagePath))
+            {
+                return ImageToBase64(img); // hàm có sẵn trong file :contentReference[oaicite:2]{index=2}
+            }
+        }
+        public async Task SendImageToConversationAsync(string fromUserId, string toUserId, string localImagePath)
+        {
+            if (string.IsNullOrWhiteSpace(fromUserId))
+                throw new ArgumentException("fromUserId trống", nameof(fromUserId));
+
+            if (string.IsNullOrWhiteSpace(toUserId))
+                throw new ArgumentException("toUserId trống", nameof(toUserId));
+
+            if (string.IsNullOrWhiteSpace(localImagePath) || !File.Exists(localImagePath))
+                throw new ArgumentException("localImagePath không hợp lệ", nameof(localImagePath));
+
+            string conversationId = GetConversationId(fromUserId, toUserId);
+            string imageBase64 = ImageFileToBase64(localImagePath);
+
+            var msgRef = db.Collection("messages").Document();
+
+            await msgRef.SetAsync(new Dictionary<string, object>
+    {
+        { "fromUserId", fromUserId },
+        { "toUserId", toUserId },
+        { "text", "" },
+        { "timestamp", Timestamp.GetCurrentTimestamp() },
+        { "ChatId", conversationId },
+
+        { "imageBase64", imageBase64 },
+
+        { "reaction", new Dictionary<string, string>() },
+        { "deletedFor", new List<string>() },
+        { "isRecalled", false },
+        { "recalledBy", "" },
+        { "recalledAt", null }
+    });
+
+            await UpdateChatMeta(fromUserId, toUserId, "[Hình ảnh]");
+        }
+
+    }
+}

@@ -121,13 +121,28 @@
   <data name="CallVD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CallVD.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="haha" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\haha.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="like" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\like.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="nhaccho" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\nhac_chuong_iphone_11_pro_max-www_tiengdong_com.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="phanno" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\phanno.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="spin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Infinity@1x-1.0s-200px-200px.gif;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="tim" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tim.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="VideoCallHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\!DOCTYPE html.txt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="wow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

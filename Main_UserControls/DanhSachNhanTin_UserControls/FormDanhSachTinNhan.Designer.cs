@@ -57,6 +57,7 @@ namespace LOGIN
             // 
             btnTimKiem.BackColor = SystemColors.ActiveCaption;
             btnTimKiem.CornerRadius = 20;
+            btnTimKiem.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnTimKiem.FlatStyle = FlatStyle.Flat;
             btnTimKiem.ForeColor = Color.White;
             btnTimKiem.Location = new Point(920, 25);

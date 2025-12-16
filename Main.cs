@@ -32,6 +32,8 @@ namespace Main_Interface
         private bool loadedCaiDat = false;
         private bool isBusy = false;
         System.Windows.Forms.Timer callCheckTimer;
+        public List<USER> FilteredUsers { get; set; } = null;
+
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();

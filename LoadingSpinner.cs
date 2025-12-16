@@ -38,7 +38,12 @@ namespace LOGIN
             pbSpinner.SizeMode = PictureBoxSizeMode.Zoom;
             pbSpinner.Visible = false;
 
-            string defaultPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "loading.gif");
+            string defaultPath = Path.Combine(
+                Application.StartupPath,
+                "Properties",
+                "Resources",
+                "Images", "loading.gif"
+            );
 
             if (File.Exists(defaultPath))
             {

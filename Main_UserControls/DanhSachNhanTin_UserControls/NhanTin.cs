@@ -9,11 +9,25 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Google.Rpc.Context.AttributeContext.Types;
 
 namespace Main_Interface.User_Controls
 {
     public partial class NhanTin : UserControl
     {
+        private readonly FirebaseAuthHelper auth;
+        private readonly Main mainForm;
+        private Button btnSendImage;
+        
+
+        public NhanTin(Main mainForm /* + các tham số khác nếu có */)
+        {
+            InitializeComponent();
+            this.mainForm = mainForm;
+            this.auth = mainForm.auth;
+            
+        }
+        private string currentMatchId;
         private Panel pnlHeader;
         private PictureBox picAvatar;
         private Label lblUserName;
@@ -58,12 +72,13 @@ namespace Main_Interface.User_Controls
             this.Load += NhanTin_Load;
             SetupCustomUI();
             MainForm = m;
+
+          
+            this.auth = m.auth;
             this.firebase = m.auth;
+
             loading = new LoadingSpinner(this);
         }
-       
-
-
         // ======================================================
         // ====================== UI CHAT ========================
         // ======================================================
@@ -265,6 +280,21 @@ namespace Main_Interface.User_Controls
             Controls.Add(pnlChatContainer);
             Controls.Add(pnlBottom);
             Controls.Add(pnlHeader);
+            btnSendImage = new Button
+            {
+                Text = "📷",
+                Size = new Size(50, 50),
+                Dock = DockStyle.Left,
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.White,
+                Font = new Font("Segoe UI Emoji", 14F, FontStyle.Regular),
+                Cursor = Cursors.Hand
+            };
+            btnSendImage.FlatAppearance.BorderSize = 0;
+            btnSendImage.Click += btnSendImage_Click;
+
+            // thêm nút vào panel chứa ô nhập tin nhắn
+            pnlBottom.Controls.Add(btnSendImage);
         }
         private async void BtnVideoCall_Click(object sender, EventArgs e)
         {
@@ -360,6 +390,7 @@ namespace Main_Interface.User_Controls
                 btnSend.Enabled = false;
                 btnBack.Enabled = false;
                 btnBlock.Enabled = false;
+                btnSendImage.Enabled = false;
                 loading.Show();
                 if (!isBlocked)
                 {
@@ -374,6 +405,7 @@ namespace Main_Interface.User_Controls
                 btnBlock.Enabled = true;
                 btnBack.Enabled = true;
                 btnSend.Enabled = true;
+                btnSendImage.Enabled = true;
             };
             pnlHeader.Controls.Add(btnBlock);
             await LoadBlockState();
@@ -807,180 +839,125 @@ namespace Main_Interface.User_Controls
         private Control CreateBubble(Messagemodels msg)
         {
             bool isMine = msg.fromUserId == myUserId;
+
+            Panel wrapper = CreateWrapper(isMine);
+            Panel bubble = CreateBubblePanel(isMine);
+
+            TableLayoutPanel layout = new TableLayoutPanel
+            {
+                AutoSize = true,
+                ColumnCount = 1
+            };
+
+            if (!string.IsNullOrWhiteSpace(msg.text))
+                layout.Controls.Add(CreateTextLabel(msg.text, isMine));
+
+            if (!string.IsNullOrWhiteSpace(msg.imageBase64))
+                layout.Controls.Add(CreateImageBox(msg.imageBase64));
+
+            layout.Controls.Add(CreateTimeLabel(msg));
+
+            bubble.Controls.Add(layout);
+            wrapper.Controls.Add(bubble);
+
+            AttachContextMenu(bubble, msg, isMine);
+
+            return wrapper;
+        }
+        private Panel CreateWrapper(bool isMine)
+        {
+            return new Panel
+            {
+                AutoSize = true,
+                Dock = isMine ? DockStyle.Right : DockStyle.Left,
+                Padding = new Padding(10, 0, 10, 0),
+                Margin = new Padding(0, 2, 0, 2)
+            };
+        }
+        private Panel CreateBubblePanel(bool isMine)
+        {
             Panel bubble = new Panel
             {
                 AutoSize = true,
                 MaximumSize = new Size(400, 0),
-                MinimumSize = new Size(80, 0),
                 BackColor = isMine ? Color.FromArgb(37, 211, 102) : Color.White,
-                Padding = new Padding(12, 8, 12, 8),
-                Margin = new Padding(5, 3, 5, 3),
+                Padding = new Padding(12, 8, 12, 8)
             };
+
             bubble.Paint += (s, e) =>
             {
-                System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
-                int radius = 15;
+                using var path = new System.Drawing.Drawing2D.GraphicsPath();
+                int r = 15;
                 Rectangle rect = new Rectangle(0, 0, bubble.Width - 1, bubble.Height - 1);
-                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-                path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90);
-                path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
-                path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90);
+                path.AddArc(rect.X, rect.Y, r, r, 180, 90);
+                path.AddArc(rect.Right - r, rect.Y, r, r, 270, 90);
+                path.AddArc(rect.Right - r, rect.Bottom - r, r, r, 0, 90);
+                path.AddArc(rect.X, rect.Bottom - r, r, r, 90, 90);
                 path.CloseFigure();
                 bubble.Region = new Region(path);
                 if (!isMine)
-                {
-                    e.Graphics.DrawPath(new Pen(Color.FromArgb(220, 220, 220)), path);
-                }
+                    e.Graphics.DrawPath(Pens.LightGray, path);
             };
-            bubble.Cursor = Cursors.Hand;
-            Label lblText = new Label
+
+            return bubble;
+        }
+        private Label CreateTextLabel(string text, bool isMine)
+        {
+            return new Label
             {
-                Text = msg.text ?? "",
+                Text = text,
                 AutoSize = true,
                 MaximumSize = new Size(370, 0),
                 Font = new Font("Segoe UI", 10F),
-                ForeColor = isMine ? Color.White : Color.Black,
-                Padding = new Padding(0)
+                ForeColor = isMine ? Color.White : Color.Black
             };
-            DateTime msgTime;
-            try
+        }
+        private PictureBox CreateImageBox(string base64)
+        {
+            return new PictureBox
             {
-                msgTime = msg.timestamp.ToDateTime().ToLocalTime();
-            }
-            catch
+                Image = firebase.Base64ToImage(base64),
+                Size = new Size(250, 250),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Margin = new Padding(0, 5, 0, 5),
+                Cursor = Cursors.Hand
+            };
+        }
+        private Label CreateTimeLabel(Messagemodels msg)
+        {
+            DateTime time = msg.timestamp.ToDateTime().ToLocalTime();
+
+            return new Label
             {
-                msgTime = DateTime.Now;
-            }
-            Label lblTime = new Label
-            {
-                Text = msgTime.ToString("HH:mm"),
+                Text = time.ToString("HH:mm"),
                 AutoSize = true,
                 Font = new Font("Segoe UI", 8F),
-                ForeColor = isMine ? Color.FromArgb(200, 255, 200) : Color.Gray,
-                TextAlign = ContentAlignment.BottomRight,
-                Padding = new Padding(0, 3, 0, 0)
+                ForeColor = Color.Gray,
+                Anchor = AnchorStyles.Right
             };
-            TableLayoutPanel innerLayout = new TableLayoutPanel
-            {
-                AutoSize = true,
-                ColumnCount = 1,
-                RowCount = 2,
-                Padding = new Padding(0)
-            };
-            innerLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            innerLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            innerLayout.Controls.Add(lblText, 0, 0);
-            innerLayout.Controls.Add(lblTime, 0, 1);
-            bubble.Controls.Add(innerLayout);
-
-            // ================= REACTION =================
-            FlowLayoutPanel pnlReaction = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                FlowDirection = FlowDirection.LeftToRight,
-                Padding = new Padding(0, 5, 0, 0)
-            };
-
-            if (msg.reaction != null && msg.reaction.Count > 0)
-            {
-                // Tính số lượng reaction cùng emoji
-                var emojiCount = msg.reaction.Values
-                    .GroupBy(v => v)
-                    .ToDictionary(g => g.Key, g => g.Count());
-
-                foreach (var kvp in emojiCount)
-                {
-                    string emojiName = kvp.Key;
-                    int count = kvp.Value;
-
-                    Panel pnlEmoji = new Panel
-                    {
-                        AutoSize = true,
-                        Margin = new Padding(2)
-                    };
-
-                    PictureBox pb = new PictureBox
-                    {
-                        Size = new Size(20, 20),
-                        SizeMode = PictureBoxSizeMode.Zoom
-                    };
-
-                    try
-                    {
-                        string path = Path.Combine(Application.StartupPath, "Images", $"{emojiName}.png");
-                        pb.Image = Image.FromFile(path);
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-
-                    Label lblCount = new Label
-                    {
-                        Text = count > 1 ? count.ToString() : "",
-                        Font = new Font("Segoe UI", 7F, FontStyle.Bold),
-                        ForeColor = Color.Black,
-                        AutoSize = true,
-                        Location = new Point(pb.Width - 8, pb.Height - 10),
-                        BackColor = Color.Transparent
-                    };
-
-                    pnlEmoji.Controls.Add(pb);
-                    pnlEmoji.Controls.Add(lblCount);
-
-                    pnlReaction.Controls.Add(pnlEmoji);
-                }
-            }
-
-            innerLayout.Controls.Add(pnlReaction, 0, 2);
-            innerLayout.RowCount = 3;
-            innerLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-            // ================= CLICK VÀ HIỆN POPUP EMOJI =================
-            void AttachClick(Control parent)
-            {
-                parent.Click += (s, e) => { ShowEmojiPopup(bubble, msg); };
-                foreach (Control c in parent.Controls)
-                    AttachClick(c);
-            }
-            AttachClick(bubble);
-            // ================= WRAPPER =================
-            Panel wrapper = new Panel
-            {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Dock = isMine ? DockStyle.Right : DockStyle.Left,
-                Margin = new Padding(0, 2, 0, 2),
-                Padding = new Padding(10, 0, 10, 0)
-            };
-            wrapper.Controls.Add(bubble);
-            // ===== Context menu: Xóa phía tôi / Thu hồi =====
+        }
+        private void AttachContextMenu(Control target, Messagemodels msg, bool isMine)
+        {
             var menu = new ContextMenuStrip();
 
             menu.Items.Add("Xóa phía tôi", null, async (_, __) =>
-            {
-                await firebase.DeleteMessageForMeAsync(msg.Id, Session.LocalId);
-            });
+                await firebase.DeleteMessageForMeAsync(msg.Id, Session.LocalId));
 
-            // Chỉ người gửi mới được thu hồi
-            if (msg.fromUserId == Session.LocalId)
+            if (isMine)
             {
                 menu.Items.Add("Thu hồi (cả 2 bên)", null, async (_, __) =>
-                {
-                    await firebase.RecallMessageForAllAsync(msg.Id, Session.LocalId);
-                });
+                    await firebase.RecallMessageForAllAsync(msg.Id, Session.LocalId));
             }
 
-            // Gán cho wrapper + bubble + các control con (để bấm chuột phải ở đâu cũng hiện menu)
-            void AttachMenu(Control parent)
-            {
-                parent.ContextMenuStrip = menu;
-                foreach (Control c in parent.Controls) AttachMenu(c);
-            }
-            AttachMenu(wrapper);
-
-            return wrapper;
+            target.ContextMenuStrip = menu;
         }
+
+
+
+
+
+
+
 
         private void ShowEmojiPopup(Control bubble, Messagemodels msg)
         {
@@ -1016,7 +993,13 @@ namespace Main_Interface.User_Controls
 
                 try
                 {
-                    string path = Path.Combine(Application.StartupPath, "Images", $"{name}.png");
+                    string path = Path.Combine(
+                        Application.StartupPath,
+                        "Properties",
+                        "Resources",
+                        "Images",
+                        $"{name}.png"
+                    );
                     pb.Image = Image.FromFile(path);
                 }
                 catch { continue; }
@@ -1065,6 +1048,21 @@ namespace Main_Interface.User_Controls
             blockListener?.StopAsync();
             base.OnHandleDestroyed(e);
         }
+        private async void btnSendImage_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new OpenFileDialog())
+            {
+                dlg.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+                dlg.Multiselect = false;
+
+                if (dlg.ShowDialog() != DialogResult.OK) return;
+
+                string localPath = dlg.FileName;
+
+                // GỬI ẢNH VÀO collection "messages" (đúng nơi UI đang đọc)
+                await firebase.SendImageToConversationAsync(Session.LocalId, targetUser.Id, localPath);
+            }
+        }
         public class DoubleBufferedFlowLayoutPanel : FlowLayoutPanel
         {
             public DoubleBufferedFlowLayoutPanel()
@@ -1085,5 +1083,6 @@ namespace Main_Interface.User_Controls
                 }
             }
         }
+
     }
 }

@@ -42,7 +42,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Segoe UI", 42F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(60, 60, 60);
             label1.Location = new Point(472, 50);
             label1.Name = "label1";
@@ -57,9 +57,9 @@
             btn_doiEmailMk.FlatStyle = FlatStyle.Flat;
             btn_doiEmailMk.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_doiEmailMk.ForeColor = Color.White;
-            btn_doiEmailMk.Location = new Point(207, 194);
+            btn_doiEmailMk.Location = new Point(207, 202);
             btn_doiEmailMk.Name = "btn_doiEmailMk";
-            btn_doiEmailMk.Size = new Size(748, 60);
+            btn_doiEmailMk.Size = new Size(748, 75);
             btn_doiEmailMk.TabIndex = 2;
             btn_doiEmailMk.Text = "🔐 Đổi email và mật khẩu";
             btn_doiEmailMk.UseVisualStyleBackColor = false;
@@ -75,9 +75,9 @@
             btn_xoaTk.FlatStyle = FlatStyle.Flat;
             btn_xoaTk.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_xoaTk.ForeColor = Color.White;
-            btn_xoaTk.Location = new Point(207, 283);
+            btn_xoaTk.Location = new Point(207, 307);
             btn_xoaTk.Name = "btn_xoaTk";
-            btn_xoaTk.Size = new Size(748, 60);
+            btn_xoaTk.Size = new Size(748, 75);
             btn_xoaTk.TabIndex = 3;
             btn_xoaTk.Text = "🗑️ Xóa tài khoản";
             btn_xoaTk.UseVisualStyleBackColor = false;
@@ -93,9 +93,9 @@
             btn_dsChan.FlatStyle = FlatStyle.Flat;
             btn_dsChan.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_dsChan.ForeColor = Color.White;
-            btn_dsChan.Location = new Point(207, 368);
+            btn_dsChan.Location = new Point(207, 413);
             btn_dsChan.Name = "btn_dsChan";
-            btn_dsChan.Size = new Size(748, 60);
+            btn_dsChan.Size = new Size(748, 75);
             btn_dsChan.TabIndex = 4;
             btn_dsChan.Text = "🚫 Danh sách chặn";
             btn_dsChan.UseVisualStyleBackColor = false;
@@ -111,9 +111,9 @@
             btn_gioithieuUngDung.FlatStyle = FlatStyle.Flat;
             btn_gioithieuUngDung.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_gioithieuUngDung.ForeColor = Color.White;
-            btn_gioithieuUngDung.Location = new Point(207, 539);
+            btn_gioithieuUngDung.Location = new Point(207, 519);
             btn_gioithieuUngDung.Name = "btn_gioithieuUngDung";
-            btn_gioithieuUngDung.Size = new Size(748, 60);
+            btn_gioithieuUngDung.Size = new Size(748, 75);
             btn_gioithieuUngDung.TabIndex = 5;
             btn_gioithieuUngDung.Text = "ℹ️ Giới thiệu ứng dụng";
             btn_gioithieuUngDung.UseVisualStyleBackColor = false;
@@ -150,7 +150,7 @@
             panel.Controls.Add(btn_doiEmailMk);
             panel.Controls.Add(btn_xoaTk);
             panel.Controls.Add(btn_dsChan);
-            panel.Controls.Add(cb_tatThongbao);
+            //panel.Controls.Add(cb_tatThongbao);
             panel.Controls.Add(btn_gioithieuUngDung);
             panel.Cursor = Cursors.No;
             panel.Location = new Point(0, 0);
@@ -167,7 +167,7 @@
             btn_dangxuat.ForeColor = Color.White;
             btn_dangxuat.Location = new Point(207, 623);
             btn_dangxuat.Name = "btn_dangxuat";
-            btn_dangxuat.Size = new Size(748, 60);
+            btn_dangxuat.Size = new Size(748, 75);
             btn_dangxuat.TabIndex = 10;
             btn_dangxuat.Text = "🚪Đăng Xuất";
             btn_dangxuat.UseVisualStyleBackColor = false;
