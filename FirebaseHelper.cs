@@ -384,7 +384,7 @@ namespace LOGIN
                 return bmp;
             }
         }
-        public async Task<List<USER>> GetRandomSuggest(string userId, int limit = 5)
+        public async Task<List<USER>> GetRandomSuggest(string userId, int limit)
         {
             try
             {

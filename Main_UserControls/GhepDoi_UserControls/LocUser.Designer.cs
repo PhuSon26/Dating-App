@@ -74,11 +74,12 @@
             // comboGioiTinh
             // 
             comboGioiTinh.Font = new Font("Segoe UI", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            comboGioiTinh.Items.AddRange(new object[] { "Nam", "Nữ" });
+            comboGioiTinh.Items.AddRange(new object[] { "Nam", "Nữ", "Tất cả" });
             comboGioiTinh.Location = new Point(520, 170);
             comboGioiTinh.Name = "comboGioiTinh";
             comboGioiTinh.Size = new Size(350, 33);
             comboGioiTinh.TabIndex = 2;
+            comboGioiTinh.SelectedIndex = 2;
             // 
             // textNoiSong
             // 
