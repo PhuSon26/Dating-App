@@ -840,210 +840,124 @@ namespace Main_Interface.User_Controls
         {
             bool isMine = msg.fromUserId == myUserId;
 
+            Panel wrapper = CreateWrapper(isMine);
+            Panel bubble = CreateBubblePanel(isMine);
+
+            TableLayoutPanel layout = new TableLayoutPanel
+            {
+                AutoSize = true,
+                ColumnCount = 1
+            };
+
+            if (!string.IsNullOrWhiteSpace(msg.text))
+                layout.Controls.Add(CreateTextLabel(msg.text, isMine));
+
+            if (!string.IsNullOrWhiteSpace(msg.imageBase64))
+                layout.Controls.Add(CreateImageBox(msg.imageBase64));
+
+            layout.Controls.Add(CreateTimeLabel(msg));
+
+            bubble.Controls.Add(layout);
+            wrapper.Controls.Add(bubble);
+
+            AttachContextMenu(bubble, msg, isMine);
+
+            return wrapper;
+        }
+        private Panel CreateWrapper(bool isMine)
+        {
+            return new Panel
+            {
+                AutoSize = true,
+                Dock = isMine ? DockStyle.Right : DockStyle.Left,
+                Padding = new Padding(10, 0, 10, 0),
+                Margin = new Padding(0, 2, 0, 2)
+            };
+        }
+        private Panel CreateBubblePanel(bool isMine)
+        {
             Panel bubble = new Panel
             {
                 AutoSize = true,
                 MaximumSize = new Size(400, 0),
-                MinimumSize = new Size(80, 0),
                 BackColor = isMine ? Color.FromArgb(37, 211, 102) : Color.White,
-                Padding = new Padding(12, 8, 12, 8),
-                Margin = new Padding(5, 3, 5, 3)
+                Padding = new Padding(12, 8, 12, 8)
             };
 
             bubble.Paint += (s, e) =>
             {
                 using var path = new System.Drawing.Drawing2D.GraphicsPath();
-                int radius = 15;
+                int r = 15;
                 Rectangle rect = new Rectangle(0, 0, bubble.Width - 1, bubble.Height - 1);
-                path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
-                path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90);
-                path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
-                path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90);
+                path.AddArc(rect.X, rect.Y, r, r, 180, 90);
+                path.AddArc(rect.Right - r, rect.Y, r, r, 270, 90);
+                path.AddArc(rect.Right - r, rect.Bottom - r, r, r, 0, 90);
+                path.AddArc(rect.X, rect.Bottom - r, r, r, 90, 90);
                 path.CloseFigure();
                 bubble.Region = new Region(path);
                 if (!isMine)
-                    e.Graphics.DrawPath(new Pen(Color.FromArgb(220, 220, 220)), path);
+                    e.Graphics.DrawPath(Pens.LightGray, path);
             };
 
-            bubble.Cursor = Cursors.Hand;
-
-            // ========== TEXT ==========
-            Label lblText = new Label
+            return bubble;
+        }
+        private Label CreateTextLabel(string text, bool isMine)
+        {
+            return new Label
             {
-                Text = msg.text ?? "",
+                Text = text,
                 AutoSize = true,
                 MaximumSize = new Size(370, 0),
                 Font = new Font("Segoe UI", 10F),
-                ForeColor = isMine ? Color.White : Color.Black,
-                Padding = new Padding(0)
+                ForeColor = isMine ? Color.White : Color.Black
             };
-
-            // ========== IMAGE ==========
-            PictureBox picMessageImage = null;
-            if (!string.IsNullOrWhiteSpace(msg.imageBase64))
+        }
+        private PictureBox CreateImageBox(string base64)
+        {
+            return new PictureBox
             {
-                try
-                {
-                    Image img = firebase.Base64ToImage(msg.imageBase64);
-                    picMessageImage = new PictureBox
-                    {
-                        Image = img,
-                        SizeMode = PictureBoxSizeMode.Zoom,
-                        Size = new Size(250, 250), // 🔥 Kích thước cố định để hiển thị
-                        Cursor = Cursors.Hand,
-                        Margin = new Padding(0, 5, 0, 0),
-                        BorderStyle = BorderStyle.FixedSingle
-                    };
+                Image = firebase.Base64ToImage(base64),
+                Size = new Size(250, 250),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Margin = new Padding(0, 5, 0, 5),
+                Cursor = Cursors.Hand
+            };
+        }
+        private Label CreateTimeLabel(Messagemodels msg)
+        {
+            DateTime time = msg.timestamp.ToDateTime().ToLocalTime();
 
-                    // Sự kiện click để xem ảnh lớn
-                    picMessageImage.Click += (s, e) =>
-                    {
-                        Form viewer = new Form
-                        {
-                            StartPosition = FormStartPosition.CenterScreen,
-                            Size = new Size(600, 600),
-                            BackColor = Color.Black,
-                            FormBorderStyle = FormBorderStyle.FixedDialog
-                        };
-
-                        PictureBox bigPic = new PictureBox
-                        {
-                            Dock = DockStyle.Fill,
-                            Image = img,
-                            SizeMode = PictureBoxSizeMode.Zoom
-                        };
-
-                        viewer.Controls.Add(bigPic);
-                        viewer.ShowDialog();
-                    };
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Lỗi hiển thị ảnh: " + ex.Message);
-                }
-            DateTime msgTime;
-            try
+            return new Label
             {
-                msgTime = msg.timestamp.ToDateTime().ToLocalTime();
-            }
-            catch
-            {
-                msgTime = DateTime.Now;
-            }
-            Label lblTime = new Label
-            {
-                Text = msgTime.ToString("HH:mm"),
+                Text = time.ToString("HH:mm"),
                 AutoSize = true,
                 Font = new Font("Segoe UI", 8F),
-                ForeColor = isMine ? Color.FromArgb(200, 255, 200) : Color.Gray,
-                TextAlign = ContentAlignment.BottomRight,
-                Padding = new Padding(0, 3, 0, 0)
+                ForeColor = Color.Gray,
+                Anchor = AnchorStyles.Right
             };
-
-            // ========== LAYOUT ==========
-            TableLayoutPanel innerLayout = new TableLayoutPanel
-            {
-                AutoSize = true,
-                ColumnCount = 1,
-                RowCount = 0,
-                Padding = new Padding(0)
-            };
-
-            if (!string.IsNullOrWhiteSpace(msg.text))
-                innerLayout.Controls.Add(lblText, 0, innerLayout.RowCount++);
-
-            if (picMessageImage != null)
-                innerLayout.Controls.Add(picMessageImage, 0, innerLayout.RowCount++);
-
-            innerLayout.Controls.Add(lblTime, 0, innerLayout.RowCount++);
-
-            bubble.Controls.Add(innerLayout);
-
-            // ========== REACTION ==========
-            FlowLayoutPanel pnlReaction = new FlowLayoutPanel
-            {
-                AutoSize = true,
-                FlowDirection = FlowDirection.LeftToRight,
-                Padding = new Padding(0, 5, 0, 0)
-            };
-
-            if (msg.reaction != null && msg.reaction.Count > 0)
-            {
-                var emojiCount = msg.reaction.Values.GroupBy(v => v)
-                    .ToDictionary(g => g.Key, g => g.Count());
-
-                foreach (var kvp in emojiCount)
-                {
-                    string emojiName = kvp.Key;
-                    int count = kvp.Value;
-
-                    Panel pnlEmoji = new Panel { AutoSize = true, Margin = new Padding(2) };
-                    PictureBox pb = new PictureBox
-                    {
-                        Size = new Size(20, 20),
-                        SizeMode = PictureBoxSizeMode.Zoom
-                    };
-
-                    try
-                    {
-                        string path = Path.Combine(Application.StartupPath, "Images", $"{emojiName}.png");
-                        pb.Image = Image.FromFile(path);
-                    }
-                    catch { continue; }
-
-                    Label lblCount = new Label
-                    {
-                        Text = count > 1 ? count.ToString() : "",
-                        Font = new Font("Segoe UI", 7F, FontStyle.Bold),
-                        ForeColor = Color.Black,
-                        AutoSize = true,
-                        Location = new Point(pb.Width - 8, pb.Height - 10),
-                        BackColor = Color.Transparent
-                    };
-
-                    pnlEmoji.Controls.Add(pb);
-                    pnlEmoji.Controls.Add(lblCount);
-                    pnlReaction.Controls.Add(pnlEmoji);
-                }
-            }
-
-            innerLayout.Controls.Add(pnlReaction, 0, innerLayout.RowCount++);
-
-            // ========== WRAPPER ==========
-            Panel wrapper = new Panel
-            {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                Dock = isMine ? DockStyle.Right : DockStyle.Left,
-                Margin = new Padding(0, 2, 0, 2),
-                Padding = new Padding(10, 0, 10, 0)
-            };
-            wrapper.Controls.Add(bubble);
-
-            // ========== MENU CHUỘT PHẢI ==========
+        }
+        private void AttachContextMenu(Control target, Messagemodels msg, bool isMine)
+        {
             var menu = new ContextMenuStrip();
-            menu.Items.Add("Xóa phía tôi", null, async (_, __) =>
-            {
-                await firebase.DeleteMessageForMeAsync(msg.Id, Session.LocalId);
-            });
 
-            if (msg.fromUserId == Session.LocalId)
+            menu.Items.Add("Xóa phía tôi", null, async (_, __) =>
+                await firebase.DeleteMessageForMeAsync(msg.Id, Session.LocalId));
+
+            if (isMine)
             {
                 menu.Items.Add("Thu hồi (cả 2 bên)", null, async (_, __) =>
-                {
-                    await firebase.RecallMessageForAllAsync(msg.Id, Session.LocalId);
-                });
+                    await firebase.RecallMessageForAllAsync(msg.Id, Session.LocalId));
             }
 
-            void AttachMenu(Control parent)
-            {
-                parent.ContextMenuStrip = menu;
-                foreach (Control c in parent.Controls) AttachMenu(c);
-            }
-            AttachMenu(wrapper);
-
-            return wrapper;
+            target.ContextMenuStrip = menu;
         }
+
+
+
+
+
+
+
 
         private void ShowEmojiPopup(Control bubble, Messagemodels msg)
         {
@@ -1147,6 +1061,26 @@ namespace Main_Interface.User_Controls
 
                 // GỬI ẢNH VÀO collection "messages" (đúng nơi UI đang đọc)
                 await firebase.SendImageToConversationAsync(Session.LocalId, targetUser.Id, localPath);
+            }
+        }
+        public class DoubleBufferedFlowLayoutPanel : FlowLayoutPanel
+        {
+            public DoubleBufferedFlowLayoutPanel()
+            {
+                this.DoubleBuffered = true;
+                this.SetStyle(ControlStyles.AllPaintingInWmPaint |
+                              ControlStyles.OptimizedDoubleBuffer |
+                              ControlStyles.UserPaint, true);
+                this.UpdateStyles();
+            }
+            protected override CreateParams CreateParams
+            {
+                get
+                {
+                    CreateParams cp = base.CreateParams;
+                    cp.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED
+                    return cp;
+                }
             }
         }
 

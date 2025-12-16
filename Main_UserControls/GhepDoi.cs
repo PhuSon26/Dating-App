@@ -18,7 +18,7 @@ namespace Main_Interface.User_Controls
 {
     public partial class GhepDoi : UserControl
     {
-        // --- CÁC PANEL GIAO DIỆN TINDER ---
+       
         private Panel pnlCard;       // Cái thẻ màu trắng
         private Panel pnlInfo;       // Vùng chứa tên, tuổi bên trong thẻ
         private Panel pnlActions;    // Vùng chứa nút Tim/X
@@ -37,48 +37,21 @@ namespace Main_Interface.User_Controls
         private USER myUser;
         private FlowLayoutPanel mainGrid;
 
-        public GhepDoi()
-        {
-            InitializeComponent();
-            authHelper = new FirebaseAuthHelper("login-bb104");
-        }
+      
 
         public GhepDoi(Main m)
         {
-            InitializeComponent();
+          
+           InitializeComponent();
             MainForm = m;
             authHelper = new FirebaseAuthHelper("login-bb104");
             loc = new LocUser(MainForm);
             filterAPI = new MatchFilterAPI("login-bb104");
             db = FirestoreDb.Create("login-bb104");
-        }
-
-        // --- SỰ KIỆN LOAD: GỌI HÀM DỰNG GIAO DIỆN ---
-        private async void GhepDoi_Load(object sender, EventArgs e)
-        {
-            // 1. Dựng giao diện Tinder
             SetupTinderLayout();
-
-            // 2. Logic cũ của bạn
-            this.btn_kothich.Enabled = false;
-            this.btn_loc.Enabled = false;
-            this.btn_tim.Enabled = false;
-
-            // LoadingSpinner loading = new LoadingSpinner(this); // (Tạm ẩn để test giao diện)
-            // loading.Show();
-
-            try
-            {
-                myUser = await authHelper.GetUserById(myUserId);
-                await LoadSuggestUsers(myUserId);
-            }
-            catch { }
-
-            // loading.Hide();
-            this.btn_kothich.Enabled = true;
-            this.btn_loc.Enabled = true;
-            this.btn_tim.Enabled = true;
         }
+
+      
 
         // --- [QUAN TRỌNG] HÀM DỰNG LAYOUT TINDER ---
         private void SetupTinderLayout()
@@ -146,36 +119,7 @@ namespace Main_Interface.User_Controls
             mainGrid.Controls.Remove(card);
         }
 
-        private void ShowUser(USER u)
-        {
-            flpanel_pictures.Controls.Clear();
-
-            if (u == null) return;
-
-            // Load ảnh
-            if (u.photos != null && u.photos.Count > 0)
-            {
-                foreach (string photoUrl in u.photos)
-                {
-                    AddImageToPanel(photoUrl);
-                }
-            }
-            else // Nếu không có ảnh, hiện avatar
-            {
-                AddImageToPanel(u.AvatarUrl);
-            }
-
-            // Gán dữ liệu vào các Textbox (đã được làm đẹp)
-            tb_name.Text = u.ten ?? "No Name";
-            tb_tuoi.Text = u.tuoi > 0 ? u.tuoi.ToString() : "";
-            tb_snhat.Text = u.snhat;
-            tb_hocvan.Text = !string.IsNullOrEmpty(u.hocvan) ? "🎓 " + u.hocvan : "";
-            tb_nghe.Text = !string.IsNullOrEmpty(u.nghenghiep) ? "💼 " + u.nghenghiep : "";
-            tb_vitri.Text = !string.IsNullOrEmpty(u.vitri) ? "📍 " + u.vitri : "";
-
-            // Xử lý text dài quá thì cắt bớt
-            if (tb_name.Text.Length > 15) tb_name.Text = tb_name.Text.Substring(0, 15) + "...";
-        }
+      
 
         private async void AddImageToPanel(string url)
         {
@@ -230,8 +174,8 @@ namespace Main_Interface.User_Controls
             if (MainForm.FilteredUsers != null && MainForm.FilteredUsers.Count > 0)
             {
                 suggestedUsers = MainForm.FilteredUsers;
-                suggestIndex = 0;
-                ShowUser(suggestedUsers[0]);
+              
+                ShowListUsers(suggestedUsers);
 
                 MainForm.FilteredUsers = null; // reset
             }
@@ -270,19 +214,7 @@ namespace Main_Interface.User_Controls
             uc.Dock = DockStyle.Fill;
             MainForm.panelContent.Controls.Add(uc);
         }
-        public void LoadFilteredUsers(List<USER> users)
-        {
-            suggestedUsers = users;
-            suggestIndex = 0;
-
-            if (users == null || users.Count == 0)
-            {
-                MessageBox.Show("Không có user phù hợp!");
-                return;
-            }
-
-            ShowUser(users[0]); // Hiển thị đúng UI chuẩn
-        }
+      
 
         private void btn_loc_Click(object sender, EventArgs e)
         {
@@ -293,7 +225,7 @@ namespace Main_Interface.User_Controls
             if (suggestedUsers.Count == 0) return;
             suggestIndex++;
             if (suggestIndex >= suggestedUsers.Count) suggestIndex = 0;
-            ShowUser(suggestedUsers[suggestIndex]);
+            ShowListUsers(suggestedUsers);
         }
 
         private void btn_kothich_Click(object sender, EventArgs e)
@@ -350,23 +282,18 @@ namespace Main_Interface.User_Controls
                 return;
             }
 
-            // 1. Cập nhật danh sách "người để quẹt" thành danh sách mới lọc được
+           
             this.suggestedUsers = users;
-            this.suggestIndex = 0; // Reset về người đầu tiên
 
-            // 2. Hiển thị ngay người đầu tiên lên thẻ
-            ShowUser(suggestedUsers[0]);
+
+            ShowListUsers(suggestedUsers);
 
             MessageBox.Show($"Đã tìm thấy {users.Count} người phù hợp!", "Kết quả lọc");
         }
 
         // Nếu code cũ của bạn có gọi hàm này để chuyển UserControl, hãy giữ lại
-        public void LoadUserControl(UserControl uc)
-        {
-            MainForm.LoadContent(uc);
-        }
-        // Các hàm sự kiện thừa có thể để trống
-        private void btn_loc_Click(object sender, EventArgs e) { MainForm.LoadContent(new LocUser(MainForm)); }
+    
+      
         private void Flpanel_pictures_MouseWheel(object sender, MouseEventArgs e) { }
         private void panelPictures_Paint(object sender, PaintEventArgs e) { }
         private void btn_timVIP_Click(object sender, EventArgs e) { }

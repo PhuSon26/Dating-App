@@ -16,7 +16,7 @@ public partial class ProfileCard : UserControl
     private Button btnPass;
     private USER _currentUser; // Lưu user hiện tại để xử lý logic
 
-   
+
     public event EventHandler<USER> OnLikeClicked;
     public event EventHandler<USER> OnPassClicked;
 
@@ -147,7 +147,8 @@ public partial class ProfileCard : UserControl
         lbl.Margin = new Padding(0, 0, 5, 5); // Cách nhau ra
 
         // Hack nhỏ để label có bo góc (hoặc dùng Paint event nếu cần đẹp hơn)
-        lbl.Paint += (s, e) => {
+        lbl.Paint += (s, e) =>
+        {
             e.Graphics.Clear(lbl.BackColor);
             // Vẽ bo góc cho tag ở đây nếu cần cầu kỳ
             TextRenderer.DrawText(e.Graphics, text, lbl.Font, new Point(4, 2), lbl.ForeColor);
@@ -169,7 +170,8 @@ public partial class ProfileCard : UserControl
         btn.Cursor = Cursors.Hand;
 
         // Sự kiện vẽ bo góc cho nút
-        btn.Paint += (s, e) => {
+        btn.Paint += (s, e) =>
+        {
             Rectangle r = new Rectangle(0, 0, btn.Width, btn.Height);
             int rad = 20;
             GraphicsPath gp = new GraphicsPath();
@@ -181,5 +183,10 @@ public partial class ProfileCard : UserControl
             btn.Region = new Region(gp);
         };
         return btn;
+    }
+
+    private void ProfileCard_Load(object sender, EventArgs e)
+    {
+
     }
 }

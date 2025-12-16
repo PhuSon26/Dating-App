@@ -20,25 +20,25 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
+    #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            SuspendLayout();
-            // 
-            // ProfileCard
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            Name = "ProfileCard";
-           // Load += ProfileCard_Load;
-            ResumeLayout(false);
-        }
-
-        #endregion
+    /// <summary> 
+    /// Required method for Designer support - do not modify 
+    /// the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
+        SuspendLayout();
+        // 
+        // ProfileCard
+        // 
+        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleMode = AutoScaleMode.Font;
+        Name = "ProfileCard";
+        Load += ProfileCard_Load;
+        ResumeLayout(false);
     }
+
+    #endregion
+}
 
