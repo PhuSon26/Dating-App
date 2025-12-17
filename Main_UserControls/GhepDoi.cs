@@ -78,16 +78,16 @@ namespace Main_Interface.User_Controls
 
             btn_loc = new RoundedButton();
             btn_loc.Text = "🔍 Bộ lọc";
-            btn_loc.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            btn_loc.BackColor = Color.White;
-            btn_loc.ForeColor = Color.FromArgb(253, 41, 123); // Màu hồng thương hiệu
+            btn_loc.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+            //btn_loc.BackColor = Color.White;
+            //btn_loc.ForeColor = Color.FromArgb(253, 41, 123); // Màu hồng thương hiệu
             btn_loc.FlatStyle = FlatStyle.Flat;
             btn_loc.FlatAppearance.BorderColor = Color.FromArgb(253, 41, 123);
             btn_loc.FlatAppearance.BorderSize = 1;
-            btn_loc.Size = new Size(100, 35);
+            btn_loc.Size = new Size(120, 55);
 
             // Đặt vị trí ở góc trên bên phải
-            btn_loc.Location = new Point(this.Width - 130, 12);
+            btn_loc.Location = new Point(this.Width - 120, 0);
             btn_loc.Anchor = AnchorStyles.Top | AnchorStyles.Right; // Neo vào góc phải để không bị lệch khi resize
             btn_loc.Cursor = Cursors.Hand;
 
@@ -255,7 +255,7 @@ namespace Main_Interface.User_Controls
 
         private void btn_loc_Click(object sender, EventArgs e)
         {
-            MainForm.LoadContent(new LocUser(MainForm));
+            MainForm.LoadContent(loc);
         }
         private void NextSuggestUser()
         {
@@ -291,7 +291,7 @@ namespace Main_Interface.User_Controls
                 }
 
                 // like OK -> mưa tim
-                _heartOverlay?.Trigger(totalHearts: 120, durationMs: 1400);
+                _heartOverlay?.Trigger(totalHearts: 120, durationMs: 140);
 
                 bool isMatch = await authHelper.CheckIfUserLikedMe(myUserId, targetUserId);
 
@@ -301,7 +301,8 @@ namespace Main_Interface.User_Controls
 
                     // match -> mưa tim nhiều hơn (tuỳ)
                     _heartOverlay?.Trigger(totalHearts: 220, durationMs: 1700);
-
+                    MatchForm matched = new MatchForm(myUser, targetUser, authHelper);
+                    matched.ShowDialog();
                     MessageBox.Show($"It's a Match! Bạn và {targetUser.ten} đã thích nhau.", "Chúc mừng");
                 }
 
