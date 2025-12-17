@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net8.0-windows7.0": {
-      "AWSSDK.Core/4.0.3.4": {
+      "AWSSDK.Core/4.0.3.6": {
         "type": "package",
         "compile": {
           "lib/net8.0/AWSSDK.Core.dll": {
@@ -15,10 +15,10 @@
           }
         }
       },
-      "AWSSDK.ElasticBeanstalk/4.0.2.6": {
+      "AWSSDK.ElasticBeanstalk/4.0.2.8": {
         "type": "package",
         "dependencies": {
-          "AWSSDK.Core": "[4.0.3.4, 5.0.0)"
+          "AWSSDK.Core": "[4.0.3.6, 5.0.0)"
         },
         "compile": {
           "lib/net8.0/AWSSDK.ElasticBeanstalk.dll": {
@@ -31,10 +31,10 @@
           }
         }
       },
-      "AWSSDK.ElasticLoadBalancing/4.0.2.7": {
+      "AWSSDK.ElasticLoadBalancing/4.0.2.9": {
         "type": "package",
         "dependencies": {
-          "AWSSDK.Core": "[4.0.3.4, 5.0.0)"
+          "AWSSDK.Core": "[4.0.3.6, 5.0.0)"
         },
         "compile": {
           "lib/net8.0/AWSSDK.ElasticLoadBalancing.dll": {
@@ -47,11 +47,27 @@
           }
         }
       },
-      "Azure.Core/1.47.1": {
+      "AWSSDK.ElasticLoadBalancingV2/4.0.6.4": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[4.0.3.6, 5.0.0)"
+        },
+        "compile": {
+          "lib/net8.0/AWSSDK.ElasticLoadBalancingV2.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.ElasticLoadBalancingV2.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Azure.Core/1.50.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "8.0.0",
-          "System.ClientModel": "1.5.1",
+          "System.ClientModel": "1.8.0",
           "System.Memory.Data": "8.0.1"
         },
         "compile": {
@@ -82,20 +98,6 @@
           "lib/net8.0/Azure.Identity.dll": {
             "related": ".xml"
           }
-        }
-      },
-      "Firebase.Auth/1.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
-          "NETStandard.Library": "1.6.0",
-          "Newtonsoft.Json": "9.0.1"
-        },
-        "compile": {
-          "lib/netstandard1.1/Firebase.Auth.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.1/Firebase.Auth.dll": {}
         }
       },
       "FirebaseAuthentication.net/4.1.0": {
@@ -143,40 +145,6 @@
         },
         "runtime": {
           "lib/netstandard1.1/Firebase.Storage.dll": {}
-        }
-      },
-      "FM/2.0.0.5": {
-        "type": "package",
-        "compile": {
-          "lib/net40/FM.dll": {}
-        },
-        "runtime": {
-          "lib/net40/FM.dll": {}
-        }
-      },
-      "FM.IceLink/2.2.0": {
-        "type": "package",
-        "dependencies": {
-          "FM": "(, )"
-        },
-        "compile": {
-          "lib/net45/FM.IceLink.dll": {}
-        },
-        "runtime": {
-          "lib/net45/FM.IceLink.dll": {}
-        }
-      },
-      "FM.IceLink.WebRTC/2.9.32": {
-        "type": "package",
-        "dependencies": {
-          "FM": "(, )",
-          "FM.IceLink": "(, )"
-        },
-        "compile": {
-          "lib/net45/FM.IceLink.WebRTC.dll": {}
-        },
-        "runtime": {
-          "lib/net45/FM.IceLink.WebRTC.dll": {}
         }
       },
       "Google.Api.CommonProtos/2.17.0": {
@@ -288,10 +256,10 @@
           }
         }
       },
-      "Google.Cloud.Firestore/4.0.0": {
+      "Google.Cloud.Firestore/4.1.0": {
         "type": "package",
         "dependencies": {
-          "Google.Cloud.Firestore.V1": "4.0.0",
+          "Google.Cloud.Firestore.V1": "4.1.0",
           "Microsoft.Bcl.AsyncInterfaces": "10.0.0",
           "System.Collections.Immutable": "8.0.0",
           "System.Linq.AsyncEnumerable": "10.0.0"
@@ -307,7 +275,7 @@
           }
         }
       },
-      "Google.Cloud.Firestore.V1/4.0.0": {
+      "Google.Cloud.Firestore.V1/4.1.0": {
         "type": "package",
         "dependencies": {
           "Google.Api.Gax.Grpc": "[4.12.1, 5.0.0)",
@@ -475,23 +443,7 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "Microsoft.Bcl.Memory/9.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net8.0/Microsoft.Bcl.Memory.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/Microsoft.Bcl.Memory.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net8.0/_._": {}
-        }
-      },
-      "Microsoft.Data.SqlClient/6.1.2": {
+      "Microsoft.Data.SqlClient/6.1.3": {
         "type": "package",
         "dependencies": {
           "Azure.Core": "1.47.1",
@@ -732,7 +684,7 @@
           }
         }
       },
-      "Microsoft.IdentityModel.Abstractions/8.3.1": {
+      "Microsoft.IdentityModel.Abstractions/7.7.1": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll": {
@@ -745,10 +697,10 @@
           }
         }
       },
-      "Microsoft.IdentityModel.JsonWebTokens/8.3.1": {
+      "Microsoft.IdentityModel.JsonWebTokens/7.7.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "8.3.1"
+          "Microsoft.IdentityModel.Tokens": "7.7.1"
         },
         "compile": {
           "lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
@@ -761,10 +713,10 @@
           }
         }
       },
-      "Microsoft.IdentityModel.Logging/8.3.1": {
+      "Microsoft.IdentityModel.Logging/7.7.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.Abstractions": "8.3.1"
+          "Microsoft.IdentityModel.Abstractions": "7.7.1"
         },
         "compile": {
           "lib/net8.0/Microsoft.IdentityModel.Logging.dll": {
@@ -810,12 +762,10 @@
           }
         }
       },
-      "Microsoft.IdentityModel.Tokens/8.3.1": {
+      "Microsoft.IdentityModel.Tokens/7.7.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Bcl.Memory": "9.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
-          "Microsoft.IdentityModel.Logging": "8.3.1"
+          "Microsoft.IdentityModel.Logging": "7.7.1"
         },
         "compile": {
           "lib/net8.0/Microsoft.IdentityModel.Tokens.dll": {
@@ -827,9 +777,6 @@
             "related": ".xml"
           }
         }
-      },
-      "Microsoft.NETCore.Jit/1.0.2": {
-        "type": "package"
       },
       "Microsoft.NETCore.Platforms/1.1.0": {
         "type": "package",
@@ -840,48 +787,6 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.NETCore.Portable.Compatibility/1.0.1": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.NETCore.Runtime.CoreCLR": "1.0.2"
-        },
-        "compile": {
-          "ref/netstandard1.0/System.ComponentModel.DataAnnotations.dll": {},
-          "ref/netstandard1.0/System.Core.dll": {},
-          "ref/netstandard1.0/System.Net.dll": {},
-          "ref/netstandard1.0/System.Numerics.dll": {},
-          "ref/netstandard1.0/System.Runtime.Serialization.dll": {},
-          "ref/netstandard1.0/System.ServiceModel.Web.dll": {},
-          "ref/netstandard1.0/System.ServiceModel.dll": {},
-          "ref/netstandard1.0/System.Windows.dll": {},
-          "ref/netstandard1.0/System.Xml.Linq.dll": {},
-          "ref/netstandard1.0/System.Xml.Serialization.dll": {},
-          "ref/netstandard1.0/System.Xml.dll": {},
-          "ref/netstandard1.0/System.dll": {},
-          "ref/netstandard1.0/mscorlib.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.0/System.ComponentModel.DataAnnotations.dll": {},
-          "lib/netstandard1.0/System.Core.dll": {},
-          "lib/netstandard1.0/System.Net.dll": {},
-          "lib/netstandard1.0/System.Numerics.dll": {},
-          "lib/netstandard1.0/System.Runtime.Serialization.dll": {},
-          "lib/netstandard1.0/System.ServiceModel.Web.dll": {},
-          "lib/netstandard1.0/System.ServiceModel.dll": {},
-          "lib/netstandard1.0/System.Windows.dll": {},
-          "lib/netstandard1.0/System.Xml.Linq.dll": {},
-          "lib/netstandard1.0/System.Xml.Serialization.dll": {},
-          "lib/netstandard1.0/System.Xml.dll": {},
-          "lib/netstandard1.0/System.dll": {}
-        }
-      },
-      "Microsoft.NETCore.Runtime.CoreCLR/1.0.2": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.NETCore.Jit": "1.0.2",
-          "Microsoft.NETCore.Windows.ApiSets": "1.0.1"
-        }
-      },
       "Microsoft.NETCore.Targets/1.1.0": {
         "type": "package",
         "compile": {
@@ -890,9 +795,6 @@
         "runtime": {
           "lib/netstandard1.0/_._": {}
         }
-      },
-      "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
-        "type": "package"
       },
       "Microsoft.SqlServer.Server/1.0.0": {
         "type": "package",
@@ -1173,32 +1075,6 @@
           }
         }
       },
-      "SendGrid/9.29.3": {
-        "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.1",
-          "starkbank-ecdsa": "[1.3.3, 2.0.0)"
-        },
-        "compile": {
-          "lib/netstandard2.0/SendGrid.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/SendGrid.dll": {
-            "related": ".pdb;.xml"
-          }
-        }
-      },
-      "starkbank-ecdsa/1.3.3": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.1/StarkbankEcdsa.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.1/StarkbankEcdsa.dll": {}
-        }
-      },
       "System.AppContext/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -1229,7 +1105,7 @@
           "lib/netstandard1.1/System.Buffers.dll": {}
         }
       },
-      "System.ClientModel/1.5.1": {
+      "System.ClientModel/1.8.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "8.0.3",
@@ -1312,45 +1188,6 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
-        }
-      },
-      "System.Collections.NonGeneric/4.3.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Diagnostics.Debug": "4.3.0",
-          "System.Globalization": "4.3.0",
-          "System.Resources.ResourceManager": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Runtime.Extensions": "4.3.0",
-          "System.Threading": "4.3.0"
-        },
-        "compile": {
-          "ref/netstandard1.3/_._": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Collections.NonGeneric.dll": {}
-        }
-      },
-      "System.Collections.Specialized/4.3.0": {
-        "type": "package",
-        "dependencies": {
-          "System.Collections.NonGeneric": "4.3.0",
-          "System.Globalization": "4.3.0",
-          "System.Globalization.Extensions": "4.3.0",
-          "System.Resources.ResourceManager": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Runtime.Extensions": "4.3.0",
-          "System.Threading": "4.3.0"
-        },
-        "compile": {
-          "ref/netstandard1.3/System.Collections.Specialized.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Collections.Specialized.dll": {}
         }
       },
       "System.Configuration.ConfigurationManager/8.0.1": {
@@ -1522,11 +1359,11 @@
           }
         }
       },
-      "System.IdentityModel.Tokens.Jwt/8.3.1": {
+      "System.IdentityModel.Tokens.Jwt/7.7.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.JsonWebTokens": "8.3.1",
-          "Microsoft.IdentityModel.Tokens": "8.3.1"
+          "Microsoft.IdentityModel.JsonWebTokens": "7.7.1",
+          "Microsoft.IdentityModel.Tokens": "7.7.1"
         },
         "compile": {
           "lib/net8.0/System.IdentityModel.Tokens.Jwt.dll": {
@@ -2512,38 +2349,19 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
-      },
-      "Twilio/7.13.5": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "8.3.1",
-          "Newtonsoft.Json": "13.0.1",
-          "System.Collections.Specialized": "4.3.0",
-          "System.IdentityModel.Tokens.Jwt": "8.3.1"
-        },
-        "compile": {
-          "lib/net6.0/Twilio.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/Twilio.dll": {
-            "related": ".xml"
-          }
-        }
       }
     }
   },
   "libraries": {
-    "AWSSDK.Core/4.0.3.4": {
-      "sha512": "Bykx2u1jNLfPr/otJBPb1QwXiEip4GbjX72Ah+Rhv7QiazUZGo+d+zuhi4uT1HCnzGK7JfQZ7V+vzTysaLcObw==",
+    "AWSSDK.Core/4.0.3.6": {
+      "sha512": "bx61NSP9bQ5BTPXGzyhS7f4d+YzIiSelsblj8JALHp5uoYKVRnoRTbWb3lyUTdzJ9UZj7Q7JiQ8sJJ5JHQ5Jrg==",
       "type": "package",
-      "path": "awssdk.core/4.0.3.4",
+      "path": "awssdk.core/4.0.3.6",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "awssdk.core.4.0.3.4.nupkg.sha512",
+        "awssdk.core.4.0.3.6.nupkg.sha512",
         "awssdk.core.nuspec",
         "images/AWSLogo.png",
         "lib/net472/AWSSDK.Core.dll",
@@ -2561,17 +2379,17 @@
         "tools/account-management.ps1"
       ]
     },
-    "AWSSDK.ElasticBeanstalk/4.0.2.6": {
-      "sha512": "Tm4s5zDLeY6V6WMqoYuXyTuQSQAC7t4QpS35i2TSnqt9OCisPlEFuLatH+nRTcuGjK6dJQXiQ94Cen1HKwAJJw==",
+    "AWSSDK.ElasticBeanstalk/4.0.2.8": {
+      "sha512": "yi5f4Ks9PFcqGaYsZGWleJNG2Tj85EfhmBoySgToJrqmW3iJMTAN5D6JAoNTwW22IffmVop0OByRMsJwQS5f+Q==",
       "type": "package",
-      "path": "awssdk.elasticbeanstalk/4.0.2.6",
+      "path": "awssdk.elasticbeanstalk/4.0.2.8",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/AWSSDK.ElasticBeanstalk.CodeAnalysis.dll",
         "analyzers/dotnet/cs/SharedAnalysisCode.dll",
-        "awssdk.elasticbeanstalk.4.0.2.6.nupkg.sha512",
+        "awssdk.elasticbeanstalk.4.0.2.8.nupkg.sha512",
         "awssdk.elasticbeanstalk.nuspec",
         "images/AWSLogo.png",
         "lib/net472/AWSSDK.ElasticBeanstalk.dll",
@@ -2590,17 +2408,17 @@
         "tools/uninstall.ps1"
       ]
     },
-    "AWSSDK.ElasticLoadBalancing/4.0.2.7": {
-      "sha512": "WXk4FFIZG//mrjuHl1IqZ4k/wQjLwc4trtHW0EpvdITP0/Ts2udSM6k53crjl7INeRxNNaSixuZO/RSahJJ57A==",
+    "AWSSDK.ElasticLoadBalancing/4.0.2.9": {
+      "sha512": "+vTKw66DZXj8P14ygnELw6A5nNwVjoze5MF3QRVROJLLdaFduUi8MFa7kQm6VOzJEFC4vXxes2noqU4wnisCxQ==",
       "type": "package",
-      "path": "awssdk.elasticloadbalancing/4.0.2.7",
+      "path": "awssdk.elasticloadbalancing/4.0.2.9",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/AWSSDK.ElasticLoadBalancing.CodeAnalysis.dll",
         "analyzers/dotnet/cs/SharedAnalysisCode.dll",
-        "awssdk.elasticloadbalancing.4.0.2.7.nupkg.sha512",
+        "awssdk.elasticloadbalancing.4.0.2.9.nupkg.sha512",
         "awssdk.elasticloadbalancing.nuspec",
         "images/AWSLogo.png",
         "lib/net472/AWSSDK.ElasticLoadBalancing.dll",
@@ -2619,16 +2437,45 @@
         "tools/uninstall.ps1"
       ]
     },
-    "Azure.Core/1.47.1": {
-      "sha512": "oPcncSsDHuxB8SC522z47xbp2+ttkcKv2YZ90KXhRKN0YQd2+7l1UURT9EBzUNEXtkLZUOAB5xbByMTrYRh3yA==",
+    "AWSSDK.ElasticLoadBalancingV2/4.0.6.4": {
+      "sha512": "vXdBX8N0rw0LSa/zKUZHQUGPNwpm7w0ikfd7FsvgtcgMsNj+fVLy23N/0eeuGdRvePtuvbleLJ87KiISnkA9tA==",
       "type": "package",
-      "path": "azure.core/1.47.1",
+      "path": "awssdk.elasticloadbalancingv2/4.0.6.4",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/AWSSDK.ElasticLoadBalancingV2.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/SharedAnalysisCode.dll",
+        "awssdk.elasticloadbalancingv2.4.0.6.4.nupkg.sha512",
+        "awssdk.elasticloadbalancingv2.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.ElasticLoadBalancingV2.dll",
+        "lib/net472/AWSSDK.ElasticLoadBalancingV2.pdb",
+        "lib/net472/AWSSDK.ElasticLoadBalancingV2.xml",
+        "lib/net8.0/AWSSDK.ElasticLoadBalancingV2.dll",
+        "lib/net8.0/AWSSDK.ElasticLoadBalancingV2.pdb",
+        "lib/net8.0/AWSSDK.ElasticLoadBalancingV2.xml",
+        "lib/netcoreapp3.1/AWSSDK.ElasticLoadBalancingV2.dll",
+        "lib/netcoreapp3.1/AWSSDK.ElasticLoadBalancingV2.pdb",
+        "lib/netcoreapp3.1/AWSSDK.ElasticLoadBalancingV2.xml",
+        "lib/netstandard2.0/AWSSDK.ElasticLoadBalancingV2.dll",
+        "lib/netstandard2.0/AWSSDK.ElasticLoadBalancingV2.pdb",
+        "lib/netstandard2.0/AWSSDK.ElasticLoadBalancingV2.xml",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
+    "Azure.Core/1.50.0": {
+      "sha512": "GBNKZEhdIbTXxedvD3R7I/yDVFX9jJJEz02kCziFSJxspSQ5RMHc3GktulJ1s7+ffXaXD7kMgrtdQTaggyInLw==",
+      "type": "package",
+      "path": "azure.core/1.50.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "CHANGELOG.md",
         "README.md",
-        "azure.core.1.47.1.nupkg.sha512",
+        "azure.core.1.50.0.nupkg.sha512",
         "azure.core.nuspec",
         "azureicon.png",
         "lib/net462/Azure.Core.dll",
@@ -2657,18 +2504,6 @@
         "lib/net8.0/Azure.Identity.xml",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
-      ]
-    },
-    "Firebase.Auth/1.0.0": {
-      "sha512": "MRAGIRDXqB0jRvtJx0yRmTMjZInQcUSyHN7LuOwxL/nfyceDEA+Gfiimn7HtI2ntHw3hdUAoeeCA6BCc3qg0/A==",
-      "type": "package",
-      "path": "firebase.auth/1.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "firebase.auth.1.0.0.nupkg.sha512",
-        "firebase.auth.nuspec",
-        "lib/netstandard1.1/Firebase.Auth.dll"
       ]
     },
     "FirebaseAuthentication.net/4.1.0": {
@@ -2710,49 +2545,6 @@
         "firebasestorage.net.1.0.3.nupkg.sha512",
         "firebasestorage.net.nuspec",
         "lib/netstandard1.1/Firebase.Storage.dll"
-      ]
-    },
-    "FM/2.0.0.5": {
-      "sha512": "czGJay7Uc3uRIDmxcpbcw0a2IKDM22iXMLBe8AZhgYwVMRKy0q56scuVCxU77bZsQ1ErjR4FzOj/KhzkivZL0Q==",
-      "type": "package",
-      "path": "fm/2.0.0.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "fm.2.0.0.5.nupkg.sha512",
-        "fm.nuspec",
-        "lib/net40/FM.dll"
-      ]
-    },
-    "FM.IceLink/2.2.0": {
-      "sha512": "lR11HUPHpRT1kIbMq3R53aRG3H40eE69p3AXBdCK0dA7DMRoC1d7YBXrvAkH2hStGMrnhd0VFYKulb5tJW5XYw==",
-      "type": "package",
-      "path": "fm.icelink/2.2.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "fm.icelink.2.2.0.nupkg.sha512",
-        "fm.icelink.nuspec",
-        "lib/net35/FM.IceLink.dll",
-        "lib/net40/FM.IceLink.dll",
-        "lib/net45/FM.IceLink.dll",
-        "lib/win8/FM.IceLink.dll",
-        "lib/wp8/FM.IceLink.dll"
-      ]
-    },
-    "FM.IceLink.WebRTC/2.9.32": {
-      "sha512": "/Srxn2j+muiA4WYbJZL65O3WwqlOrjyfkWgReWF1GfFiP5TTNEzliagfdMf19DIy1KPlhVq8T8pFKu4edETq8g==",
-      "type": "package",
-      "path": "fm.icelink.webrtc/2.9.32",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "fm.icelink.webrtc.2.9.32.nupkg.sha512",
-        "fm.icelink.webrtc.nuspec",
-        "lib/net35/FM.IceLink.WebRTC.dll",
-        "lib/net40/FM.IceLink.WebRTC.dll",
-        "lib/net45/FM.IceLink.WebRTC.dll",
-        "lib/wp8/FM.IceLink.WebRTC.dll"
       ]
     },
     "Google.Api.CommonProtos/2.17.0": {
@@ -2935,16 +2727,16 @@
         "lib/netstandard2.0/Google.Apis.Core.xml"
       ]
     },
-    "Google.Cloud.Firestore/4.0.0": {
-      "sha512": "yXdis2q8wg3E0XTmbslZU2agos3ojcvjKgiX5c3zf68JFn+XquhfPyAt3+rAq5qkv6JFuOmu2GJ9BchqrPT+Gg==",
+    "Google.Cloud.Firestore/4.1.0": {
+      "sha512": "mIogONg7rNuoxzGcnxV/z2p2oQWsE2aGWti0YE05R7sqQN47XcOVUuggvZhMKsy0xqZtim4gSOkiQAf+3xRBZg==",
       "type": "package",
-      "path": "google.cloud.firestore/4.0.0",
+      "path": "google.cloud.firestore/4.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "NuGetIcon.png",
-        "google.cloud.firestore.4.0.0.nupkg.sha512",
+        "google.cloud.firestore.4.1.0.nupkg.sha512",
         "google.cloud.firestore.nuspec",
         "lib/net462/Google.Cloud.Firestore.dll",
         "lib/net462/Google.Cloud.Firestore.pdb",
@@ -2954,16 +2746,16 @@
         "lib/netstandard2.0/Google.Cloud.Firestore.xml"
       ]
     },
-    "Google.Cloud.Firestore.V1/4.0.0": {
-      "sha512": "2eAExvI+QsHQcHkG8NJNlGrcb0r0net5IK78cBOsgNTu0OdNnipKGlQfyY05WvKzcA/rY/RnwYXO3v348kmzsg==",
+    "Google.Cloud.Firestore.V1/4.1.0": {
+      "sha512": "pqxEM/C9SBHT0zy8TA0Tcgv7QypmrZ0JKpFo9UohRA91yFbCBLZEIXpvDh7HRdOfDQ6FiaPNJvYqdeZhJCyi4Q==",
       "type": "package",
-      "path": "google.cloud.firestore.v1/4.0.0",
+      "path": "google.cloud.firestore.v1/4.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "NuGetIcon.png",
-        "google.cloud.firestore.v1.4.0.0.nupkg.sha512",
+        "google.cloud.firestore.v1.4.1.0.nupkg.sha512",
         "google.cloud.firestore.v1.nuspec",
         "lib/net462/Google.Cloud.Firestore.V1.dll",
         "lib/net462/Google.Cloud.Firestore.V1.pdb",
@@ -3202,40 +2994,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Bcl.Memory/9.0.0": {
-      "sha512": "bTUtGfpGyJnohQzjdXbtc7MqNzkv7CWUSRz54+ucNm0i32rZiIU0VdVPHDBShOl1qhVKRjW8mnEBz3d2vH93tQ==",
+    "Microsoft.Data.SqlClient/6.1.3": {
+      "sha512": "ys/z8Tx8074CDU20EilNvBRJuJdwKSthpHkzUpt3JghnjB6GjbZusoOcCtNbhPCCWsEJqN8bxaT7HnS3UZuUDQ==",
       "type": "package",
-      "path": "microsoft.bcl.memory/9.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "PACKAGE.md",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/Microsoft.Bcl.Memory.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net8.0/_._",
-        "buildTransitive/netcoreapp2.0/Microsoft.Bcl.Memory.targets",
-        "lib/net462/Microsoft.Bcl.Memory.dll",
-        "lib/net462/Microsoft.Bcl.Memory.xml",
-        "lib/net8.0/Microsoft.Bcl.Memory.dll",
-        "lib/net8.0/Microsoft.Bcl.Memory.xml",
-        "lib/net9.0/Microsoft.Bcl.Memory.dll",
-        "lib/net9.0/Microsoft.Bcl.Memory.xml",
-        "lib/netstandard2.0/Microsoft.Bcl.Memory.dll",
-        "lib/netstandard2.0/Microsoft.Bcl.Memory.xml",
-        "lib/netstandard2.1/Microsoft.Bcl.Memory.dll",
-        "lib/netstandard2.1/Microsoft.Bcl.Memory.xml",
-        "microsoft.bcl.memory.9.0.0.nupkg.sha512",
-        "microsoft.bcl.memory.nuspec",
-        "useSharedDesignerContext.txt"
-      ]
-    },
-    "Microsoft.Data.SqlClient/6.1.2": {
-      "sha512": "q0GxRC0fgwfZgU14pU34ro0MW7Gs8S6NDmKCcEqymvZljT8UQa633BbEmk/Rb5upNF9NHZ3/jVm7zLiWbM8uTA==",
-      "type": "package",
-      "path": "microsoft.data.sqlclient/6.1.2",
+      "path": "microsoft.data.sqlclient/6.1.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3288,7 +3050,7 @@
         "lib/net9.0/zh-Hant/Microsoft.Data.SqlClient.resources.dll",
         "lib/netstandard2.0/Microsoft.Data.SqlClient.dll",
         "lib/netstandard2.0/Microsoft.Data.SqlClient.xml",
-        "microsoft.data.sqlclient.6.1.2.nupkg.sha512",
+        "microsoft.data.sqlclient.6.1.3.nupkg.sha512",
         "microsoft.data.sqlclient.nuspec",
         "ref/net462/Microsoft.Data.SqlClient.dll",
         "ref/net462/Microsoft.Data.SqlClient.xml",
@@ -3604,14 +3366,15 @@
         "microsoft.identity.client.extensions.msal.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Abstractions/8.3.1": {
-      "sha512": "oXYKRcTS0DTIB5vZenGy9oceD8awhjnXFFabc/IWBwluMA03SGvazCFyUIQ2mJOIOSf9lLyM971nbTj9qZgEJg==",
+    "Microsoft.IdentityModel.Abstractions/7.7.1": {
+      "sha512": "S7sHg6gLg7oFqNGLwN1qSbJDI+QcRRj8SuJ1jHyCmKSipnF6ZQL+tFV2NzVfGj/xmGT9TykQdQiBN+p5Idl4TA==",
       "type": "package",
-      "path": "microsoft.identitymodel.abstractions/8.3.1",
+      "path": "microsoft.identitymodel.abstractions/7.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "README.md",
+        "lib/net461/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net461/Microsoft.IdentityModel.Abstractions.xml",
         "lib/net462/Microsoft.IdentityModel.Abstractions.dll",
         "lib/net462/Microsoft.IdentityModel.Abstractions.xml",
         "lib/net472/Microsoft.IdentityModel.Abstractions.dll",
@@ -3620,22 +3383,21 @@
         "lib/net6.0/Microsoft.IdentityModel.Abstractions.xml",
         "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll",
         "lib/net8.0/Microsoft.IdentityModel.Abstractions.xml",
-        "lib/net9.0/Microsoft.IdentityModel.Abstractions.dll",
-        "lib/net9.0/Microsoft.IdentityModel.Abstractions.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.xml",
-        "microsoft.identitymodel.abstractions.8.3.1.nupkg.sha512",
+        "microsoft.identitymodel.abstractions.7.7.1.nupkg.sha512",
         "microsoft.identitymodel.abstractions.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.JsonWebTokens/8.3.1": {
-      "sha512": "cA622rrXYdaO7inNZ8KY5leZpP6889wT+gHPgvy62PYlAITyxF9PxP5u+ecNBOsPx2PagBH7ZNr39yU/MOPn+w==",
+    "Microsoft.IdentityModel.JsonWebTokens/7.7.1": {
+      "sha512": "3Izi75UCUssvo8LPx3OVnEeZay58qaFicrtSnbtUt7q8qQi0gy46gh4V8VUTkMVMKXV6VMyjBVmeNNgeCUJuIw==",
       "type": "package",
-      "path": "microsoft.identitymodel.jsonwebtokens/8.3.1",
+      "path": "microsoft.identitymodel.jsonwebtokens/7.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "README.md",
+        "lib/net461/Microsoft.IdentityModel.JsonWebTokens.dll",
+        "lib/net461/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/net462/Microsoft.IdentityModel.JsonWebTokens.dll",
         "lib/net462/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/net472/Microsoft.IdentityModel.JsonWebTokens.dll",
@@ -3644,22 +3406,21 @@
         "lib/net6.0/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll",
         "lib/net8.0/Microsoft.IdentityModel.JsonWebTokens.xml",
-        "lib/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll",
-        "lib/net9.0/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.xml",
-        "microsoft.identitymodel.jsonwebtokens.8.3.1.nupkg.sha512",
+        "microsoft.identitymodel.jsonwebtokens.7.7.1.nupkg.sha512",
         "microsoft.identitymodel.jsonwebtokens.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Logging/8.3.1": {
-      "sha512": "XCwbK7ErgZdrwl4ph+i8X5SCGwAepBFbsNIEceozGzrBFVvZbKKJE1WQOft9QyglP4me+DECdVVL8UnI6OO+sg==",
+    "Microsoft.IdentityModel.Logging/7.7.1": {
+      "sha512": "BZNgSq/o8gsKExdYoBKPR65fdsxW0cTF8PsdqB8y011AGUJJW300S/ZIsEUD0+sOmGc003Gwv3FYbjrVjvsLNQ==",
       "type": "package",
-      "path": "microsoft.identitymodel.logging/8.3.1",
+      "path": "microsoft.identitymodel.logging/7.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "README.md",
+        "lib/net461/Microsoft.IdentityModel.Logging.dll",
+        "lib/net461/Microsoft.IdentityModel.Logging.xml",
         "lib/net462/Microsoft.IdentityModel.Logging.dll",
         "lib/net462/Microsoft.IdentityModel.Logging.xml",
         "lib/net472/Microsoft.IdentityModel.Logging.dll",
@@ -3668,11 +3429,9 @@
         "lib/net6.0/Microsoft.IdentityModel.Logging.xml",
         "lib/net8.0/Microsoft.IdentityModel.Logging.dll",
         "lib/net8.0/Microsoft.IdentityModel.Logging.xml",
-        "lib/net9.0/Microsoft.IdentityModel.Logging.dll",
-        "lib/net9.0/Microsoft.IdentityModel.Logging.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Logging.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Logging.xml",
-        "microsoft.identitymodel.logging.8.3.1.nupkg.sha512",
+        "microsoft.identitymodel.logging.7.7.1.nupkg.sha512",
         "microsoft.identitymodel.logging.nuspec"
       ]
     },
@@ -3722,14 +3481,15 @@
         "microsoft.identitymodel.protocols.openidconnect.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Tokens/8.3.1": {
-      "sha512": "77GXREJzIDiKAc/RR8YE267bwzrxM4cjMRCzMQa0Xk1MUUdjx/JwjDJpUh00vT4oxcX5rjsMP0KLd8YjgR3N3w==",
+    "Microsoft.IdentityModel.Tokens/7.7.1": {
+      "sha512": "fQ0VVCba75lknUHGldi3iTKAYUQqbzp1Un8+d9cm9nON0Gs8NAkXddNg8iaUB0qi/ybtAmNWizTR4avdkCJ9pQ==",
       "type": "package",
-      "path": "microsoft.identitymodel.tokens/8.3.1",
+      "path": "microsoft.identitymodel.tokens/7.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "README.md",
+        "lib/net461/Microsoft.IdentityModel.Tokens.dll",
+        "lib/net461/Microsoft.IdentityModel.Tokens.xml",
         "lib/net462/Microsoft.IdentityModel.Tokens.dll",
         "lib/net462/Microsoft.IdentityModel.Tokens.xml",
         "lib/net472/Microsoft.IdentityModel.Tokens.dll",
@@ -3738,26 +3498,10 @@
         "lib/net6.0/Microsoft.IdentityModel.Tokens.xml",
         "lib/net8.0/Microsoft.IdentityModel.Tokens.dll",
         "lib/net8.0/Microsoft.IdentityModel.Tokens.xml",
-        "lib/net9.0/Microsoft.IdentityModel.Tokens.dll",
-        "lib/net9.0/Microsoft.IdentityModel.Tokens.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.xml",
-        "microsoft.identitymodel.tokens.8.3.1.nupkg.sha512",
+        "microsoft.identitymodel.tokens.7.7.1.nupkg.sha512",
         "microsoft.identitymodel.tokens.nuspec"
-      ]
-    },
-    "Microsoft.NETCore.Jit/1.0.2": {
-      "sha512": "Ok2vWofa6X8WD9vc4pfLHwvJz1/B6t3gOAoZcjrjrQf7lQOlNIuZIZtLn3wnWX28DuQGpPJkRlBxFj7Z5txNqw==",
-      "type": "package",
-      "path": "microsoft.netcore.jit/1.0.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "microsoft.netcore.jit.1.0.2.nupkg.sha512",
-        "microsoft.netcore.jit.nuspec",
-        "runtime.json"
       ]
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
@@ -3775,104 +3519,6 @@
         "runtime.json"
       ]
     },
-    "Microsoft.NETCore.Portable.Compatibility/1.0.1": {
-      "sha512": "Vd+lvLcGwvkedxtKn0U8s9uR4p0Lm+0U2QvDsLaw7g4S1W4KfPDbaW+ROhhLCSOx/gMYC72/b+z+o4fqS/oxVg==",
-      "type": "package",
-      "path": "microsoft.netcore.portable.compatibility/1.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/net45/_._",
-        "lib/netcore50/System.ComponentModel.DataAnnotations.dll",
-        "lib/netcore50/System.Core.dll",
-        "lib/netcore50/System.Net.dll",
-        "lib/netcore50/System.Numerics.dll",
-        "lib/netcore50/System.Runtime.Serialization.dll",
-        "lib/netcore50/System.ServiceModel.Web.dll",
-        "lib/netcore50/System.ServiceModel.dll",
-        "lib/netcore50/System.Windows.dll",
-        "lib/netcore50/System.Xml.Linq.dll",
-        "lib/netcore50/System.Xml.Serialization.dll",
-        "lib/netcore50/System.Xml.dll",
-        "lib/netcore50/System.dll",
-        "lib/netstandard1.0/System.ComponentModel.DataAnnotations.dll",
-        "lib/netstandard1.0/System.Core.dll",
-        "lib/netstandard1.0/System.Net.dll",
-        "lib/netstandard1.0/System.Numerics.dll",
-        "lib/netstandard1.0/System.Runtime.Serialization.dll",
-        "lib/netstandard1.0/System.ServiceModel.Web.dll",
-        "lib/netstandard1.0/System.ServiceModel.dll",
-        "lib/netstandard1.0/System.Windows.dll",
-        "lib/netstandard1.0/System.Xml.Linq.dll",
-        "lib/netstandard1.0/System.Xml.Serialization.dll",
-        "lib/netstandard1.0/System.Xml.dll",
-        "lib/netstandard1.0/System.dll",
-        "lib/win8/_._",
-        "lib/wp80/_._",
-        "lib/wpa81/_._",
-        "microsoft.netcore.portable.compatibility.1.0.1.nupkg.sha512",
-        "microsoft.netcore.portable.compatibility.nuspec",
-        "ref/net45/_._",
-        "ref/netcore50/System.ComponentModel.DataAnnotations.dll",
-        "ref/netcore50/System.Core.dll",
-        "ref/netcore50/System.Net.dll",
-        "ref/netcore50/System.Numerics.dll",
-        "ref/netcore50/System.Runtime.Serialization.dll",
-        "ref/netcore50/System.ServiceModel.Web.dll",
-        "ref/netcore50/System.ServiceModel.dll",
-        "ref/netcore50/System.Windows.dll",
-        "ref/netcore50/System.Xml.Linq.dll",
-        "ref/netcore50/System.Xml.Serialization.dll",
-        "ref/netcore50/System.Xml.dll",
-        "ref/netcore50/System.dll",
-        "ref/netcore50/mscorlib.dll",
-        "ref/netstandard1.0/System.ComponentModel.DataAnnotations.dll",
-        "ref/netstandard1.0/System.Core.dll",
-        "ref/netstandard1.0/System.Net.dll",
-        "ref/netstandard1.0/System.Numerics.dll",
-        "ref/netstandard1.0/System.Runtime.Serialization.dll",
-        "ref/netstandard1.0/System.ServiceModel.Web.dll",
-        "ref/netstandard1.0/System.ServiceModel.dll",
-        "ref/netstandard1.0/System.Windows.dll",
-        "ref/netstandard1.0/System.Xml.Linq.dll",
-        "ref/netstandard1.0/System.Xml.Serialization.dll",
-        "ref/netstandard1.0/System.Xml.dll",
-        "ref/netstandard1.0/System.dll",
-        "ref/netstandard1.0/mscorlib.dll",
-        "ref/win8/_._",
-        "ref/wp80/_._",
-        "ref/wpa81/_._",
-        "runtimes/aot/lib/netcore50/System.ComponentModel.DataAnnotations.dll",
-        "runtimes/aot/lib/netcore50/System.Core.dll",
-        "runtimes/aot/lib/netcore50/System.Net.dll",
-        "runtimes/aot/lib/netcore50/System.Numerics.dll",
-        "runtimes/aot/lib/netcore50/System.Runtime.Serialization.dll",
-        "runtimes/aot/lib/netcore50/System.ServiceModel.Web.dll",
-        "runtimes/aot/lib/netcore50/System.ServiceModel.dll",
-        "runtimes/aot/lib/netcore50/System.Windows.dll",
-        "runtimes/aot/lib/netcore50/System.Xml.Linq.dll",
-        "runtimes/aot/lib/netcore50/System.Xml.Serialization.dll",
-        "runtimes/aot/lib/netcore50/System.Xml.dll",
-        "runtimes/aot/lib/netcore50/System.dll",
-        "runtimes/aot/lib/netcore50/mscorlib.dll"
-      ]
-    },
-    "Microsoft.NETCore.Runtime.CoreCLR/1.0.2": {
-      "sha512": "A0x1xtTjYJWZr2DRzgfCOXgB0JkQg8twnmtTJ79wFje+IihlLbXtx6Z2AxyVokBM5ruwTedR6YdCmHk39QJdtQ==",
-      "type": "package",
-      "path": "microsoft.netcore.runtime.coreclr/1.0.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "microsoft.netcore.runtime.coreclr.1.0.2.nupkg.sha512",
-        "microsoft.netcore.runtime.coreclr.nuspec",
-        "runtime.json"
-      ]
-    },
     "Microsoft.NETCore.Targets/1.1.0": {
       "sha512": "aOZA3BWfz9RXjpzt0sRJJMjAscAUm3Hoa4UWAfceV9UTYxgwZ1lZt5nO2myFf+/jetYQo4uTP7zS8sJY67BBxg==",
       "type": "package",
@@ -3885,20 +3531,6 @@
         "lib/netstandard1.0/_._",
         "microsoft.netcore.targets.1.1.0.nupkg.sha512",
         "microsoft.netcore.targets.nuspec",
-        "runtime.json"
-      ]
-    },
-    "Microsoft.NETCore.Windows.ApiSets/1.0.1": {
-      "sha512": "SaToCvvsGMxTgtLv/BrFQ5IFMPRE1zpWbnqbpwykJa8W5XiX82CXI6K2o7yf5xS7EP6t/JzFLV0SIDuWpvBZVw==",
-      "type": "package",
-      "path": "microsoft.netcore.windows.apisets/1.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "microsoft.netcore.windows.apisets.1.0.1.nupkg.sha512",
-        "microsoft.netcore.windows.apisets.nuspec",
         "runtime.json"
       ]
     },
@@ -4322,45 +3954,6 @@
         "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so"
       ]
     },
-    "SendGrid/9.29.3": {
-      "sha512": "nb/zHePecN9U4/Bmct+O+lpgK994JklbCCNMIgGPOone/DngjQoMCHeTvkl+m0Nglvm0dqMEshmvB4fO8eF3dA==",
-      "type": "package",
-      "path": "sendgrid/9.29.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net40/SendGrid.dll",
-        "lib/net40/SendGrid.pdb",
-        "lib/net40/SendGrid.xml",
-        "lib/net452/SendGrid.dll",
-        "lib/net452/SendGrid.pdb",
-        "lib/net452/SendGrid.xml",
-        "lib/netstandard1.3/SendGrid.dll",
-        "lib/netstandard1.3/SendGrid.pdb",
-        "lib/netstandard1.3/SendGrid.xml",
-        "lib/netstandard2.0/SendGrid.dll",
-        "lib/netstandard2.0/SendGrid.pdb",
-        "lib/netstandard2.0/SendGrid.xml",
-        "sendgrid.9.29.3.nupkg.sha512",
-        "sendgrid.nuspec"
-      ]
-    },
-    "starkbank-ecdsa/1.3.3": {
-      "sha512": "OblOaKb1enXn+dSp7tsx9yjwV+/BEKM9jFhshIkZTwCk7LuTFTp+wSon6rFzuPiIiTGtvVWQNUw2slHjGktJog==",
-      "type": "package",
-      "path": "starkbank-ecdsa/1.3.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net40/StarkbankEcdsa.dll",
-        "lib/net452/StarkbankEcdsa.dll",
-        "lib/netstandard1.3/StarkbankEcdsa.dll",
-        "lib/netstandard2.0/StarkbankEcdsa.dll",
-        "lib/netstandard2.1/StarkbankEcdsa.dll",
-        "starkbank-ecdsa.1.3.3.nupkg.sha512",
-        "starkbank-ecdsa.nuspec"
-      ]
-    },
     "System.AppContext/4.3.0": {
       "sha512": "fKC+rmaLfeIzUhagxY17Q9siv/sPrjjKcfNg1Ic8IlQkZLipo8ljcaZQu4VtI4Jqbzjc2VTjzGLF6WmsRXAEgA==",
       "type": "package",
@@ -4431,10 +4024,10 @@
         "system.buffers.nuspec"
       ]
     },
-    "System.ClientModel/1.5.1": {
-      "sha512": "k2jKSO0X45IqhVOT9iQB4xralNN9foRQsRvXBTyRpAVxyzCJlG895T9qYrQWbcJ6OQXxOouJQ37x5nZH5XKK+A==",
+    "System.ClientModel/1.8.0": {
+      "sha512": "AqRzhn0v29GGGLj/Z6gKq4lGNtvPHT4nHdG5PDJh9IfVjv/nYUVmX11hwwws1vDFeIAzrvmn0dPu8IjLtu6fAw==",
       "type": "package",
-      "path": "system.clientmodel/1.5.1",
+      "path": "system.clientmodel/1.8.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4444,9 +4037,11 @@
         "analyzers/dotnet/cs/System.ClientModel.SourceGeneration.dll",
         "lib/net8.0/System.ClientModel.dll",
         "lib/net8.0/System.ClientModel.xml",
+        "lib/net9.0/System.ClientModel.dll",
+        "lib/net9.0/System.ClientModel.xml",
         "lib/netstandard2.0/System.ClientModel.dll",
         "lib/netstandard2.0/System.ClientModel.xml",
-        "system.clientmodel.1.5.1.nupkg.sha512",
+        "system.clientmodel.1.8.0.nupkg.sha512",
         "system.clientmodel.nuspec"
       ]
     },
@@ -4641,84 +4236,6 @@
         "system.collections.immutable.8.0.0.nupkg.sha512",
         "system.collections.immutable.nuspec",
         "useSharedDesignerContext.txt"
-      ]
-    },
-    "System.Collections.NonGeneric/4.3.0": {
-      "sha512": "prtjIEMhGUnQq6RnPEYLpFt8AtLbp9yq2zxOSrY7KJJZrw25Fi97IzBqY7iqssbM61Ek5b8f3MG/sG1N2sN5KA==",
-      "type": "package",
-      "path": "system.collections.nongeneric/4.3.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/System.Collections.NonGeneric.dll",
-        "lib/netstandard1.3/System.Collections.NonGeneric.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net46/System.Collections.NonGeneric.dll",
-        "ref/netstandard1.3/System.Collections.NonGeneric.dll",
-        "ref/netstandard1.3/System.Collections.NonGeneric.xml",
-        "ref/netstandard1.3/de/System.Collections.NonGeneric.xml",
-        "ref/netstandard1.3/es/System.Collections.NonGeneric.xml",
-        "ref/netstandard1.3/fr/System.Collections.NonGeneric.xml",
-        "ref/netstandard1.3/it/System.Collections.NonGeneric.xml",
-        "ref/netstandard1.3/ja/System.Collections.NonGeneric.xml",
-        "ref/netstandard1.3/ko/System.Collections.NonGeneric.xml",
-        "ref/netstandard1.3/ru/System.Collections.NonGeneric.xml",
-        "ref/netstandard1.3/zh-hans/System.Collections.NonGeneric.xml",
-        "ref/netstandard1.3/zh-hant/System.Collections.NonGeneric.xml",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.collections.nongeneric.4.3.0.nupkg.sha512",
-        "system.collections.nongeneric.nuspec"
-      ]
-    },
-    "System.Collections.Specialized/4.3.0": {
-      "sha512": "Epx8PoVZR0iuOnJJDzp7pWvdfMMOAvpUo95pC4ScH2mJuXkKA2Y4aR3cG9qt2klHgSons1WFh4kcGW7cSXvrxg==",
-      "type": "package",
-      "path": "system.collections.specialized/4.3.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/System.Collections.Specialized.dll",
-        "lib/netstandard1.3/System.Collections.Specialized.dll",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net46/System.Collections.Specialized.dll",
-        "ref/netstandard1.3/System.Collections.Specialized.dll",
-        "ref/netstandard1.3/System.Collections.Specialized.xml",
-        "ref/netstandard1.3/de/System.Collections.Specialized.xml",
-        "ref/netstandard1.3/es/System.Collections.Specialized.xml",
-        "ref/netstandard1.3/fr/System.Collections.Specialized.xml",
-        "ref/netstandard1.3/it/System.Collections.Specialized.xml",
-        "ref/netstandard1.3/ja/System.Collections.Specialized.xml",
-        "ref/netstandard1.3/ko/System.Collections.Specialized.xml",
-        "ref/netstandard1.3/ru/System.Collections.Specialized.xml",
-        "ref/netstandard1.3/zh-hans/System.Collections.Specialized.xml",
-        "ref/netstandard1.3/zh-hant/System.Collections.Specialized.xml",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.collections.specialized.4.3.0.nupkg.sha512",
-        "system.collections.specialized.nuspec"
       ]
     },
     "System.Configuration.ConfigurationManager/8.0.1": {
@@ -5215,14 +4732,15 @@
         "system.globalization.extensions.nuspec"
       ]
     },
-    "System.IdentityModel.Tokens.Jwt/8.3.1": {
-      "sha512": "SxdCv+SmnKOhUvryKvrpWJnkuVHj3hU8pUwj7R8zthi73TlBUlMyavon9qfuJsjnqY+L7jusp3Zo0fWFX6mwtw==",
+    "System.IdentityModel.Tokens.Jwt/7.7.1": {
+      "sha512": "rQkO1YbAjLwnDJSMpRhRtrc6XwIcEOcUvoEcge+evurpzSZM3UNK+MZfD3sKyTlYsvknZ6eJjSBfnmXqwOsT9Q==",
       "type": "package",
-      "path": "system.identitymodel.tokens.jwt/8.3.1",
+      "path": "system.identitymodel.tokens.jwt/7.7.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "README.md",
+        "lib/net461/System.IdentityModel.Tokens.Jwt.dll",
+        "lib/net461/System.IdentityModel.Tokens.Jwt.xml",
         "lib/net462/System.IdentityModel.Tokens.Jwt.dll",
         "lib/net462/System.IdentityModel.Tokens.Jwt.xml",
         "lib/net472/System.IdentityModel.Tokens.Jwt.dll",
@@ -5231,11 +4749,9 @@
         "lib/net6.0/System.IdentityModel.Tokens.Jwt.xml",
         "lib/net8.0/System.IdentityModel.Tokens.Jwt.dll",
         "lib/net8.0/System.IdentityModel.Tokens.Jwt.xml",
-        "lib/net9.0/System.IdentityModel.Tokens.Jwt.dll",
-        "lib/net9.0/System.IdentityModel.Tokens.Jwt.xml",
         "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.dll",
         "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.xml",
-        "system.identitymodel.tokens.jwt.8.3.1.nupkg.sha512",
+        "system.identitymodel.tokens.jwt.7.7.1.nupkg.sha512",
         "system.identitymodel.tokens.jwt.nuspec"
       ]
     },
@@ -7859,42 +7375,20 @@
         "system.xml.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
-    },
-    "Twilio/7.13.5": {
-      "sha512": "nbavXQTV/shSPnkpTXGfbMOl4G02Qc7vaKHQdwYgWZekOscCSCmH2ctk8AnJP5uUF3uKeap1WuWMZudfED2MjA==",
-      "type": "package",
-      "path": "twilio/7.13.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "README.md",
-        "lib/net35/Twilio.dll",
-        "lib/net35/Twilio.xml",
-        "lib/net462/Twilio.dll",
-        "lib/net462/Twilio.xml",
-        "lib/net6.0/Twilio.dll",
-        "lib/net6.0/Twilio.xml",
-        "lib/netstandard2.1/Twilio.dll",
-        "lib/netstandard2.1/Twilio.xml",
-        "twilio.7.13.5.nupkg.sha512",
-        "twilio.nuspec"
-      ]
     }
   },
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
-      "AWSSDK.ElasticBeanstalk >= 4.0.2.6",
-      "AWSSDK.ElasticLoadBalancing >= 4.0.2.7",
-      "FM.IceLink.WebRTC >= 2.9.32",
-      "Firebase.Auth >= 1.0.0",
+      "AWSSDK.ElasticBeanstalk >= 4.0.2.8",
+      "AWSSDK.ElasticLoadBalancing >= 4.0.2.9",
+      "AWSSDK.ElasticLoadBalancingV2 >= 4.0.6.4",
+      "Azure.Core >= 1.50.0",
       "FirebaseAuthentication.net >= 4.1.0",
       "FirebaseDatabase.net >= 5.0.0",
       "FirebaseStorage.net >= 1.0.3",
-      "Google.Cloud.Firestore >= 4.0.0",
-      "Microsoft.Data.SqlClient >= 6.1.2",
-      "Microsoft.Web.WebView2 >= 1.0.3650.58",
-      "SendGrid >= 9.29.3",
-      "Twilio >= 7.13.5"
+      "Google.Cloud.Firestore >= 4.1.0",
+      "Microsoft.Data.SqlClient >= 6.1.3",
+      "Microsoft.Web.WebView2 >= 1.0.3650.58"
     ]
   },
   "packageFolders": {
@@ -7949,19 +7443,19 @@
         "dependencies": {
           "AWSSDK.ElasticBeanstalk": {
             "target": "Package",
-            "version": "[4.0.2.6, )"
+            "version": "[4.0.2.8, )"
           },
           "AWSSDK.ElasticLoadBalancing": {
             "target": "Package",
-            "version": "[4.0.2.7, )"
+            "version": "[4.0.2.9, )"
           },
-          "FM.IceLink.WebRTC": {
+          "AWSSDK.ElasticLoadBalancingV2": {
             "target": "Package",
-            "version": "[2.9.32, )"
+            "version": "[4.0.6.4, )"
           },
-          "Firebase.Auth": {
+          "Azure.Core": {
             "target": "Package",
-            "version": "[1.0.0, )"
+            "version": "[1.50.0, )"
           },
           "FirebaseAuthentication.net": {
             "target": "Package",
@@ -7977,23 +7471,15 @@
           },
           "Google.Cloud.Firestore": {
             "target": "Package",
-            "version": "[4.0.0, )"
+            "version": "[4.1.0, )"
           },
           "Microsoft.Data.SqlClient": {
             "target": "Package",
-            "version": "[6.1.2, )"
+            "version": "[6.1.3, )"
           },
           "Microsoft.Web.WebView2": {
             "target": "Package",
             "version": "[1.0.3650.58, )"
-          },
-          "SendGrid": {
-            "target": "Package",
-            "version": "[9.29.3, )"
-          },
-          "Twilio": {
-            "target": "Package",
-            "version": "[7.13.5, )"
           }
         },
         "imports": [
@@ -8018,57 +7504,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1602",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "FM.IceLink.WebRTC 2.9.32 does not provide an inclusive lower bound for dependency FM. FM 2.0.0.5 was resolved instead.",
-      "libraryId": "FM",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1602",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "FM.IceLink.WebRTC 2.9.32 does not provide an inclusive lower bound for dependency FM.IceLink. FM.IceLink 2.2.0 was resolved instead.",
-      "libraryId": "FM.IceLink",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'FM 2.0.0.5' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "FM",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'FM.IceLink 2.2.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "FM.IceLink",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'FM.IceLink.WebRTC 2.9.32' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "FM.IceLink.WebRTC",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    }
-  ]
+  }
 }

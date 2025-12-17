@@ -1,29 +1,26 @@
 {
   "version": 2,
-  "dgSpecHash": "ZrhBVWY6qug=",
+  "dgSpecHash": "UQHklS5K4PE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
+  "projectFilePath": "C:\\Users\\leson\\source\\repos\\DatingApp\\LOGIN.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\leson\\.nuget\\packages\\awssdk.core\\4.0.3.4\\awssdk.core.4.0.3.4.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\awssdk.elasticbeanstalk\\4.0.2.6\\awssdk.elasticbeanstalk.4.0.2.6.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\awssdk.elasticloadbalancing\\4.0.2.7\\awssdk.elasticloadbalancing.4.0.2.7.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\awssdk.core\\4.0.3.6\\awssdk.core.4.0.3.6.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\awssdk.elasticbeanstalk\\4.0.2.8\\awssdk.elasticbeanstalk.4.0.2.8.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\awssdk.elasticloadbalancing\\4.0.2.9\\awssdk.elasticloadbalancing.4.0.2.9.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\awssdk.elasticloadbalancingv2\\4.0.6.4\\awssdk.elasticloadbalancingv2.4.0.6.4.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\azure.core\\1.50.0\\azure.core.1.50.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\firebase.auth\\1.0.0\\firebase.auth.1.0.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\firebaseauthentication.net\\4.1.0\\firebaseauthentication.net.4.1.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\firebasedatabase.net\\5.0.0\\firebasedatabase.net.5.0.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\firebasestorage.net\\1.0.3\\firebasestorage.net.1.0.3.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\fm\\2.0.0.5\\fm.2.0.0.5.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\fm.icelink\\2.2.0\\fm.icelink.2.2.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\fm.icelink.webrtc\\2.9.32\\fm.icelink.webrtc.2.9.32.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\google.api.commonprotos\\2.17.0\\google.api.commonprotos.2.17.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\google.api.gax\\4.12.1\\google.api.gax.4.12.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\google.api.gax.grpc\\4.12.1\\google.api.gax.grpc.4.12.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\google.apis\\1.72.0\\google.apis.1.72.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\google.apis.auth\\1.72.0\\google.apis.auth.1.72.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\google.apis.core\\1.72.0\\google.apis.core.1.72.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\google.cloud.firestore\\4.0.0\\google.cloud.firestore.4.0.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\google.cloud.firestore.v1\\4.0.0\\google.cloud.firestore.v1.4.0.0.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\google.cloud.firestore\\4.1.0\\google.cloud.firestore.4.1.0.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\google.cloud.firestore.v1\\4.1.0\\google.cloud.firestore.v1.4.1.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\google.cloud.location\\2.4.0\\google.cloud.location.2.4.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\google.longrunning\\3.5.0\\google.longrunning.3.5.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\google.protobuf\\3.31.1\\google.protobuf.3.31.1.nupkg.sha512",
@@ -34,8 +31,7 @@
     "C:\\Users\\leson\\.nuget\\packages\\litedb\\5.0.17\\litedb.5.0.17.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\10.0.0\\microsoft.bcl.asyncinterfaces.10.0.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.bcl.cryptography\\8.0.0\\microsoft.bcl.cryptography.8.0.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.bcl.memory\\9.0.0\\microsoft.bcl.memory.9.0.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.data.sqlclient\\6.1.2\\microsoft.data.sqlclient.6.1.2.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\microsoft.data.sqlclient\\6.1.3\\microsoft.data.sqlclient.6.1.3.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\6.0.2\\microsoft.data.sqlclient.sni.runtime.6.0.2.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0\\microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.extensions.caching.memory\\8.0.1\\microsoft.extensions.caching.memory.8.0.1.nupkg.sha512",
@@ -45,18 +41,14 @@
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.identity.client\\4.73.1\\microsoft.identity.client.4.73.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.identity.client.extensions.msal\\4.73.1\\microsoft.identity.client.extensions.msal.4.73.1.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.3.1\\microsoft.identitymodel.abstractions.8.3.1.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.3.1\\microsoft.identitymodel.jsonwebtokens.8.3.1.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.logging\\8.3.1\\microsoft.identitymodel.logging.8.3.1.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.abstractions\\7.7.1\\microsoft.identitymodel.abstractions.7.7.1.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\7.7.1\\microsoft.identitymodel.jsonwebtokens.7.7.1.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.logging\\7.7.1\\microsoft.identitymodel.logging.7.7.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.protocols\\7.7.1\\microsoft.identitymodel.protocols.7.7.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\7.7.1\\microsoft.identitymodel.protocols.openidconnect.7.7.1.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.3.1\\microsoft.identitymodel.tokens.8.3.1.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.netcore.jit\\1.0.2\\microsoft.netcore.jit.1.0.2.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.7.1\\microsoft.identitymodel.tokens.7.7.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.netcore.portable.compatibility\\1.0.1\\microsoft.netcore.portable.compatibility.1.0.1.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.netcore.runtime.coreclr\\1.0.2\\microsoft.netcore.runtime.coreclr.1.0.2.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\microsoft.netcore.windows.apisets\\1.0.1\\microsoft.netcore.windows.apisets.1.0.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.web.webview2\\1.0.3650.58\\microsoft.web.webview2.1.0.3650.58.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
@@ -78,17 +70,13 @@
     "C:\\Users\\leson\\.nuget\\packages\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\sendgrid\\9.29.3\\sendgrid.9.29.3.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\starkbank-ecdsa\\1.3.3\\starkbank-ecdsa.1.3.3.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.buffers\\4.3.0\\system.buffers.4.3.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\system.clientmodel\\1.5.1\\system.clientmodel.1.5.1.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\system.clientmodel\\1.8.0\\system.clientmodel.1.8.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.codedom\\7.0.0\\system.codedom.7.0.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.collections.concurrent\\4.3.0\\system.collections.concurrent.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.collections.immutable\\8.0.0\\system.collections.immutable.8.0.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\system.collections.nongeneric\\4.3.0\\system.collections.nongeneric.4.3.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\system.collections.specialized\\4.3.0\\system.collections.specialized.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.configuration.configurationmanager\\8.0.1\\system.configuration.configurationmanager.8.0.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.console\\4.3.0\\system.console.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
@@ -99,7 +87,7 @@
     "C:\\Users\\leson\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.globalization.calendars\\4.3.0\\system.globalization.calendars.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.globalization.extensions\\4.3.0\\system.globalization.extensions.4.3.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.3.1\\system.identitymodel.tokens.jwt.8.3.1.nupkg.sha512",
+    "C:\\Users\\leson\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.7.1\\system.identitymodel.tokens.jwt.7.7.1.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.io.compression\\4.3.0\\system.io.compression.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.io.compression.zipfile\\4.3.0\\system.io.compression.zipfile.4.3.0.nupkg.sha512",
@@ -148,69 +136,7 @@
     "C:\\Users\\leson\\.nuget\\packages\\system.threading.tasks.extensions\\4.3.0\\system.threading.tasks.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\leson\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\leson\\.nuget\\packages\\twilio\\7.13.5\\twilio.7.13.5.nupkg.sha512"
+    "C:\\Users\\leson\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1602",
-      "level": "Warning",
-      "message": "FM.IceLink.WebRTC 2.9.32 does not provide an inclusive lower bound for dependency FM. FM 2.0.0.5 was resolved instead.",
-      "projectPath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "libraryId": "FM",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1602",
-      "level": "Warning",
-      "message": "FM.IceLink.WebRTC 2.9.32 does not provide an inclusive lower bound for dependency FM.IceLink. FM.IceLink 2.2.0 was resolved instead.",
-      "projectPath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "libraryId": "FM.IceLink",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "message": "Package 'FM 2.0.0.5' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "projectPath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "libraryId": "FM",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "message": "Package 'FM.IceLink 2.2.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "projectPath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "libraryId": "FM.IceLink",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "message": "Package 'FM.IceLink.WebRTC 2.9.32' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "projectPath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
-      "libraryId": "FM.IceLink.WebRTC",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    }
-  ]
+  "logs": []
 }
