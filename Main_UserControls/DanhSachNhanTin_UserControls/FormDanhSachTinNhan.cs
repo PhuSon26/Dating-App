@@ -57,7 +57,7 @@ namespace LOGIN
 
                 flowLayoutPanel1.Controls.Clear();
 
-                var items = new List<(UserChatitem item, Timestamp time)>();
+                var items = new List<(UserChatitem item, DateTime time)>();
 
                 foreach (string otherId in matchedUserIds)
                 {
@@ -76,7 +76,7 @@ namespace LOGIN
                     if (meta != null)
                     {
                         item = new UserChatitem(otherUser, meta, firebase);
-                        items.Add((item, meta.lastTimestamp));
+                        items.Add((item, meta.lastTimestamp.ToDateTime().ToLocalTime()));
                     }
                     else
                     {
@@ -93,8 +93,26 @@ namespace LOGIN
 
                         item = new UserChatitem(otherUser, emptyMeta, firebase);
 
-                        items.Add((item, Timestamp.FromDateTime(DateTime.UnixEpoch)));
+                        items.Add((item, DateTime.MinValue));
                     }
+                    firebase.ListenToChatMeta(myUserId, otherId, (updatedMeta) =>
+                    {
+
+                        if (this.IsDisposed || item.IsDisposed) return;
+                        this.Invoke(new Action(() =>
+                        {
+                            if (this.IsDisposed || item.IsDisposed) return;
+
+                            item.UpdateData(updatedMeta);
+
+                            // kiểm tra xem item đã nằm trong flowLayoutPanel1 chưa
+                            if (item.Parent == flowLayoutPanel1 && flowLayoutPanel1.Controls.Contains(item))
+                            {
+                                flowLayoutPanel1.Controls.SetChildIndex(item, 0);
+                            }
+                        }));
+                    });
+
 
 
                     item.OnOpenChat += OpenChatWindow;
@@ -136,6 +154,11 @@ namespace LOGIN
             }
         }
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
         {
 
         }

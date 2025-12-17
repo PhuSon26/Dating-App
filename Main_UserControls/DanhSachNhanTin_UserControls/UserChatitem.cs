@@ -10,8 +10,8 @@ public partial class UserChatitem : UserControl
 {
     private PictureBox picAvatar;
     private Label lblName;
-    private Label lblLastMessage;
-    private Label lblTime;
+    public Label lblLastMessage;
+    public Label lblTime;
     private Label lblBadge;
 
     public event Action<USER> OnOpenChat;
@@ -145,12 +145,12 @@ public partial class UserChatitem : UserControl
             return MetaData.unread_userB;
     }
 
-    private string FormatTime(Timestamp t)
+    public string FormatTime(Timestamp t)
     {
         if (t == null) return "";
 
-        var dt = t.ToDateTime();
-        if (dt.Date == DateTime.Now.Date)
+        var dt = t.ToDateTime().ToLocalTime();
+        if (dt.Date == DateTime.Today)
             return dt.ToString("HH:mm");
 
         return dt.ToString("dd/MM");
@@ -192,4 +192,44 @@ public partial class UserChatitem : UserControl
 
         return path;
     }
+    // Hàm này dùng để cập nhật giao diện khi có tin nhắn mới tới
+    public void UpdateData(ChatMeta newMeta)
+    {
+        if (newMeta == null) return;
+
+        // 1. Cập nhật lại dữ liệu bên trong
+        this.MetaData = newMeta;
+
+        // 2. Cập nhật Label tin nhắn cuối
+        lblLastMessage.Text = newMeta.lastMessage ?? "";
+
+        // 3. Cập nhật thời gian (Sẽ tự động dùng logic ToLocalTime đã viết sẵn)
+        lblTime.Text = FormatTime(newMeta.lastTimestamp);
+
+        // 4. Cập nhật Badge tin chưa đọc
+        int unread = GetUnreadCount();
+        if (unread > 0)
+        {
+            lblBadge.Text = unread.ToString();
+            lblBadge.Visible = true;
+
+            // (Tùy chọn) In đậm tin nhắn nếu chưa đọc
+            lblLastMessage.Font = new Font(lblLastMessage.Font, FontStyle.Bold);
+            lblLastMessage.ForeColor = Color.Black;
+        }
+        else
+        {
+            lblBadge.Visible = false;
+            // Trả về font thường
+            lblLastMessage.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+            lblLastMessage.ForeColor = Color.FromArgb(50, 50, 50);
+        }
+    }
+
+    private void UserChatitem_Load(object sender, EventArgs e)
+    {
+
+    }
+
+   
 }

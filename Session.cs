@@ -10,5 +10,7 @@ namespace LOGIN
     {
         public static string IdToken {  get; set; }
         public static string LocalId {  get; set; }
+
+        public static bool IsBusy { get; set; } = false;
     }
 }
