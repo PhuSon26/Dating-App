@@ -51,6 +51,7 @@
 	  <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
 	  <PackageReference Include="Google.Cloud.Firestore" Version="4.1.0" />
 	  <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />
+	  <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
 	</ItemGroup>
 
 	<ItemGroup>
