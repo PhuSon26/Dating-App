@@ -22,6 +22,7 @@ namespace Main_Interface.User_Controls
         private Panel pnlCard;       // Cái thẻ màu trắng
         private Panel pnlInfo;       // Vùng chứa tên, tuổi bên trong thẻ
         private Panel pnlActions;    // Vùng chứa nút Tim/X
+        
         // ----------------------------------
 
         private readonly HttpClient _client = new HttpClient();
@@ -75,6 +76,26 @@ namespace Main_Interface.User_Controls
             lblTitle.AutoSize = true;
             this.Controls.Add(lblTitle);
 
+            btn_loc = new RoundedButton();
+            btn_loc.Text = "🔍 Bộ lọc";
+            btn_loc.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            btn_loc.BackColor = Color.White;
+            btn_loc.ForeColor = Color.FromArgb(253, 41, 123); // Màu hồng thương hiệu
+            btn_loc.FlatStyle = FlatStyle.Flat;
+            btn_loc.FlatAppearance.BorderColor = Color.FromArgb(253, 41, 123);
+            btn_loc.FlatAppearance.BorderSize = 1;
+            btn_loc.Size = new Size(100, 35);
+
+            // Đặt vị trí ở góc trên bên phải
+            btn_loc.Location = new Point(this.Width - 130, 12);
+            btn_loc.Anchor = AnchorStyles.Top | AnchorStyles.Right; // Neo vào góc phải để không bị lệch khi resize
+            btn_loc.Cursor = Cursors.Hand;
+
+   
+            btn_loc.Click += btn_loc_Click;
+
+            this.Controls.Add(btn_loc);
+
             // Tạo lưới chứa thẻ (Grid)
             mainGrid = new FlowLayoutPanel();
             mainGrid.Location = new Point(20, 50);
@@ -106,6 +127,11 @@ namespace Main_Interface.User_Controls
                 // Đăng ký sự kiện
                 card.OnLikeClicked += Card_OnLikeClicked;
                 card.OnPassClicked += Card_OnPassClicked;
+                card.OnCardClicked += (sender, selectedUser) =>
+                {
+                   
+                    MainForm.LoadContent(new ChiTietUser(MainForm, selectedUser));
+                };
 
                 mainGrid.Controls.Add(card);
             }

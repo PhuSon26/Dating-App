@@ -16,7 +16,7 @@ public partial class ProfileCard : UserControl
     private Button btnPass;
     private USER _currentUser; // Lưu user hiện tại để xử lý logic
 
-
+    public event EventHandler<USER> OnCardClicked;
     public event EventHandler<USER> OnLikeClicked;
     public event EventHandler<USER> OnPassClicked;
 
@@ -32,6 +32,7 @@ public partial class ProfileCard : UserControl
 
     private void InitializeUI()
     {
+        this.Cursor = Cursors.Hand;
         // 1. Ảnh đại diện (Chiếm 50% thẻ)
         pbAvatar = new PictureBox();
         pbAvatar.Size = new Size(320, 240);
@@ -83,16 +84,32 @@ public partial class ProfileCard : UserControl
         btnPass.Location = new Point(15, 420);
         btnPass.Click += (s, e) => OnPassClicked?.Invoke(this, _currentUser);
         this.Controls.Add(btnPass);
+        AddHoverEffect();
+    }
+    private void AddHoverEffect()
+    {
+        // Khi chuột vào -> Đổi màu nền nhẹ
+        this.MouseEnter += (s, e) => { this.BackColor = Color.FromArgb(250, 240, 245); }; // Màu hồng phấn rất nhạt
+
+        // Khi chuột ra -> Trả về màu trắng
+        this.MouseLeave += (s, e) => { this.BackColor = Color.White; };
+
+        // Áp dụng cho cả các thành phần con (để không bị mất hiệu ứng khi chuột đè lên label)
+        pbAvatar.MouseEnter += (s, e) => { this.BackColor = Color.FromArgb(250, 240, 245); };
+        pbAvatar.MouseLeave += (s, e) => { this.BackColor = Color.White; };
+
+        lblNameAge.MouseEnter += (s, e) => { this.BackColor = Color.FromArgb(250, 240, 245); };
+        lblNameAge.MouseLeave += (s, e) => { this.BackColor = Color.White; };
     }
 
-    // Hàm nhận dữ liệu từ USER
+
     public void SetData(USER user)
     {
         _currentUser = user;
         lblNameAge.Text = $"{user.ten}, {user.tuoi}";
         lblLocation.Text = string.IsNullOrEmpty(user.vitri) ? "📍 Không rõ" : $"📍 {user.vitri}";
         lblBio.Text = user.gthieu ?? "Chưa có giới thiệu.";
-
+      
         // Load ảnh (Bạn cần logic async load ảnh ở đây hoặc truyền Image vào)
         // Ví dụ tạm:
         if (!string.IsNullOrEmpty(user.AvatarUrl))
@@ -108,6 +125,19 @@ public partial class ProfileCard : UserControl
             {
                 flowTags.Controls.Add(CreateTagLabel(item.Trim()));
             }
+        }
+        this.Click += TriggerOpenDetail;
+
+        if (pbAvatar != null) pbAvatar.Click += TriggerOpenDetail;
+        if (lblNameAge != null) lblNameAge.Click += TriggerOpenDetail;
+        if (lblBio != null) lblBio.Click += TriggerOpenDetail;
+    }
+    private void TriggerOpenDetail(object sender, EventArgs e)
+    {
+       
+        if (_currentUser != null)
+        {
+            OnCardClicked?.Invoke(this, _currentUser);
         }
     }
 
