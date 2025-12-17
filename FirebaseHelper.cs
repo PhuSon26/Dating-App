@@ -1250,6 +1250,16 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
 
             await UpdateChatMeta(fromUserId, toUserId, "[Hình ảnh]");
         }
+        public async Task<int> GetUserCountAsync()
+        {
+            var usersRef = db.Collection("Users");
+
+            var snapshot = await usersRef
+                .Count()
+                .GetSnapshotAsync();
+
+            return (int)snapshot.Count; 
+        }
 
     }
 }

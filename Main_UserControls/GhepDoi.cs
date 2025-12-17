@@ -230,7 +230,8 @@ namespace Main_Interface.User_Controls
         {
             try
             {
-                suggestedUsers = await authHelper.GetRandomSuggest(userId, 10);
+                int totalUsers = await authHelper.GetUserCountAsync();
+                suggestedUsers = await authHelper.GetRandomSuggest(userId, totalUsers);
                 if (suggestedUsers == null || suggestedUsers.Count == 0)
                 {
                     MessageBox.Show("Hết người để quẹt rồi!");

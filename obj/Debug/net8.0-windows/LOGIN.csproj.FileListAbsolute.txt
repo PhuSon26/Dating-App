@@ -436,3 +436,6 @@ C:\Users\leson\Source\Repos\DatingApp\obj\Debug\net8.0-windows\refint\LOGIN.dll
 C:\Users\leson\Source\Repos\DatingApp\obj\Debug\net8.0-windows\LOGIN.pdb
 C:\Users\leson\Source\Repos\DatingApp\obj\Debug\net8.0-windows\LOGIN.genruntimeconfig.cache
 C:\Users\leson\Source\Repos\DatingApp\obj\Debug\net8.0-windows\ref\LOGIN.dll
+C:\Users\leson\source\repos\DatingApp\bin\Debug\net8.0-windows\AWSSDK.ElasticLoadBalancingV2.dll
+C:\Users\leson\source\repos\DatingApp\obj\Debug\net8.0-windows\LOGIN.Properties.Resources.resources
+C:\Users\leson\Source\Repos\DatingApp\obj\Debug\net8.0-windows\LOGIN.ChiTietUser.resources
