@@ -8,6 +8,9 @@
     <Compile Update="DangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="DoubleBufferedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="dsthongbao.cs">
       <SubType>UserControl</SubType>
     </Compile>
