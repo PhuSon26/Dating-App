@@ -59,8 +59,7 @@ namespace Main_Interface
             this.btn_caidat.Enabled = false;
             this.btn_hscn.Enabled = false;
             //  this.btn_thongbao.Enabled = false;
-            LoadingSpinner loading = new LoadingSpinner(this);
-            loading.pbSpinner.BackColor = Color.FromArgb(255, 250, 253);
+            LoadingSpinner loading = new LoadingSpinner(this.lblLogo);
             loading.Show();
             try
             {

@@ -33,7 +33,7 @@ namespace Main_Interface.User_Controls
         private Label lblUserName;
         private Label lblStatus;
         private Button btnBack;
-        private Button btnVideoCall; 
+        private RoundedButton btnVideoCall; 
         private FlowLayoutPanel pnlChatContainer;
         private Panel pnlBottom;
         private TextBox txtMessage;
@@ -77,7 +77,7 @@ namespace Main_Interface.User_Controls
             this.auth = m.auth;
             this.firebase = m.auth;
 
-            loading = new LoadingSpinner(this);
+            loading = new LoadingSpinner(MainForm.lblLogo);
         }
         // ======================================================
         // ====================== UI CHAT ========================
@@ -145,15 +145,15 @@ namespace Main_Interface.User_Controls
                 Location = new Point(130, 43)
             };
             ///Nút Call video
-            btnVideoCall = new Button
+            btnVideoCall = new RoundedButton
             {
                 Text = "🎥",
-                Size = new Size(50, 50),
-                Location = new Point(pnlHeader.Width - 220, 15),
+                Size = new Size(120, 80),
+                Location = new Point(pnlHeader.Width - 240, 0),
                 BackColor = Color.FromArgb(0, 123, 255),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
-                Font = new Font("Segoe UI", 20F),
+                Font = new Font("Segoe UI", 24F, FontStyle.Bold),
                 Cursor = Cursors.Hand,
                 Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
@@ -164,11 +164,6 @@ namespace Main_Interface.User_Controls
             System.Drawing.Drawing2D.GraphicsPath pathVideo = new System.Drawing.Drawing2D.GraphicsPath();
             pathVideo.AddEllipse(0, 0, btnVideoCall.Width, btnVideoCall.Height);
             btnVideoCall.Region = new Region(pathVideo);
-
-           
-           
-
-           
 
             pnlHeader.Controls.Add(btnBack);
             pnlHeader.Controls.Add(picAvatar);
@@ -477,7 +472,6 @@ namespace Main_Interface.User_Controls
             this.btnSend.Enabled = false;
             this.picAvatar.Enabled = false;
             this.btnBlock.Enabled = false;
-            loading.pbSpinner.BackColor = Color.FromArgb(240, 242, 245);
             loading.Show();
             System.Diagnostics.Debug.WriteLine($"NhanTin_Load - MyUserId: {myUserId}, TargetUserId: {targetUser.Id}");
             System.Diagnostics.Debug.WriteLine($"ConversationId: {conversationId}");
@@ -1053,14 +1047,6 @@ namespace Main_Interface.User_Controls
 
             target.ContextMenuStrip = menu;
         }
-
-
-
-
-
-
-
-
         private void ShowEmojiPopup(Control sourceControl, Messagemodels msg)
         {
             System.Diagnostics.Debug.WriteLine($"🎭 ShowEmojiPopup được gọi cho tin: {msg.Id}");
@@ -1074,7 +1060,8 @@ namespace Main_Interface.User_Controls
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 ShowInTaskbar = false,
                 TopMost = true,
-                BackColor = Color.White,
+                BackColor = Color.Lime,        
+                TransparencyKey = Color.Lime,
                 Padding = new Padding(5)
             };
 
@@ -1083,10 +1070,11 @@ namespace Main_Interface.User_Controls
                 AutoSize = true,
                 FlowDirection = FlowDirection.LeftToRight,
                 Padding = new Padding(5),
-                BackColor = Color.White
+                BackColor = Color.Transparent
             };
 
             // Thêm border cho popup
+            /*
             popup.Paint += (s, e) =>
             {
                 using (Pen pen = new Pen(Color.Gray, 2))
@@ -1094,6 +1082,7 @@ namespace Main_Interface.User_Controls
                     e.Graphics.DrawRectangle(pen, 0, 0, popup.Width - 1, popup.Height - 1);
                 }
             };
+            */
 
             string[] emojiNames = { "like", "tim", "haha", "sad", "wow", "phanno" };
 
@@ -1105,7 +1094,8 @@ namespace Main_Interface.User_Controls
                     SizeMode = PictureBoxSizeMode.Zoom,
                     Cursor = Cursors.Hand,
                     Margin = new Padding(3),
-                    Name = name
+                    Name = name,
+                    BackColor = Color.Transparent
                 };
 
                 try
@@ -1127,7 +1117,7 @@ namespace Main_Interface.User_Controls
 
                 pb.MouseLeave += (s, e) =>
                 {
-                    pb.BackColor = Color.White;
+                    pb.BackColor = Color.Transparent;
                 };
 
                 pb.Click += async (s, e) =>

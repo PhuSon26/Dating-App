@@ -5,7 +5,7 @@
         private System.ComponentModel.IContainer components = null;
 
         private Panel panelMain;
-        private Label lblLogo;
+        public Label lblLogo;
         private Panel panelButtons;
         private Button btn_vip;
         private Button btn_ghepdoi;

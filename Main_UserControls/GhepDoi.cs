@@ -177,7 +177,7 @@ namespace Main_Interface.User_Controls
             this.btn_kothich.Enabled = false;
             this.btn_loc.Enabled = false;
             this.btn_tim.Enabled = false;
-            LoadingSpinner loading = new LoadingSpinner(this);
+            LoadingSpinner loading = new LoadingSpinner(MainForm.lblLogo);
             loading.Show();
             myUser = await authHelper.GetUserById(myUserId);
             // Nếu vừa lọc xong → load danh sách lọc

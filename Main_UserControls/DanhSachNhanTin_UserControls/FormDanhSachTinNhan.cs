@@ -35,8 +35,7 @@ namespace LOGIN
         private async void FormDanhSachTinNhan_Load(object sender, EventArgs e)
         {
             this.btnTimKiem.Enabled = false;
-            LoadingSpinner loading = new LoadingSpinner(this);
-            loading.pbSpinner.BackColor = Color.FromArgb(255, 240, 245);
+            LoadingSpinner loading = new LoadingSpinner(MainForm.lblLogo);
             loading.Show();
             await LoadMatchedUsers();
             picAvatarNguoiDung.Image = firebase.Base64ToImage(u.AvatarUrl);

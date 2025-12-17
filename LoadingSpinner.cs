@@ -3,75 +3,67 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-
-
 namespace LOGIN
 {
     public class LoadingSpinner
     {
         private Form parentForm;
         private UserControl uc;
+        private Label lblParent;
         public PictureBox pbSpinner;
 
+        // Constructor cho Form
         public LoadingSpinner(Form parent)
         {
             parentForm = parent;
             InitializeSpinner();
-
-            // Khi form resize, cập nhật vị trí spinner
             parentForm.Resize += (s, e) => CenterSpinner();
         }
 
+        // Constructor cho UserControl
         public LoadingSpinner(UserControl parent)
         {
             uc = parent;
             InitializeSpinner();
-
-            // Khi UserControl resize, cập nhật vị trí spinner
             uc.Resize += (s, e) => CenterSpinner();
+        }
+
+        // Constructor cho Label (hiển thị bên cạnh label)
+        public LoadingSpinner(Label label)
+        {
+            lblParent = label;
+            InitializeSpinner();
+            lblParent.Resize += (s, e) => PositionNextToLabel();
         }
 
         private void InitializeSpinner()
         {
             pbSpinner = new PictureBox();
-            pbSpinner.Size = new Size(300, 300);
+            pbSpinner.Size = new Size(603, 100); 
             pbSpinner.SizeMode = PictureBoxSizeMode.Zoom;
+            pbSpinner.BackColor = Color.Transparent;
             pbSpinner.Visible = false;
+            pbSpinner.BackColor = Color.FromArgb(255, 245, 250);
 
-            string defaultPath = Path.Combine(
-                Application.StartupPath,
-                "Properties",
-                "Resources",
-                "Images", "loading.gif"
-            );
-
-            if (File.Exists(defaultPath))
-            {
-                pbSpinner.Image = Image.FromFile(defaultPath);
-            }
-            else
-            {
-                // Nếu không có file gif, tạo ảnh tạm "Loading..." để không lỗi
-                Bitmap bmp = new Bitmap(100, 100);
-                using (Graphics g = Graphics.FromImage(bmp))
-                {
-                    g.Clear(Color.Transparent);
-                    g.DrawString("Loading...", new Font("Segoe UI", 10, FontStyle.Bold),
-                                 Brushes.Gray, new PointF(10, 40));
-                }
-                pbSpinner.Image = bmp;
-            }
+            // Load GIF từ resource
+            pbSpinner.Image = LOGIN.Properties.Resource.loading;
 
             pbSpinner.BringToFront();
 
+            // Thêm vào parent phù hợp
             if (parentForm != null)
                 parentForm.Controls.Add(pbSpinner);
             else if (uc != null)
                 uc.Controls.Add(pbSpinner);
+            else if (lblParent != null && lblParent.Parent != null)
+                lblParent.Parent.Controls.Add(pbSpinner);
 
-            CenterSpinner();
+            // Căn vị trí
+            if (lblParent != null) PositionNextToLabel();
+            else CenterSpinner();
         }
 
+        // Căn giữa Form/UserControl
         private void CenterSpinner()
         {
             if (parentForm != null)
@@ -90,6 +82,17 @@ namespace LOGIN
             }
         }
 
+        // Căn bên phải label, căn giữa theo chiều cao label
+        private void PositionNextToLabel()
+        {
+            if (lblParent != null)
+            {
+                pbSpinner.Location = new Point(
+                    lblParent.Right + 50, 0
+                );
+            }
+        }
+
         // Hiển thị spinner
         public void Show()
         {
@@ -104,19 +107,5 @@ namespace LOGIN
             pbSpinner.Visible = false;
             Application.DoEvents();
         }
-        private Image LoadGifFromResource(UnmanagedMemoryStream resourceStream)
-        {
-            // Copy dữ liệu từ resource sang mảng byte
-            byte[] buffer = new byte[resourceStream.Length];
-            resourceStream.Read(buffer, 0, (int)resourceStream.Length);
-
-            // Tạo MemoryStream riêng – KHÔNG dispose – để giữ GIF sống
-            MemoryStream ms = new MemoryStream(buffer);
-
-            // Clone để tách khỏi MemoryStream (giảm lỗi GDI)
-            Image img = Image.FromStream(ms);
-            return new Bitmap(img);
-        }
-
     }
 }

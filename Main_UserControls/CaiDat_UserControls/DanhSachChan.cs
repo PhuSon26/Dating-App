@@ -27,7 +27,7 @@ namespace Main_Interface.User_Controls.CaiDat_UserControls
             this.auth = auth;
             if (!isloadingCalled)
             {
-                loading = new LoadingSpinner(this);
+                loading = new LoadingSpinner(MainForm.lblLogo);
                 isloadingCalled = true;
             }
         }
