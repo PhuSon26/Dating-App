@@ -109,12 +109,11 @@ public partial class ProfileCard : UserControl
         lblNameAge.Text = $"{user.ten}, {user.tuoi}";
         lblLocation.Text = string.IsNullOrEmpty(user.vitri) ? "📍 Không rõ" : $"📍 {user.vitri}";
         lblBio.Text = user.gthieu ?? "Chưa có giới thiệu.";
-      
+
         // Load ảnh (Bạn cần logic async load ảnh ở đây hoặc truyền Image vào)
         // Ví dụ tạm:
         if (!string.IsNullOrEmpty(user.AvatarUrl))
-            pbAvatar.ImageLocation = user.AvatarUrl;
-
+            LoadImageToPictureBox(pbAvatar, user.AvatarUrl);
         // Tạo các Tags
         flowTags.Controls.Clear();
         // Giả sử user.thoiquen là chuỗi "Du lịch, Đọc sách" -> Cắt chuỗi
@@ -218,5 +217,39 @@ public partial class ProfileCard : UserControl
     private void ProfileCard_Load(object sender, EventArgs e)
     {
 
+    }
+    private async void LoadImageToPictureBox(PictureBox pb, string source)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(source)) return;
+
+          
+            if (source.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var data = await client.GetByteArrayAsync(source);
+                    using (var ms = new MemoryStream(data))
+                    {
+                        pb.Image = Image.FromStream(ms);
+                    }
+                }
+            }
+          
+            else
+            {
+                byte[] imageBytes = Convert.FromBase64String(source);
+                using (var ms = new MemoryStream(imageBytes))
+                {
+                    pb.Image = Image.FromStream(ms);
+                }
+            }
+        }
+        catch
+        {
+            // Nếu lỗi thì giữ nguyên màu nền đen hoặc hiện ảnh mặc định
+            pb.BackColor = Color.FromArgb(30, 30, 30);
+        }
     }
 }

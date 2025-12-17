@@ -130,7 +130,7 @@ namespace Main_Interface.User_Controls
                 card.OnCardClicked += (sender, selectedUser) =>
                 {
                    
-                    MainForm.LoadContent(new ChiTietUser(MainForm, selectedUser));
+                    MainForm.LoadContent(new ChiTietUser(MainForm, selectedUser, this));
                 };
 
                 mainGrid.Controls.Add(card);
