@@ -562,12 +562,30 @@ namespace Main_Interface.User_Controls
 
                 foreach (var doc in snapshot.Documents)
                 {
+                    // ✅ bỏ qua tin đã xóa phía tôi
+                    if (doc.TryGetValue("deletedFor", out List<string> deletedFor) &&
+                        deletedFor != null && deletedFor.Contains(myUserId))
+                        continue;
+
                     var msg = doc.ConvertTo<Messagemodels>();
                     msg.Id = doc.Id;
+
+                    // ✅ nạp reaction nếu có
+                    if (doc.TryGetValue("reaction", out Dictionary<string, string> reaction))
+                        msg.reaction = reaction;
+
+                    // ✅ map thu hồi
+                    if (doc.TryGetValue("isRecalled", out bool isRecalled) && isRecalled)
+                    {
+                        msg.text = "Tin nhắn đã được thu hồi";
+                        msg.imageBase64 = null;
+                    }
+
                     messages.Add(msg);
                 }
 
-                
+
+
                 messages = messages.OrderBy(m =>
                 {
                     try
@@ -681,11 +699,11 @@ namespace Main_Interface.User_Controls
                 return;
             }
 
-
             // Nếu rỗng
             if (messages == null || messages.Count == 0)
             {
                 pnlChatContainer.Controls.Clear();
+                currentMessages = new List<Messagemodels>();
                 return;
             }
 
@@ -693,35 +711,47 @@ namespace Main_Interface.User_Controls
 
             // Nếu tin mới là của mình => tự động scroll
             if (currentMessages.Count == 0 || (messages.Count > 0 && messages.Last().fromUserId == myUserId))
-            {
                 isAtBottom = true;
-            }
 
             pnlChatContainer.SuspendLayout();
 
+            // ✅ QUAN TRỌNG: nếu có xóa/thu hồi/đổi text/reaction => redraw
+            bool redrawAll = ShouldRedrawAll(messages);
+            if (redrawAll)
+            {
+                pnlChatContainer.Controls.Clear();
+                currentMessages = new List<Messagemodels>(); // để UpdateIncrementally startIndex = 0
+                UpdateIncrementally(messages);
+                currentMessages = messages;
+                pnlChatContainer.ResumeLayout();
 
+                if (isAtBottom)
+                {
+                    Task.Run(async () =>
+                    {
+                        await Task.Delay(50);
+                        this.Invoke(new Action(() => ScrollToBottom()));
+                    });
+                }
+                return;
+            }
 
+            // ✅ chỉ thêm tin mới
             var newMsgs = messages.Where(m => !currentMessages.Any(cm => cm.Id == m.Id)).ToList();
             if (newMsgs.Count > 0)
-            {
-                UpdateIncrementally(messages); // Logic cũ của bạn để thêm tin mới vẫn ổn
-            }
+                UpdateIncrementally(messages);
+
+            // ✅ chỉ cập nhật reaction (logic cũ)
             foreach (var msg in messages)
             {
                 var oldMsg = currentMessages.FirstOrDefault(cm => cm.Id == msg.Id);
-                if (oldMsg != null)
+                if (oldMsg != null && IsReactionChanged(oldMsg, msg))
                 {
-                    // Kiểm tra xem Reaction có thay đổi không
-                    if (IsReactionChanged(oldMsg, msg))
-                    {
-                        // CHỈ cập nhật thanh reaction, KHÔNG vẽ lại cả tin nhắn
-                        UpdateReactionUIOnly(msg.Id, msg.reaction);
-
-                        // Cập nhật lại data trong list local
-                        oldMsg.reaction = msg.reaction;
-                    }
+                    UpdateReactionUIOnly(msg.Id, msg.reaction);
+                    oldMsg.reaction = msg.reaction;
                 }
             }
+
             currentMessages = messages;
             pnlChatContainer.ResumeLayout();
 
@@ -734,6 +764,7 @@ namespace Main_Interface.User_Controls
                 });
             }
         }
+
 
         // ===== HELPER METHODS =====
 
