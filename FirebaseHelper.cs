@@ -502,51 +502,68 @@ namespace LOGIN
 
 
         public FirestoreChangeListener ListenToMessages(
-    string user1,
-    string user2,
-    Action<List<Messagemodels>> onMessagesChanged)
+     string myUserId,  // ✅ ĐỔI TÊN từ user1
+     string targetUserId,  // ✅ ĐỔI TÊN từ user2
+     Action<List<Messagemodels>> onMessagesChanged)
         {
-            string chatId = GetConversationId(user1, user2);
+            string chatId = GetConversationId(myUserId, targetUserId);
 
-            // BỎ .OrderBy() để tránh lỗi index
+            System.Diagnostics.Debug.WriteLine($"🔍 Bắt đầu listen chatId: {chatId}");
+
             var messagesRef = db.Collection("messages")
                                 .WhereEqualTo("ChatId", chatId);
 
             return messagesRef.Listen(snapshot =>
             {
+                System.Diagnostics.Debug.WriteLine($"🔔 LISTENER TRIGGERED! Có {snapshot.Documents.Count} tin nhắn");
+
                 List<Messagemodels> messages = new();
 
                 foreach (var doc in snapshot.Documents)
                 {
-                    // 1) Nếu user hiện tại nằm trong deletedFor => bỏ qua (ẩn phía tôi)
+                    System.Diagnostics.Debug.WriteLine($"  📄 Doc ID: {doc.Id}");
+
+                    // Check deletedFor
                     if (doc.TryGetValue("deletedFor", out List<string> deletedFor) &&
-                        deletedFor != null && deletedFor.Contains(user1))   // giả định user1 là user hiện tại
+                        deletedFor != null && deletedFor.Contains(myUserId))  // ✅ SỬA user1 → myUserId
                     {
+                        System.Diagnostics.Debug.WriteLine($"    ❌ Bỏ qua tin này (đã xóa phía tôi)");
                         continue;
                     }
 
                     var msg = doc.ConvertTo<Messagemodels>();
                     msg.Id = doc.Id;
 
-                    // 2) Nếu đã thu hồi => ép UI hiển thị dạng "đã thu hồi"
+                    // Check reaction
+                    if (doc.TryGetValue("reaction", out Dictionary<string, string> reaction))
+                    {
+                        msg.reaction = reaction;
+                        System.Diagnostics.Debug.WriteLine($"    💗 Có {reaction?.Count ?? 0} reactions");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"    ⚪ Không có reaction");
+                    }
+
+                    // Check thu hồi
                     if (doc.TryGetValue("isRecalled", out bool isRecalled) && isRecalled)
                     {
                         msg.text = "Tin nhắn đã được thu hồi";
-                        // nếu Messagemodels có imageUrl thì set null
-                        // msg.imageUrl = null;
+                        msg.imageBase64 = null;
+                        System.Diagnostics.Debug.WriteLine($"    🔙 Tin đã thu hồi");
                     }
 
                     messages.Add(msg);
                 }
 
-
-                // Sắp xếp trong code
+                // Sắp xếp
                 messages = messages.OrderBy(m =>
                 {
                     try { return m.timestamp.ToDateTime(); }
                     catch { return DateTime.MinValue; }
                 }).ToList();
 
+                System.Diagnostics.Debug.WriteLine($"✅ Gọi callback với {messages.Count} tin nhắn");
                 onMessagesChanged(messages);
             });
         }
@@ -565,6 +582,7 @@ namespace LOGIN
                 }
             });
         }
+       
         public async Task UpdateChatMeta(string fromUser, string toUser, string text)
         {
             string conversationId = GetConversationId(fromUser, toUser);
@@ -964,8 +982,35 @@ namespace LOGIN
         }
         public async Task AddReaction(string messageId, string userId, string emoji)
         {
-            var msgRef = db.Collection("messages").Document(messageId);
-            await msgRef.UpdateAsync($"reaction.{userId}", emoji);
+            try
+            {
+                System.Diagnostics.Debug.WriteLine($"📝 AddReaction - MessageId: {messageId}, UserId: {userId}, Emoji: {emoji}");
+
+                var docRef = db.Collection("messages").Document(messageId);
+
+                // Kiểm tra document có tồn tại không
+                var snapshot = await docRef.GetSnapshotAsync();
+                if (!snapshot.Exists)
+                {
+                    System.Diagnostics.Debug.WriteLine($"❌ Document {messageId} KHÔNG TỒN TẠI!");
+                    return;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"✅ Document tồn tại, đang cập nhật...");
+
+                await docRef.UpdateAsync(new Dictionary<string, object>
+        {
+            { $"reaction.{userId}", emoji }
+        });
+
+                System.Diagnostics.Debug.WriteLine($"✅ Đã cập nhật reaction thành công!");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ LỖI AddReaction: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"   StackTrace: {ex.StackTrace}");
+                throw;
+            }
         }
         public async Task RemoveReaction(string messageId, string userId)
         {

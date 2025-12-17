@@ -687,44 +687,93 @@ namespace Main_Interface.User_Controls
                 return;
             }
 
-            // 1. Nếu danh sách rỗng hoặc null -> Xóa hết hiển thị thông báo rỗng
+
+            // Nếu rỗng
             if (messages == null || messages.Count == 0)
             {
                 pnlChatContainer.Controls.Clear();
-              
                 return;
             }
 
             bool isAtBottom = IsScrolledToBottom();
 
+            // Nếu tin mới là của mình => tự động scroll
             if (currentMessages.Count == 0 || (messages.Count > 0 && messages.Last().fromUserId == myUserId))
             {
                 isAtBottom = true;
             }
 
-            pnlChatContainer.SuspendLayout(); // Tạm dừng vẽ để đỡ giật
+            pnlChatContainer.SuspendLayout();
 
-           
-            int startIndex = 0;
 
-            // Nếu UI đang có tin nhắn, ta chỉ lấy những tin mới hơn tin cuối cùng hiện tại
-            if (currentMessages.Count > 0 && messages.Count >= currentMessages.Count)
+
+            var newMsgs = messages.Where(m => !currentMessages.Any(cm => cm.Id == m.Id)).ToList();
+            if (newMsgs.Count > 0)
             {
-                // Giả sử messages luôn là list đầy đủ và đã sort, ta chỉ cần vẽ phần đuôi
-                startIndex = currentMessages.Count;
+                UpdateIncrementally(messages); // Logic cũ của bạn để thêm tin mới vẫn ổn
             }
-            else
+            foreach (var msg in messages)
             {
-                // Trường hợp load lần đầu hoặc refresh -> Vẽ lại từ đầu
-                pnlChatContainer.Controls.Clear();
-                startIndex = 0;
+                var oldMsg = currentMessages.FirstOrDefault(cm => cm.Id == msg.Id);
+                if (oldMsg != null)
+                {
+                    // Kiểm tra xem Reaction có thay đổi không
+                    if (IsReactionChanged(oldMsg, msg))
+                    {
+                        // CHỈ cập nhật thanh reaction, KHÔNG vẽ lại cả tin nhắn
+                        UpdateReactionUIOnly(msg.Id, msg.reaction);
+
+                        // Cập nhật lại data trong list local
+                        oldMsg.reaction = msg.reaction;
+                    }
+                }
+            }
+            currentMessages = messages;
+            pnlChatContainer.ResumeLayout();
+
+            if (isAtBottom)
+            {
+                Task.Run(async () =>
+                {
+                    await Task.Delay(50);
+                    this.Invoke(new Action(() => ScrollToBottom()));
+                });
+            }
+        }
+
+        // ===== HELPER METHODS =====
+
+        private bool ShouldRedrawAll(List<Messagemodels> newMessages)
+        {
+            // Vẽ lại toàn bộ nếu:
+            // 1. Lần đầu load (chưa có tin)
+            if (currentMessages.Count == 0) return true;
+
+            // 2. Số lượng tin giảm (có tin bị xóa)
+            if (newMessages.Count < currentMessages.Count) return true;
+
+            // 3. Có reaction thay đổi
+            foreach (var newMsg in newMessages)
+            {
+                var oldMsg = currentMessages.FirstOrDefault(m => m.Id == newMsg.Id);
+                if (IsReactionChanged(oldMsg, newMsg)) return true;
             }
 
-            // 3. Vòng lặp chỉ chạy qua các tin nhắn MỚI
+            // 4. Có tin bị thu hồi
+            foreach (var newMsg in newMessages)
+            {
+                var oldMsg = currentMessages.FirstOrDefault(m => m.Id == newMsg.Id);
+                if (oldMsg != null && oldMsg.text != newMsg.text) return true;
+            }
+
+            return false;
+        }
+
+        private void UpdateIncrementally(List<Messagemodels> messages)
+        {
             string lastDate = "";
 
-            // Lấy ngày của tin nhắn cuối cùng đang hiện (nếu có) để so sánh separator
-            if (startIndex > 0 && currentMessages.Count > 0)
+            if (currentMessages.Count > 0)
             {
                 try
                 {
@@ -733,6 +782,9 @@ namespace Main_Interface.User_Controls
                 catch { }
             }
 
+            // Chỉ thêm tin mới (sau tin cuối cùng hiện tại)
+            int startIndex = currentMessages.Count;
+
             for (int i = startIndex; i < messages.Count; i++)
             {
                 var msg = messages[i];
@@ -740,7 +792,6 @@ namespace Main_Interface.User_Controls
                 try { msgDateTime = msg.timestamp.ToDateTime().ToLocalTime(); }
                 catch { msgDateTime = DateTime.Now; }
 
-                // Kiểm tra ngày để thêm thanh ngăn cách
                 string msgDate = msgDateTime.ToString("dd/MM/yyyy");
                 if (msgDate != lastDate)
                 {
@@ -748,26 +799,27 @@ namespace Main_Interface.User_Controls
                     lastDate = msgDate;
                 }
 
-                // Thêm tin nhắn
                 pnlChatContainer.Controls.Add(CreateBubble(msg));
             }
+        }
 
-            currentMessages = messages;
-            pnlChatContainer.ResumeLayout();
-            if (isAtBottom)
+        private bool IsReactionChanged(Messagemodels oldMsg, Messagemodels newMsg)
+        {
+            if (oldMsg == null) return false;
+            if (oldMsg.reaction == null && newMsg.reaction == null) return false;
+            if (oldMsg.reaction == null || newMsg.reaction == null) return true;
+
+            if (oldMsg.reaction.Count != newMsg.reaction.Count) return true;
+
+            foreach (var kvp in newMsg.reaction)
             {
-                // Hack nhẹ: Đợi UI vẽ xong mới cuộn
-                Task.Run(async () =>
-                {
-                    await Task.Delay(50); // Đợi 50ms cho layout ổn định
-                    this.Invoke(new Action(() =>
-                    {
-                        ScrollToBottom();
-                    }));
-                });
+                if (!oldMsg.reaction.ContainsKey(kvp.Key) || oldMsg.reaction[kvp.Key] != kvp.Value)
+                    return true;
             }
 
+            return false;
         }
+       
         private void ScrollToBottom()
         {
             // Cách cuộn triệt để nhất trong WinForms
@@ -842,6 +894,7 @@ namespace Main_Interface.User_Controls
 
             Panel wrapper = CreateWrapper(isMine);
             Panel bubble = CreateBubblePanel(isMine);
+            wrapper.Name = msg.Id;
 
             TableLayoutPanel layout = new TableLayoutPanel
             {
@@ -849,21 +902,51 @@ namespace Main_Interface.User_Controls
                 ColumnCount = 1
             };
 
+            Label textLabel = null;
+            PictureBox imageBox = null;
+
             if (!string.IsNullOrWhiteSpace(msg.text))
-                layout.Controls.Add(CreateTextLabel(msg.text, isMine));
+            {
+                textLabel = CreateTextLabel(msg.text, isMine);
+                layout.Controls.Add(textLabel);
+            }
 
             if (!string.IsNullOrWhiteSpace(msg.imageBase64))
-                layout.Controls.Add(CreateImageBox(msg.imageBase64));
+            {
+                imageBox = CreateImageBox(msg.imageBase64);
+                layout.Controls.Add(imageBox);
+            }
 
             layout.Controls.Add(CreateTimeLabel(msg));
+            var reactionBar = CreateReactionBar(msg);
+            if (reactionBar != null)
+                layout.Controls.Add(reactionBar);
 
             bubble.Controls.Add(layout);
             wrapper.Controls.Add(bubble);
+
+            // ✅ GÁN DOUBLE CLICK CHO TẤT CẢ CONTROLS
+            AttachDoubleClickHandler(bubble, msg);
+            AttachDoubleClickHandler(layout, msg);
+            if (textLabel != null) AttachDoubleClickHandler(textLabel, msg);
+            if (imageBox != null) AttachDoubleClickHandler(imageBox, msg);
 
             AttachContextMenu(bubble, msg, isMine);
 
             return wrapper;
         }
+        private void AttachDoubleClickHandler(Control control, Messagemodels msg)
+        {
+            control.Cursor = Cursors.Hand; // Hiển thị con trỏ tay
+            control.DoubleClick += (s, e) =>
+            {
+                System.Diagnostics.Debug.WriteLine($"🖱️ Double click detected trên {control.GetType().Name}");
+                ShowEmojiPopup(control, msg);
+            };
+        }
+
+
+     
         private Panel CreateWrapper(bool isMine)
         {
             return new Panel
@@ -914,14 +997,33 @@ namespace Main_Interface.User_Controls
         }
         private PictureBox CreateImageBox(string base64)
         {
-            return new PictureBox
+            PictureBox pb = new PictureBox
             {
-                Image = firebase.Base64ToImage(base64),
                 Size = new Size(250, 250),
-                SizeMode = PictureBoxSizeMode.Zoom,
+                SizeMode = PictureBoxSizeMode.CenterImage, // Hiển thị icon loading ở giữa
                 Margin = new Padding(0, 5, 0, 5),
-                Cursor = Cursors.Hand
+                Cursor = Cursors.Hand,
+                BackColor = Color.WhiteSmoke // Màu nền tạm
             };
+
+           
+            Task.Run(() =>
+            {
+                try
+                {
+                    Image img = firebase.Base64ToImage(base64); // Hàm nặng
+
+                    // Quay lại UI thread để gán ảnh
+                    pb.Invoke(new Action(() =>
+                    {
+                        pb.Image = img;
+                        pb.SizeMode = PictureBoxSizeMode.Zoom; // Chuyển về Zoom khi đã có ảnh
+                    }));
+                }
+                catch { /* Xử lý lỗi ảnh hỏng */ }
+            });
+
+            return pb;
         }
         private Label CreateTimeLabel(Messagemodels msg)
         {
@@ -959,8 +1061,10 @@ namespace Main_Interface.User_Controls
 
 
 
-        private void ShowEmojiPopup(Control bubble, Messagemodels msg)
+        private void ShowEmojiPopup(Control sourceControl, Messagemodels msg)
         {
+            System.Diagnostics.Debug.WriteLine($"🎭 ShowEmojiPopup được gọi cho tin: {msg.Id}");
+
             // Tạo Form nhỏ làm popup
             Form popup = new Form
             {
@@ -970,47 +1074,96 @@ namespace Main_Interface.User_Controls
                 AutoSizeMode = AutoSizeMode.GrowAndShrink,
                 ShowInTaskbar = false,
                 TopMost = true,
-                BackColor = Color.Fuchsia,
-                TransparencyKey = Color.Fuchsia
+                BackColor = Color.White,
+                Padding = new Padding(5)
             };
+
             FlowLayoutPanel emojiPanel = new FlowLayoutPanel
             {
                 AutoSize = true,
                 FlowDirection = FlowDirection.LeftToRight,
-                Padding = new Padding(5)
+                Padding = new Padding(5),
+                BackColor = Color.White
+            };
+
+            // Thêm border cho popup
+            popup.Paint += (s, e) =>
+            {
+                using (Pen pen = new Pen(Color.Gray, 2))
+                {
+                    e.Graphics.DrawRectangle(pen, 0, 0, popup.Width - 1, popup.Height - 1);
+                }
             };
 
             string[] emojiNames = { "like", "tim", "haha", "sad", "wow", "phanno" };
+
             foreach (var name in emojiNames)
             {
                 PictureBox pb = new PictureBox
                 {
-                    Size = new Size(26, 26), // emoji nhỏ
+                    Size = new Size(30, 30), // Tăng kích thước để dễ click hơn
                     SizeMode = PictureBoxSizeMode.Zoom,
                     Cursor = Cursors.Hand,
-                    Margin = new Padding(2)
+                    Margin = new Padding(3),
+                    Name = name
                 };
 
                 try
                 {
-                    string path = Path.Combine(
-                        Application.StartupPath,
-                        "Properties",
-                        "Resources",
-                        "Images",
-                        $"{name}.png"
-                    );
-                    pb.Image = Image.FromFile(path);
+                    pb.Image = (Image)LOGIN.Properties.Resource.ResourceManager.GetObject(name);
+                    System.Diagnostics.Debug.WriteLine($"  ✅ Load emoji {name} thành công");
                 }
-                catch { continue; }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"  ❌ Lỗi load emoji {name}: {ex.Message}");
+                    continue;
+                }
+
+                // Hiệu ứng hover
+                pb.MouseEnter += (s, e) =>
+                {
+                    pb.BackColor = Color.FromArgb(240, 240, 240);
+                };
+
+                pb.MouseLeave += (s, e) =>
+                {
+                    pb.BackColor = Color.White;
+                };
 
                 pb.Click += async (s, e) =>
                 {
-                    if (msg.reaction == null) msg.reaction = new Dictionary<string, string>();
-                    msg.reaction[myUserId] = name;
-                    await firebase.AddReaction(msg.Id, myUserId, name);
-                    UpdateUIWithMessages(currentMessages);
                     popup.Close();
+
+                    try
+                    {
+                        if (msg.reaction == null)
+                            msg.reaction = new Dictionary<string, string>();
+                        string oldReaction = msg.reaction.ContainsKey(myUserId) ? msg.reaction[myUserId] : null;
+
+
+                        msg.reaction[myUserId] = name;
+                        UpdateReactionUIOnly(msg.Id, msg.reaction);
+
+                        try
+                        {
+                            // 4. Gửi lên Firebase (Chạy ngầm)
+                            await firebase.AddReaction(msg.Id, myUserId, name);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Nếu lỗi, hoàn tác lại UI và Model
+                            if (oldReaction != null) msg.reaction[myUserId] = oldReaction;
+                            else msg.reaction.Remove(myUserId);
+
+                            UpdateReactionUIOnly(msg.Id, msg.reaction); // Vẽ lại cái cũ
+                            MessageBox.Show("Không thể thả cảm xúc: " + ex.Message);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"❌ Lỗi khi react: {ex.Message}");
+                        MessageBox.Show($"Lỗi reaction: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 };
 
                 emojiPanel.Controls.Add(pb);
@@ -1018,25 +1171,69 @@ namespace Main_Interface.User_Controls
 
             popup.Controls.Add(emojiPanel);
             emojiPanel.PerformLayout();
-            popup.Size = emojiPanel.PreferredSize;
+            popup.Size = new Size(
+                emojiPanel.PreferredSize.Width + 10,
+                emojiPanel.PreferredSize.Height + 10
+            );
 
-            Point screenPoint = bubble.PointToScreen(Point.Empty);
+            // Tính toán vị trí popup
+            Point screenPoint = sourceControl.PointToScreen(Point.Empty);
 
-            if (msg.fromUserId != Session.LocalId)
+            if (msg.fromUserId != myUserId)
             {
-                // Tin nhắn của người khác => popup bên phải bubble
-                popup.Location = new Point(screenPoint.X + bubble.Width + 5, screenPoint.Y);
+                // Tin nhắn của người khác => popup bên phải
+                popup.Location = new Point(screenPoint.X + sourceControl.Width + 5, screenPoint.Y);
             }
             else
             {
-                // Tin nhắn của mình => popup bên trái bubble
+                // Tin nhắn của mình => popup bên trái
                 popup.Location = new Point(screenPoint.X - popup.Width - 5, screenPoint.Y);
             }
 
+            System.Diagnostics.Debug.WriteLine($"📍 Popup location: {popup.Location}");
+
             // Click ra ngoài để đóng popup
-            popup.Deactivate += (s, e) => { popup.Close(); };
+            popup.Deactivate += (s, e) =>
+            {
+                System.Diagnostics.Debug.WriteLine("❌ Popup đã đóng (deactivate)");
+                popup.Close();
+            };
 
             popup.Show();
+            System.Diagnostics.Debug.WriteLine("✅ Popup đã hiển thị");
+        }
+        private void UpdateReactionUIOnly(string msgId, Dictionary<string, string> newReactions)
+        {
+            if (pnlChatContainer.InvokeRequired)
+            {
+                pnlChatContainer.Invoke(new Action(() => UpdateReactionUIOnly(msgId, newReactions)));
+                return;
+            }
+
+            // Tìm Control bao ngoài (Wrapper) dựa trên Name = msg.Id
+            Control[] wrappers = pnlChatContainer.Controls.Find(msgId, false);
+            if (wrappers.Length == 0) return;
+
+            Panel wrapper = wrappers[0] as Panel;
+            Panel bubble = wrapper.Controls[0] as Panel; // Bubble nằm trong Wrapper
+            TableLayoutPanel layout = bubble.Controls[0] as TableLayoutPanel; // Layout nằm trong Bubble
+
+            // Tìm thanh ReactionBar cũ để xóa (nếu có)
+            Control oldReactionBar = layout.Controls.Cast<Control>().FirstOrDefault(c => c.Name == "ReactionBar");
+            if (oldReactionBar != null)
+            {
+                layout.Controls.Remove(oldReactionBar);
+                oldReactionBar.Dispose();
+            }
+
+            // Tạo dummy message object để tái sử dụng hàm CreateReactionBar
+            Messagemodels dummyMsg = new Messagemodels { reaction = newReactions };
+            Control newReactionBar = CreateReactionBar(dummyMsg);
+
+            if (newReactionBar != null)
+            {
+                layout.Controls.Add(newReactionBar);
+            }
         }
         private void flPanel_tinNhan_Paint(object sender, PaintEventArgs e)
         {
@@ -1083,6 +1280,46 @@ namespace Main_Interface.User_Controls
                 }
             }
         }
+        private Control CreateReactionBar(Messagemodels msg)
+        {
+            if (msg.reaction == null || msg.reaction.Count == 0)
+                return null;
+
+            FlowLayoutPanel panel = new FlowLayoutPanel
+            {
+                Name = "ReactionBar",
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                Margin = new Padding(5, 2, 5, 0)
+            };
+
+            var grouped = msg.reaction.Values
+                .GroupBy(x => x)
+                .Select(g => new { Emoji = g.Key, Count = g.Count() });
+
+            foreach (var g in grouped)
+            {
+                PictureBox pb = new PictureBox
+                {
+                    Size = new Size(18, 18),
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Image = (Image)LOGIN.Properties.Resource.ResourceManager.GetObject(g.Emoji)
+                };
+
+                Label lbl = new Label
+                {
+                    Text = g.Count.ToString(),
+                    AutoSize = true,
+                    Font = new Font("Segoe UI", 8F)
+                };
+
+                panel.Controls.Add(pb);
+                panel.Controls.Add(lbl);
+            }
+
+            return panel;
+        }
+
 
     }
 }
