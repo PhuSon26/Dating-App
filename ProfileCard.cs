@@ -145,21 +145,29 @@ public partial class ProfileCard : UserControl
     // Vẽ bo góc cho toàn bộ Card
     protected override void OnPaint(PaintEventArgs e)
     {
-        base.OnPaint(e);
-        int radius = 20; // Độ bo tròn
-        GraphicsPath path = new GraphicsPath();
-        path.AddArc(0, 0, radius, radius, 180, 90);
-        path.AddArc(Width - radius, 0, radius, radius, 270, 90);
-        path.AddArc(Width - radius, Height - radius, radius, radius, 0, 90);
-        path.AddArc(0, Height - radius, radius, radius, 90, 90);
-        path.CloseAllFigures();
-        this.Region = new Region(path);
-
-        // Vẽ viền mờ cho đẹp
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-        using (Pen p = new Pen(Color.LightGray, 1))
+        Rectangle rect = new Rectangle(0, 0, this.Width - 1, this.Height - 1);
+        int radius = 20;
+
+        using (GraphicsPath path = new GraphicsPath())
         {
-            e.Graphics.DrawPath(p, path);
+            path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+            path.AddArc(rect.Right - radius, rect.Y, radius, radius, 270, 90);
+            path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - radius, radius, radius, 90, 90);
+            path.CloseFigure();
+
+            // Tô màu nền trắng cho Card
+            using (SolidBrush brush = new SolidBrush(this.BackColor))
+            {
+                e.Graphics.FillPath(brush, path);
+            }
+
+            // Vẽ viền
+            using (Pen p = new Pen(Color.LightGray, 1))
+            {
+                e.Graphics.DrawPath(p, path);
+            }
         }
     }
 
@@ -224,32 +232,75 @@ public partial class ProfileCard : UserControl
         {
             if (string.IsNullOrEmpty(source)) return;
 
-          
-            if (source.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            pb.WaitOnLoad = false; // [Cải thiện 1] Không đợi load đồng bộ
+            Image finalImg = null;
+
+            // Chạy việc xử lý nặng (Download/Base64/Resize) ở Task.Run để không treo UI
+            await Task.Run(() =>
             {
-                using (HttpClient client = new HttpClient())
+                try
                 {
-                    var data = await client.GetByteArrayAsync(source);
-                    using (var ms = new MemoryStream(data))
+                    Image nguyên_bản = null;
+
+                    if (source.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                     {
-                        pb.Image = Image.FromStream(ms);
+                        using (HttpClient client = new HttpClient())
+                        {
+                            var data = client.GetByteArrayAsync(source).Result;
+                            using (var ms = new MemoryStream(data))
+                                nguyên_bản = Image.FromStream(ms);
+                        }
+                    }
+                    else
+                    {
+                        byte[] imageBytes = Convert.FromBase64String(source);
+                        using (var ms = new MemoryStream(imageBytes))
+                            nguyên_bản = Image.FromStream(ms);
+                    }
+
+                    if (nguyên_bản != null)
+                    {
+                        // [Cải thiện 2] Resize về đúng kích thước PictureBox (320x240)
+                        finalImg = ResizeImage(nguyên_bản, pb.Width, pb.Height);
+                        nguyên_bản.Dispose(); // Giải phóng ảnh gốc nặng nề
                     }
                 }
-            }
-          
-            else
+                catch { /* Xử lý lỗi load ảnh */ }
+            });
+
+            // Cập nhật lại UI
+            if (finalImg != null)
             {
-                byte[] imageBytes = Convert.FromBase64String(source);
-                using (var ms = new MemoryStream(imageBytes))
-                {
-                    pb.Image = Image.FromStream(ms);
-                }
+                pb.Image?.Dispose(); // Xóa ảnh cũ trong bộ nhớ nếu có
+                pb.Image = finalImg;
+                pb.SizeMode = PictureBoxSizeMode.Normal; // [Cải thiện 3] Dùng Normal vì ảnh đã chuẩn size
             }
         }
         catch
         {
-            // Nếu lỗi thì giữ nguyên màu nền đen hoặc hiện ảnh mặc định
-            pb.BackColor = Color.FromArgb(30, 30, 30);
+            pb.BackColor = Color.FromArgb(240, 240, 240);
+        }
+    }
+    private Image ResizeImage(Image img, int width, int height)
+    {
+        Bitmap b = new Bitmap(width, height);
+        using (Graphics g = Graphics.FromImage(b))
+        {
+         
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            g.DrawImage(img, 0, 0, width, height);
+        }
+        return b;
+    }
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams cp = base.CreateParams;
+            cp.ExStyle |= 0x02000000; // WS_EX_COMPOSITED: Vẽ toàn bộ cây control từ dưới lên trên bằng double-buffering
+            return cp;
         }
     }
 }

@@ -102,7 +102,13 @@ namespace Main_Interface.User_Controls
             mainGrid.Size = new Size(this.Width - 40, this.Height - 60);
             mainGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             mainGrid.AutoScroll = true;
-            mainGrid.WrapContents = true; // Tự động xuống dòng khi hết chỗ
+            mainGrid.WrapContents = true; 
+
+            typeof(Control).GetProperty("DoubleBuffered",
+    System.Reflection.BindingFlags.NonPublic |
+    System.Reflection.BindingFlags.Instance)
+    ?.SetValue(mainGrid, true, null);
+            mainGrid.Padding = new Padding(10);
             this.Controls.Add(mainGrid);
 
             if (_heartOverlay == null)
@@ -115,6 +121,7 @@ namespace Main_Interface.User_Controls
         // Sửa hàm hiển thị User
         private void ShowListUsers(List<USER> users)
         {
+            mainGrid.SuspendLayout();
             mainGrid.Controls.Clear();
             if (users == null) return;
 
@@ -135,17 +142,61 @@ namespace Main_Interface.User_Controls
 
                 mainGrid.Controls.Add(card);
             }
+            mainGrid.ResumeLayout();
         }
 
-        // Xử lý sự kiện khi bấm nút trên thẻ
+
         private async void Card_OnLikeClicked(object sender, USER targetUser)
         {
-            _heartOverlay?.Trigger(totalHearts: 120, durationMs: 1400);
-
-            MessageBox.Show($"Đã thích {targetUser.ten}! Hy vọng sẽ có kết quả tốt.", "LoveMatch");
-
+            
             ProfileCard card = sender as ProfileCard;
-            mainGrid.Controls.Remove(card);
+            if (card == null) return;
+            card.Enabled = false;
+
+            try
+            {
+               
+                bool iAlreadyLiked = await authHelper.CheckIfUserLikedMe(targetUser.Id, myUserId);
+                if (iAlreadyLiked)
+                {
+                    MessageBox.Show($"Bạn đã thích {targetUser.ten} rồi!", "Thông báo");
+                    mainGrid.Controls.Remove(card);
+                    return;
+                }
+
+             
+                bool isSuccess = await authHelper.SaveLikeAction(myUserId, targetUser.Id);
+
+                if (isSuccess)
+                {
+                 
+                    bool isMatch = await authHelper.CheckIfUserLikedMe(myUserId, targetUser.Id);
+
+                    if (isMatch)
+                    {
+                       
+                        _heartOverlay?.Trigger(totalHearts: 250, durationMs: 2000);
+                        await authHelper.CreateMatchRecord(myUserId, targetUser.Id);
+
+                        MatchForm matched = new MatchForm(myUser, targetUser, authHelper);
+                        matched.ShowDialog();
+                    }
+                    else
+                    {
+                       
+                        _heartOverlay?.Trigger(totalHearts: 120, durationMs: 1400);
+                        MessageBox.Show($"Đã thích {targetUser.ten}!", "LoveMatch");
+                    }
+
+                   
+                    mainGrid.Controls.Remove(card);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thực hiện Like: " + ex.Message);
+                card.Enabled = true; // Bật lại card nếu lỗi để user thử lại
+            }
         }
 
         private void Card_OnPassClicked(object sender, USER targetUser)
@@ -157,46 +208,9 @@ namespace Main_Interface.User_Controls
 
       
 
-        private async void AddImageToPanel(string url)
-        {
-            PictureBox pb = new PictureBox();
-            // CHỈNH SỬA QUAN TRỌNG: Kích thước ảnh phải full thẻ
-            pb.Size = new Size(360, 400);
-            pb.SizeMode = PictureBoxSizeMode.Zoom; // Hoặc CenterImage để đẹp hơn
-            pb.BackColor = Color.Black;
-            pb.Margin = new Padding(0); // Không cách lề
+       
 
-            try
-            {
-                if (!string.IsNullOrEmpty(url) && url.StartsWith("http"))
-                    pb.Image = await LoadImageFromUrl(url);
-                else if (!string.IsNullOrEmpty(url))
-                    pb.Image = authHelper.Base64ToImage(url);
-            }
-            catch
-            {
-                pb.BackColor = Color.DarkGray;
-            }
-
-            flpanel_pictures.Controls.Add(pb);
-        }
-
-        // --- CÁC HÀM LOGIC CŨ GIỮ NGUYÊN ---
-        private async Task<Image> LoadImageFromUrl(string url)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
-                    var bytes = await client.GetByteArrayAsync(url);
-                    using (var ms = new MemoryStream(bytes))
-                    {
-                        return Image.FromStream(ms);
-                    }
-                }
-                catch { return null; }
-            }
-        }
+      
 
         private async void GhepDoi_Load(object sender, EventArgs e)
         {
@@ -272,50 +286,7 @@ namespace Main_Interface.User_Controls
 
         private async void btn_tim_Click(object sender, EventArgs e)
         {
-            if (suggestedUsers == null || suggestedUsers.Count == 0) return;
-
-            USER targetUser = suggestedUsers[suggestIndex];
-            string targetUserId = targetUser.Id;
-
-            btn_tim.Enabled = false;
-
-            try
-            {
-                bool isSuccess = await authHelper.SaveLikeAction(myUserId, targetUserId);
-
-                // like fail -> chuyển người khác, KHÔNG mưa tim
-                if (!isSuccess)
-                {
-                    NextSuggestUser();
-                    return;
-                }
-
-                // like OK -> mưa tim
-                _heartOverlay?.Trigger(totalHearts: 120, durationMs: 140);
-
-                bool isMatch = await authHelper.CheckIfUserLikedMe(myUserId, targetUserId);
-
-                if (isMatch)
-                {
-                    await authHelper.CreateMatchRecord(myUserId, targetUserId);
-
-                    // match -> mưa tim nhiều hơn (tuỳ)
-                    _heartOverlay?.Trigger(totalHearts: 220, durationMs: 1700);
-                    MatchForm matched = new MatchForm(myUser, targetUser, authHelper);
-                    matched.ShowDialog();
-                    MessageBox.Show($"It's a Match! Bạn và {targetUser.ten} đã thích nhau.", "Chúc mừng");
-                }
-
-                NextSuggestUser();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi: " + ex.Message);
-            }
-            finally
-            {
-                btn_tim.Enabled = true;
-            }
+           
         }
 
         public void LoadFilteredUsers(List<USER> users)
