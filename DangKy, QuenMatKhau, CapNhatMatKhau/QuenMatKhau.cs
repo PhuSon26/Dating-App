@@ -1,11 +1,129 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace LOGIN
 {
     public partial class FormQuenMatKhau : Form
     {
+        private void FormQuenMatKhau_Load(object sender, EventArgs e)
+        {
+            DoubleBuffered = true;
+
+            // Căn giữa lại pnlCard khi form resize (dù FixedSingle vẫn an toàn)
+            foreach (Control c in Controls)
+            {
+                if (c is Panel bg)
+                {
+                    bg.Resize += (_, __) => CenterCard(bg);
+                    bg.Paint += BgPanel_Paint;
+                    bg.ControlAdded += (_, __) => bg.Invalidate();
+                    CenterCard(bg);
+                }
+            }
+
+            // Bo góc card + vẽ border
+            ApplyRoundedWithBorder(pnlCard, 18, Color.FromArgb(230, 230, 240));
+
+            // Left gradient + tips
+            pnlLeft.Paint += PnlLeft_Paint;
+            pnlTips.Paint += PnlTips_Paint;
+
+            // Viền mỏng cho ô nhập (để giống UI bạn thích)
+            pnlEmailBox.Paint += (_, pe) => DrawSoftBorder(pe.Graphics, pnlEmailBox.ClientRectangle, 14, Color.FromArgb(210, 195, 255));
+            pnlCodeBox.Paint += (_, pe) => DrawSoftBorder(pe.Graphics, pnlCodeBox.ClientRectangle, 14, Color.FromArgb(210, 195, 255));
+        }
+
+        private void CenterCard(Panel bg)
+        {
+            if (pnlCard == null) return;
+            int x = (bg.ClientSize.Width - pnlCard.Width) / 2;
+            int y = (bg.ClientSize.Height - pnlCard.Height) / 2;
+            pnlCard.Location = new Point(Math.Max(0, x), Math.Max(0, y));
+        }
+
+        private void BgPanel_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            // nền nhẹ
+            using (var b = new SolidBrush(Color.FromArgb(245, 242, 255)))
+                g.FillRectangle(b, ((Control)sender).ClientRectangle);
+
+            // các “bóng tròn” trang trí
+            DrawCircle(g, new Rectangle(-60, 110, 240, 240), Color.FromArgb(70, 160, 120, 255));
+            DrawCircle(g, new Rectangle(500, 40, 170, 170), Color.FromArgb(60, 170, 160, 255));
+            DrawCircle(g, new Rectangle(420, 260, 220, 220), Color.FromArgb(55, 255, 140, 190));
+        }
+
+        private void DrawCircle(Graphics g, Rectangle rect, Color color)
+        {
+            using var br = new SolidBrush(color);
+            g.FillEllipse(br, rect);
+        }
+
+        private void PnlLeft_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            var r = ((Control)sender).ClientRectangle;
+            using var br = new LinearGradientBrush(
+                r,
+                Color.FromArgb(140, 90, 255),
+                Color.FromArgb(255, 90, 180),
+                LinearGradientMode.Vertical);
+
+            g.FillRectangle(br, r);
+        }
+
+        private void PnlTips_Paint(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            DrawSoftBorder(g, pnlTips.ClientRectangle, 14, Color.FromArgb(120, 255, 255, 255));
+        }
+
+        private void ApplyRoundedWithBorder(Control c, int radius, Color borderColor)
+        {
+            c.Paint += (_, pe) =>
+            {
+                pe.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+                var rect = new Rectangle(0, 0, c.Width - 1, c.Height - 1);
+                using var path = RoundedRect(rect, radius);
+                c.Region = new Region(path);
+
+                using var pen = new Pen(borderColor, 1f);
+                pe.Graphics.DrawPath(pen, path);
+            };
+
+            c.Resize += (_, __) => c.Invalidate();
+        }
+
+        private void DrawSoftBorder(Graphics g, Rectangle rect, int radius, Color color)
+        {
+            rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+            using var path = RoundedRect(rect, radius);
+            using var pen = new Pen(color, 1f);
+            g.DrawPath(pen, path);
+        }
+
+        private GraphicsPath RoundedRect(Rectangle rect, int radius)
+        {
+            int d = radius * 2;
+            var path = new GraphicsPath();
+
+            path.AddArc(rect.X, rect.Y, d, d, 180, 90);
+            path.AddArc(rect.Right - d, rect.Y, d, d, 270, 90);
+            path.AddArc(rect.Right - d, rect.Bottom - d, d, d, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - d, d, d, 90, 90);
+            path.CloseFigure();
+
+            return path;
+        }
         private FirebaseAuthHelper auth;
         private string currentEmail;
 
@@ -205,11 +323,6 @@ namespace LOGIN
             backClicked?.Invoke();
         }
 
-        private void FormQuenMatKhau_Load(object sender, EventArgs e)
-        {
-            // Disable nút xác nhận và textbox OTP ban đầu
-            tb_maxacnhan.Enabled = false;
-            btn_xacnhan.Enabled = false;
-        }
+        
     }
 }
