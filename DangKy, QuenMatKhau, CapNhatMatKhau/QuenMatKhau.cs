@@ -1,27 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace LOGIN
 {
     public partial class FormQuenMatKhau : Form
     {
+        private bool _uiWired;
+
+        private FirebaseAuthHelper auth;
+        private string currentEmail;
+
+        // Lưu trữ OTP tạm thời
+        private static Dictionary<string, (string otp, DateTime expiry)> otpStorage = new Dictionary<string, (string, DateTime)>();
+
+        public event Action backClicked;
+
+        public FormQuenMatKhau() : this(null) { }
+
+        public FormQuenMatKhau(FirebaseAuthHelper auth)
+        {
+            this.auth = auth;
+            InitializeComponent();
+        }
+
         private void FormQuenMatKhau_Load(object sender, EventArgs e)
         {
+            if (_uiWired) return;
+            _uiWired = true;
+
             DoubleBuffered = true;
 
-            // Căn giữa lại pnlCard khi form resize (dù FixedSingle vẫn an toàn)
-            foreach (Control c in Controls)
+            EnableDoubleBuffer(bgPanel);
+            EnableDoubleBuffer(pnlCard);
+            EnableDoubleBuffer(pnlLeft);
+            EnableDoubleBuffer(pnlRight);
+            EnableDoubleBuffer(pnlTips);
+
+            // nền + nhiều bóng
+            bgPanel.Paint += BgPanel_Paint;
+            bgPanel.Resize += (_, __) =>
             {
-                if (c is Panel bg)
-                {
-                    bg.Resize += (_, __) => CenterCard(bg);
-                    bg.Paint += BgPanel_Paint;
-                    bg.ControlAdded += (_, __) => bg.Invalidate();
-                    CenterCard(bg);
-                }
-            }
+                CenterCard();
+                bgPanel.Invalidate();
+            };
+
+            Shown += (_, __) => CenterCard();
+            CenterCard();
 
             // Bo góc card + vẽ border
             ApplyRoundedWithBorder(pnlCard, 18, Color.FromArgb(230, 230, 240));
@@ -30,46 +58,82 @@ namespace LOGIN
             pnlLeft.Paint += PnlLeft_Paint;
             pnlTips.Paint += PnlTips_Paint;
 
-            // Viền mỏng cho ô nhập (để giống UI bạn thích)
+            // Viền mềm cho ô nhập
             pnlEmailBox.Paint += (_, pe) => DrawSoftBorder(pe.Graphics, pnlEmailBox.ClientRectangle, 14, Color.FromArgb(210, 195, 255));
             pnlCodeBox.Paint += (_, pe) => DrawSoftBorder(pe.Graphics, pnlCodeBox.ClientRectangle, 14, Color.FromArgb(210, 195, 255));
         }
 
-        private void CenterCard(Panel bg)
+        private static void EnableDoubleBuffer(Control c)
         {
-            if (pnlCard == null) return;
-            int x = (bg.ClientSize.Width - pnlCard.Width) / 2;
-            int y = (bg.ClientSize.Height - pnlCard.Height) / 2;
+            typeof(Control).GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
+                ?.SetValue(c, true, null);
+        }
+
+        private void CenterCard()
+        {
+            if (bgPanel == null || pnlCard == null) return;
+
+            int x = (bgPanel.ClientSize.Width - pnlCard.Width) / 2;
+            int y = (bgPanel.ClientSize.Height - pnlCard.Height) / 2;
+
             pnlCard.Location = new Point(Math.Max(0, x), Math.Max(0, y));
         }
 
+        // ========= Background =========
         private void BgPanel_Paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-            // nền nhẹ
             using (var b = new SolidBrush(Color.FromArgb(245, 242, 255)))
-                g.FillRectangle(b, ((Control)sender).ClientRectangle);
+                g.FillRectangle(b, bgPanel.ClientRectangle);
 
-            // các “bóng tròn” trang trí
-            DrawCircle(g, new Rectangle(-60, 110, 240, 240), Color.FromArgb(70, 160, 120, 255));
-            DrawCircle(g, new Rectangle(500, 40, 170, 170), Color.FromArgb(60, 170, 160, 255));
-            DrawCircle(g, new Rectangle(420, 260, 220, 220), Color.FromArgb(55, 255, 140, 190));
+            var s = bgPanel.ClientSize;
+
+            // nhiều “bóng” hơn (tọa độ theo %)
+            DrawBubble(g, s, -0.05f, 0.50f, 0.62f, Color.FromArgb(55, 175, 150, 255));
+            DrawBubble(g, s, 0.62f, 0.20f, 0.30f, Color.FromArgb(50, 190, 175, 255));
+            DrawBubble(g, s, 0.70f, 0.68f, 0.52f, Color.FromArgb(45, 255, 120, 185));
+            DrawBubble(g, s, 0.96f, 0.22f, 0.22f, Color.FromArgb(35, 175, 150, 255));
+
+            DrawBubble(g, s, 0.18f, 0.16f, 0.20f, Color.FromArgb(30, 255, 120, 185));
+            DrawBubble(g, s, 0.38f, 0.86f, 0.24f, Color.FromArgb(28, 190, 175, 255));
+            DrawBubble(g, s, 0.86f, 0.82f, 0.28f, Color.FromArgb(24, 175, 150, 255));
+            DrawBubble(g, s, 0.48f, 0.10f, 0.18f, Color.FromArgb(22, 255, 120, 185));
+
+            DrawBubble(g, s, 0.10f, 0.78f, 0.20f, Color.FromArgb(20, 190, 175, 255));
+            DrawBubble(g, s, 0.52f, 0.76f, 0.22f, Color.FromArgb(18, 175, 150, 255));
+            DrawBubble(g, s, 0.34f, 0.36f, 0.16f, Color.FromArgb(18, 190, 175, 255));
+            DrawBubble(g, s, 0.78f, 0.44f, 0.16f, Color.FromArgb(16, 255, 120, 185));
+
+            DrawBubble(g, s, 0.26f, 0.58f, 0.14f, Color.FromArgb(16, 190, 175, 255));
+            DrawBubble(g, s, 0.58f, 0.48f, 0.14f, Color.FromArgb(14, 175, 150, 255));
+            DrawBubble(g, s, 0.90f, 0.48f, 0.12f, Color.FromArgb(14, 255, 120, 185));
         }
 
-        private void DrawCircle(Graphics g, Rectangle rect, Color color)
+        private static void DrawBubble(Graphics g, Size canvas, float cxPct, float cyPct, float diameterPct, Color color)
         {
-            using var br = new SolidBrush(color);
-            g.FillEllipse(br, rect);
+            float baseLen = Math.Min(canvas.Width, canvas.Height);
+            float d = baseLen * diameterPct;
+
+            float cx = canvas.Width * cxPct;
+            float cy = canvas.Height * cyPct;
+
+            float x = cx - d / 2f;
+            float y = cy - d / 2f;
+
+            using var brush = new SolidBrush(color);
+            g.FillEllipse(brush, x, y, d, d);
         }
 
+        // ========= Left gradient / tips =========
         private void PnlLeft_Paint(object sender, PaintEventArgs e)
         {
             var g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            var r = ((Control)sender).ClientRectangle;
+            var r = pnlLeft.ClientRectangle;
             using var br = new LinearGradientBrush(
                 r,
                 Color.FromArgb(140, 90, 255),
@@ -83,9 +147,19 @@ namespace LOGIN
         {
             var g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            DrawSoftBorder(g, pnlTips.ClientRectangle, 14, Color.FromArgb(120, 255, 255, 255));
+
+            // vẽ nền “glass” + border để giống ảnh bạn chốt
+            var rect = new Rectangle(0, 0, pnlTips.Width - 1, pnlTips.Height - 1);
+            using var path = RoundedRect(rect, 14);
+
+            using (var fill = new SolidBrush(Color.FromArgb(55, 255, 255, 255)))
+                g.FillPath(fill, path);
+
+            using (var pen = new Pen(Color.FromArgb(120, 255, 255, 255), 1f))
+                g.DrawPath(pen, path);
         }
 
+        // ========= Rounded helpers =========
         private void ApplyRoundedWithBorder(Control c, int radius, Color borderColor)
         {
             c.Paint += (_, pe) =>
@@ -108,6 +182,7 @@ namespace LOGIN
             rect = new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
             using var path = RoundedRect(rect, radius);
             using var pen = new Pen(color, 1f);
+            g.SmoothingMode = SmoothingMode.AntiAlias;
             g.DrawPath(pen, path);
         }
 
@@ -124,24 +199,6 @@ namespace LOGIN
 
             return path;
         }
-        private FirebaseAuthHelper auth;
-        private string currentEmail;
-
-        // Lưu trữ OTP tạm thời (static để dùng chung giữa các form)
-        private static Dictionary<string, (string otp, DateTime expiry)> otpStorage = new Dictionary<string, (string, DateTime)>();
-
-        public event Action backClicked;
-
-        public FormQuenMatKhau()
-        {
-            InitializeComponent();
-        }
-
-        public FormQuenMatKhau(FirebaseAuthHelper auth)
-        {
-            this.auth = auth;
-            InitializeComponent();
-        }
 
         // ====================
         // NÚT GỬI MÃ OTP
@@ -150,7 +207,6 @@ namespace LOGIN
         {
             string email = tb_email.Text.Trim();
 
-            // Validate email
             if (string.IsNullOrWhiteSpace(email))
             {
                 MessageBox.Show("Vui lòng nhập địa chỉ email!", "Thông báo",
@@ -165,26 +221,18 @@ namespace LOGIN
                 return;
             }
 
-            // TODO: Kiểm tra email có tồn tại trong hệ thống không (Firebase/Database)
-            // if (!await CheckEmailExists(email)) { ... }
-
-            // Tạo OTP 6 chữ số
             string otp = GenerateOTP();
 
-            // Lưu OTP (có hiệu lực 5 phút)
             SaveOTPToStorage(email, otp, DateTime.Now.AddMinutes(5));
-            currentEmail = email; // Lưu email hiện tại
+            currentEmail = email;
 
-            // Gửi email
             bool success = await EmailHelper.SendOTPEmail(email, otp);
 
             if (success)
             {
-                MessageBox.Show("Mã OTP đã được gửi đến email của bạn!\n" +
-                               "Vui lòng kiểm tra và nhập mã vào ô bên dưới.",
+                MessageBox.Show("Mã OTP đã được gửi đến email của bạn!\nVui lòng kiểm tra và nhập mã vào ô bên dưới.",
                                "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Enable textbox nhập OTP
                 tb_maxacnhan.Enabled = true;
                 btn_xacnhan.Enabled = true;
             }
@@ -197,15 +245,13 @@ namespace LOGIN
         {
             string otpNhap = tb_maxacnhan.Text.Trim();
 
-            // Kiểm tra đã gửi OTP chưa
             if (string.IsNullOrEmpty(currentEmail))
             {
-                MessageBox.Show("Vui lòng nhấn 'Nhận Mã' trước!", "Thông báo",
+                MessageBox.Show("Vui lòng nhấn 'Nhận mã' trước!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Kiểm tra đã nhập OTP chưa
             if (string.IsNullOrWhiteSpace(otpNhap))
             {
                 MessageBox.Show("Vui lòng nhập mã OTP!", "Thông báo",
@@ -213,17 +259,14 @@ namespace LOGIN
                 return;
             }
 
-            // Xác thực OTP
             if (VerifyOTP(currentEmail, otpNhap))
             {
                 MessageBox.Show("Xác thực thành công!\nBạn có thể đặt mật khẩu mới.",
                     "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Chuyển sang form đổi mật khẩu
                 var formDoiMatKhau = new CapNhatMatKhau(auth, currentEmail);
                 formDoiMatKhau.ShowDialog();
 
-                // Reset form
                 ResetForm();
             }
             else
@@ -233,63 +276,42 @@ namespace LOGIN
             }
         }
 
-        // ====================
-        // HÀM TẠO OTP 6 CHỮ SỐ
-        // ====================
         private string GenerateOTP()
         {
             Random random = new Random();
             return random.Next(100000, 999999).ToString();
         }
 
-        // ====================
-        // LƯU OTP VÀO BỘ NHỚ TẠM
-        // ====================
         private void SaveOTPToStorage(string email, string otp, DateTime expiryTime)
         {
-            // Xóa OTP cũ nếu có
             if (otpStorage.ContainsKey(email))
-            {
                 otpStorage.Remove(email);
-            }
 
-            // Lưu OTP mới
             otpStorage[email] = (otp, expiryTime);
         }
 
-        // ====================
-        // XÁC THỰC OTP
-        // ====================
         public static bool VerifyOTP(string email, string otp)
         {
-            // Kiểm tra email có tồn tại trong storage không
             if (!otpStorage.ContainsKey(email))
-            {
                 return false;
-            }
 
             var (storedOtp, expiry) = otpStorage[email];
 
-            // Kiểm tra OTP đã hết hạn chưa
             if (DateTime.Now > expiry)
             {
-                otpStorage.Remove(email); // Xóa OTP hết hạn
+                otpStorage.Remove(email);
                 return false;
             }
 
-            // Kiểm tra OTP có đúng không
             if (storedOtp == otp)
             {
-                otpStorage.Remove(email); // Xóa OTP sau khi xác thực thành công
+                otpStorage.Remove(email);
                 return true;
             }
 
             return false;
         }
 
-        // ====================
-        // VALIDATE EMAIL
-        // ====================
         private bool IsValidEmail(string email)
         {
             try
@@ -303,9 +325,6 @@ namespace LOGIN
             }
         }
 
-        // ====================
-        // RESET FORM
-        // ====================
         private void ResetForm()
         {
             tb_email.Clear();
@@ -315,14 +334,9 @@ namespace LOGIN
             currentEmail = null;
         }
 
-        // ====================
-        // NÚT QUAY LẠI
-        // ====================
         private void ll_back_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             backClicked?.Invoke();
         }
-
-        
     }
 }
