@@ -29,7 +29,7 @@ namespace LOGIN
         private Panel linePassword;
 
         private LinkLabel ll_quenmatkhau;
-        private Button btn_dangnhap;
+        private RoundedGlossyButton btn_dangnhap;
         private LinkLabel ll_dangky;
 
         private Panel pnlFooter;
@@ -61,7 +61,7 @@ namespace LOGIN
             tb_matkhau = new TextBox();
             linePassword = new Panel();
             ll_quenmatkhau = new LinkLabel();
-            btn_dangnhap = new Button();
+            btn_dangnhap = new RoundedGlossyButton();
             ll_dangky = new LinkLabel();
             pnlFooter = new Panel();
             lblFooter = new Label();

@@ -108,8 +108,9 @@ namespace Main_Interface.User_Controls
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            string path = Path.Combine(Application.StartupPath, "Resources", "Theme.png");
-            BackgroundImage = Image.FromFile(path);
+            //string path = Path.Combine(Application.StartupPath, "Resources", "Theme.png");
+            //BackgroundImage = Image.FromFile(path);
+            BackgroundImage = LOGIN.Properties.Resource.Theme;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1059, 748);
             Controls.Add(lblTagline);

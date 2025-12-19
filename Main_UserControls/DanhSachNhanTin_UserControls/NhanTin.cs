@@ -352,8 +352,10 @@ namespace Main_Interface.User_Controls
        
         private void PicAvatar_Click(object sender, EventArgs e)
         {
-            HoSoNguoiKhac hsnk = new HoSoNguoiKhac(targetUser, firebase);
-            hsnk.ShowDialog();
+            //HoSoNguoiKhac hsnk = new HoSoNguoiKhac(targetUser, firebase);
+            //hsnk.ShowDialog();
+            ChiTietUser ct = new ChiTietUser(MainForm, targetUser, this);
+            MainForm.LoadContent(ct);
         }
 
         // ======================================================
