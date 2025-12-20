@@ -43,9 +43,6 @@ namespace Main_Interface.User_Controls
             InitializeComponent();
             authHelper = new FirebaseAuthHelper("login-bb104");
         }
-
-      
-
         public GhepDoi(Main m)
         {
           
@@ -57,10 +54,6 @@ namespace Main_Interface.User_Controls
             db = FirestoreDb.Create("login-bb104");
             SetupTinderLayout();
         }
-
-      
-
-        // --- [QUAN TRỌNG] HÀM DỰNG LAYOUT TINDER ---
         private void SetupTinderLayout()
         {
             // Cài đặt nền chung
@@ -205,13 +198,6 @@ namespace Main_Interface.User_Controls
             ProfileCard card = sender as ProfileCard;
             mainGrid.Controls.Remove(card);
         }
-
-      
-
-       
-
-      
-
         private async void GhepDoi_Load(object sender, EventArgs e)
         {
             this.btn_kothich.Enabled = false;

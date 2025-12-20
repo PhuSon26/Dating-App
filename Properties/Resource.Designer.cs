@@ -61,6 +61,16 @@ namespace LOGIN.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AvatarMacDinh {
+            get {
+                object obj = ResourceManager.GetObject("AvatarMacDinh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;html lang=&quot;vi&quot;&gt;
         ///&lt;head&gt;

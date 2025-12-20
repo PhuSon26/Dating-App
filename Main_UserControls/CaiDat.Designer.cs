@@ -178,7 +178,13 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 240, 245);
-            Controls.Add(panel);
+            //Controls.Add(panel);
+            Controls.Add(btn_dangxuat);
+            Controls.Add(btn_dsChan);
+            Controls.Add(btn_xoaTk);
+            Controls.Add(label1);
+            Controls.Add(btn_doiEmailMk);
+            Controls.Add(btn_gioithieuUngDung);
             Name = "CaiDat";
             Size = new Size(1193, 727);
             Load += CaiDat_Load;
