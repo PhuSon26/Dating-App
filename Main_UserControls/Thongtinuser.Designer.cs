@@ -68,7 +68,7 @@ namespace Dating_app_nhom3
             // 
             // lb_tennguoidung
             // 
-            lb_tennguoidung.AutoSize = false;
+            lb_tennguoidung.AutoSize = true;
             lb_tennguoidung.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lb_tennguoidung.Location = new Point(400, 60);
             lb_tennguoidung.Name = "tb_tennguoidung";
