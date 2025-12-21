@@ -177,6 +177,13 @@ namespace Main_Interface.User_Controls
                        
                         _heartOverlay?.Trigger(totalHearts: 250, durationMs: 2000);
                         await authHelper.CreateMatchRecord(myUserId, targetUser.Id);
+                        await authHelper.PushNotificationAsync(
+                    myUserId,
+                    myUser.ten,                    
+                    targetUser.Id,                 
+                    "Hai bạn đã tương hợp với nhau! Nhắn tin ngay thôi.",
+                    "match"                       
+                );
 
                         MatchForm matched = new MatchForm(myUser, targetUser, authHelper);
                         matched.ShowDialog();
@@ -185,6 +192,13 @@ namespace Main_Interface.User_Controls
                     {
                        
                         _heartOverlay?.Trigger(totalHearts: 120, durationMs: 1400);
+                        await authHelper.PushNotificationAsync(
+                    myUserId,
+                    myUser.ten,
+                    targetUser.Id,
+                    "Ai đó vừa mới thích bạn, hãy kiểm tra ngay!",
+                    "like"
+                );
                         MessageBox.Show($"Đã thích {targetUser.ten}!", "LoveMatch");
                     }
 
