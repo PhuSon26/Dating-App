@@ -197,6 +197,7 @@ namespace Main_Interface.User_Controls
             MainForm.Hide();
             FormDangNhap dn = new FormDangNhap(auth);
             dn.Show();
+            MessageBox.Show("Đã đăng xuất tài khoản!");
         }
     }
 }

@@ -17,7 +17,6 @@ namespace Main_Interface
 {
     public partial class Main : Form
     {
-        public NapVIP nv;
         public FormDanhSachTinNhan dstn;
         public GhepDoi gd;
         public Thongtinuser ttuser;
@@ -180,17 +179,6 @@ namespace Main_Interface
                 callCheckTimer.Start();
             }
         }
-
-        private void btn_vip_Click(object sender, EventArgs e)
-        {
-            if (!loadedVip)
-            {
-                nv = new NapVIP();
-                loadedVip = true;
-            }
-            LoadContent(nv);
-        }
-
         private void btn_dsnt_Click(object sender, EventArgs e)
         {
             if (!loadedDs)

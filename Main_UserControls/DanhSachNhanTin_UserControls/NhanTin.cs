@@ -323,19 +323,13 @@ namespace Main_Interface.User_Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khởi tạo video call: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 System.Diagnostics.Debug.WriteLine($"Lỗi video call: {ex.Message}");
             }
             finally
             {
                 btnVideoCall.Enabled = true;
             }
-        }
-      
-
-       
-
-      
+        }      
         private void OnVideoCallRejected(VideoCall call)
         {
             this.Invoke(new Action(() =>
@@ -515,7 +509,6 @@ namespace Main_Interface.User_Controls
             {
                 System.Diagnostics.Debug.WriteLine($"LỖI: {ex.Message}");
                 System.Diagnostics.Debug.WriteLine($"StackTrace: {ex.StackTrace}");
-                MessageBox.Show($"Lỗi khởi tạo chat: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             loading.Hide();
             this.btnBack.Enabled = true;
