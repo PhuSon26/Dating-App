@@ -323,19 +323,13 @@ namespace Main_Interface.User_Controls
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khởi tạo video call: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 System.Diagnostics.Debug.WriteLine($"Lỗi video call: {ex.Message}");
             }
             finally
             {
                 btnVideoCall.Enabled = true;
             }
-        }
-      
-
-       
-
-      
+        }      
         private void OnVideoCallRejected(VideoCall call)
         {
             this.Invoke(new Action(() =>
@@ -352,8 +346,10 @@ namespace Main_Interface.User_Controls
        
         private void PicAvatar_Click(object sender, EventArgs e)
         {
-            HoSoNguoiKhac hsnk = new HoSoNguoiKhac(targetUser, firebase);
-            hsnk.ShowDialog();
+            //HoSoNguoiKhac hsnk = new HoSoNguoiKhac(targetUser, firebase);
+            //hsnk.ShowDialog();
+            ChiTietUser ct = new ChiTietUser(MainForm, targetUser, this);
+            MainForm.LoadContent(ct);
         }
 
         // ======================================================
@@ -363,6 +359,7 @@ namespace Main_Interface.User_Controls
         {
             // Dừng listener
             listener?.StopAsync();
+            blockListener?.StopAsync();
             MainForm.LoadContent(MainForm.dstn);
         }
 
@@ -396,11 +393,11 @@ namespace Main_Interface.User_Controls
                     await firebase.UnblockUser(myUserId, targetUser.Id);
                 }
                 await LoadBlockState();
-                loading.Hide();
                 btnBlock.Enabled = true;
                 btnBack.Enabled = true;
                 btnSend.Enabled = true;
                 btnSendImage.Enabled = true;
+                loading.Hide();
             };
             pnlHeader.Controls.Add(btnBlock);
             await LoadBlockState();
@@ -439,6 +436,8 @@ namespace Main_Interface.User_Controls
                     btnBlock.Text = "Unblock";
                     btnSend.Enabled = false;
                     txtMessage.Enabled = false;
+                    btnSendImage.Enabled = false;
+                    btnVideoCall.Enabled = false;
                     txtMessage.Text = "Bạn đã chặn người này";
                 }
                 else if (iAmBlocked)
@@ -446,6 +445,8 @@ namespace Main_Interface.User_Controls
                     btnBlock.Text = "Block";
                     btnSend.Enabled = false;
                     txtMessage.Enabled = false;
+                    btnVideoCall.Enabled = true;
+                    btnSendImage.Enabled = true;
                     txtMessage.Text = "Bạn đã bị chặn";
                 }
                 else
@@ -508,7 +509,6 @@ namespace Main_Interface.User_Controls
             {
                 System.Diagnostics.Debug.WriteLine($"LỖI: {ex.Message}");
                 System.Diagnostics.Debug.WriteLine($"StackTrace: {ex.StackTrace}");
-                MessageBox.Show($"Lỗi khởi tạo chat: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             loading.Hide();
             this.btnBack.Enabled = true;
@@ -531,26 +531,56 @@ namespace Main_Interface.User_Controls
                         blockedBy = new List<string>(); // chưa bị ai block
                     }
 
-                    bool iAmBlocked = blockedBy.Contains(targetUser.Id); // người kia block mình
+                    bool iBlocked = blockedBy.Contains(myUserId);          // mình block người ta
+                    bool iAmBlocked = blockedBy.Contains(targetUser.Id);  // người ta block mình
 
-                    if (iAmBlocked != isBlocked)
+                    bool newBlockedState = iBlocked || iAmBlocked;
+
+                    if (newBlockedState != isBlocked)
                     {
-                        this.Invoke(new Action(async () =>
+                        this.Invoke(new Action(() =>
                         {
-                            isBlocked = iAmBlocked;
-                            await LoadBlockState();
+                            isBlocked = newBlockedState;
+                            UpdateBlockUI(iBlocked, iAmBlocked);
                         }));
                     }
                 });
+        }
+        private void UpdateBlockUI(bool iBlocked, bool iAmBlocked)
+        {
+            if (iBlocked)
+            {
+                btnBlock.Text = "Unblock";
+                btnSend.Enabled = false;
+                txtMessage.Enabled = false;
+                btnSendImage.Enabled = false;
+                btnVideoCall.Enabled = false;
+                txtMessage.Text = "Bạn đã chặn người này";
+            }
+            else if (iAmBlocked)
+            {
+                btnBlock.Text = "Block";
+                btnSend.Enabled = false;
+                txtMessage.Enabled = false;
+                btnSendImage.Enabled = false;
+                btnVideoCall.Enabled = false;
+                txtMessage.Text = "Bạn đã bị chặn";
+            }
+            else
+            {
+                btnBlock.Text = "Block";
+                btnSend.Enabled = true;
+                txtMessage.Enabled = true;
+                btnSendImage.Enabled = true;
+                btnVideoCall.Enabled = true;
+                txtMessage.Text = "Nhập tin nhắn...";
+            }
         }
         // TẢI TIN NHẮN CŨ
         private async Task LoadExistingMessages()
         {
             try
             {
-              
-
-              
                 var messagesRef = firebase.db.Collection("messages")
                                     .WhereEqualTo("ChatId", conversationId);
 

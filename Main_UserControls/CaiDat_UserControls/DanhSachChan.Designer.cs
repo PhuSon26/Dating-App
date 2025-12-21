@@ -50,7 +50,7 @@
             flp_list.Location = new Point(0, 82);
             flp_list.Margin = new Padding(3, 2, 3, 2);
             flp_list.Name = "flp_list";
-            flp_list.Size = new Size(1028, 478);
+            flp_list.Size = new Size(1050, 478);
             flp_list.TabIndex = 1;
             flp_list.WrapContents = false;
             // 

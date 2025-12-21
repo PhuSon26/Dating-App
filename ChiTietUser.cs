@@ -17,13 +17,23 @@ namespace LOGIN
         private USER user;
         private Main MainForm;
         private FlowLayoutPanel mainContainer;
-        private GhepDoi _previousScreen;
-
+        private GhepDoi _previousScreen = null;
+        private NhanTin nt = null;
         public ChiTietUser(Main main, USER u, GhepDoi prev)
         {
             this.MainForm = main;
             this.user = u;
             this._previousScreen = prev;
+            this.Dock = DockStyle.Fill;
+            this.BackColor = Color.White;
+
+            SetupUI();
+        }
+        public ChiTietUser(Main main, USER u, NhanTin nt)
+        {
+            this.MainForm = main;
+            this.user = u;
+            this.nt = nt;
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.White;
 
@@ -46,17 +56,20 @@ namespace LOGIN
             pnlHeader.Size = new Size(MainForm.Width, 60);
             pnlHeader.Margin = new Padding(0, 0, 0, 10);
 
-            Button btnBack = new Button();
-            btnBack.Text = "⬅ Quay lại";
-            btnBack.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            RoundedButton btnBack = new RoundedButton();
+            btnBack.Text = "⬅";
+            btnBack.Font = new Font("Segoe UI", 48F, FontStyle.Bold);
             btnBack.FlatStyle = FlatStyle.Flat;
             btnBack.FlatAppearance.BorderSize = 0;
-            btnBack.ForeColor = Color.FromArgb(253, 41, 123);
-            btnBack.BackColor = Color.White;
+            //btnBack.ForeColor = Color.FromArgb(253, 41, 123);
+            //btnBack.BackColor = Color.White;
             btnBack.Cursor = Cursors.Hand;
-            btnBack.Location = new Point(20, 15);
-            btnBack.Size = new Size(120, 40);
-            btnBack.Click += (s, e) => { MainForm.LoadContent(_previousScreen); };
+            btnBack.Location = new Point(0, -40);
+            btnBack.Size = new Size(120, 100);
+            btnBack.Click += (s, e) => {
+                if (nt == null) MainForm.LoadContent(_previousScreen);
+                else if (_previousScreen == null) MainForm.LoadContent(nt);
+            };
 
             pnlHeader.Controls.Add(btnBack);
             mainContainer.Controls.Add(pnlHeader);
