@@ -17,7 +17,7 @@ namespace Main_Interface
 {
     public partial class Main : Form
     {
-        public NapVIP nv;
+        //public NapVIP nv;
         public FormDanhSachTinNhan dstn;
         public GhepDoi gd;
         public Thongtinuser ttuser;
@@ -185,10 +185,10 @@ namespace Main_Interface
         {
             if (!loadedVip)
             {
-                nv = new NapVIP();
+                //nv = new NapVIP();
                 loadedVip = true;
             }
-            LoadContent(nv);
+            //LoadContent(nv);
         }
 
         private void btn_dsnt_Click(object sender, EventArgs e)
