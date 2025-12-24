@@ -18,6 +18,7 @@ namespace LOGIN
         private Main MainForm;
         private FlowLayoutPanel mainContainer;
         private GhepDoi _previousScreen = null;
+        private UC_ThongBaoList _thongBaoScreen;
         private NhanTin nt = null;
         public ChiTietUser(Main main, USER u, GhepDoi prev)
         {
@@ -34,6 +35,16 @@ namespace LOGIN
             this.MainForm = main;
             this.user = u;
             this.nt = nt;
+            this.Dock = DockStyle.Fill;
+            this.BackColor = Color.White;
+
+            SetupUI();
+        }
+        public ChiTietUser(Main main, USER u, UC_ThongBaoList tb)
+        {
+            this.MainForm = main;
+            this.user = u;
+            this._thongBaoScreen = tb; 
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.White;
 
@@ -66,9 +77,30 @@ namespace LOGIN
             btnBack.Cursor = Cursors.Hand;
             btnBack.Location = new Point(0, -40);
             btnBack.Size = new Size(120, 100);
-            btnBack.Click += (s, e) => {
-                if (nt == null) MainForm.LoadContent(_previousScreen);
-                else if (_previousScreen == null) MainForm.LoadContent(nt);
+            btnBack.Click += (s, e) =>
+            {
+                if (_thongBaoScreen != null)
+                {
+                    // Quay lại danh sách thông báo
+                    MainForm.LoadContent(_thongBaoScreen);
+                }
+                else if (_previousScreen != null)
+                {
+                    // Quay lại màn hình Ghép đôi
+                    MainForm.LoadContent(_previousScreen);
+                }
+                else if (nt != null)
+                {
+                    // Quay lại màn hình Nhắn tin
+                    MainForm.LoadContent(nt);
+                }
+                else
+                {
+                    // Fallback: Nếu không xác định được, quay về màn hình Ghép đôi mặc định
+                    // Truyền Session.LocalId hoặc biến tương ứng của bạn vào đây
+                    MainForm.LoadContent(new GhepDoi(MainForm));
+                }
+
             };
 
             pnlHeader.Controls.Add(btnBack);
@@ -156,7 +188,8 @@ namespace LOGIN
             lblClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 
             // Sự kiện đóng Overlay
-            EventHandler closeAction = (s, e) => {
+            EventHandler closeAction = (s, e) =>
+            {
                 MainForm.Controls.Remove(overlayPanel); // Gỡ khỏi MainForm
                 overlayPanel.Dispose(); // Giải phóng bộ nhớ
             };
@@ -206,7 +239,7 @@ namespace LOGIN
             lblName.Margin = new Padding((pnlProfile.Width - lblName.PreferredWidth) / 2, 0, 0, 0);
             pnlProfile.Controls.Add(lblName);
 
-          
+
 
             mainContainer.Controls.Add(pnlProfile);
         }
@@ -236,7 +269,8 @@ namespace LOGIN
             p.Margin = new Padding(10);
             p.BackColor = Color.FromArgb(248, 249, 250);
 
-            p.Paint += (s, e) => {
+            p.Paint += (s, e) =>
+            {
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 using (Pen pen = new Pen(Color.LightGray, 1))
                 {
@@ -286,7 +320,8 @@ namespace LOGIN
                 lblTag.Font = new Font("Segoe UI", 10, FontStyle.Bold);
                 lblTag.Margin = new Padding(0, 0, 10, 10);
 
-                lblTag.Paint += (s, e) => {
+                lblTag.Paint += (s, e) =>
+                {
                     ControlPaint.DrawBorder(e.Graphics, lblTag.ClientRectangle, Color.FromArgb(253, 41, 123), ButtonBorderStyle.Solid);
                 };
 
@@ -335,6 +370,11 @@ namespace LOGIN
             lbl.AutoSize = true;
             lbl.Margin = new Padding(20, 10, 0, 5);
             mainContainer.Controls.Add(lbl);
+        }
+
+        private void ChiTietUser_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

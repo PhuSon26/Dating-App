@@ -193,8 +193,9 @@ namespace LOGIN
             SetRoundedRegion();
 
             this.Show();
-            _timerAnimation.Start();
             this.BringToFront();
+            _timerAnimation.Start();
+           
         }
 
         // --- HÀM TÍNH LẠI VỊ TRÍ ---
@@ -202,18 +203,30 @@ namespace LOGIN
         {
             if (_parentForm == null) return;
 
-            Point parentScreenPos = _parentForm.PointToScreen(Point.Empty);
+            // 1. Lấy vùng làm việc thực tế của Form cha (không bao gồm khung viền Windows)
+            // Chuyển đổi tọa độ vùng Client sang tọa độ màn hình
+            Point clientScreenPos = _parentForm.PointToScreen(Point.Empty);
+            Size clientSize = _parentForm.ClientSize;
 
-            Rectangle parentBounds = _parentForm.DesktopBounds;
-            int x = parentBounds.Right - this.Width - 20; // Cách mép phải 20px
-            _targetY = parentBounds.Bottom - this.Height - 20; // Cách mép dưới 20px
+            // 2. Thiết lập khoảng cách lề (Padding)
+            int paddingRight = 20;
+            int menuHeight = 85; // Chiều cao thanh menu dưới của bạn
+            int paddingBottom = menuHeight + 10; // Đặt trên thanh menu một chút
+
+            // 3. Tính toán tọa độ X (Mép phải vùng Client - chiều rộng thông báo - lề)
+            int x = clientScreenPos.X + clientSize.Width - this.Width - paddingRight;
+
+            // 4. Tính toán tọa độ Y đích (Mép dưới vùng Client - chiều cao thông báo - lề)
+            _targetY = clientScreenPos.Y + clientSize.Height - this.Height - paddingBottom;
+
+            // 5. Cập nhật vị trí
             if (!_timerAnimation.Enabled && !_isClosing)
             {
                 this.Location = new Point(x, _targetY);
             }
             else
             {
-                // Chỉ cập nhật X để nó không bị trôi ngang
+                // Khi đang trượt, chỉ cập nhật X để không bị lệch ngang khi kéo Form cha
                 this.Left = x;
             }
         }

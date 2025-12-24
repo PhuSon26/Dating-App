@@ -81,6 +81,7 @@
             avatar.SizeMode = PictureBoxSizeMode.Zoom;
             avatar.TabIndex = 0;
             avatar.TabStop = false;
+            avatar.Click += avatar_Click;
             // 
             // flpanel_pictures
             // 

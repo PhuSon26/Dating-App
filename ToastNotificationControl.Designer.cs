@@ -1,6 +1,6 @@
 ﻿namespace LOGIN
 {
-    partial class ChiTietUser
+    partial class ToastNotificationControl : UserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,12 @@
         {
             SuspendLayout();
             // 
-            // ChiTietUser
+            // ToastNotificationControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Name = "ChiTietUser";
-            Load += ChiTietUser_Load;
+            Name = "ToastNotificationControl";
+           // Load += ToastNotificationControl_Load;
             ResumeLayout(false);
         }
 

@@ -52,7 +52,7 @@
             lblTitle.ForeColor = Color.DeepPink;
             lblTitle.Location = new Point(20, 15);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(220, 41);
+            lblTitle.Size = new Size(178, 32);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "🔔 Thông báo";
             // 
@@ -102,7 +102,7 @@
             lblNewMatches.ForeColor = Color.DeepPink;
             lblNewMatches.Location = new Point(0, 0);
             lblNewMatches.Name = "lblNewMatches";
-            lblNewMatches.Size = new Size(269, 32);
+            lblNewMatches.Size = new Size(206, 25);
             lblNewMatches.TabIndex = 0;
             lblNewMatches.Text = "💗 Tương tác gần đây";
             // 
@@ -126,6 +126,7 @@
             pnlRecentList.Padding = new Padding(20);
             pnlRecentList.Size = new Size(881, 350);
             pnlRecentList.TabIndex = 0;
+            pnlRecentList.Paint += pnlRecentList_Paint;
             // 
             // lblRecentTitle
             // 
@@ -134,30 +135,31 @@
             lblRecentTitle.ForeColor = Color.DeepPink;
             lblRecentTitle.Location = new Point(0, 0);
             lblRecentTitle.Name = "lblRecentTitle";
-            lblRecentTitle.Size = new Size(297, 32);
+            lblRecentTitle.Size = new Size(227, 25);
             lblRecentTitle.TabIndex = 0;
             lblRecentTitle.Text = "📋 Danh sách thông báo";
             // 
             // pnlMessages
-            pnlMessages.Dock = DockStyle.Top;
-            pnlMessages.Padding = new Padding(20, 10, 20, 10);
+            // 
             pnlMessages.AutoSize = true;
             pnlMessages.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
+            pnlMessages.Dock = DockStyle.Top;
+            pnlMessages.Location = new Point(20, 20);
+            pnlMessages.Name = "pnlMessages";
+            pnlMessages.Padding = new Padding(20, 10, 20, 10);
+            pnlMessages.Size = new Size(841, 20);
+            pnlMessages.TabIndex = 1;
             // 
-            // Thongbao
+            // dsthongbao
             // 
             AutoScroll = true;
-            BackColor = Color.FromArgb(255, 245, 250);
+            BackColor = Color.White;
             Controls.Add(pnlRecentList);
             Controls.Add(pnlNewMatches);
             Controls.Add(pnlHeader);
-
-            Name = "Thongbao";
+            Name = "dsthongbao";
             Size = new Size(881, 693);
-            BackColor = Color.White;
             Load += Thongbao_Load_1;
-            
             pnlHeader.ResumeLayout(false);
             pnlHeader.PerformLayout();
             pnlNewMatches.ResumeLayout(false);
@@ -165,7 +167,7 @@
             pnlRecentList.ResumeLayout(false);
             pnlRecentList.PerformLayout();
             ResumeLayout(false);
-     
+
         }
 
         #endregion

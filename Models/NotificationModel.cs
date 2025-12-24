@@ -8,10 +8,11 @@ namespace LOGIN.Models
 {
     public class NotificationModel
     {
+        public string Id { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
 
-        // Type: "message", "like", "match", "event"
+      
         public string Type { get; set; }
 
        

@@ -226,7 +226,7 @@ namespace LOGIN
             if (string.IsNullOrWhiteSpace(text) &&
                 string.IsNullOrWhiteSpace(localImagePath))
                 throw new ArgumentException("Phải có text hoặc ảnh.");
-            
+
 
             // ==== KHÔNG DÙNG FIREBASE STORAGE NỮA ====
             string imageBase64 = null;
@@ -582,7 +582,7 @@ namespace LOGIN
                 }
             });
         }
-       
+
         public async Task UpdateChatMeta(string fromUser, string toUser, string text)
         {
             string conversationId = GetConversationId(fromUser, toUser);
@@ -665,10 +665,10 @@ namespace LOGIN
 
                 if (arr != null && arr.Contains(currentUserId))
                 {
-                    
+
                     string other = arr.FirstOrDefault(u => u != currentUserId);
 
-                   
+
                     if (!string.IsNullOrEmpty(other))
                     {
                         results.Add(other);
@@ -1046,7 +1046,7 @@ namespace LOGIN
                         DateTime notiTime;
                         bool isValidTime = DateTime.TryParse(noti.Timestamp, out notiTime);
 
-                        if (isValidTime )
+                        if (isValidTime)
                         {
                             DateTime notiTimeUTC = notiTime.ToUniversalTime();
                             if (notiTimeUTC > appStartTime)
@@ -1059,11 +1059,11 @@ namespace LOGIN
             });
         }
 
-       
 
 
 
-public async Task<List<NotificationModel>> GetAllNotifications(string userId)
+
+        public async Task<List<NotificationModel>> GetAllNotifications(string userId)
         {
             try
             {
@@ -1079,8 +1079,7 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
                 foreach (var item in items)
                 {
                     var noti = item.Object;
-                    // Firebase Realtime DB lưu timestamp dạng ticks hoặc string, tùy dữ liệu thật của bạn
-                    // Code này giả định bạn muốn list đảo ngược (mới nhất lên đầu)
+                    noti.Id = item.Key;
                     list.Insert(0, noti);
                 }
                 return list;
@@ -1091,7 +1090,7 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
                 return new List<NotificationModel>();
             }
         }
-      
+
         public async Task PushNotificationAsync(string senderId, string senderName, string receiverId, string content, string type)
         {
             try
@@ -1117,7 +1116,7 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
         }
 
 
-       
+
         public async Task<bool> SaveLikeAction(string myId, string targetId)
         {
             try
@@ -1156,7 +1155,7 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
         {
             try
             {
-               
+
 
                 QuerySnapshot snap = await db.Collection("Likes")
                     .WhereEqualTo("fromUserId", targetId)
@@ -1171,7 +1170,7 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
                 return false;
             }
         }
-      
+
         public async Task CreateMatchRecord(string user1, string user2)
         {
             string matchId = GetConversationId(user1, user2);
@@ -1193,9 +1192,6 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
 
 
 
-    
-        
-    
 
 
 
@@ -1204,7 +1200,10 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
 
 
 
-    
+
+
+
+
         public string ImageFileToBase64(string imagePath)
         {
             if (string.IsNullOrWhiteSpace(imagePath) || !File.Exists(imagePath))
@@ -1258,8 +1257,28 @@ public async Task<List<NotificationModel>> GetAllNotifications(string userId)
                 .Count()
                 .GetSnapshotAsync();
 
-            return (int)snapshot.Count; 
+            return (int)snapshot.Count;
         }
 
+
+        public async Task DeleteNotificationAsync(string userId, string notificationId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(notificationId)) return;
+
+                await rtcClient
+                    .Child("notifications")
+                    .Child(userId)
+                    .Child(notificationId)
+                    .DeleteAsync();
+
+                System.Diagnostics.Debug.WriteLine($"✅ Đã xóa thông báo: {notificationId}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Lỗi xóa thông báo: " + ex.Message);
+            }
+        }
     }
-}
+    }

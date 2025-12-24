@@ -89,6 +89,9 @@
     <Compile Update="thongbaonoi.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ToastNotificationControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="UC_ThongBaoList.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -80,11 +80,28 @@ namespace LOGIN
             string email = tb_email.Text.Trim();
             string password = tb_matkhau.Text.Trim();
 
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+
+            if (string.IsNullOrEmpty(email))
             {
-                MessageBox.Show("Vui lòng nhập email và mật khẩu");
+                MessageBox.Show("Vui lòng nhập email");
                 return;
             }
+            if (string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu");
+                return;
+            }
+
+
+            if (!IsValidEmail(email))
+            {
+                MessageBox.Show("Email không hợp lệ!", "Cảnh Báo!");
+                return;
+            }
+
+           
+            btn_dangnhap.Text = "Đang đăng nhập...";
+            btn_dangnhap.Enabled = false;
 
             try
             {
@@ -96,6 +113,7 @@ namespace LOGIN
                 auth.userID = Session.LocalId;
 
                 bool hasUserInfo = await auth.CheckUserExist(Session.LocalId);
+
                 if (!hasUserInfo)
                 {
                     CungCapThongTin cctt = new CungCapThongTin(Session.LocalId, email, auth);
@@ -104,14 +122,35 @@ namespace LOGIN
                     return;
                 }
 
-                MessageBox.Show("Đăng nhập thành công");
+               
                 Main m = new Main(auth);
-                this.Hide();
                 m.Show();
+
+               
+                var successToast = new ToastNotificationControl("Đăng Nhập Thành Công", "Chào mừng bạn đến với SynHeart!", null, ToastType.Message);
+                successToast.ShowInContainer(m);
+
+                this.Hide();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show("Đăng nhập thất bại", ex.Message);
+              
+                btn_dangnhap.Text = "Đăng Nhập";
+                btn_dangnhap.Enabled = true;
+
+                MessageBox.Show("Email hoặc mật khẩu không chính xác!", "Đăng Nhập Thất Bại!");
+            }
+        }
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
             }
         }
 

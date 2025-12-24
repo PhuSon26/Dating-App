@@ -15,7 +15,6 @@
 
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             panelMain = new Panel();
             lblLogo = new Label();
             panelContent = new Panel();
@@ -25,7 +24,6 @@
             btn_dsnt = new Button();
             btn_hscn = new Button();
             btn_caidat = new Button();
-            notifyIcon1 = new NotifyIcon(components);
             panelMain.SuspendLayout();
             SuspendLayout();
             // 
@@ -66,6 +64,7 @@
             panelContent.Name = "panelContent";
             panelContent.Size = new Size(1050, 548);
             panelContent.TabIndex = 0;
+            panelContent.Paint += panelContent_Paint;
             // 
             // panelButtons
             // 
@@ -77,6 +76,7 @@
             panelButtons.Padding = new Padding(0, 4, 0, 4);
             panelButtons.Size = new Size(1050, 69);
             panelButtons.TabIndex = 2;
+            panelButtons.Paint += panelButtons_Paint;
             // 
             // btn_vip
             // 
@@ -114,10 +114,6 @@
             btn_caidat.Size = new Size(75, 23);
             btn_caidat.TabIndex = 0;
             // 
-            // notifyIcon1
-            // 
-            notifyIcon1.Text = "notifyIcon1";
-            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -139,6 +135,5 @@
         }
         public Panel panelContent;
         private Button btn_thongbao;
-        private NotifyIcon notifyIcon1;
     }
 }

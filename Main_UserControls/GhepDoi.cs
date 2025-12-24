@@ -18,11 +18,11 @@ namespace Main_Interface.User_Controls
 {
     public partial class GhepDoi : UserControl
     {
-       
+
         private Panel pnlCard;       // Cái thẻ màu trắng
         private Panel pnlInfo;       // Vùng chứa tên, tuổi bên trong thẻ
         private Panel pnlActions;    // Vùng chứa nút Tim/X
-        
+
         // ----------------------------------
 
         private readonly HttpClient _client = new HttpClient();
@@ -45,8 +45,8 @@ namespace Main_Interface.User_Controls
         }
         public GhepDoi(Main m)
         {
-          
-           InitializeComponent();
+
+            InitializeComponent();
             MainForm = m;
             authHelper = new FirebaseAuthHelper("login-bb104");
             loc = new LocUser(MainForm);
@@ -84,7 +84,7 @@ namespace Main_Interface.User_Controls
             btn_loc.Anchor = AnchorStyles.Top | AnchorStyles.Right; // Neo vào góc phải để không bị lệch khi resize
             btn_loc.Cursor = Cursors.Hand;
 
-   
+
             btn_loc.Click += btn_loc_Click;
 
             this.Controls.Add(btn_loc);
@@ -95,7 +95,7 @@ namespace Main_Interface.User_Controls
             mainGrid.Size = new Size(this.Width - 40, this.Height - 60);
             mainGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             mainGrid.AutoScroll = true;
-            mainGrid.WrapContents = true; 
+            mainGrid.WrapContents = true;
 
             typeof(Control).GetProperty("DoubleBuffered",
     System.Reflection.BindingFlags.NonPublic |
@@ -129,7 +129,7 @@ namespace Main_Interface.User_Controls
                 card.OnPassClicked += Card_OnPassClicked;
                 card.OnCardClicked += (sender, selectedUser) =>
                 {
-                   
+
                     MainForm.LoadContent(new ChiTietUser(MainForm, selectedUser, this));
                 };
 
@@ -141,41 +141,45 @@ namespace Main_Interface.User_Controls
 
         private async void Card_OnLikeClicked(object sender, USER targetUser)
         {
-            
+
             ProfileCard card = sender as ProfileCard;
             if (card == null) return;
             card.Enabled = false;
+            Main mainForm = this.ParentForm as Main;
 
             try
             {
-               
+
                 bool iAlreadyLiked = await authHelper.CheckIfUserLikedMe(targetUser.Id, myUserId);
                 if (iAlreadyLiked)
                 {
-                    MessageBox.Show($"Bạn đã thích {targetUser.ten} rồi!", "Thông báo");
+                    ToastNotificationControl toast = new ToastNotificationControl("Thông báo", $"Bạn đã thích {targetUser.ten} rồi!", null, ToastType.System);
+                    if (mainForm != null) toast.ShowInContainer(mainForm);
                     mainGrid.Controls.Remove(card);
                     return;
                 }
 
-             
+
                 bool isSuccess = await authHelper.SaveLikeAction(myUserId, targetUser.Id);
 
                 if (isSuccess)
                 {
-                 
+
                     bool isMatch = await authHelper.CheckIfUserLikedMe(myUserId, targetUser.Id);
 
                     if (isMatch)
                     {
-                       
+
                         _heartOverlay?.Trigger(totalHearts: 250, durationMs: 2000);
                         await authHelper.CreateMatchRecord(myUserId, targetUser.Id);
+                        ToastNotificationControl toast = new ToastNotificationControl("Tương hợp!", $"Bạn và {targetUser.ten} đã tìm thấy nhau!", null, ToastType.Match);
+                        if (mainForm != null) toast.ShowInContainer(mainForm);
                         await authHelper.PushNotificationAsync(
                     myUserId,
-                    myUser.ten,                    
-                    targetUser.Id,                 
+                    myUser.ten,
+                    targetUser.Id,
                     "Hai bạn đã tương hợp với nhau! Nhắn tin ngay thôi.",
-                    "match"                       
+                    "match"
                 );
 
                         MatchForm matched = new MatchForm(myUser, targetUser, authHelper);
@@ -183,19 +187,20 @@ namespace Main_Interface.User_Controls
                     }
                     else
                     {
-                       
+
                         _heartOverlay?.Trigger(totalHearts: 120, durationMs: 1400);
                         await authHelper.PushNotificationAsync(
                     myUserId,
                     myUser.ten,
                     targetUser.Id,
-                    "Ai đó vừa mới thích bạn, hãy kiểm tra ngay!",
+                    "Người Ấy vừa mới thích bạn, hãy kiểm tra ngay!",
                     "like"
                 );
-                        MessageBox.Show($"Đã thích {targetUser.ten}!", "LoveMatch");
+                        var toast = new ToastNotificationControl("LoveMatch", $"Đã gửi tim cho {targetUser.ten}!", null, ToastType.Like);
+                        if (mainForm != null) toast.ShowInContainer(mainForm);
                     }
 
-                   
+
                     mainGrid.Controls.Remove(card);
                 }
             }
@@ -224,7 +229,7 @@ namespace Main_Interface.User_Controls
             if (MainForm.FilteredUsers != null && MainForm.FilteredUsers.Count > 0)
             {
                 suggestedUsers = MainForm.FilteredUsers;
-              
+
                 ShowListUsers(suggestedUsers);
 
                 MainForm.FilteredUsers = null; // reset
@@ -251,7 +256,7 @@ namespace Main_Interface.User_Controls
                     MessageBox.Show("Hết người để quẹt rồi!");
                     return;
                 }
-               ShowListUsers(suggestedUsers);
+                ShowListUsers(suggestedUsers);
             }
             catch (Exception ex)
             {
@@ -265,7 +270,7 @@ namespace Main_Interface.User_Controls
             uc.Dock = DockStyle.Fill;
             MainForm.panelContent.Controls.Add(uc);
         }
-      
+
 
         private void btn_loc_Click(object sender, EventArgs e)
         {
@@ -286,7 +291,7 @@ namespace Main_Interface.User_Controls
 
         private async void btn_tim_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         public void LoadFilteredUsers(List<USER> users)
@@ -298,7 +303,7 @@ namespace Main_Interface.User_Controls
                 return;
             }
 
-           
+
             this.suggestedUsers = users;
 
 
@@ -308,8 +313,8 @@ namespace Main_Interface.User_Controls
         }
 
         // Nếu code cũ của bạn có gọi hàm này để chuyển UserControl, hãy giữ lại
-    
-      
+
+
         private void Flpanel_pictures_MouseWheel(object sender, MouseEventArgs e) { }
         private void panelPictures_Paint(object sender, PaintEventArgs e) { }
         private void btn_timVIP_Click(object sender, EventArgs e) { }
@@ -317,6 +322,11 @@ namespace Main_Interface.User_Controls
         private void panelThongTin_Paint(object sender, PaintEventArgs e) { }
         private void flpanel_pictures_Paint(object sender, PaintEventArgs e) { }
         private void panelPictures_Paint_1(object sender, PaintEventArgs e) { }
+
+        private void avatar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

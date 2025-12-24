@@ -115,5 +115,10 @@ namespace LOGIN
         {
 
         }
+
+        private void pnlRecentList_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

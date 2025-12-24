@@ -23,7 +23,7 @@ namespace Main_Interface
         public FirebaseAuthHelper auth;
         public CaiDat cd;
         public USER u;
-       
+
         private bool loadedHscn = false;
         private bool loadedVip = false;
         private bool loadedDs = false;
@@ -65,14 +65,15 @@ namespace Main_Interface
                 u = await auth.getUser();
                 if (u != null)
 
-                { Session.LocalId = u.Id;
+                {
+                    Session.LocalId = u.Id;
                     InitVideoSystem();
                     auth.OnNotificationReceived += FbHelper_OnNotificationReceived;
                     auth.StartListeningNotification(u.Id);
                     gd = new GhepDoi(this);
                     LoadContent(gd);
 
-                    
+
                     callCheckTimer.Start();
 
                 }
@@ -85,22 +86,22 @@ namespace Main_Interface
             finally
             {
                 loading.Hide();
-               
+
             }
             this.btn_ghepdoi.Enabled = true;
             this.btn_dsnt.Enabled = true;
             this.btn_caidat.Enabled = true;
             this.btn_hscn.Enabled = true;
-           
 
 
-            }
 
-     
+        }
+
+
 
         private void FbHelper_OnNotificationReceived(LOGIN.Models.NotificationModel noti)
         {
-          
+
             if (this.InvokeRequired)
             {
 
@@ -139,43 +140,35 @@ namespace Main_Interface
                     break;
             }
 
-            
-            thongbaonoi toast = new thongbaonoi(noti.Title, noti.Body, iconImg, typeEnum);
 
-            // Hàm ShowInParent đã được bạn viết sẵn trong thongbaonoi.cs để trượt lên
-            toast.ShowInParent(this);
+            var toast = new ToastNotificationControl(noti.Title, noti.Body, iconImg, typeEnum);
+
+           
+            toast.ShowInContainer(this);
         }
 
-      
 
-        // Sự kiện khi click vào bong bóng thông báo
-        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
-        {
-            string dataId = notifyIcon1.Tag as string;
-            // TODO: Xử lý chuyển trang dựa vào dataId
-            // Ví dụ: if (dataId.StartsWith("chat_")) { LoadContent(dstn); }
-        }
+
 
 
         private async void CallCheckTimer_Tick(object sender, EventArgs e)
         {
-            // Tạm dừng timer để tránh chạy chồng chéo
+            if (isBusy) return; // Tránh chạy lồng nhau
+            isBusy = true;
             callCheckTimer.Stop();
 
             try
             {
-
                 var pendingCall = await auth.CheckForPendingCalls(Session.LocalId);
-
                 if (pendingCall != null)
                 {
-
                     HandleIncomingCall(pendingCall);
                 }
             }
+            catch { /* Handle error */ }
             finally
             {
-                // Chạy lại timer
+                isBusy = false;
                 callCheckTimer.Start();
             }
         }
@@ -342,11 +335,10 @@ namespace Main_Interface
         }
         private void btn_thongbao_Click(object sender, EventArgs e)
         {
-            // Tạo và hiển thị UserControl danh sách
+           
             UC_ThongBaoList ucNoti = new UC_ThongBaoList(auth, Session.LocalId);
             LoadContent(ucNoti);
 
-            // Highlight nút (Nếu dùng logic SetActiveButton)
             SetActiveButton(btn_thongbao);
         }
 
@@ -421,10 +413,10 @@ namespace Main_Interface
             }
             catch { }
 
-           
-              System.Media.SoundPlayer player = new System.Media.SoundPlayer(LOGIN.Properties.Resource.nhaccho);
 
-             try { player.PlayLooping(); } catch { }
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(LOGIN.Properties.Resource.nhaccho);
+
+            try { player.PlayLooping(); } catch { }
 
 
             using (var incomingForm = new IncomingCallForm(callername, avatar))
@@ -434,11 +426,11 @@ namespace Main_Interface
 
                 var result = incomingForm.ShowDialog();
 
-                  try { player.Stop(); } catch { }
+                try { player.Stop(); } catch { }
 
                 if (result == DialogResult.Yes)
                 {
-                  
+
                     var vcForm = new VideoCallForm(
                         Session.LocalId,
                         u.ten,
@@ -463,6 +455,16 @@ namespace Main_Interface
         }
 
         private void panelMain_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panelContent_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panelButtons_Paint(object sender, PaintEventArgs e)
         {
 
         }
