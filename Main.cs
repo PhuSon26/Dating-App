@@ -281,10 +281,16 @@ namespace Main_Interface
 
         public void LoadContent(UserControl uc)
         {
+            if (uc == null)
+            {
+               
+                if (gd == null) gd = new GhepDoi(this);
+                uc = gd;
+            }
+
             panelContent.Controls.Clear();
             uc.Dock = DockStyle.Fill;
             panelContent.Controls.Add(uc);
-
             CurrentControl = uc;
         }
 

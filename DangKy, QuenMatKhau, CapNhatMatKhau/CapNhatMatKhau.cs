@@ -45,5 +45,10 @@ namespace LOGIN
                 MessageBox.Show("Lỗi khi cập nhật mật khẩu: " + ex.Message);
             }
         }
+
+        private void tb_email_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

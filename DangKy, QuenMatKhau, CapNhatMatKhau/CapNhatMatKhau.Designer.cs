@@ -291,6 +291,7 @@ namespace LOGIN
             tb_email.PasswordChar = '●';
             tb_email.Size = new Size(332, 20);
             tb_email.TabIndex = 0;
+            tb_email.TextChanged += tb_email_TextChanged;
             // 
             // labelEmail
             // 
@@ -339,7 +340,6 @@ namespace LOGIN
             Name = "CapNhatMatKhau";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Đăng nhập";
-            Load += CapNhatMatKhau_Load;
             bgPanel.ResumeLayout(false);
             pnlCard.ResumeLayout(false);
             tblCard.ResumeLayout(false);

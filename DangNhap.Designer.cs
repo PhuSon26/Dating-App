@@ -89,7 +89,7 @@ namespace LOGIN
             // panel (background image)
             // 
             panel.BackColor = Color.White;
-            panel.BackgroundImage = Properties.Resources._1d30fd11dcb3000984acf40b7a8eff57;
+            panel.BackgroundImage = Properties.Resource._1d30fd11dcb3000984acf40b7a8eff57;
             panel.BackgroundImageLayout = ImageLayout.Stretch;
             panel.Controls.Add(pnlCard);
             panel.Controls.Add(pnlFooter);

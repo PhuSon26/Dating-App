@@ -357,10 +357,24 @@ namespace Main_Interface.User_Controls
         // ======================================================
         private void BtnBack_Click(object sender, EventArgs e)
         {
-            // Dừng listener
+            // 1. Dừng các bộ lắng nghe để giải phóng tài nguyên
             listener?.StopAsync();
             blockListener?.StopAsync();
-            MainForm.LoadContent(MainForm.dstn);
+
+            // 2. Tìm Form chính nếu biến hiện tại bị mất tham chiếu
+            Main parent = this.mainForm ?? this.FindForm() as Main;
+
+            if (parent != null)
+            {
+                // 3. Kiểm tra và khởi tạo danh sách tin nhắn nếu cần
+                if (parent.dstn == null)
+                {
+                    parent.dstn = new FormDanhSachTinNhan(parent, parent.u);
+                }
+
+                // 4. Chỉ gọi LoadContent MỘT LẦN DUY NHẤT
+                parent.LoadContent(parent.dstn);
+            }
         }
 
         private async void SetupBlockButton()
