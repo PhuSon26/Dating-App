@@ -30,16 +30,14 @@ namespace Main_Interface
         private bool loadedGhepDoi = false;
         private bool loadedCaiDat = false;
         private bool isBusy = false;
-        System.Windows.Forms.Timer callCheckTimer;
+     
         public List<USER> FilteredUsers { get; set; } = null;
 
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();
             this.auth = auth;
-            callCheckTimer = new System.Windows.Forms.Timer();
-            callCheckTimer.Interval = 3000;
-            callCheckTimer.Tick += CallCheckTimer_Tick;
+           
             SetupButtons();
         }
 
@@ -74,7 +72,7 @@ namespace Main_Interface
                     LoadContent(gd);
 
 
-                    callCheckTimer.Start();
+
 
                 }
             }
@@ -151,27 +149,7 @@ namespace Main_Interface
 
 
 
-        private async void CallCheckTimer_Tick(object sender, EventArgs e)
-        {
-            if (isBusy) return; // Tránh chạy lồng nhau
-            isBusy = true;
-            callCheckTimer.Stop();
-
-            try
-            {
-                var pendingCall = await auth.CheckForPendingCalls(Session.LocalId);
-                if (pendingCall != null)
-                {
-                    HandleIncomingCall(pendingCall);
-                }
-            }
-            catch { /* Handle error */ }
-            finally
-            {
-                isBusy = false;
-                callCheckTimer.Start();
-            }
-        }
+      
         private void btn_dsnt_Click(object sender, EventArgs e)
         {
             if (!loadedDs)
@@ -386,15 +364,20 @@ namespace Main_Interface
 
 
             auth.ListenForIncomingCall(Session.LocalId);
+            System.Diagnostics.Debug.WriteLine("Đã kích hoạt lắng nghe cuộc gọi thời gian thực.");
         }
 
         private async void HandleIncomingCall(VideoCall call)
         {
+            long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            if (now - call.Timestamp > 60000) return;
+
             if (InvokeRequired)
             {
                 Invoke(new Action(() => HandleIncomingCall(call)));
                 return;
             }
+            if (Application.OpenForms.OfType<IncomingCallForm>().Any()) return;
             string callername = call.CallerName;
 
             Image avatar = null;
