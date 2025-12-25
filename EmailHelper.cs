@@ -11,7 +11,6 @@ namespace LOGIN
         
         private const string FromEmail = "lequangquy1522006@gmail.com";
         private const string AppPassword = "yqwy ckhr yxqz dknx"; 
-        // SỬA: Thêm <bool> vào Task và return true/false
         public static async Task<bool> SendOTPEmail(string toEmail, string otp)
         {
             if (string.IsNullOrWhiteSpace(toEmail) || string.IsNullOrWhiteSpace(otp))
@@ -42,7 +41,7 @@ namespace LOGIN
 
                 MessageBox.Show("Mã xác nhận đã được gửi!\nVui lòng kiểm tra email của bạn.",
                     "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return true; // ← Trả về true khi thành công
+                return true; 
             }
             catch (SmtpException ex)
             {
@@ -54,13 +53,13 @@ namespace LOGIN
                 };
 
                 MessageBox.Show(errorMessage, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false; // ← Trả về false khi lỗi
+                return false; 
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false; // ← Trả về false khi lỗi
+                return false; 
             }
         }
 

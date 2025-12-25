@@ -10,7 +10,7 @@ namespace LOGIN
     {
         public FirebaseAuthHelper auth;
 
-        private Image _bgScaled;            // nền đã scale đúng kích thước form
+        private Image _bgScaled;         
         private FormQuenMatKhau _qmk;
         private FormDangKy _dk;
 
@@ -19,14 +19,9 @@ namespace LOGIN
             this.auth = auth;
             InitializeComponent();
         }
-
-      
-
-       
        
         private void ShowOverlay(Form f)
         {
-            // Ẩn UI đăng nhập, giữ nền (không Controls.Clear để tránh tạo lại form)
             pnlCard.Visible = false;
             pnlFooter.Visible = false;
 
@@ -171,7 +166,6 @@ namespace LOGIN
         {
             this.DoubleBuffered = true; // giảm flicker :contentReference[oaicite:0]{index=0}
 
-            // chỉ center khi đã có size thật
             panel.SizeChanged += (s, ev) => CenterCard();
         }
 

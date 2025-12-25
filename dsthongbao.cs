@@ -45,7 +45,7 @@ namespace LOGIN
                 catch
                 {
                     pic.BackColor = Color.LightPink;
-                    pic.Image = null; // Avatar lỗi
+                    pic.Image = null;
                 }
 
                 flpAvatars.Controls.Add(pic);

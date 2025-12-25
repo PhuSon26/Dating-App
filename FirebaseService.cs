@@ -1,19 +1,18 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
 using System;
-using System.Reactive.Linq; // Cần thiết cho AsObservable
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace LOGIN
 {
-    // 1. Mô hình dữ liệu (Map đúng với Firebase)
+    // Mô hình dữ liệu (Map đúng với Firebase)
    
 
     public class FirebaseService
     {
         private readonly FirebaseClient firebase;
 
-        // Thay URL của bạn vào đây
         private const string DB_URL = "https://login-bb104-default-rtdb.firebaseio.com/notifications";
 
         public FirebaseService()

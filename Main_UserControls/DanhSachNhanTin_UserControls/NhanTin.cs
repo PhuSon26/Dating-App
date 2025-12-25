@@ -20,7 +20,7 @@ namespace Main_Interface.User_Controls
         private Button btnSendImage;
         
 
-        public NhanTin(Main mainForm /* + các tham số khác nếu có */)
+        public NhanTin(Main mainForm)
         {
             InitializeComponent();
             this.mainForm = mainForm;
@@ -31,7 +31,6 @@ namespace Main_Interface.User_Controls
         private Panel pnlHeader;
         private PictureBox picAvatar;
         private Label lblUserName;
-        private Label lblStatus;
         private Button btnBack;
         private RoundedButton btnVideoCall; 
         private FlowLayoutPanel pnlChatContainer;
@@ -96,15 +95,19 @@ namespace Main_Interface.User_Controls
             };
 
             // Nút quay lại
-            btnBack = new Button
+            btnBack = new RoundedButton
             {
-                Text = "←",
-                Size = new Size(50, 50),
-                Location = new Point(10, 15),
-                BackColor = Color.Transparent,
-                ForeColor = Color.White,
+                BackColor = Color.FromArgb(72, 209, 204),
+                CornerRadius = 30,
                 FlatStyle = FlatStyle.Flat,
-                Font = new Font("Segoe UI", 20F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 72F, FontStyle.Bold, GraphicsUnit.Point, 0),
+                ForeColor = Color.White,
+                Location = new Point(0, -45),
+                Margin = new Padding(3, 2, 3, 2),
+                Size = new Size(120, 140),
+                TabIndex = 12,
+                Text = "🠔",
+                UseVisualStyleBackColor = false,
                 Cursor = Cursors.Hand
             };
             btnBack.FlatAppearance.BorderSize = 0;
@@ -113,9 +116,9 @@ namespace Main_Interface.User_Controls
             // Avatar
             picAvatar = new PictureBox
             {
-                Width = 60,
-                Height = 60,
-                Location = new Point(70, 15),
+                Width = 80,
+                Height = 80,
+                Location = new Point(130, 0),
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 BackColor = Color.White
             };
@@ -130,19 +133,10 @@ namespace Main_Interface.User_Controls
             lblUserName = new Label
             {
                 Text = string.IsNullOrWhiteSpace(targetUser.ten) ? "Anonymous" : targetUser.ten,
-                Font = new Font("Segoe UI", 13F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 16F, FontStyle.Bold),
                 ForeColor = Color.White,
                 AutoSize = true,
-                Location = new Point(130, 20)
-            };
-
-            lblStatus = new Label
-            {
-                Text = "Đang hoạt động",
-                Font = new Font("Segoe UI", 9F),
-                ForeColor = Color.FromArgb(220, 255, 220),
-                AutoSize = true,
-                Location = new Point(130, 43)
+                Location = new Point(220, 20)
             };
             ///Nút Call video
             btnVideoCall = new RoundedButton
@@ -168,7 +162,6 @@ namespace Main_Interface.User_Controls
             pnlHeader.Controls.Add(btnBack);
             pnlHeader.Controls.Add(picAvatar);
             pnlHeader.Controls.Add(lblUserName);
-            pnlHeader.Controls.Add(lblStatus);
           
             pnlHeader.Controls.Add(btnVideoCall);
           
@@ -366,7 +359,7 @@ namespace Main_Interface.User_Controls
 
             if (parent != null)
             {
-                // 3. Kiểm tra và khởi tạo danh sách tin nhắn nếu cần
+                // 3. Kiểm tra và khởi tạo danh sách tin nhắn
                 if (parent.dstn == null)
                 {
                     parent.dstn = new FormDanhSachTinNhan(parent, parent.u);
@@ -753,13 +746,11 @@ namespace Main_Interface.User_Controls
 
             bool isAtBottom = IsScrolledToBottom();
 
-            // Nếu tin mới là của mình => tự động scroll
             if (currentMessages.Count == 0 || (messages.Count > 0 && messages.Last().fromUserId == myUserId))
                 isAtBottom = true;
 
             pnlChatContainer.SuspendLayout();
 
-            // ✅ QUAN TRỌNG: nếu có xóa/thu hồi/đổi text/reaction => redraw
             bool redrawAll = ShouldRedrawAll(messages);
             if (redrawAll)
             {
@@ -780,12 +771,12 @@ namespace Main_Interface.User_Controls
                 return;
             }
 
-            // ✅ chỉ thêm tin mới
+            //chỉ thêm tin mới
             var newMsgs = messages.Where(m => !currentMessages.Any(cm => cm.Id == m.Id)).ToList();
             if (newMsgs.Count > 0)
                 UpdateIncrementally(messages);
 
-            // ✅ chỉ cập nhật reaction (logic cũ)
+            //chỉ cập nhật reaction (logic cũ)
             foreach (var msg in messages)
             {
                 var oldMsg = currentMessages.FirstOrDefault(cm => cm.Id == msg.Id);
@@ -891,7 +882,6 @@ namespace Main_Interface.User_Controls
        
         private void ScrollToBottom()
         {
-            // Cách cuộn triệt để nhất trong WinForms
             pnlChatContainer.AutoScrollPosition = new Point(0, pnlChatContainer.VerticalScroll.Maximum);
             pnlChatContainer.VerticalScroll.Value = pnlChatContainer.VerticalScroll.Maximum;
             pnlChatContainer.PerformLayout();
@@ -994,7 +984,7 @@ namespace Main_Interface.User_Controls
             bubble.Controls.Add(layout);
             wrapper.Controls.Add(bubble);
 
-            // ✅ GÁN DOUBLE CLICK CHO TẤT CẢ CONTROLS
+            //GÁN DOUBLE CLICK CHO TẤT CẢ CONTROLS
             AttachDoubleClickHandler(bubble, msg);
             AttachDoubleClickHandler(layout, msg);
             if (textLabel != null) AttachDoubleClickHandler(textLabel, msg);
@@ -1013,9 +1003,6 @@ namespace Main_Interface.User_Controls
                 ShowEmojiPopup(control, msg);
             };
         }
-
-
-     
         private Panel CreateWrapper(bool isMine)
         {
             return new Panel
@@ -1072,7 +1059,7 @@ namespace Main_Interface.User_Controls
                 SizeMode = PictureBoxSizeMode.CenterImage, // Hiển thị icon loading ở giữa
                 Margin = new Padding(0, 5, 0, 5),
                 Cursor = Cursors.Hand,
-                BackColor = Color.WhiteSmoke // Màu nền tạm
+                BackColor = Color.WhiteSmoke 
             };
 
            
@@ -1080,16 +1067,16 @@ namespace Main_Interface.User_Controls
             {
                 try
                 {
-                    Image img = firebase.Base64ToImage(base64); // Hàm nặng
+                    Image img = firebase.Base64ToImage(base64); 
 
                     // Quay lại UI thread để gán ảnh
                     pb.Invoke(new Action(() =>
                     {
                         pb.Image = img;
-                        pb.SizeMode = PictureBoxSizeMode.Zoom; // Chuyển về Zoom khi đã có ảnh
+                        pb.SizeMode = PictureBoxSizeMode.Zoom; 
                     }));
                 }
-                catch { /* Xử lý lỗi ảnh hỏng */ }
+                catch { }
             });
 
             return pb;
@@ -1165,7 +1152,7 @@ namespace Main_Interface.User_Controls
             {
                 PictureBox pb = new PictureBox
                 {
-                    Size = new Size(30, 30), // Tăng kích thước để dễ click hơn
+                    Size = new Size(30, 30), 
                     SizeMode = PictureBoxSizeMode.Zoom,
                     Cursor = Cursors.Hand,
                     Margin = new Padding(3),
@@ -1176,11 +1163,11 @@ namespace Main_Interface.User_Controls
                 try
                 {
                     pb.Image = (Image)LOGIN.Properties.Resource.ResourceManager.GetObject(name);
-                    System.Diagnostics.Debug.WriteLine($"  ✅ Load emoji {name} thành công");
+                    System.Diagnostics.Debug.WriteLine($"  Load emoji {name} thành công");
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"  ❌ Lỗi load emoji {name}: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"  Lỗi load emoji {name}: {ex.Message}");
                     continue;
                 }
 

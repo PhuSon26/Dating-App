@@ -36,7 +36,6 @@ namespace Main_Interface.User_Controls
 
         private void CaiDat_Load(object sender, EventArgs e)
         {
-            // Additional initialization if needed
         }
         private void btn_doiEmailMk_Click(object sender, EventArgs e)
         {

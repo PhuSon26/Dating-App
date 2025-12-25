@@ -28,10 +28,6 @@ namespace LOGIN
         // xoá vĩnh viễn (nếu muốn soft-delete)
         [FirestoreProperty]
         public bool isDeleted { get; set; } = false;
-
-        // Id document trong subcollection messages – KHÔNG gắn FirestoreProperty
-        // để không ghi field này lên Firestore (property không có attribute sẽ bị bỏ qua). 
-
         [FirestoreProperty] public string imageBase64 { get; set; }
         public string messageId { get; set; }
 

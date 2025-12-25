@@ -210,8 +210,8 @@ namespace LOGIN
 
             // 2. Thiết lập khoảng cách lề (Padding)
             int paddingRight = 20;
-            int menuHeight = 85; // Chiều cao thanh menu dưới của bạn
-            int paddingBottom = menuHeight + 10; // Đặt trên thanh menu một chút
+            int menuHeight = 85; 
+            int paddingBottom = menuHeight + 10; 
 
             // 3. Tính toán tọa độ X (Mép phải vùng Client - chiều rộng thông báo - lề)
             int x = clientScreenPos.X + clientSize.Width - this.Width - paddingRight;
@@ -237,8 +237,6 @@ namespace LOGIN
             UpdatePosition();
         }
 
-        // --- QUAN TRỌNG: HỦY SỰ KIỆN KHI ĐÓNG ---
-        // Bạn phải override hàm OnFormClosed để gỡ sự kiện, tránh lỗi bộ nhớ
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             if (_parentForm != null)
@@ -265,7 +263,6 @@ namespace LOGIN
             this.Region = new Region(path);
         }
 
-        // Vẽ thêm viền mỏng (Optional) để thông báo rõ nét hơn trên nền trắng
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -275,7 +272,6 @@ namespace LOGIN
             using (Pen p = new Pen(Color.LightGray, 1))
             {
                 int r = 20; // Bán kính bo khớp với Region
-                // Vẽ bo tròn theo thủ công (hoặc vẽ chữ nhật đơn giản nếu lười)
                 e.Graphics.DrawRectangle(p, 0, 0, this.Width - 1, this.Height - 1);
             }
         }

@@ -766,7 +766,7 @@ namespace LOGIN
         /// </summary>
         public void ListenForIncomingCall(string userId)
         {
-            callListener?.Dispose();
+            if (callListener != null) return;
 
 
             callListener = rtcClient
@@ -779,7 +779,14 @@ namespace LOGIN
                     var call = d.Object;
 
                     if (call.ReceiverId == userId && call.Status == "ringing")
-                        OnIncomingCall?.Invoke(call);
+                    {
+                        // Kiểm tra thời gian để tránh nhận lại cuộc gọi cũ đã kết thúc
+                        long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                        if (now - call.Timestamp < 10000) // Trong vòng 10 giây
+                        {
+                            OnIncomingCall?.Invoke(call);
+                        }
+                    }
 
                     if (call.CallerId == userId && call.Status == "accepted")
                         OnCallAccepted?.Invoke(call);
@@ -889,8 +896,8 @@ namespace LOGIN
         }
         public void StopVideoCallListeners()
         {
-            callListener?.Dispose();
             iceListener?.Dispose();
+            iceListener = null;
         }
         public async Task UpdateMediaStatus(string callId, string userId, string type, string state)
         {
@@ -898,7 +905,7 @@ namespace LOGIN
             {
                 // Lưu vào path: calls/{callId}/states/{userId}/{type}
                 await rtcClient
-                    .Child("calls")
+                    .Child("video_calls")
                     .Child(callId)
                     .Child("states")
                     .Child(userId)
@@ -912,7 +919,7 @@ namespace LOGIN
         public void ListenMediaStatus(string callId, string remoteUserId)
         {
             rtcClient
-               .Child("calls")
+               .Child("video_calls")
                .Child(callId)
                .Child("states")
                .Child(remoteUserId)
@@ -933,16 +940,16 @@ namespace LOGIN
             try
             {
                 var calls = await rtcClient
-                    .Child("calls")
+                    .Child("video_calls")
                     .OnceAsync<VideoCall>();
 
                 foreach (var item in calls)
                 {
                     var call = item.Object;
-                    // Tìm cuộc gọi dành cho mình và đang ở trạng thái "calling"
-                    if (call.ReceiverId == myUserId && call.Status == "calling")
+                    long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                    if (call.ReceiverId == myUserId && call.Status == "ringing" && (now - call.Timestamp) < 30000)
                     {
-                        return call; // Tìm thấy!
+                        return call;
                     }
                 }
             }

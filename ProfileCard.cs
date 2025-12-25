@@ -37,7 +37,7 @@ public partial class ProfileCard : UserControl
         pbAvatar = new PictureBox();
         pbAvatar.Size = new Size(320, 240);
         pbAvatar.Location = new Point(0, 0);
-        pbAvatar.SizeMode = PictureBoxSizeMode.Zoom; // Hoặc StretchImage tùy ảnh
+        pbAvatar.SizeMode = PictureBoxSizeMode.Zoom; 
         pbAvatar.BackColor = Color.WhiteSmoke;
         this.Controls.Add(pbAvatar);
 
@@ -89,7 +89,7 @@ public partial class ProfileCard : UserControl
     private void AddHoverEffect()
     {
         // Khi chuột vào -> Đổi màu nền nhẹ
-        this.MouseEnter += (s, e) => { this.BackColor = Color.FromArgb(250, 240, 245); }; // Màu hồng phấn rất nhạt
+        this.MouseEnter += (s, e) => { this.BackColor = Color.FromArgb(250, 240, 245); }; 
 
         // Khi chuột ra -> Trả về màu trắng
         this.MouseLeave += (s, e) => { this.BackColor = Color.White; };
@@ -110,8 +110,6 @@ public partial class ProfileCard : UserControl
         lblLocation.Text = string.IsNullOrEmpty(user.vitri) ? "📍 Không rõ" : $"📍 {user.vitri}";
         lblBio.Text = user.gthieu ?? "Chưa có giới thiệu.";
 
-        // Load ảnh (Bạn cần logic async load ảnh ở đây hoặc truyền Image vào)
-        // Ví dụ tạm:
         if (!string.IsNullOrEmpty(user.AvatarUrl))
             LoadImageToPictureBox(pbAvatar, user.AvatarUrl);
         // Tạo các Tags
@@ -232,7 +230,7 @@ public partial class ProfileCard : UserControl
         {
             if (string.IsNullOrEmpty(source)) return;
 
-            pb.WaitOnLoad = false; // [Cải thiện 1] Không đợi load đồng bộ
+            pb.WaitOnLoad = false; 
             Image finalImg = null;
 
             // Chạy việc xử lý nặng (Download/Base64/Resize) ở Task.Run để không treo UI
@@ -260,12 +258,11 @@ public partial class ProfileCard : UserControl
 
                     if (nguyên_bản != null)
                     {
-                        // [Cải thiện 2] Resize về đúng kích thước PictureBox (320x240)
                         finalImg = ResizeImage(nguyên_bản, pb.Width, pb.Height);
                         nguyên_bản.Dispose(); // Giải phóng ảnh gốc nặng nề
                     }
                 }
-                catch { /* Xử lý lỗi load ảnh */ }
+                catch { }
             });
 
             // Cập nhật lại UI
@@ -273,7 +270,7 @@ public partial class ProfileCard : UserControl
             {
                 pb.Image?.Dispose(); // Xóa ảnh cũ trong bộ nhớ nếu có
                 pb.Image = finalImg;
-                pb.SizeMode = PictureBoxSizeMode.Normal; // [Cải thiện 3] Dùng Normal vì ảnh đã chuẩn size
+                pb.SizeMode = PictureBoxSizeMode.Normal; 
             }
         }
         catch

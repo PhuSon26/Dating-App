@@ -65,7 +65,7 @@ namespace LOGIN.Main_UserControls.DanhSachNhanTin_UserControls
             if (string.Equals(userA, myId, StringComparison.OrdinalIgnoreCase)) return unread_userA;
             if (string.Equals(userB, myId, StringComparison.OrdinalIgnoreCase)) return unread_userB;
 
-            // fallback: nếu Id chứa myId thì đoán vị trí
+            // nếu Id chứa myId thì đoán vị trí
             if (!string.IsNullOrEmpty(Id) && Id.Contains("_"))
             {
                 var parts = Id.Split('_', 2);

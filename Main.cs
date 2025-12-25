@@ -11,8 +11,6 @@ using System.Windows.Forms;
 using static Google.Rpc.Context.AttributeContext.Types;
 using LOGIN.Properties;
 
-
-
 namespace Main_Interface
 {
     public partial class Main : Form
@@ -30,16 +28,14 @@ namespace Main_Interface
         private bool loadedGhepDoi = false;
         private bool loadedCaiDat = false;
         private bool isBusy = false;
-        System.Windows.Forms.Timer callCheckTimer;
+     
         public List<USER> FilteredUsers { get; set; } = null;
 
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();
             this.auth = auth;
-            callCheckTimer = new System.Windows.Forms.Timer();
-            callCheckTimer.Interval = 3000;
-            callCheckTimer.Tick += CallCheckTimer_Tick;
+           
             SetupButtons();
         }
 
@@ -72,10 +68,6 @@ namespace Main_Interface
                     auth.StartListeningNotification(u.Id);
                     gd = new GhepDoi(this);
                     LoadContent(gd);
-
-
-                    callCheckTimer.Start();
-
                 }
             }
             catch (Exception ex)
@@ -92,13 +84,7 @@ namespace Main_Interface
             this.btn_dsnt.Enabled = true;
             this.btn_caidat.Enabled = true;
             this.btn_hscn.Enabled = true;
-
-
-
         }
-
-
-
         private void FbHelper_OnNotificationReceived(LOGIN.Models.NotificationModel noti)
         {
 
@@ -117,14 +103,12 @@ namespace Main_Interface
         {
             // 1. Chuyển đổi từ string Type của Model sang Enum ToastType của Form
             ToastType typeEnum = ToastType.System;
-            Image iconImg = null; // Hoặc set ảnh mặc định tùy ý
+            Image iconImg = null; 
 
             switch (noti.Type)
             {
                 case "message":
                     typeEnum = ToastType.Message;
-                    // Nếu muốn hiện avatar người gửi, bạn cần tải ảnh từ noti.DataID (SenderID)
-                    // Tuy nhiên để thông báo hiện nhanh, ta tạm để null hoặc icon mặc định
                     break;
                 case "like":
                     typeEnum = ToastType.Like;
@@ -147,31 +131,6 @@ namespace Main_Interface
             toast.ShowInContainer(this);
         }
 
-
-
-
-
-        private async void CallCheckTimer_Tick(object sender, EventArgs e)
-        {
-            if (isBusy) return; // Tránh chạy lồng nhau
-            isBusy = true;
-            callCheckTimer.Stop();
-
-            try
-            {
-                var pendingCall = await auth.CheckForPendingCalls(Session.LocalId);
-                if (pendingCall != null)
-                {
-                    HandleIncomingCall(pendingCall);
-                }
-            }
-            catch { /* Handle error */ }
-            finally
-            {
-                isBusy = false;
-                callCheckTimer.Start();
-            }
-        }
         private void btn_dsnt_Click(object sender, EventArgs e)
         {
             if (!loadedDs)
@@ -221,18 +180,17 @@ namespace Main_Interface
         private Button CreateNavButton(string icon, string label, Point location)
         {
             var btn = new Button();
-            // Tăng kích thước nút một chút cho dễ bấm
             btn.Size = new Size(180, 70);
             btn.Location = location;
             btn.FlatStyle = FlatStyle.Flat;
             btn.FlatAppearance.BorderSize = 0;
-            btn.BackColor = Color.White; // Nền trắng hòa vào thanh menu
+            btn.BackColor = Color.White; 
             btn.Cursor = Cursors.Hand;
             btn.TextAlign = ContentAlignment.MiddleCenter;
 
             // Dùng Font Segoe UI Emoji để icon và chữ đẹp hơn
             btn.Font = new Font("Segoe UI Semibold", 11, FontStyle.Regular);
-            btn.ForeColor = Color.FromArgb(117, 125, 133); // Màu xám nhạt khi chưa chọn
+            btn.ForeColor = Color.FromArgb(117, 125, 133); 
 
             btn.Text = $"{icon}  {label}"; // Thêm khoảng cách giữa icon và chữ
 
@@ -241,8 +199,8 @@ namespace Main_Interface
             {
                 if (btn != activeButton)
                 {
-                    btn.BackColor = Color.FromArgb(255, 240, 245); // Hồng phấn nhạt
-                    btn.ForeColor = Color.FromArgb(253, 41, 123);  // Hồng Tinder
+                    btn.BackColor = Color.FromArgb(255, 240, 245); 
+                    btn.ForeColor = Color.FromArgb(253, 41, 123);  
                 }
             };
 
@@ -264,16 +222,14 @@ namespace Main_Interface
         {
             if (activeButton != null)
             {
-                // Reset nút cũ về trạng thái thường
                 activeButton.BackColor = Color.White;
                 activeButton.ForeColor = Color.FromArgb(117, 125, 133);
                 activeButton.Font = new Font("Segoe UI Semibold", 11, FontStyle.Regular);
             }
 
             activeButton = btn;
-            // Highlight nút mới: Chữ màu Hồng đậm, Font đậm hơn
-            activeButton.ForeColor = Color.FromArgb(253, 41, 123); // Màu thương hiệu
-            activeButton.BackColor = Color.White; // Giữ nền trắng cho sạch
+            activeButton.ForeColor = Color.FromArgb(253, 41, 123); 
+            activeButton.BackColor = Color.White; 
             activeButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
         }
 
@@ -386,15 +342,20 @@ namespace Main_Interface
 
 
             auth.ListenForIncomingCall(Session.LocalId);
+            System.Diagnostics.Debug.WriteLine("Đã kích hoạt lắng nghe cuộc gọi thời gian thực.");
         }
 
         private async void HandleIncomingCall(VideoCall call)
         {
+            long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            if (now - call.Timestamp > 60000) return;
+
             if (InvokeRequired)
             {
                 Invoke(new Action(() => HandleIncomingCall(call)));
                 return;
             }
+            if (Application.OpenForms.OfType<IncomingCallForm>().Any()) return;
             string callername = call.CallerName;
 
             Image avatar = null;
@@ -409,7 +370,6 @@ namespace Main_Interface
                         callername = caller.ten;
 
                     // Lấy Avatar thật (Convert từ Base64)
-                    // Lưu ý: Đảm bảo user có trường AvatarUrl hoặc AvatarBase64 tùy model của bạn
                     if (!string.IsNullOrEmpty(caller.AvatarUrl))
                     {
                         avatar = auth.Base64ToImage(caller.AvatarUrl);

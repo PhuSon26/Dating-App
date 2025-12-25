@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace LOGIN
 {
     public partial class CungCapThongTin : Form
@@ -25,9 +24,6 @@ namespace LOGIN
             _uid = uid;
             _email = email;
             _auth = auth;
-
-            // ví dụ: gán sẵn email lên label/textbox nếu muốn
-            // txtEmail.Text = _email;
         }
         private async void btnHoanTat_Click(object sender, EventArgs e)
         {
@@ -64,7 +60,6 @@ namespace LOGIN
 
                 MessageBox.Show("Đã lưu thông tin vào Firestore!");
 
-                // TODO: chuyển form
                 this.Close();
                 MainForm = new Main(_auth);
                 MainForm.Show();

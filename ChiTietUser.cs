@@ -96,7 +96,7 @@ namespace LOGIN
                 }
                 else
                 {
-                    // Fallback: Nếu không xác định được, quay về màn hình Ghép đôi mặc định
+                    // Nếu không xác định được, quay về màn hình Ghép đôi mặc định
                     // Truyền Session.LocalId hoặc biến tương ứng của bạn vào đây
                     MainForm.LoadContent(new GhepDoi(MainForm));
                 }
@@ -164,14 +164,14 @@ namespace LOGIN
             // 1. Tạo một Panel phủ kín MainForm
             Panel overlayPanel = new Panel();
             overlayPanel.Dock = DockStyle.Fill; // Lấp đầy form cha
-            overlayPanel.BackColor = Color.Black; // Nền đen
+            overlayPanel.BackColor = Color.Black; 
             overlayPanel.Name = "ImageOverlay"; // Đặt tên để dễ tìm/xóa
 
             // 2. PictureBox hiển thị ảnh
             PictureBox pbFull = new PictureBox();
             pbFull.Dock = DockStyle.Fill;
             pbFull.Image = (Image)img.Clone();
-            pbFull.SizeMode = PictureBoxSizeMode.Zoom; // Zoom ảnh vừa khung
+            pbFull.SizeMode = PictureBoxSizeMode.Zoom; 
             pbFull.BackColor = Color.Black;
             overlayPanel.Controls.Add(pbFull);
 
@@ -195,7 +195,7 @@ namespace LOGIN
             };
 
             lblClose.Click += closeAction;
-            pbFull.Click += closeAction; // Bấm vào ảnh cũng đóng luôn cho tiện
+            pbFull.Click += closeAction; 
 
             overlayPanel.Controls.Add(lblClose);
             lblClose.BringToFront();

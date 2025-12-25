@@ -14,7 +14,6 @@ namespace LOGIN
         private bool _isClosing = false;
         private float _opacity = 0f;
 
-        // Các Control
         private PictureBox picIcon;
         private Label lblTitle;
         private Label lblContent;
@@ -59,7 +58,7 @@ namespace LOGIN
             this.BackColor = Color.White;
             this.Padding = new Padding(0);
 
-            // Thanh màu bên trái (mỏng hơn, hiện đại hơn)
+            // Thanh màu bên trái 
             pnlColorStrip = new Panel
             {
                 Location = new Point(0, 0),
@@ -67,7 +66,7 @@ namespace LOGIN
                 BackColor = Color.Gray
             };
 
-            // Icon/Avatar (to hơn, nổi bật hơn)
+            // Icon/Avatar
             picIcon = new PictureBox
             {
                 Size = new Size(56, 56),
@@ -81,7 +80,7 @@ namespace LOGIN
             gp.AddEllipse(0, 0, 56, 56);
             picIcon.Region = new Region(gp);
 
-            // Title (Font to và đậm hơn)
+            // Title 
             lblTitle = new Label
             {
                 Location = new Point(90, 20),
@@ -96,12 +95,12 @@ namespace LOGIN
             lblContent = new Label
             {
                 Location = new Point(90, 48),
-                Width = 260, // Cố định chiều rộng để text tự xuống dòng
+                Width = 260, 
                 Font = new Font("Segoe UI", 9.5f, FontStyle.Regular),
                 ForeColor = Color.FromArgb(117, 117, 117),
                 BackColor = Color.Transparent,
-                AutoSize = true, // Quan trọng: Để Label tự dãn chiều cao theo text
-                MaximumSize = new Size(260, 120) // Giới hạn chiều cao tối đa nếu muốn (tránh tràn form)
+                AutoSize = true, 
+                MaximumSize = new Size(260, 120) 
             };
 
             // Nút đóng (X) - Thiết kế tối giản
@@ -141,7 +140,6 @@ namespace LOGIN
 
         private void SetDefaultIcon()
         {
-            // Tạo icon mặc định theo type
             Bitmap bmp = new Bitmap(56, 56);
             using (Graphics g = Graphics.FromImage(bmp))
             {
@@ -337,7 +335,7 @@ namespace LOGIN
         private void SetRoundedRegion()
         {
             GraphicsPath path = new GraphicsPath();
-            int radius = 12; // Bo tròn vừa phải
+            int radius = 12; 
             Rectangle rect = new Rectangle(0, 0, this.Width, this.Height);
 
             path.AddArc(rect.X, rect.Y, radius, radius, 180, 90);

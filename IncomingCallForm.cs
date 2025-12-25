@@ -21,7 +21,7 @@ namespace LOGIN
             this.FormBorderStyle = FormBorderStyle.None;
             this.Size = new Size(350, 450);
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.FromArgb(20, 30, 48); // Màu nền tối sang trọng
+            this.BackColor = Color.FromArgb(20, 30, 48); 
             this.DoubleBuffered = true;
 
             // Bo tròn góc Form
@@ -89,7 +89,6 @@ namespace LOGIN
             this.Controls.Add(btnReject);
             this.Controls.Add(btnAccept);
 
-            // Hiệu ứng đổ bóng/Gradient nền (Optional)
             this.Paint += IncomingCallForm_Paint;
         }
 

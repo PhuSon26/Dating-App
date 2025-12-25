@@ -4,7 +4,7 @@ using LOGIN.Main_UserControls.GhepDoi_UserControls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D; // Thêm thư viện vẽ
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Net.Http;
 using System.Linq;
@@ -60,7 +60,6 @@ namespace Main_Interface.User_Controls
             this.BackColor = Color.FromArgb(248, 249, 250);
             this.Controls.Clear(); // Xóa hết control cũ
 
-            // Tạo tiêu đề "Gợi ý cho bạn" giống video
             Label lblTitle = new Label();
             lblTitle.Text = "Gợi ý cho bạn";
             lblTitle.Font = new Font("Segoe UI", 18, FontStyle.Bold);
@@ -73,7 +72,7 @@ namespace Main_Interface.User_Controls
             btn_loc.Text = "🔍 Bộ lọc";
             btn_loc.Font = new Font("Segoe UI", 12, FontStyle.Bold);
             //btn_loc.BackColor = Color.White;
-            //btn_loc.ForeColor = Color.FromArgb(253, 41, 123); // Màu hồng thương hiệu
+            //btn_loc.ForeColor = Color.FromArgb(253, 41, 123);
             btn_loc.FlatStyle = FlatStyle.Flat;
             btn_loc.FlatAppearance.BorderColor = Color.FromArgb(253, 41, 123);
             btn_loc.FlatAppearance.BorderSize = 1;
@@ -213,7 +212,6 @@ namespace Main_Interface.User_Controls
 
         private void Card_OnPassClicked(object sender, USER targetUser)
         {
-            // Logic bỏ qua
             ProfileCard card = sender as ProfileCard;
             mainGrid.Controls.Remove(card);
         }
@@ -311,10 +309,6 @@ namespace Main_Interface.User_Controls
 
             MessageBox.Show($"Đã tìm thấy {users.Count} người phù hợp!", "Kết quả lọc");
         }
-
-        // Nếu code cũ của bạn có gọi hàm này để chuyển UserControl, hãy giữ lại
-
-
         private void Flpanel_pictures_MouseWheel(object sender, MouseEventArgs e) { }
         private void panelPictures_Paint(object sender, PaintEventArgs e) { }
         private void btn_timVIP_Click(object sender, EventArgs e) { }

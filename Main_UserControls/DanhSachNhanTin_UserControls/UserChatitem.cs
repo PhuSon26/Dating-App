@@ -95,7 +95,7 @@ public partial class UserChatitem : UserControl
             Top = 40,
             Width = 30,
             Height = 20,
-            BackColor = Color.FromArgb(255, 255, 99, 71), // tomato red
+            BackColor = Color.FromArgb(255, 255, 99, 71), 
             ForeColor = Color.White,
             TextAlign = ContentAlignment.MiddleCenter,
             Font = new Font("Segoe UI", 9, FontStyle.Bold),
@@ -162,11 +162,10 @@ public partial class UserChatitem : UserControl
 
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-        // Gradient background SynHeart
         using (LinearGradientBrush brush = new LinearGradientBrush(
             this.ClientRectangle,
-            Color.FromArgb(255, 240, 242, 245), // xám nhạt xanh
-            Color.FromArgb(255, 255, 192, 203), // pastel hồng
+            Color.FromArgb(255, 240, 242, 245), 
+            Color.FromArgb(255, 255, 192, 203),
             LinearGradientMode.Horizontal))
         {
             e.Graphics.FillRectangle(brush, this.ClientRectangle);
@@ -213,7 +212,6 @@ public partial class UserChatitem : UserControl
             lblBadge.Text = unread.ToString();
             lblBadge.Visible = true;
 
-            // (Tùy chọn) In đậm tin nhắn nếu chưa đọc
             lblLastMessage.Font = new Font(lblLastMessage.Font, FontStyle.Bold);
             lblLastMessage.ForeColor = Color.Black;
         }

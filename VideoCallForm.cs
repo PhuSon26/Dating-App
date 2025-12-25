@@ -168,7 +168,7 @@ namespace LOGIN
                 firebase.OnCallAccepted += OnCallAcceptedHandler;
                 firebase.OnCallRejected += OnCallRejectedHandler;
                 firebase.OnCallEnded += OnCallEndedHandler;
-                firebase.OnIceCandidate += OnIceCandidateReceived; // Đăng ký cái này luôn
+                firebase.OnIceCandidate += OnIceCandidateReceived; 
 
                 // 3. Tạo Offer và Gửi lên Firebase
                 // Lưu ý: JS phải trả về "offer:..." sau khi gọi createOffer
