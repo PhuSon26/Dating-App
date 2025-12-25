@@ -7392,23 +7392,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\admin\\.nuget\\packages\\": {},
+    "C:\\Users\\leson\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\admin\\Desktop\\đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj",
+      "projectUniqueName": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
       "projectName": "LOGIN",
-      "projectPath": "C:\\Users\\admin\\Desktop\\đồ án\\PhuSon26\\Dating-App\\LOGIN.csproj",
-      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\admin\\Desktop\\đồ án\\PhuSon26\\Dating-App\\obj\\",
+      "projectPath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\LOGIN.csproj",
+      "packagesPath": "C:\\Users\\leson\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\leson\\Source\\Repos\\DatingApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\leson\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -7501,7 +7501,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
