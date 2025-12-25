@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace LOGIN
 {
-    public  partial class ToastNotificationControl : UserControl
+    public partial class ToastNotificationControl : UserControl
     {
         private System.Windows.Forms.Timer _timerLife;
         private System.Windows.Forms.Timer _timerAnimation;
@@ -233,10 +233,10 @@ namespace LOGIN
 
         private void InitializeTimers()
         {
-            _timerAnimation = new System.Windows.Forms.Timer { Interval = 8 };
+            _timerAnimation = new System.Windows.Forms.Timer { Interval = 5 };
             _timerAnimation.Tick += TimerAnimation_Tick;
 
-            _timerLife = new System.Windows.Forms.Timer { Interval = 5000 }; // 5 giây
+            _timerLife = new System.Windows.Forms.Timer { Interval = 3000 }; 
             _timerLife.Tick += (s, arg) =>
             {
                 _timerLife.Stop();
@@ -252,10 +252,10 @@ namespace LOGIN
                 // Trượt lên
                 if (this.Top > _targetY)
                 {
-                    this.Top -= 4; // Nhanh hơn
+                    this.Top -= 6; // Nhanh hơn
                     if (_opacity < 1f)
                     {
-                        _opacity += 0.15f;
+                        _opacity += 0.25f;
                         if (_opacity > 1f) _opacity = 1f;
                         this.Invalidate();
                     }
@@ -272,8 +272,8 @@ namespace LOGIN
             else
             {
                 // Trượt xuống
-                this.Top += 4;
-                _opacity -= 0.12f;
+                this.Top += 6;
+                _opacity -= 0.20f;
                 if (_opacity < 0f) _opacity = 0f;
                 this.Invalidate();
 
@@ -420,6 +420,11 @@ namespace LOGIN
 
             // Cập nhật lại bo tròn vùng hiển thị
             SetRoundedRegion();
+        }
+
+        private void ToastNotificationControl_Load(object sender, EventArgs e)
+        {
+
         }
     }
 

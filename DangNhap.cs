@@ -111,6 +111,12 @@ namespace LOGIN
                 Session.IdToken = json.RootElement.GetProperty("idToken").ToString();
                 Session.LocalId = json.RootElement.GetProperty("localId").ToString();
                 auth.userID = Session.LocalId;
+                USER u = await auth.getUser();
+                if (u != null)
+                {
+                 
+                    Session.tennguoidung = u.ten;
+                }
 
                 bool hasUserInfo = await auth.CheckUserExist(Session.LocalId);
 

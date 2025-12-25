@@ -57,7 +57,6 @@ namespace LOGIN
             lblBrand = new Label();
             pnlRight = new Panel();
             linkLabel_back = new LinkLabel();
-            btn_xacnhan = new RoundedButton();
             pnlConfirmBox = new Panel();
             tb_maxacnhan = new TextBox();
             label2 = new Label();
@@ -194,7 +193,6 @@ namespace LOGIN
             // 
             pnlRight.BackColor = Color.FromArgb(248, 248, 252);
             pnlRight.Controls.Add(linkLabel_back);
-            pnlRight.Controls.Add(btn_xacnhan);
             pnlRight.Controls.Add(pnlConfirmBox);
             pnlRight.Controls.Add(label2);
             pnlRight.Controls.Add(pnlPassBox);
@@ -221,21 +219,6 @@ namespace LOGIN
             linkLabel_back.TabStop = true;
             linkLabel_back.Text = "← Quay lại đăng nhập";
             linkLabel_back.VisitedLinkColor = Color.FromArgb(73, 140, 255);
-            // 
-            // btn_xacnhan
-            // 
-            btn_xacnhan.BackColor = Color.FromArgb(73, 140, 255);
-            btn_xacnhan.CornerRadius = 20;
-            btn_xacnhan.FlatAppearance.BorderSize = 0;
-            btn_xacnhan.FlatStyle = FlatStyle.Flat;
-            btn_xacnhan.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btn_xacnhan.ForeColor = Color.White;
-            btn_xacnhan.Location = new Point(30, 244);
-            btn_xacnhan.Name = "btn_xacnhan";
-            btn_xacnhan.Size = new Size(360, 46);
-            btn_xacnhan.TabIndex = 6;
-            btn_xacnhan.Text = "Cập nhật";
-            btn_xacnhan.UseVisualStyleBackColor = false;
             // 
             // pnlConfirmBox
             // 

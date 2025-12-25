@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\admin\Desktop\đồ án\PhuSon26\Dating-App\Properties\PublishProfiles\FolderProfile1.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="ChiTietUser.cs">
       <SubType>UserControl</SubType>
@@ -104,6 +106,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Update="Main_UserControls\DanhSachNhanTin_UserControls\FormDanhSachTinNhan.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Main_UserControls\DanhSachNhanTin_UserControls\NhanTin.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Update="Main_UserControls\GhepDoi_UserControls\MatchForm.resx">

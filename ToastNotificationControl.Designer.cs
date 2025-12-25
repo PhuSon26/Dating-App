@@ -35,7 +35,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Name = "ToastNotificationControl";
-           // Load += ToastNotificationControl_Load;
+            Load += ToastNotificationControl_Load;
             ResumeLayout(false);
         }
 

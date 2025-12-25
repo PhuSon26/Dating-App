@@ -708,7 +708,7 @@ namespace Main_Interface.User_Controls
                 await firebase.UpdateChatMeta(myUserId, targetUser.Id, messageToSend);
                 await firebase.PushNotificationAsync(
                     Session.LocalId,
-                    "user",
+                    Session.tennguoidung,
                     targetUser.Id,
                     messageToSend,
                     "message"

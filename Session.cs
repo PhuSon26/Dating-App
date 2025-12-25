@@ -12,5 +12,6 @@ namespace LOGIN
         public static string LocalId {  get; set; }
 
         public static bool IsBusy { get; set; } = false;
+        public static string tennguoidung { get; set; }
     }
 }

@@ -8,6 +8,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+		<ApplicationIcon>iconapp.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -37,6 +38,10 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>Resource.resx</DependentUpon>
 		</Compile>
+		<Content Include="bin\Debug\net8.0-windows\serviceAccountKey.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="iconapp.ico" />
 	  <Content Include="Properties\Resources\Theme.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
