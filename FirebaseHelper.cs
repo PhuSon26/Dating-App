@@ -357,16 +357,18 @@ namespace LOGIN
                                 "Images", "AvatarMacDinh.png"
                             );
 
-            // ✅ Nếu base64 rỗng => thử dùng ảnh mặc định, hoặc ảnh tạm
+            // Nếu base64 rỗng => thử dùng ảnh mặc định, hoặc ảnh tạm
             if (string.IsNullOrEmpty(base64))
             {
+                return LOGIN.Properties.Resource.AvatarMacDinh;
+                /*
                 if (File.Exists(defaultPath))
                 {
                     return Image.FromFile(defaultPath);
                 }
                 else
                 {
-                    // ✅ Không có file ảnh mặc định => tạo ảnh tạm để tránh lỗi
+                    // Không có file ảnh mặc định => tạo ảnh tạm để tránh lỗi
                     Bitmap bmp = new Bitmap(100, 100);
                     using (Graphics g = Graphics.FromImage(bmp))
                     {
@@ -376,6 +378,7 @@ namespace LOGIN
                     }
                     return bmp;
                 }
+                */
             }
 
             try
@@ -1280,7 +1283,7 @@ namespace LOGIN
                     .Child(notificationId)
                     .DeleteAsync();
 
-                System.Diagnostics.Debug.WriteLine($"✅ Đã xóa thông báo: {notificationId}");
+                System.Diagnostics.Debug.WriteLine($"Đã xóa thông báo: {notificationId}");
             }
             catch (Exception ex)
             {
@@ -1288,4 +1291,4 @@ namespace LOGIN
             }
         }
     }
-    }
+}

@@ -19,6 +19,7 @@
             lblLogo = new Label();
             panelContent = new Panel();
             panelButtons = new Panel();
+            btn_reload = new RoundedButton();
             btn_vip = new Button();
             btn_ghepdoi = new Button();
             btn_dsnt = new Button();
@@ -34,6 +35,7 @@
             panelMain.Controls.Add(lblLogo);
             panelMain.Controls.Add(panelContent);
             panelMain.Controls.Add(panelButtons);
+            panelMain.Controls.Add(btn_reload);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(0, 0);
             panelMain.Margin = new Padding(3, 2, 3, 2);
@@ -77,6 +79,24 @@
             panelButtons.Size = new Size(1050, 69);
             panelButtons.TabIndex = 2;
             panelButtons.Paint += panelButtons_Paint;
+            // 
+            // btn_reload
+            // 
+            btn_reload.BackColor = Color.FromArgb(100, 149, 237);
+            btn_reload.CornerRadius = 30;
+            btn_reload.Enabled = false;
+            btn_reload.FlatStyle = FlatStyle.Flat;
+            btn_reload.Font = new Font("Segoe UI", 48F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_reload.ForeColor = Color.White;
+            btn_reload.Location = new Point(473, -9);
+            btn_reload.Margin = new Padding(3, 2, 3, 2);
+            btn_reload.Name = "btn_reload";
+            btn_reload.Size = new Size(97, 86);
+            btn_reload.TabIndex = 11;
+            btn_reload.Text = "⟳";
+            btn_reload.UseVisualStyleBackColor = false;
+            btn_reload.Visible = false;
+            btn_reload.Click += btn_reload_Click;
             // 
             // btn_vip
             // 
@@ -135,5 +155,6 @@
         }
         public Panel panelContent;
         private Button btn_thongbao;
+        public RoundedButton btn_reload;
     }
 }

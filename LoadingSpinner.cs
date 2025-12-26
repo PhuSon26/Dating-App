@@ -88,7 +88,7 @@ namespace LOGIN
             if (lblParent != null)
             {
                 pbSpinner.Location = new Point(
-                    lblParent.Right + 50, 0
+                    lblParent.Right + 180, 0
                 );
             }
         }

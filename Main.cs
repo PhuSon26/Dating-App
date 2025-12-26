@@ -28,17 +28,16 @@ namespace Main_Interface
         private bool loadedGhepDoi = false;
         private bool loadedCaiDat = false;
         private bool isBusy = false;
-     
+
         public List<USER> FilteredUsers { get; set; } = null;
 
         public Main(FirebaseAuthHelper auth)
         {
             InitializeComponent();
             this.auth = auth;
-           
+
             SetupButtons();
         }
-
         public async void Main_Load(object sender, EventArgs e)
         {
             this.BackColor = Color.FromArgb(240, 242, 245);
@@ -103,7 +102,7 @@ namespace Main_Interface
         {
             // 1. Chuyển đổi từ string Type của Model sang Enum ToastType của Form
             ToastType typeEnum = ToastType.System;
-            Image iconImg = null; 
+            Image iconImg = null;
 
             switch (noti.Type)
             {
@@ -127,7 +126,7 @@ namespace Main_Interface
 
             var toast = new ToastNotificationControl(noti.Title, noti.Body, iconImg, typeEnum);
 
-           
+
             toast.ShowInContainer(this);
         }
 
@@ -139,6 +138,8 @@ namespace Main_Interface
                 loadedDs = true;
             }
             LoadContent(dstn);
+            btn_reload.Enabled = true;
+            btn_reload.Visible = true;
         }
 
         private void btn_ghepdoi_Click(object sender, EventArgs e)
@@ -149,6 +150,8 @@ namespace Main_Interface
                 loadedGhepDoi = true;
             }
             LoadContent(gd);
+            btn_reload.Enabled = false;
+            btn_reload.Visible = false;
         }
 
         private void btn_caidat_Click(object sender, EventArgs e)
@@ -159,6 +162,8 @@ namespace Main_Interface
                 loadedCaiDat = true;
             }
             LoadContent(cd);
+            btn_reload.Enabled = false;
+            btn_reload.Visible = false;
         }
 
         private async void btn_hscn_Click(object sender, EventArgs e)
@@ -170,7 +175,8 @@ namespace Main_Interface
                 ttuser.setUserInfo(u);
                 loadedHscn = true;
             }
-
+            btn_reload.Enabled = false;
+            btn_reload.Visible = false;
             LoadContent(ttuser);
             loading.Hide();
         }
@@ -184,13 +190,13 @@ namespace Main_Interface
             btn.Location = location;
             btn.FlatStyle = FlatStyle.Flat;
             btn.FlatAppearance.BorderSize = 0;
-            btn.BackColor = Color.White; 
+            btn.BackColor = Color.White;
             btn.Cursor = Cursors.Hand;
             btn.TextAlign = ContentAlignment.MiddleCenter;
 
             // Dùng Font Segoe UI Emoji để icon và chữ đẹp hơn
             btn.Font = new Font("Segoe UI Semibold", 11, FontStyle.Regular);
-            btn.ForeColor = Color.FromArgb(117, 125, 133); 
+            btn.ForeColor = Color.FromArgb(117, 125, 133);
 
             btn.Text = $"{icon}  {label}"; // Thêm khoảng cách giữa icon và chữ
 
@@ -199,8 +205,8 @@ namespace Main_Interface
             {
                 if (btn != activeButton)
                 {
-                    btn.BackColor = Color.FromArgb(255, 240, 245); 
-                    btn.ForeColor = Color.FromArgb(253, 41, 123);  
+                    btn.BackColor = Color.FromArgb(255, 240, 245);
+                    btn.ForeColor = Color.FromArgb(253, 41, 123);
                 }
             };
 
@@ -228,8 +234,8 @@ namespace Main_Interface
             }
 
             activeButton = btn;
-            activeButton.ForeColor = Color.FromArgb(253, 41, 123); 
-            activeButton.BackColor = Color.White; 
+            activeButton.ForeColor = Color.FromArgb(253, 41, 123);
+            activeButton.BackColor = Color.White;
             activeButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
         }
 
@@ -239,7 +245,7 @@ namespace Main_Interface
         {
             if (uc == null)
             {
-               
+
                 if (gd == null) gd = new GhepDoi(this);
                 uc = gd;
             }
@@ -297,10 +303,11 @@ namespace Main_Interface
         }
         private void btn_thongbao_Click(object sender, EventArgs e)
         {
-           
+
             UC_ThongBaoList ucNoti = new UC_ThongBaoList(auth, Session.LocalId);
             LoadContent(ucNoti);
-
+            btn_reload.Enabled = false;
+            btn_reload.Visible = false;
             SetActiveButton(btn_thongbao);
         }
 
@@ -433,6 +440,13 @@ namespace Main_Interface
         private void panelButtons_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btn_reload_Click(object sender, EventArgs e)
+        {
+            dstn = new FormDanhSachTinNhan(this, u);
+            loadedDs = true;
+            LoadContent(dstn);
         }
     }
 }
