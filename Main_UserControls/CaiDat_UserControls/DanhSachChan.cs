@@ -1,5 +1,6 @@
 ﻿using LOGIN;
 using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
+using LOGIN.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

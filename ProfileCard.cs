@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using LOGIN; // Để dùng class USER
+using LOGIN.Models; // Để dùng class USER
 
 public partial class ProfileCard : UserControl
 {

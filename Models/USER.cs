@@ -7,7 +7,7 @@ using Firebase.Auth;
 using Google.Cloud.Firestore;
 using Firebase.Storage;
 
-namespace LOGIN
+namespace LOGIN.Models
 {
     [FirestoreData]
     public class USER

@@ -1,5 +1,4 @@
 ﻿using Dating_app_nhom3;
-using LOGIN;
 using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
 using Main_Interface.User_Controls;
 using System;
@@ -10,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Google.Cloud.Firestore;
 using Main_Interface;
+using LOGIN.Models;
 
 namespace LOGIN
 {

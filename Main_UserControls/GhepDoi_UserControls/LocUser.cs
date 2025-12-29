@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LOGIN;
+using LOGIN.Models;
 
 namespace Main_Interface.User_Controls
 {
