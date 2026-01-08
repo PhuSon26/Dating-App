@@ -210,6 +210,7 @@ namespace LOGIN
             pnlRight.Padding = new Padding(28, 24, 28, 24);
             pnlRight.Size = new Size(414, 314);
             pnlRight.TabIndex = 1;
+            pnlRight.Paint += pnlRight_Paint;
             // 
             // ll_back
             // 

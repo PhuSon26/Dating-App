@@ -109,7 +109,9 @@ namespace LOGIN
             pnlBackground.Dock = DockStyle.Fill;
             pnlBackground.BackColor = Color.FromArgb(245, 240, 250);
             pnlBackground.Name = "pnlBackground";
+            pnlBackground.BackgroundImage = Properties.Resource._1d30fd11dcb3000984acf40b7a8eff57;
             pnlBackground.Paint += pnlBackground_Paint;
+         
             pnlBackground.Controls.Add(tblRoot);
 
             // 

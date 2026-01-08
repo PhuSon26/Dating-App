@@ -230,8 +230,7 @@ namespace LOGIN
 
             if (success)
             {
-                MessageBox.Show("Mã OTP đã được gửi đến email của bạn!\nVui lòng kiểm tra và nhập mã vào ô bên dưới.",
-                               "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
 
                 tb_maxacnhan.Enabled = true;
                 btn_xacnhan.Enabled = true;
@@ -264,7 +263,7 @@ namespace LOGIN
                 MessageBox.Show("Xác thực thành công!\nBạn có thể đặt mật khẩu mới.",
                     "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                var formDoiMatKhau = new CapNhatMatKhau(auth, currentEmail);
+                var formDoiMatKhau = new CapNhatMatKhau(auth, currentEmail, otpNhap);
                 formDoiMatKhau.ShowDialog();
 
                 ResetForm();
@@ -337,6 +336,11 @@ namespace LOGIN
         private void ll_back_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             backClicked?.Invoke();
+        }
+
+        private void pnlRight_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

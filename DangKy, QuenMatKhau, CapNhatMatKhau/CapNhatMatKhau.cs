@@ -7,46 +7,45 @@ namespace LOGIN
     {
         private FirebaseAuthHelper auth;
         private string email;
+        private string sentOTP;
 
-        public CapNhatMatKhau(FirebaseAuthHelper auth, string email)
+        public CapNhatMatKhau(FirebaseAuthHelper auth, string email, string otp)
         {
             this.auth = auth;
             this.email = email;
+            this.sentOTP = otp;
             InitializeComponent();
-
-            btn_xacnhan.Click += Btn_xacnhan_Click;
         }
 
         private async void Btn_xacnhan_Click(object sender, EventArgs e)
         {
-            string matkhauMoi = tb_email.Text.Trim();
-            string nhapLai = tb_maxacnhan.Text.Trim();
+            string newPass = tb_email.Text.Trim(); // Ô nhập mk mới
+            string confirmPass = tb_maxacnhan.Text.Trim(); // Ô xác nhận
 
-            if (string.IsNullOrEmpty(matkhauMoi) || string.IsNullOrEmpty(nhapLai))
+            // 1. Kiểm tra khớp mật khẩu
+            if (newPass != confirmPass)
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ mật khẩu!");
+                MessageBox.Show("Mật khẩu xác nhận không khớp!");
                 return;
             }
 
-            if (matkhauMoi != nhapLai)
-            {
-                MessageBox.Show("Mật khẩu nhập lại không khớp!");
-                return;
-            }
+            // 2. Thực hiện cập nhật
+            // Vì đã xác nhận OTP thành công ở màn hình trước, tại đây ta ép cập nhật
+            bool success = await auth.AdminResetPassword(email, newPass);
 
-            try
+            if (success)
             {
-                await auth.UpdatePassword(email, matkhauMoi);
-                MessageBox.Show("Cập nhật mật khẩu thành công!");
+                MessageBox.Show("Cập nhật mật khẩu thành công! Hãy đăng nhập lại.");
                 this.Close();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Lỗi khi cập nhật mật khẩu: " + ex.Message);
+                MessageBox.Show("Có lỗi xảy ra, không tìm thấy tài khoản.");
             }
         }
 
-        private void tb_email_TextChanged(object sender, EventArgs e)
+
+        private void btn_xacnhan_Click_1(object sender, EventArgs e)
         {
 
         }

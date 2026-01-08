@@ -51,6 +51,7 @@
 	  <PackageReference Include="AWSSDK.ElasticLoadBalancing" Version="4.0.2.9" />
 	  <PackageReference Include="AWSSDK.ElasticLoadBalancingV2" Version="4.0.6.4" />
 	  <PackageReference Include="Azure.Core" Version="1.50.0" />
+	  <PackageReference Include="FirebaseAdmin" Version="3.4.0" />
 	  <PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
 	  <PackageReference Include="FirebaseDatabase.net" Version="5.0.0" />
 	  <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />

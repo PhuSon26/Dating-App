@@ -4,6 +4,7 @@ using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Database.Query;
 using Firebase.Storage;
+using FirebaseAdmin.Auth;
 using Google.Cloud.Firestore;
 using LOGIN.Main_UserControls.DanhSachNhanTin_UserControls;
 using LOGIN.Models;
@@ -113,6 +114,29 @@ namespace LOGIN
             };
             return PostAsync(url, data);
         }
+        public async Task<bool> AdminResetPassword(string email, string newPassword)
+        {
+            try
+            {
+                FirebaseAdminService.Init(); // ⭐ QUAN TRỌNG
+
+                var user = await FirebaseAuth.DefaultInstance.GetUserByEmailAsync(email);
+
+                await FirebaseAuth.DefaultInstance.UpdateUserAsync(new UserRecordArgs
+                {
+                    Uid = user.Uid,
+                    Password = newPassword
+                });
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("RESET PASS ERROR: " + ex.Message);
+                return false;
+            }
+        }
+
 
         public async Task<string> UpdatePassword(string email, string newPassword)
         {
